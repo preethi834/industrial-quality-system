@@ -41,6 +41,7 @@ mlflow.db
 .ruff_cache/
 .mypy_cache/
 .pytest_cache/
+.hypothesis/
 .coverage
 coverage.xml
 htmlcov/
