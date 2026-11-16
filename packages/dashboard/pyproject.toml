@@ -1,0 +1,22 @@
+[project]
+name = "iqs-dashboard"
+version = "0.1.0"
+description = "Streamlit dashboard for inspection, diagnosis, evidence and FMEA review."
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "iqs-common",
+    "streamlit",
+    "httpx",
+    "plotly",
+    "pyvis",
+]
+
+[tool.uv.sources]
+iqs-common = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/iqs_dashboard"]

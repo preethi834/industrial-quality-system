@@ -1,0 +1,23 @@
+[project]
+name = "iqs-sim"
+version = "0.1.0"
+description = "SimPy factory simulator with injectable, ground-truth-logged root causes."
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "iqs-common",
+    "simpy",
+    "numpy",
+    "pandas",
+    "pyarrow",
+    "pyyaml",
+]
+
+[tool.uv.sources]
+iqs-common = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/iqs_sim"]

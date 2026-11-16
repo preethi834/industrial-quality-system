@@ -26,10 +26,24 @@ Thumbs.db
 
 # ML experiments and generated data
 mlruns/
-data/raw/
-data/processed/
-data/interim/
+data/raw/*
+data/processed/*
+data/interim/*
+!data/*/.gitkeep
 artifacts/
+
+# Model weights and exports (blueprint: models/ is git-ignored)
+models/*
+!models/.gitkeep
+mlflow.db
+
+# Tool caches and coverage
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
 
 # Local databases
 *.db

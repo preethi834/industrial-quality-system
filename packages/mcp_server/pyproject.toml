@@ -1,0 +1,19 @@
+[project]
+name = "iqs-mcp"
+version = "0.1.0"
+description = "Mock QMS/MES system exposed as MCP tools for the diagnosis agent."
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "iqs-common",
+    "mcp",
+]
+
+[tool.uv.sources]
+iqs-common = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/iqs_mcp"]
