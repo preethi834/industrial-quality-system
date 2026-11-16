@@ -1,0 +1,116 @@
+# Root-cause taxonomy: the shared label space (validated by iqs_common.taxonomy).
+# v0.1.0: flat, 10 leaf causes, exactly one primary cause per case.
+# Problems outside this list are handled as novelty, never as an OTHER label.
+# simulator_fault and test_template are planned names, implemented in step 5.
+# AI4I 2020 mappings are documented interpretations; see
+# eval_sets/diagnosis/LABELLING_GUIDE.md.
+version: "0.1.0"
+causes:
+  - code: MACHINE.TOOL_WEAR
+    category: machine
+    name_en: Tool wear
+    name_de: Werkzeugverschleiß
+    description: >-
+      Cutting tool worn beyond its usable life under normal load. AI4I: TWF.
+      Excludes: excess load on a tool that is not yet worn (MACHINE.SPINDLE_OVERLOAD).
+    simulator_fault: accelerated_tool_wear
+    test_template: defect_rate_by_tool_wear_level
+
+  - code: MACHINE.SPINDLE_OVERLOAD
+    category: machine
+    name_en: Spindle overload
+    name_de: Spindelüberlastung
+    description: >-
+      Torque or spindle load too high for the tool's current wear state.
+      AI4I: OSF (documented interpretation: OSF is defined by tool wear x torque and
+      can fire at normal torque). Excludes: a worn tool under normal load
+      (MACHINE.TOOL_WEAR).
+    simulator_fault: spindle_overload
+    test_template: spindle_load_defective_vs_good
+
+  - code: MACHINE.INSUFFICIENT_COOLING
+    category: machine
+    name_en: Insufficient cooling
+    name_de: Unzureichende Kühlung
+    description: >-
+      Loss of coolant flow or cooling capacity while ambient temperature is within
+      its specified range. AI4I: HDF. Excludes: ambient temperature outside its range
+      (ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION).
+    simulator_fault: coolant_flow_loss
+    test_template: temperature_delta_defective_vs_good
+
+  - code: MACHINE.DRIVE_FAULT
+    category: machine
+    name_en: Drive fault
+    name_de: Antriebsstörung
+    description: >-
+      Actual drive power deviates from the power commanded by the setpoints (drive or
+      motor malfunction). AI4I: none (simulator only). Excludes: setpoints themselves
+      outside the validated window (METHOD.WRONG_PROCESS_PARAMETERS).
+    simulator_fault: drive_power_deviation
+    test_template: power_command_residual_defective_vs_good
+
+  - code: MACHINE.FIXTURE_MISALIGNMENT
+    category: machine
+    name_en: Fixture misalignment
+    name_de: Fehlausrichtung der Spannvorrichtung
+    description: >-
+      Persistent positional offset affecting all parts at one station from an onset
+      onward; the onset is unknown to the agent. AI4I: none. Excludes: intermittent,
+      shift-linked misloading (PERSONNEL.PART_HANDLING_ERROR).
+    simulator_fault: fixture_offset
+    test_template: station_defect_rate_change_point
+
+  - code: MATERIAL.BAD_BATCH
+    category: material
+    name_en: Bad material batch
+    name_de: Fehlerhafte Materialcharge
+    description: >-
+      One material batch outside its specification (for example hardness or
+      composition). AI4I: none.
+    simulator_fault: bad_material_batch
+    test_template: defect_rate_by_batch
+
+  - code: METHOD.WRONG_PROCESS_PARAMETERS
+    category: method
+    name_en: Wrong process parameters
+    name_de: Falsche Prozessparameter
+    description: >-
+      Setpoints or recipe values outside the validated window, regardless of who
+      entered them. AI4I: PWF (operating power, torque x speed, outside 3500-9000 W;
+      AI4I has no commanded-vs-actual signal). Excludes: actual power deviating from
+      correct setpoints (MACHINE.DRIVE_FAULT).
+    simulator_fault: parameter_setpoint_change
+    test_template: defect_rate_by_parameter_set
+
+  - code: MEASUREMENT.SENSOR_DRIFT
+    category: measurement
+    name_en: Sensor drift
+    name_de: Sensordrift
+    description: >-
+      A sensor's reading drifts from the true value, including control decisions or
+      rejects based on the drifted reading. The reference must be observable data
+      (for example periodic gauge checks), never the hidden ground truth. AI4I: none.
+    simulator_fault: sensor_calibration_drift
+    test_template: sensor_reference_residual_trend
+
+  - code: ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION
+    category: environment
+    name_en: Ambient temperature deviation
+    name_de: Abweichung der Umgebungstemperatur
+    description: >-
+      Hall temperature outside its specified range. AI4I: none. Excludes: cooling
+      loss while ambient temperature is in range (MACHINE.INSUFFICIENT_COOLING).
+    simulator_fault: ambient_temperature_excursion
+    test_template: ambient_temperature_defective_vs_good
+
+  - code: PERSONNEL.PART_HANDLING_ERROR
+    category: personnel
+    name_en: Part handling error
+    name_de: Fehler beim Teilehandling
+    description: >-
+      Intermittent loading or handling mistakes, associated with a shift. AI4I: none.
+      Excludes: wrong parameter values (METHOD.WRONG_PROCESS_PARAMETERS) and persistent
+      station offsets (MACHINE.FIXTURE_MISALIGNMENT).
+    simulator_fault: handling_error_on_shift
+    test_template: defect_rate_by_shift
