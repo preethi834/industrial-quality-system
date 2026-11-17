@@ -6,16 +6,22 @@ ALEMBIC  := uv run alembic -c infrastructure/database/alembic.ini
 PROFILES ?= core
 
 .DEFAULT_GOAL := help
-.PHONY: help config up down ps logs psql cypher \
+.PHONY: help setup build config up down ps logs psql cypher \
         db-migrate db-downgrade db-current db-history db-revision test-integration
 
 help: ## List targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-18s %s\n", $$1, $$2}'
 
+setup: ## Install every workspace package + dev tools exactly as locked
+	uv sync --all-packages --frozen
+
+build: ## Build the service images (vision, diagnosis)
+	COMPOSE_PROFILES=apps $(COMPOSE) build
+
 config: ## Show the resolved compose file (passwords included: do not paste it anywhere)
 	COMPOSE_PROFILES=$(PROFILES) $(COMPOSE) config
 
-up: ## Start services of PROFILES (default: core) and wait until healthy
+up: ## Start PROFILES (default core; PROFILES=apps adds the APIs) and wait until healthy
 	COMPOSE_PROFILES=$(PROFILES) $(COMPOSE) up -d --wait
 
 down: ## Stop and remove all containers (volumes are kept)

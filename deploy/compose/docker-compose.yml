@@ -7,7 +7,8 @@
 # IQS_* variables the Python services read. Only variables named under `environment`
 # reach a container; .env itself is not injected.
 #
-# Profiles: core = Postgres + Neo4j. vision / llm / observability are added in later steps.
+# Profiles: core = Postgres + Neo4j. apps = core + the vision and diagnosis APIs.
+# llm / observability are added in later steps.
 
 name: iqs
 
@@ -15,7 +16,7 @@ services:
   postgres:
     # pgvector 0.8.7 on PostgreSQL 16 (Debian bookworm), pinned by digest.
     image: pgvector/pgvector:0.8.7-pg16-bookworm@sha256:484e838076e04939d27d3e176e91c86eea96236126023be8d3059761122e579f
-    profiles: [core]
+    profiles: [core, apps]
     environment:
       POSTGRES_DB: ${IQS_DATABASE__NAME:?set IQS_DATABASE__NAME in .env}
       POSTGRES_USER: ${IQS_DATABASE__USER:?set IQS_DATABASE__USER in .env}
@@ -37,7 +38,7 @@ services:
   neo4j:
     # Neo4j 5.26 LTS, community edition, pinned by digest.
     image: neo4j:5.26.33-community@sha256:577eb43120e8688e62e753e962c47d30044ecaa95147ee5386c29f226b878008
-    profiles: [core]
+    profiles: [core, apps]
     environment:
       # Neo4j only accepts the user "neo4j" here; the password needs 8+ characters.
       NEO4J_AUTH: ${IQS_NEO4J__USER:?set IQS_NEO4J__USER in .env}/${IQS_NEO4J__PASSWORD:?set IQS_NEO4J__PASSWORD in .env}
@@ -60,6 +61,50 @@ services:
       retries: 12
       start_period: 30s
     mem_limit: 2g
+    restart: unless-stopped
+
+  vision:
+    build:
+      context: .
+      dockerfile: deploy/docker/vision.Dockerfile
+    image: iqs-vision:dev
+    profiles: [apps]
+    environment: &service-env
+      IQS_ENVIRONMENT: ${IQS_ENVIRONMENT:-dev}
+      IQS_LOGGING__LEVEL: ${IQS_LOGGING__LEVEL:-INFO}
+      IQS_DATABASE__HOST: postgres
+      IQS_DATABASE__PORT: "5432"
+      IQS_DATABASE__NAME: ${IQS_DATABASE__NAME:?set IQS_DATABASE__NAME in .env}
+      IQS_DATABASE__USER: ${IQS_DATABASE__USER:?set IQS_DATABASE__USER in .env}
+      IQS_DATABASE__PASSWORD: ${IQS_DATABASE__PASSWORD:?set IQS_DATABASE__PASSWORD in .env}
+      IQS_API__KEYS: ${IQS_API__KEYS:?set IQS_API__KEYS in .env}
+    ports:
+      - "127.0.0.1:8001:8001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    mem_limit: 1g
+    restart: unless-stopped
+
+  diagnosis:
+    build:
+      context: .
+      dockerfile: deploy/docker/diagnosis.Dockerfile
+    image: iqs-diagnosis:dev
+    profiles: [apps]
+    environment:
+      <<: *service-env
+      IQS_NEO4J__URI: bolt://neo4j:7687
+      IQS_NEO4J__USER: ${IQS_NEO4J__USER:?set IQS_NEO4J__USER in .env}
+      IQS_NEO4J__PASSWORD: ${IQS_NEO4J__PASSWORD:?set IQS_NEO4J__PASSWORD in .env}
+    ports:
+      - "127.0.0.1:8002:8002"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+    mem_limit: 1g
     restart: unless-stopped
 
 volumes:

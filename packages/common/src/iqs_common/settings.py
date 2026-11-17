@@ -51,6 +51,19 @@ class Neo4jSettings(BaseModel):
     password: SecretStr = SecretStr("")
 
 
+class ApiSettings(BaseModel):
+    """HTTP services (vision, diagnosis). Used by iqs_common.api."""
+
+    # Comma-separated list, so keys can be rotated: IQS_API__KEYS=new-key,old-key
+    keys: SecretStr = SecretStr("")
+    # Browser origins allowed by CORS: the Streamlit dashboard only (JSON list in env).
+    cors_origins: list[str] = ["http://localhost:8501"]
+    ready_timeout_s: float = Field(default=2.0, gt=0, le=30)
+
+    def key_list(self) -> list[str]:
+        return [k.strip() for k in self.keys.get_secret_value().split(",") if k.strip()]
+
+
 class CommonSettings(BaseSettings):
     model_config = SettingsConfigDict(
         env_prefix="IQS_",
@@ -64,6 +77,7 @@ class CommonSettings(BaseSettings):
     logging: LoggingSettings = LoggingSettings()
     database: DatabaseSettings = DatabaseSettings()
     neo4j: Neo4jSettings = Neo4jSettings()
+    api: ApiSettings = ApiSettings()
     taxonomy_path: Path = Path("configs/taxonomy/causes.yaml")
 
 

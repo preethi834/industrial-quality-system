@@ -46,3 +46,47 @@ service is installed on the Windows host and listens on 5432.
 - Every module defining tables must be imported in `migrations/env.py`, or autogenerate would
   propose dropping its tables.
 - Compose and testcontainers should not run at the same time on this VM (two Neo4j JVMs).
+
+---
+
+## ADR-002 — Service skeletons: shared HTTP plumbing, API conventions, images (step 0e)
+
+**Status:** accepted · 2026-11-17
+
+**Context.** Blueprint §2.3/§2.6 requires `/health`, `/ready`, API-key auth on every non-health
+endpoint, CORS limited to the dashboard, JSON logs with a request ID and versioned `/v1` routes,
+for two services (vision, diagnosis) with separate Docker images. `iqs-common` did not depend on
+FastAPI.
+
+**Decisions.**
+
+1. **Shared plumbing in `iqs_common.api`, behind an optional extra `iqs-common[api]`** (FastAPI).
+   Only the two HTTP services request the extra, so the simulator and MCP server stay free of it.
+   `create_service_app()` builds the app; each service passes its readiness checks and feature
+   flags. Services use an app factory (`uvicorn --factory`), so imports have no side effects.
+2. **Endpoints.** `GET /health`: liveness, no dependencies, no auth. `GET /ready`: all checks run
+   concurrently in threads with a timeout (`IQS_API__READY_TIMEOUT_S`, default 2 s); 200 or 503
+   with per-check `ok` / `timeout` / `error: <ExceptionType>` (details in logs only). Vision checks
+   Postgres; diagnosis checks Postgres and Neo4j. `GET /v1/capabilities`: service, version,
+   `api_version`, feature flags (all false at step 0); requires the API key.
+3. **Auth.** Header `X-API-Key`; keys from `IQS_API__KEYS` as a comma list (rotation: `new,old`);
+   constant-time comparison against every key; no keys configured → all `/v1` requests 401
+   (fail closed). Compose refuses to start the apps without `IQS_API__KEYS`.
+4. **Ports.** vision 8001, diagnosis 8002, bound to 127.0.0.1. Compose profile `apps` = core + both
+   services (Postgres and Neo4j carry both `core` and `apps`).
+5. **Images.** `deploy/docker/<svc>.Dockerfile`: `python:3.11.18-slim-bookworm` and
+   `ghcr.io/astral-sh/uv:0.13.8`, both pinned by digest; multi-stage `uv sync --frozen --no-dev
+   --package iqs-<svc> --no-editable` into `/opt/venv`; dependencies layer cached separately from
+   source; non-root user (uid 10001); Docker `HEALTHCHECK` on `/health`; `.dockerignore` is an
+   allow-list (no `.env`, `.venv`, `.git`, data or models in the build context).
+
+**Measured.** Compressed image size (`docker save`): vision 718 MB, diagnosis 616 MB; unpacked
+venv 2.2 GB / 2.0 GB (torch 814 MB). Wheels downloaded during the first build: diagnosis 409 MiB,
+vision 158 MiB more (shared uv cache mount). Idle memory with the full `apps` profile: vision
+117 MiB, diagnosis 177 MiB, Postgres 37 MiB, Neo4j 1007 MiB. First build 10 min 21 s.
+
+**Consequences.**
+- Each new HTTP route goes in a router passed to `create_service_app(routers=...)` and is
+  automatically behind the API key.
+- torch is in both images (diagnosis needs it for sentence-transformers); if image size becomes a
+  problem, CPU-only torch is already used and the next lever is a smaller embedding stack.

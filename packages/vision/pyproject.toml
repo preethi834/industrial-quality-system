@@ -5,7 +5,7 @@ version = "0.1.0"
 description = "Industrial visual anomaly detection and open-world defect discovery."
 requires-python = ">=3.11,<3.12"
 dependencies = [
-    "iqs-common",
+    "iqs-common[api]",
     "numpy",
     "scikit-learn",
     "opencv-python-headless",

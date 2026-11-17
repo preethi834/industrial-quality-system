@@ -18,7 +18,7 @@ from alembic.config import Config
 from pydantic import SecretStr
 from sqlalchemy import Engine, create_engine
 
-from iqs_common.settings import DatabaseSettings
+from iqs_common.settings import DatabaseSettings, Neo4jSettings
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 COMPOSE_FILE = REPO_ROOT / "deploy/compose/docker-compose.yml"
@@ -33,9 +33,28 @@ def compose_image(service: str) -> str:
     return image
 
 
+NEO4J_PASSWORD = "iqs_test_pw"
+
+
 @pytest.fixture(scope="session")
 def neo4j_image() -> str:
     return compose_image("neo4j")
+
+
+@pytest.fixture(scope="session")
+def neo4j_settings(neo4j_image: str) -> Iterator[Neo4jSettings]:
+    """One Neo4j container per session, with a small heap for the test VM."""
+    from testcontainers.community.neo4j import Neo4jContainer
+
+    container = Neo4jContainer(neo4j_image, password=NEO4J_PASSWORD)
+    container.with_env("NEO4J_server_memory_heap_max__size", "512m")
+    container.with_env("NEO4J_server_memory_pagecache_size", "128m")
+    with container:
+        yield Neo4jSettings(
+            uri=container.get_connection_url(),
+            user="neo4j",
+            password=SecretStr(NEO4J_PASSWORD),
+        )
 
 
 @pytest.fixture(scope="session")

@@ -15,6 +15,12 @@ dependencies = [
     "alembic>=1.13",
 ]
 
+[project.optional-dependencies]
+# HTTP service plumbing (iqs_common.api): only the FastAPI services install it.
+api = [
+    "fastapi>=0.110",
+]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"

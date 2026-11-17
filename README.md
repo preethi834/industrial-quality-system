@@ -33,10 +33,12 @@ A computer vision system for detecting, discovering, and classifying unknown ind
 Run everything from the repository root (WSL2 shell, Docker Desktop running).
 
 ```bash
-cp .env.example .env        # then set IQS_DATABASE__PASSWORD and IQS_NEO4J__PASSWORD (8+ chars)
+make setup                  # uv sync --all-packages --frozen
+cp .env.example .env        # then set the two passwords (Neo4j: 8+ chars) and IQS_API__KEYS
 make up                     # starts the "core" profile and waits until both are healthy
 make db-migrate             # alembic upgrade head
 make psql                   # or: make cypher
+make build && make up PROFILES=apps   # + vision API on :8001, diagnosis API on :8002
 make down                   # stops containers; data volumes are kept
 make test-integration       # testcontainers; run after `make down`, not alongside the stack
 ```
@@ -57,3 +59,17 @@ Unpacked images take 1.58 GB on disk (Neo4j 934 MB, pgvector 647 MB).
   `diagnosis`, `vision`, `qms`, `platform`). New table: define the model on
   `iqs_common.db.Base`, import its module in `migrations/env.py`, then
   `make db-revision m="..."` and review the generated file.
+
+### Service APIs
+
+| Service | Port | Routes today |
+| --- | --- | --- |
+| vision | 8001 | `GET /health`, `GET /ready` (Postgres), `GET /v1/capabilities` |
+| diagnosis | 8002 | `GET /health`, `GET /ready` (Postgres + Neo4j), `GET /v1/capabilities` |
+
+`/v1/*` needs the header `X-API-Key: <one of IQS_API__KEYS>`. OpenAPI docs at `/docs`.
+
+```bash
+curl http://127.0.0.1:8002/ready
+curl -H "X-API-Key: $KEY" http://127.0.0.1:8002/v1/capabilities
+```

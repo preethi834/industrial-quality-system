@@ -28,15 +28,25 @@ class Base(DeclarativeBase):
     metadata = MetaData(naming_convention=NAMING_CONVENTION)
 
 
-def create_db_engine(settings: DatabaseSettings, *, echo: bool = False) -> Engine:
+def create_db_engine(
+    settings: DatabaseSettings, *, echo: bool = False, connect_timeout_s: int | None = None
+) -> Engine:
     """Create (but do not connect) an engine with a small connection pool."""
+    connect_args = {} if connect_timeout_s is None else {"connect_timeout": connect_timeout_s}
     return create_engine(
         settings.sqlalchemy_url(),
         pool_size=settings.pool_size,
         max_overflow=settings.pool_size,
         pool_pre_ping=True,
         echo=echo,
+        connect_args=connect_args,
     )
+
+
+def check_database(engine: Engine) -> None:
+    """Readiness probe: one round trip. Raises on any failure."""
+    with engine.connect() as conn:
+        conn.exec_driver_sql("SELECT 1")
 
 
 def create_session_factory(engine: Engine) -> sessionmaker[Session]:

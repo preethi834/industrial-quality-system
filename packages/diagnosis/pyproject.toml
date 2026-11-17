@@ -5,7 +5,7 @@ version = "0.1.0"
 description = "Active root-cause diagnosis agent for industrial quality management."
 requires-python = ">=3.11,<3.12"
 dependencies = [
-    "iqs-common",
+    "iqs-common[api]",
     "langgraph",
     "langgraph-checkpoint-postgres",
     "httpx",
