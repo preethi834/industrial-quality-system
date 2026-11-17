@@ -90,3 +90,42 @@ vision 158 MiB more (shared uv cache mount). Idle memory with the full `apps` pr
   automatically behind the API key.
 - torch is in both images (diagnosis needs it for sentence-transformers); if image size becomes a
   problem, CPU-only torch is already used and the next lever is a smaller embedding stack.
+
+---
+
+## ADR-003 — CI, pre-commit and one mypy command (step 0f)
+
+**Status:** accepted · 2026-11-17
+
+**Context.** Blueprint: CI runs lint, types and unit + API tests on every push; integration tests
+with testcontainers on every push; a compose smoke test; pre-commit with ruff, mypy, a secret
+scan and a large-file guard. mypy could not check all trees in one run ("Source file found twice
+under different module names").
+
+**Decisions.**
+
+1. **mypy:** `files = ["packages", "tests", "infrastructure"]` and every `packages/*/src` on
+   `mypy_path` (with `explicit_package_bases`). Package code gets its import name
+   (`iqs_common.db`), tests and migrations keep path-based names, so `uv run mypy` checks all 38
+   files with no duplicates.
+2. **pre-commit hooks are all `repo: local`** and run through `uv run --frozen`, so hook versions
+   are the `uv.lock` versions (identical in CI) and pre-commit downloads nothing. Hooks: large
+   files (>1 MB), merge-conflict markers, case conflicts, YAML/TOML validity, end-of-file,
+   trailing whitespace, private keys, detect-secrets (baseline `.secrets.baseline`, empty), `uv
+   lock --check`, ruff check, ruff format, mypy.
+3. **Secret scan:** detect-secrets 1.5.0 (pure Python, lockable). Known false positives are
+   marked inline with `# pragma: allowlist secret (<reason>)` rather than hidden in the baseline,
+   so every exception is visible in review.
+4. **Workflows.** `ci.yml` (every push and PR): job `checks` = `uv sync --all-packages --frozen`,
+   all pre-commit hooks, unit + API tests with branch coverage of `iqs_*`; job `integration` =
+   `pytest -m integration` (testcontainers, images read from the compose file). `docker.yml`
+   (push/PR to `main`, manual): build both images, `make up PROFILES=apps`,
+   `scripts/smoke_test.sh`, logs on failure, `make down`. `eval.yml` arrives with the evaluation
+   harness in step 3.
+5. **Actions referenced by major tag** (`actions/checkout@v4`, `astral-sh/setup-uv@v6`) with uv
+   pinned to 0.13.8 and `permissions: contents: read`. Pinning actions to commit SHAs is open
+   (needs a GitHub lookup; see KNOWN_ISSUES).
+
+**Consequences.** `make check` runs exactly what the first CI job runs. Integration tests are
+excluded from plain `pytest` (`-m 'not integration'` in addopts) and run with
+`make test-integration`. Workflows have not run on GitHub yet (nothing pushed).

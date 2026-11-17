@@ -6,8 +6,9 @@ ALEMBIC  := uv run alembic -c infrastructure/database/alembic.ini
 PROFILES ?= core
 
 .DEFAULT_GOAL := help
-.PHONY: help setup build config up down ps logs psql cypher \
-        db-migrate db-downgrade db-current db-history db-revision test-integration
+.PHONY: help setup build config up down ps logs logs-once psql cypher smoke \
+        db-migrate db-downgrade db-current db-history db-revision \
+        lint typecheck test test-integration pre-commit check
 
 help: ## List targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-18s %s\n", $$1, $$2}'
@@ -33,6 +34,12 @@ ps: ## Container status
 logs: ## Follow logs (make logs s=neo4j for one service)
 	COMPOSE_PROFILES='*' $(COMPOSE) logs -f $(s)
 
+logs-once: ## Print recent logs of all services (used by CI on failure)
+	COMPOSE_PROFILES='*' $(COMPOSE) logs --tail 200
+
+smoke: ## Smoke test the running apps profile (/health, /ready, API key)
+	scripts/smoke_test.sh
+
 psql: ## psql shell in the Postgres container
 	$(COMPOSE) exec postgres sh -c 'psql -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"'
 
@@ -54,6 +61,21 @@ db-history: ## List migrations
 db-revision: ## Autogenerate a migration: make db-revision m="add cases table"
 	@test -n "$(m)" || { echo 'usage: make db-revision m="message"'; exit 1; }
 	$(ALEMBIC) revision --autogenerate -m "$(m)"
+
+lint: ## ruff check + format check
+	uv run --frozen ruff check .
+	uv run --frozen ruff format --check .
+
+typecheck: ## mypy over all trees (config in pyproject.toml)
+	uv run --frozen mypy
+
+test: ## Unit + API tests (no Docker needed)
+	uv run --frozen pytest
+
+pre-commit: ## All pre-commit hooks on all files (what CI runs)
+	uv run --frozen pre-commit run --all-files
+
+check: pre-commit test ## Everything CI's first job runs
 
 test-integration: ## Integration tests (testcontainers: needs Docker, not the compose stack)
 	uv run pytest -m integration

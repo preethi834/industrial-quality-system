@@ -20,7 +20,7 @@ TAXONOMY_PATH = REPO_ROOT / "configs" / "taxonomy" / "causes.yaml"
 # Pinned on purpose: adding, removing or renaming a leaf must be a deliberate
 # change (bump "version", update this value) because calibration records store it.
 EXPECTED_VERSION = "0.1.0"
-EXPECTED_FINGERPRINT = "cd16413c56f3798a"
+EXPECTED_FINGERPRINT = "cd16413c56f3798a"  # pragma: allowlist secret (taxonomy hash)
 
 SNAKE_CASE = re.compile(r"^[a-z][a-z0-9]*(_[a-z0-9]+)*$")
 CATCH_ALL_SEGMENTS = {"OTHER", "OTHERS", "UNKNOWN", "MISC", "GENERAL", "UNSPECIFIED"}

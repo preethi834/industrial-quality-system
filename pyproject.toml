@@ -43,6 +43,19 @@ select = ["E", "F", "I", "UP", "B"]
 
 [tool.mypy]
 python_version = "3.11"
+# One command checks every tree: `uv run mypy`.
+# Each package's src/ is a module root, so packages/common/src/iqs_common/db.py is the
+# module "iqs_common.db" (not "packages.common.src.iqs_common.db", which made mypy report
+# "Source file found twice"). Tests, migrations and other dirs keep path-based names.
+files = ["packages", "tests", "infrastructure"]
+mypy_path = [
+    "packages/common/src",
+    "packages/vision/src",
+    "packages/diagnosis/src",
+    "packages/mcp_server/src",
+    "packages/simulator/src",
+    "packages/dashboard/src",
+]
 plugins = ["pydantic.mypy"]
 check_untyped_defs = true
 disallow_untyped_defs = true
@@ -60,3 +73,11 @@ addopts = "--import-mode=importlib -m 'not integration'"
 markers = [
     "integration: needs Docker (testcontainers Postgres / Neo4j)",
 ]
+
+[tool.coverage.run]
+# Measure our packages only (not tests, not the venv).
+source_pkgs = ["iqs_common", "iqs_vision", "iqs_diagnosis", "iqs_mcp", "iqs_sim", "iqs_dashboard"]
+branch = true
+
+[tool.coverage.report]
+skip_empty = true

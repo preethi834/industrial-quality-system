@@ -60,7 +60,7 @@ def test_password_is_hidden_but_usable(monkeypatch: pytest.MonkeyPatch) -> None:
     url = s.database.sqlalchemy_url()
     assert "s3cr3t-value" not in repr(s)
     assert "s3cr3t-value" not in str(url)
-    assert url.password == "s3cr3t-value"
+    assert url.password == "s3cr3t-value"  # pragma: allowlist secret (test value)
 
 
 def test_url_uses_psycopg3_driver_and_omits_empty_password() -> None:

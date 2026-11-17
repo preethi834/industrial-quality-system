@@ -32,7 +32,7 @@ from iqs_common.log import bind_context, clear_context, get_logger
 from iqs_common.settings import ApiSettings
 
 API_VERSION = "v1"
-API_KEY_HEADER = "X-API-Key"
+API_KEY_HEADER = "X-API-Key"  # pragma: allowlist secret (header name)
 REQUEST_ID_HEADER = "X-Request-ID"
 _MAX_REQUEST_ID_LEN = 128
 

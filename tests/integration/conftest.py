@@ -33,7 +33,7 @@ def compose_image(service: str) -> str:
     return image
 
 
-NEO4J_PASSWORD = "iqs_test_pw"
+NEO4J_PASSWORD = "iqs_test_pw"  # pragma: allowlist secret (throwaway test container)
 
 
 @pytest.fixture(scope="session")
