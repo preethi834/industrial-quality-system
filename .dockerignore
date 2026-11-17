@@ -1,0 +1,11 @@
+# Allow-list: images only get the lockfile, package sources and configs.
+# Keeps .env, .venv, .git, data/ and models/ out of every build context.
+*
+!pyproject.toml
+!uv.lock
+!.python-version
+!packages/*/pyproject.toml
+!packages/*/src/
+!configs/
+**/__pycache__
+**/*.pyc

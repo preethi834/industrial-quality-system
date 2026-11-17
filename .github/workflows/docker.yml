@@ -1,0 +1,39 @@
+# Build both service images and smoke-test the full compose stack.
+# Blueprint 7.3: end-to-end via compose runs on main (and on demand), not on every branch push.
+name: docker
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compose-smoke:
+    name: build images, compose up, /health + /ready + /v1/capabilities
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Throwaway .env (random secrets, never uploaded)
+        run: |
+          cp .env.example .env
+          sed -i "s/^IQS_DATABASE__PASSWORD=$/IQS_DATABASE__PASSWORD=$(openssl rand -hex 16)/" .env
+          sed -i "s/^IQS_NEO4J__PASSWORD=$/IQS_NEO4J__PASSWORD=$(openssl rand -hex 16)/" .env
+          sed -i "s/^IQS_API__KEYS=$/IQS_API__KEYS=$(openssl rand -hex 24)/" .env
+      - name: Build images
+        run: make build
+      - name: Start core + apps and wait until healthy
+        run: make up PROFILES=apps
+      - name: Smoke test
+        run: scripts/smoke_test.sh
+      - name: Logs on failure
+        if: failure()
+        run: make -s logs-once
+      - name: Stop
+        if: always()
+        run: make down

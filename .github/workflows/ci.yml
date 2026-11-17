@@ -1,0 +1,54 @@
+# Lint, types, unit + API tests, integration tests (testcontainers) on every push and PR.
+# Every tool version comes from uv.lock (--frozen); the same hooks run locally via pre-commit.
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  UV_VERSION: "0.13.8"
+  UV_FROZEN: "1"
+
+jobs:
+  checks:
+    name: lint, types, unit tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+      - name: Install workspace (exactly as locked)
+        run: uv sync --all-packages --frozen
+      - name: pre-commit hooks (ruff, format, mypy, secrets, hygiene, lock check)
+        run: uv run pre-commit run --all-files --show-diff-on-failure
+      - name: Unit and API tests
+        run: uv run pytest --cov --cov-report=term-missing:skip-covered
+
+  integration:
+    name: integration tests (Postgres + pgvector, Neo4j)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    needs: checks
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+      - name: Install workspace (exactly as locked)
+        run: uv sync --all-packages --frozen
+      - name: Integration tests (testcontainers, images pinned in docker-compose.yml)
+        run: uv run pytest -m integration
