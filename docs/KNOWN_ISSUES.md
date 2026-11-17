@@ -15,12 +15,12 @@ Status at the end of step 0 (2026-11-17).
 | 6 | **Docker build cache ≈ 12.5 GB** after the first image builds (uv cache mount + layers). | Disk use in the WSL VM. | `docker builder prune` when disk is tight (next build re-downloads wheels). |
 | 7 | **torch (CPU, 814 MB unpacked) is in both images**; diagnosis needs it via sentence-transformers. | Images 616 / 718 MB compressed. | Revisit in step 3 when the embedding model is chosen. |
 | 8 | **Profile naming differs from the blueprint**: blueprint §3 names `core / vision / llm / observability`; step 0 uses `core` and `apps` (both APIs). | Cosmetic, until vision gets heavy extras. | Decide in step 1 whether vision moves to its own `vision` profile. |
-| 9 | **Leftover empty `apps/{diagnosis,factory-simulator,vision}/` directories** from the initial skeleton; not in the blueprint layout. | Confusing layout. | Remove, or document their purpose. |
 | 10 | **detect-secrets 1.5.0** is the newest release but dates from May 2024. | Detector rules may lag newer token formats. | Re-evaluate (e.g. gitleaks in CI only) if it misses something. |
 | 11 | **One sample of the diagnosis container at 47 % CPU** while idle, taken ~20 s after Postgres was restarted; all other samples were idle. | Probably reconnect work; not confirmed. | Re-measure with `docker stats` over a minute in step 3. |
 
 ## Resolved during step 0
 
+- Leftover empty `apps/{diagnosis,factory-simulator,vision}/` directories → removed.
 - Host port 5432 clash with the Windows PostgreSQL → moved to 5433 (ADR-001).
 - mypy "Source file found twice under different module names" → `mypy_path` + `files` (ADR-003).
 - FastAPI treated the API-key header as a query parameter (local variable in `Annotated` under
