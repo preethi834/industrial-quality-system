@@ -2,6 +2,24 @@
 
 An integrated AI engineering platform for industrial quality management.
 
+## Status
+
+Step 0 (foundation) is complete locally: shared library, databases, service skeletons, CI and
+docs. No model or agent features yet. See [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
+
+## Documentation
+
+| Document | Content |
+| --- | --- |
+| [ARCHITECTURE](docs/ARCHITECTURE.md) | Components, HTTP conventions, data layer, deployment |
+| [IMPLEMENTATION_PLAN](docs/IMPLEMENTATION_PLAN.md) | Checklist, status, session hand-off |
+| [TECHNICAL_DECISIONS](docs/TECHNICAL_DECISIONS.md) | ADRs |
+| [EXPERIMENTS](docs/EXPERIMENTS.md) | Results with MLflow run IDs (none yet) |
+| [TESTING](docs/TESTING.md) | Test levels, commands, current counts |
+| [KNOWN_ISSUES](docs/KNOWN_ISSUES.md) | Open issues and limitations |
+| [CHANGELOG](CHANGELOG.md) | Changes per step |
+| [TECHNICAL_BLUEPRINT](TECHNICAL_BLUEPRINT.md) | Full design |
+
 ## Projects
 
 ### Project 1: Active Root-Cause Diagnosis Agent

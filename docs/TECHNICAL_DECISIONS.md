@@ -3,6 +3,10 @@
 ADR-style records: context, decision, consequences. Newest at the bottom.
 Status values: accepted, superseded (by ADR-n), rejected.
 
+Decisions made before step 0d (two services, pgvector, fixed taxonomy, Python 3.11, uv
+workspace, CPU-only torch) are justified in `TECHNICAL_BLUEPRINT.md` §0, §2 and §3 and are not
+repeated here.
+
 ---
 
 ## ADR-001 — Local infrastructure: compose, pgvector image, Neo4j memory, Alembic location (step 0d)
