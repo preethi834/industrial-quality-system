@@ -52,4 +52,9 @@ explicit_package_bases = true
 [tool.pytest.ini_options]
 testpaths = ["tests", "packages/*/tests"]
 python_files = ["test_*.py"]
-addopts = "--import-mode=importlib"
+# Integration tests need Docker; they are skipped by default. Run: make test-integration
+# (a later -m on the command line overrides the one here).
+addopts = "--import-mode=importlib -m 'not integration'"
+markers = [
+    "integration: needs Docker (testcontainers Postgres / Neo4j)",
+]

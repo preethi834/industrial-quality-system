@@ -27,3 +27,33 @@ A computer vision system for detecting, discovering, and classifying unknown ind
 - Docker Desktop
 - Visual Studio Code
 - uv for Python dependency management
+
+## Local infrastructure (Postgres + pgvector, Neo4j)
+
+Run everything from the repository root (WSL2 shell, Docker Desktop running).
+
+```bash
+cp .env.example .env        # then set IQS_DATABASE__PASSWORD and IQS_NEO4J__PASSWORD (8+ chars)
+make up                     # starts the "core" profile and waits until both are healthy
+make db-migrate             # alembic upgrade head
+make psql                   # or: make cypher
+make down                   # stops containers; data volumes are kept
+make test-integration       # testcontainers; run after `make down`, not alongside the stack
+```
+
+| Service | Image (pinned by digest) | Host address | Idle memory (measured) |
+| --- | --- | --- | --- |
+| PostgreSQL 16 + pgvector 0.8.7 | `pgvector/pgvector:0.8.7-pg16-bookworm` | `127.0.0.1:5433` | 38.6 MiB (limit 1 GiB) |
+| Neo4j 5.26 LTS community | `neo4j:5.26.33-community` | `127.0.0.1:7687` (Bolt), `:7474` (browser) | 974 MiB (limit 2 GiB; heap 512m–1G, page cache 512m) |
+
+Idle figures: `docker stats` three minutes after `make up`, empty databases, WSL2 VM with 9.7 GiB.
+Unpacked images take 1.58 GB on disk (Neo4j 934 MB, pgvector 647 MB).
+
+- **One set of credentials.** `.env` holds only `IQS_*` variables. The Python settings read them,
+  and compose builds `POSTGRES_*` and `NEO4J_AUTH` from the same values.
+- **Port 5433, not 5432,** because a PostgreSQL installed on Windows usually holds 5432 and WSL
+  would silently reach it instead of the container.
+- **Migrations** live in `infrastructure/database/` (Alembic, one history for all service schemas:
+  `diagnosis`, `vision`, `qms`, `platform`). New table: define the model on
+  `iqs_common.db.Base`, import its module in `migrations/env.py`, then
+  `make db-revision m="..."` and review the generated file.

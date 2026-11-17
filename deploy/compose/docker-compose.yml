@@ -1,0 +1,68 @@
+# Local infrastructure. Always run through the Makefile (make up / make down), which calls
+#   docker compose --project-directory . -f deploy/compose/docker-compose.yml
+# from the repository root, so the repo-root .env is used for ${...} interpolation
+# and relative paths below are relative to the repository root.
+#
+# Single source for credentials: POSTGRES_* and NEO4J_AUTH are built from the same
+# IQS_* variables the Python services read. Only variables named under `environment`
+# reach a container; .env itself is not injected.
+#
+# Profiles: core = Postgres + Neo4j. vision / llm / observability are added in later steps.
+
+name: iqs
+
+services:
+  postgres:
+    # pgvector 0.8.7 on PostgreSQL 16 (Debian bookworm), pinned by digest.
+    image: pgvector/pgvector:0.8.7-pg16-bookworm@sha256:484e838076e04939d27d3e176e91c86eea96236126023be8d3059761122e579f
+    profiles: [core]
+    environment:
+      POSTGRES_DB: ${IQS_DATABASE__NAME:?set IQS_DATABASE__NAME in .env}
+      POSTGRES_USER: ${IQS_DATABASE__USER:?set IQS_DATABASE__USER in .env}
+      POSTGRES_PASSWORD: ${IQS_DATABASE__PASSWORD:?set IQS_DATABASE__PASSWORD in .env}
+    ports:
+      - "127.0.0.1:${IQS_DATABASE__PORT:?set IQS_DATABASE__PORT in .env}:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./deploy/compose/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    mem_limit: 1g
+    restart: unless-stopped
+
+  neo4j:
+    # Neo4j 5.26 LTS, community edition, pinned by digest.
+    image: neo4j:5.26.33-community@sha256:577eb43120e8688e62e753e962c47d30044ecaa95147ee5386c29f226b878008
+    profiles: [core]
+    environment:
+      # Neo4j only accepts the user "neo4j" here; the password needs 8+ characters.
+      NEO4J_AUTH: ${IQS_NEO4J__USER:?set IQS_NEO4J__USER in .env}/${IQS_NEO4J__PASSWORD:?set IQS_NEO4J__PASSWORD in .env}
+      # Memory caps sized for a 10 GB WSL VM (blueprint: Neo4j heap is capped in config).
+      NEO4J_server_memory_heap_initial__size: 512m
+      NEO4J_server_memory_heap_max__size: 1G
+      NEO4J_server_memory_pagecache_size: 512m
+    ports:
+      - "127.0.0.1:7474:7474"  # browser / HTTP
+      - "127.0.0.1:7687:7687"  # bolt
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - cypher-shell -u "$${NEO4J_AUTH%%/*}" -p "$${NEO4J_AUTH#*/}" 'RETURN 1' > /dev/null
+      interval: 10s
+      timeout: 10s
+      retries: 12
+      start_period: 30s
+    mem_limit: 2g
+    restart: unless-stopped
+
+volumes:
+  pg_data:
+  neo4j_data:
+  neo4j_logs:
