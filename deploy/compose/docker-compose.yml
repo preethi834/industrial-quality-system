@@ -7,7 +7,8 @@
 # IQS_* variables the Python services read. Only variables named under `environment`
 # reach a container; .env itself is not injected.
 #
-# Profiles: core = Postgres + Neo4j. apps = core + the vision and diagnosis APIs.
+# Profiles: core = Postgres + Neo4j. apps = core + the vision and diagnosis APIs (+ dashboard).
+# vision = Postgres + vision API (+ dashboard): the step-1 demo without Neo4j (ADR-004).
 # llm / observability are added in later steps.
 
 name: iqs
@@ -16,7 +17,7 @@ services:
   postgres:
     # pgvector 0.8.7 on PostgreSQL 16 (Debian bookworm), pinned by digest.
     image: pgvector/pgvector:0.8.7-pg16-bookworm@sha256:484e838076e04939d27d3e176e91c86eea96236126023be8d3059761122e579f
-    profiles: [core, apps]
+    profiles: [core, apps, vision]
     environment:
       POSTGRES_DB: ${IQS_DATABASE__NAME:?set IQS_DATABASE__NAME in .env}
       POSTGRES_USER: ${IQS_DATABASE__USER:?set IQS_DATABASE__USER in .env}
@@ -68,7 +69,7 @@ services:
       context: .
       dockerfile: deploy/docker/vision.Dockerfile
     image: iqs-vision:dev
-    profiles: [apps]
+    profiles: [apps, vision]
     environment: &service-env
       IQS_ENVIRONMENT: ${IQS_ENVIRONMENT:-dev}
       IQS_LOGGING__LEVEL: ${IQS_LOGGING__LEVEL:-INFO}

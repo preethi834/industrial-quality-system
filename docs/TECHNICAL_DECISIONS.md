@@ -133,3 +133,41 @@ under different module names").
 **Consequences.** `make check` runs exactly what the first CI job runs. Integration tests are
 excluded from plain `pytest` (`-m 'not integration'` in addopts) and run with
 `make test-integration`. Workflows have not run on GitHub yet (nothing pushed).
+
+---
+
+## ADR-004 — Step 1 groundwork: blueprint Rev 2, asset gate, action pins, vision profile (step 1a)
+
+**Status:** accepted · 2026-11-19
+
+**Context.** The blueprint was replaced by Revision 2. Its top note says repository ADRs win where
+they differ (one uv workspace stays; ADR-001/002). Rev 2 §3.9 adds enforced approval gates for
+downloads; GitHub warned that `actions/checkout@v4` and `astral-sh/setup-uv@v6` run on the
+deprecated Node.js 20; step 1 adds a dashboard and heavier vision inference, which makes the
+"both APIs or nothing" `apps` profile wasteful on a 10 GB WSL VM (KNOWN_ISSUES #8).
+
+**Decisions.**
+
+1. **Asset allowlist** `configs/assets.yaml` (source, licence, size, SHA-256, pinned Hugging Face
+   commit, target path, approval date) + `iqs_common.assets`. `scripts/fetch_models.py` and
+   `scripts/download_dataset.py` refuse to run without `--approve` and verify the checksum before
+   a file is used. Services and training code only resolve local paths and raise
+   `AssetMissingError` (with the fetch command) — they never download. MVTec needs a web form, so
+   its archive is downloaded by hand and imported (copy → verify → safe extract with the tar
+   `data` filter). Approvals are logged in `docs/APPROVALS.md`.
+2. **Backbone weights loaded from local safetensors** (`timm.create_model(pretrained=False)` +
+   `load_state_dict`), so neither timm nor anomalib can reach the Hugging Face hub at runtime.
+   PatchCore uses `wide_resnet50_2.tv_in1k` (torchvision V1, as in the PatchCore paper), not
+   anomalib's default `racm_in1k`.
+3. **GitHub Actions pinned by commit SHA**, on Node.js 24: `actions/checkout` v7.0.1
+   (`3d3c42e5…`), `astral-sh/setup-uv` v10.3.3 (`68559e99…`). SHAs verified with `git ls-remote`
+   against the release tags; the inputs we use (`version`, `enable-cache`,
+   `cache-dependency-glob`) exist in the pinned `action.yml`. Breaking changes between the old
+   and new majors affect only `pull_request_target` / `workflow_run` and `prune-cache`, which we
+   do not use. Workflows are checked locally with actionlint 1.7.12.
+4. **Compose profile `vision`** = Postgres + vision API + dashboard (no Neo4j, no diagnosis).
+   `core` and `apps` keep their meaning; the dashboard is also in `apps`. Supersedes the "core
+   and apps only" part of ADR-002.
+
+**Consequences.** Nothing large enters the machine without an approval record. A missing weight
+file fails fast with the exact fetch command. Updating an action means a new SHA lookup.

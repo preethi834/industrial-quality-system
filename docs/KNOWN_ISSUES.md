@@ -1,22 +1,26 @@
 # Known issues
 
 Limitations, open items and unexplained behaviour. Each entry: what, impact, next action.
-Status at the end of step 0 (2026-11-17).
+Status at the end of step 0 (2026-11-17), updated in step 1. Numbers are stable IDs: closed entries keep their number and move to the resolved list.
 
 ## Open
 
 | # | Issue | Impact | Next action |
 | --- | --- | --- | --- |
-| 1 | **CI has never run on GitHub.** `ci.yml` and `docker.yml` are written and their commands were run locally, but nothing is pushed. | Step 0 "done when: green CI on main" is not met yet. | Push the branch, open a PR, fix anything runner-specific. |
-| 2 | **Actions pinned by major tag** (`actions/checkout@v4`, `astral-sh/setup-uv@v6`), not by commit SHA; versions not re-checked against GitHub. | A moved tag could change CI behaviour. | Before the first push: look up current versions and pin to SHAs. |
+| 1 | **CI on `main` not yet confirmed.** PR #1 checks were 5/5 green on GitHub (owner, 2026-11-19); the run on `main` after the merge has not been checked. | Step 0 gate "green CI on main" is likely met but unverified. | Check the `main` run on GitHub; close this entry if green. |
 | 3 | **One unexplained integration-test failure** (1 of 6 runs of `make test-integration`, 2026-11-17, right after `make down`); the output was not captured; 5 later runs, including the same sequence, passed. | Possible flakiness in container start-up. | If it recurs, keep the full log (`pytest -m integration -rA`); CI logs will capture it. |
 | 4 | **Windows PostgreSQL 17 on port 5432** on the development machine. Compose publishes Postgres on **5433**. | Tools that assume 5432 from WSL reach the Windows server, not the container. | Keep `IQS_DATABASE__PORT=5433`. |
 | 5 | **`uv sync` without `--all-packages` uninstalls the workspace packages** (root project is `package = false`). | Imports of `iqs_vision`, `torch`, ... break after a plain `uv sync`. | Always use `make setup` (`uv sync --all-packages --frozen`). |
 | 6 | **Docker build cache ≈ 12.5 GB** after the first image builds (uv cache mount + layers). | Disk use in the WSL VM. | `docker builder prune` when disk is tight (next build re-downloads wheels). |
 | 7 | **torch (CPU, 814 MB unpacked) is in both images**; diagnosis needs it via sentence-transformers. | Images 616 / 718 MB compressed. | Revisit in step 3 when the embedding model is chosen. |
-| 8 | **Profile naming differs from the blueprint**: blueprint §3 names `core / vision / llm / observability`; step 0 uses `core` and `apps` (both APIs). | Cosmetic, until vision gets heavy extras. | Decide in step 1 whether vision moves to its own `vision` profile. |
-| 10 | **detect-secrets 1.5.0** is the newest release but dates from May 2024. | Detector rules may lag newer token formats. | Re-evaluate (e.g. gitleaks in CI only) if it misses something. |
-| 11 | **One sample of the diagnosis container at 47 % CPU** while idle, taken ~20 s after Postgres was restarted; all other samples were idle. | Probably reconnect work; not confirmed. | Re-measure with `docker stats` over a minute in step 3. |
+| 9 | **detect-secrets 1.5.0** is the newest release but dates from May 2024. | Detector rules may lag newer token formats. | Re-evaluate (e.g. gitleaks in CI only) if it misses something. |
+| 10 | **One sample of the diagnosis container at 47 % CPU** while idle, taken ~20 s after Postgres was restarted; all other samples were idle. | Probably reconnect work; not confirmed. | Re-measure with `docker stats` over a minute in step 3. |
+
+## Resolved during step 1
+
+- #2 actions pinned by major tag and running on deprecated Node.js 20 → pinned by commit SHA to `actions/checkout` v7.0.1 and `astral-sh/setup-uv` v10.3.3 (Node.js 24), checked with actionlint (ADR-004, step 1a).
+- #8 profile naming → new `vision` profile (Postgres + vision + dashboard); `core` and `apps` kept (ADR-004, step 1a).
+- Missing entry #9 (numbering jumped 8 → 10) → old #10/#11 renumbered to #9/#10 (nothing referenced them).
 
 ## Resolved during step 0
 

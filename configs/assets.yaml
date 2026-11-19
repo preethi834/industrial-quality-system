@@ -1,0 +1,40 @@
+# Allowlist of every external asset the project may fetch (blueprint Rev 2, §3.9).
+# Nothing is downloaded implicitly: scripts/fetch_models.py and scripts/download_dataset.py
+# only act on entries listed here, only with --approve, and verify the SHA-256 before use.
+# Every approval is also recorded in docs/APPROVALS.md.
+version: 1
+
+datasets:
+  mvtec_ad:
+    title: MVTec AD (15 categories)
+    source: https://www.mvtec.com/company/research/datasets/mvtec-ad/downloads
+    # MVTec asks for a form before download, so the archive is fetched by hand and
+    # imported with: scripts/download_dataset.py mvtec_ad --archive <path> --approve
+    filename: mvtec_anomaly_detection.tar.xz
+    size_bytes: null # "about 4.9 GB" on the MVTec page; measured size goes to data/README.md
+    sha256: cf4313b13603bec67abb49ca959488f7eedce2a9f7795ec54446c649ac98cd3d # pragma: allowlist secret (checksum from anomalib 2.7.0)
+    licence: CC BY-NC-SA 4.0 (non-commercial; never commit or re-host)
+    target: data/raw/mvtec_ad
+    approved: "2026-11-19"
+
+models:
+  wide_resnet50_2.tv_in1k:
+    title: Wide ResNet-50-2, torchvision ImageNet-1k V1 weights (PatchCore backbone, as in the paper)
+    repo: timm/wide_resnet50_2.tv_in1k
+    revision: 343c5fa59ca8a131e0cdf42144a641b36a0387c2 # pragma: allowlist secret (checksum / commit)
+    filename: model.safetensors
+    size_bytes: 275835296
+    sha256: df6fb6c4824769769de18e14088475fd6ee94236849aa4e5d8022ba9d9a9a16c # pragma: allowlist secret (checksum / commit)
+    licence: BSD-3-Clause
+    target: models/weights/wide_resnet50_2.tv_in1k/model.safetensors
+    approved: "2026-11-19"
+  resnet18.a1_in1k:
+    title: ResNet-18, timm A1 recipe on ImageNet-1k (supervised baseline)
+    repo: timm/resnet18.a1_in1k
+    revision: 491b427b45c94c7fb0e78b5474cc919aff584bbf # pragma: allowlist secret (checksum / commit)
+    filename: model.safetensors
+    size_bytes: 46807446
+    sha256: 80c49dee3da4822c009c5a7fe591e9223c5a2cfcf95a4067ca4dfb5a7b89c612 # pragma: allowlist secret (checksum / commit)
+    licence: Apache-2.0
+    target: models/weights/resnet18.a1_in1k/model.safetensors
+    approved: "2026-11-19"
