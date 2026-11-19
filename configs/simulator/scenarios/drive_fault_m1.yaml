@@ -1,0 +1,13 @@
+# Reference single-fault scenario for drive_power_deviation (taxonomy simulator_fault).
+# Same seed, start and horizon as baseline.yaml, so the two runs differ only by the fault.
+name: drive_fault_m1
+description: >-
+  M1 drive delivers 18 % more power than commanded from hour 24.
+seed: 7
+start: "2026-01-05T06:00:00Z"
+duration_hours: 72
+faults:
+  - type: drive_power_deviation
+    target: M1
+    magnitude: 0.18
+    onset_hours: 24

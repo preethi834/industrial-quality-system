@@ -1,0 +1,13 @@
+# Reference single-fault scenario for bad_material_batch (taxonomy simulator_fault).
+# Same seed, start and horizon as baseline.yaml, so the two runs differ only by the fault.
+# A batch fault has no onset: it acts whenever parts from the batch are machined.
+name: bad_batch_b0008
+description: >-
+  Material batch B0008 is 45 HB harder than its certificate says.
+seed: 7
+start: "2026-01-05T06:00:00Z"
+duration_hours: 72
+faults:
+  - type: bad_material_batch
+    target: B0008
+    magnitude: 45

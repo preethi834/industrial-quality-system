@@ -1,0 +1,13 @@
+# Reference single-fault scenario for spindle_overload (taxonomy simulator_fault).
+# Same seed, start and horizon as baseline.yaml, so the two runs differ only by the fault.
+name: spindle_overload_m2a
+description: >-
+  Spindle load on M2A 1.5 times normal from hour 24 at correct setpoints.
+seed: 7
+start: "2026-01-05T06:00:00Z"
+duration_hours: 72
+faults:
+  - type: spindle_overload
+    target: M2A
+    magnitude: 1.5
+    onset_hours: 24
