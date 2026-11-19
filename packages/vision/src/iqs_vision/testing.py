@@ -75,3 +75,36 @@ def png_bytes(size: int = 64, *, defect: str | None = None, seed: int = 1) -> by
     buf = io.BytesIO()
     Image.fromarray(arr).save(buf, format="PNG")
     return buf.getvalue()
+
+
+def make_tiny_model(models_dir: Path, data_root: Path, category: str = "toy") -> Path:
+    """Fit a tiny PatchCore (random-init ResNet-18, 64 px) on synthetic data and save it
+    the way scripts/train_detector.py does (deploy protocol). Returns the model dir."""
+    import json
+
+    from iqs_vision.data.mvtec import scan_category
+    from iqs_vision.data.splits import build_manifest
+    from iqs_vision.detectors.patchcore import PatchCoreConfig, PatchCoreDetector
+    from iqs_vision.pipeline import evaluate, fit_detector, seed_everything
+
+    if not (data_root / category).is_dir():
+        make_mvtec_like(data_root, category, n_train=15)
+    manifest = build_manifest(
+        scan_category(data_root, category), root=data_root, dataset="synthetic", category=category
+    )
+    cfg = PatchCoreConfig(backbone="resnet18", weights=None, image_size=64, batch_size=4)
+    seed_everything(cfg.seed)
+    det = PatchCoreDetector(cfg)
+    fit_detector(det, manifest, data_root, "deploy", cfg.batch_size)
+    metrics, _ = evaluate(det, manifest, data_root, "deploy", cfg.batch_size)
+    out = models_dir / category / "deploy"
+    meta = {
+        "category": category,
+        "protocol": "deploy",
+        "manifest_fingerprint": manifest.fingerprint(),
+        "mlflow_run_id": "test0000run",
+        "metrics": metrics,
+    }
+    det.save(out / "model.pt", metadata=meta)
+    (out / "metrics.json").write_text(json.dumps(meta))
+    return out

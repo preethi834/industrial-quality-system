@@ -79,12 +79,18 @@ services:
       IQS_DATABASE__USER: ${IQS_DATABASE__USER:?set IQS_DATABASE__USER in .env}
       IQS_DATABASE__PASSWORD: ${IQS_DATABASE__PASSWORD:?set IQS_DATABASE__PASSWORD in .env}
       IQS_API__KEYS: ${IQS_API__KEYS:?set IQS_API__KEYS in .env}
+      IQS_VISION__PROTOCOL: ${IQS_VISION__PROTOCOL:-deploy}
+    volumes:
+      # Trained detectors (models/patchcore) and backbone weights (models/weights),
+      # read-only; the image never downloads anything (blueprint Rev 2 §3.9).
+      - ./models:/app/models:ro
     ports:
       - "127.0.0.1:8001:8001"
     depends_on:
       postgres:
         condition: service_healthy
-    mem_limit: 1g
+    # WideResNet-50 backbone + up to two cached memory banks (estimate; see TESTING.md).
+    mem_limit: 2g
     restart: unless-stopped
 
   diagnosis:
