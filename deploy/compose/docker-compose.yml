@@ -114,6 +114,24 @@ services:
     mem_limit: 1g
     restart: unless-stopped
 
+  dashboard:
+    build:
+      context: .
+      dockerfile: deploy/docker/dashboard.Dockerfile
+    image: iqs-dashboard:dev
+    profiles: [apps, vision]
+    environment:
+      IQS_ENVIRONMENT: ${IQS_ENVIRONMENT:-dev}
+      IQS_API__KEYS: ${IQS_API__KEYS:?set IQS_API__KEYS in .env}
+      IQS_DASHBOARD__VISION_URL: http://vision:8001
+    ports:
+      - "127.0.0.1:8501:8501"
+    depends_on:
+      vision:
+        condition: service_healthy
+    mem_limit: 512m
+    restart: unless-stopped
+
 volumes:
   pg_data:
   neo4j_data:
