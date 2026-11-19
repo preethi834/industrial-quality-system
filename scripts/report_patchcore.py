@@ -68,7 +68,7 @@ def main(argv: list[str] | None = None) -> int:
         "| Category | Image AUROC | Published | Δ | Pixel AUROC | Published | Δ "
         "| sup_test img AUROC | Fit imgs | Fit min | Eval min | Peak RSS GB"
     )
-    sep = "| --- " * 13
+    sep = "| --- " * 12
     if args.protocol == "deploy":
         head += " | Thr (max calib) | Test FAR | Test miss"
         sep += "| --- " * 3

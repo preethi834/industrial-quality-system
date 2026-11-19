@@ -15,17 +15,6 @@ Status at the end of step 0 (2026-11-17), updated in step 1. Numbers are stable 
 | 7 | **torch (CPU, 814 MB unpacked) is in both images**; diagnosis needs it via sentence-transformers. | Images 616 / 718 MB compressed. | Revisit in step 3 when the embedding model is chosen. |
 | 9 | **detect-secrets 1.5.0** is the newest release but dates from May 2024. | Detector rules may lag newer token formats. | Re-evaluate (e.g. gitleaks in CI only) if it misses something. |
 | 10 | **One sample of the diagnosis container at 47 % CPU** while idle, taken ~20 s after Postgres was restarted; all other samples were idle. | Probably reconnect work; not confirmed. | Re-measure with `docker stats` over a minute in step 3. |
-
-## Resolved during step 1
-
-- #2 actions pinned by major tag and running on deprecated Node.js 20 → pinned by commit SHA to `actions/checkout` v7.0.1 and `astral-sh/setup-uv` v10.3.3 (Node.js 24), checked with actionlint (ADR-004, step 1a).
-- #8 profile naming → new `vision` profile (Postgres + vision + dashboard); `core` and `apps` kept (ADR-004, step 1a).
-- Missing entry #9 (numbering jumped 8 → 10) → old #10/#11 renumbered to #9/#10 (nothing referenced them).
-
-## Resolved during step 0
-
-- Leftover empty `apps/{diagnosis,factory-simulator,vision}/` directories → removed.
-- Host port 5432 clash with the Windows PostgreSQL → moved to 5433 (ADR-001).
-- mypy "Source file found twice under different module names" → `mypy_path` + `files` (ADR-003).
-- FastAPI treated the API-key header as a query parameter (local variable in `Annotated` under
-  postponed annotations) → module-level `APIKeyHeader` scheme; covered by tests.
+| 11 | **Grid image AUROC 0.987 vs published 0.959 (+0.028)**, above the ±0.02 step-1 tolerance, in our favour. Likely causes, untested: torchvision V1 weights (`tv_in1k`) vs the weights anomalib benchmarked with, and anomalib's older benchmark settings. | Gate 3 requires a written investigation before step 2. | Compare with the PatchCore paper's grid value; to isolate the weights, run grid once with anomalib's default `racm_in1k` weights (needs approval, 276 MB); document the result. |
+| 12 | **Step 1 training incomplete** (stopped 2026-11-19 13:31 by the owner): official done for bottle and grid only; screw stopped mid-run (MLflow run `dbbb4c17` marked KILLED); deploy protocol, supervised baseline, reproducibility rerun, reload check, Docker demo with deploy models and the latency benchmark not run. | Step 1 gates 1–3, 5 and the recorded metrics are open. | Restart the queue (IMPLEMENTATION_PLAN hand-off). |
+| 13 | **Coreset selection dominates training time** (bottle 888 s of 945 s fit) and grows ~quadratically with train size; estimated 8–10 h for both protocols on all 15 categories on this laptop. | Long runs; CPU contention from other work slows them further. | Run overnight with nothing else on the CPU; consider a smaller coreset ratio only as a documented deviation. |
