@@ -21,7 +21,7 @@ expect() {  # expect <status> <url> [curl args...]
     echo "FAIL $url: expected $want, got $got" >&2
     exit 1
   fi
-  echo "ok   $want $url $*" | cut -c1-120
+  echo "ok   $want $url"  # never echo the curl arguments: they contain the API key
 }
 
 for port in $ports; do
@@ -51,10 +51,12 @@ if [[ " $ports " == *" 8001 "* ]]; then
       printf '%s' "$out" | python3 -c '
 import base64, json, sys
 r = json.load(sys.stdin)
-assert r["decision"] in ("anomalous", "normal"), r
+assert r["decision"] in ("anomalous", "normal", "undecided"), r
 assert base64.b64decode(r["heatmap_png_base64"]).startswith(b"\x89PNG")
 assert "description" not in r
-print(f"ok   inspection {r[\"category\"]}: score={r[\"score\"]:.3f} thr={r[\"threshold\"]:.3f} {r[\"decision\"]} {r[\"latency_ms\"]:.0f} ms")'
+thr = "none" if r["threshold"] is None else format(r["threshold"], ".3f")
+print("ok   inspection", r["category"], "score=" + format(r["score"], ".3f"),
+      "thr=" + thr, r["decision"], format(r["latency_ms"], ".0f"), "ms")'
     else
       echo "skip real-image inspection (no local MVTec image for $category)"
     fi

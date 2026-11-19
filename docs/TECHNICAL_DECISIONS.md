@@ -171,3 +171,49 @@ deprecated Node.js 20; step 1 adds a dashboard and heavier vision inference, whi
 
 **Consequences.** Nothing large enters the machine without an approval record. A missing weight
 file fails fast with the exact fetch command. Updating an action means a new SHA lookup.
+
+---
+
+## ADR-005 — Step 1 detector design: splits, PatchCore on CPU, thresholds, serving (steps 1b–1g)
+
+**Status:** accepted · 2026-11-19
+
+**Context.** Step 1 needs a real detector on MVTec AD, compared with published numbers, served
+through the API and dashboard, on a 10 GB WSL VM without a GPU. Rev 2 §2.8 requires that
+calibration images are never seen by the detector; Rev 2 §3.9 forbids implicit downloads.
+
+**Decisions.**
+
+1. **Own MVTec adapter, no anomalib datamodule** for local work: anomalib's `MVTecAD.prepare_data`
+   downloads the archive when the folder is missing. The adapter raises `DatasetNotFoundError`.
+2. **One split manifest per category** (`eval_sets/vision/mvtec_ad/*.json`, SHA-256 per image,
+   seed 42): `fit` / `calib` (20 % of train/good, good only) / `test` (official), plus a
+   stratified `sup_train/sup_val/sup_test` (50/20/30) re-split of the test set for the
+   supervised baseline. Leakage is checked by path **and content hash** on load. Generated
+   manifests are excluded from detect-secrets (they hold only checksums).
+3. **Two training protocols.** `official` fits on fit + calib (= the full MVTec train set) and is
+   the one compared with published numbers. `deploy` fits on `fit` only and is the one served;
+   its provisional threshold is the largest calibration score, labelled in every response as
+   *not* a conformal guarantee (that is step 2).
+4. **PatchCore = anomalib 2.7 torch components + own fit loop**: preallocated memory bank
+   (anomalib concatenates a list, which doubles peak RAM), and greedy k-center with a
+   squared-distance update (one mat-vec per step instead of an N×d temporary): same selections
+   as anomalib's `KCenterGreedy` under the same seeds (tested), ~2.8× faster per iteration
+   (104 → 37 ms at N = 214k, d = 303 on the Ryzen 7 5700U). bf16 distances were 5× faster
+   but rejected: the expanded distance formula loses too much precision. Settings = anomalib
+   defaults (WRN-50-2 layers 2+3, 256 px, no centre crop, 10 % coreset, k = 9).
+5. **One category per process** (`scripts/run_patchcore_queue.sh`) so RAM returns to the OS
+   between categories; training runs with the compose stack stopped.
+6. **Serving**: `ModelRegistry` discovers `models/patchcore/<cat>/<protocol>/`, loads on demand
+   (LRU of 2), weights resolved through the asset allowlist; the vision container mounts
+   `./models` read-only and gets 2 GB. Heatmaps use an absolute scale (0.5 = threshold) so a
+   normal part stays cool. The VLM description is an interface with provider `none`: the field
+   is absent, never faked.
+7. **EfficientAD trains only in the cloud** (`finetune/efficientad`, same script + config) and
+   returns as a **run bundle** (zip: `bundle.json` + `model.pt`, checksums, git commit,
+   manifest fingerprint). The importer rejects tampering, extra members, a different manifest
+   or an unknown commit, re-evaluates on CPU and requires |Δ image AUROC| ≤ 0.005.
+
+**Consequences.** Published-number comparisons use `official` models; the API serves `deploy`
+models, so the two tables differ slightly (20 % fewer fit images). Training all 15 categories
+twice takes most of a day on this CPU; coreset selection dominates (quadratic in train size).
