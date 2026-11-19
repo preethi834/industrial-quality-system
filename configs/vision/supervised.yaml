@@ -1,0 +1,10 @@
+# Supervised baseline (step 1e): ResNet-18 binary classifier on the sup_* re-split of the
+# MVTec AD test set. CPU settings; weights from configs/assets.yaml.
+backbone: resnet18
+weights: resnet18.a1_in1k
+image_size: 224
+epochs: 12
+batch_size: 16
+lr: 0.0003
+weight_decay: 0.0001
+seed: 42
