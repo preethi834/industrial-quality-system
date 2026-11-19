@@ -35,6 +35,8 @@ class FitStats:
 class Detector(Protocol):
     name: str
     image_size: int
+    # True: inputs are ImageNet-normalised; False: raw [0, 1] (the model normalises itself).
+    normalized_input: bool
 
     def fit(self, batches: Iterable[torch.Tensor], n_images: int) -> FitStats:
         """Fit on normalised good images, given as (B, 3, S, S) batches."""

@@ -66,6 +66,7 @@ def _build_model(cfg: PatchCoreConfig, weights_path: Path | None) -> Any:
 
 class PatchCoreDetector:
     name = "patchcore"
+    normalized_input = True
 
     def __init__(self, cfg: PatchCoreConfig, weights_path: Path | None = None) -> None:
         if cfg.weights is not None and weights_path is None:

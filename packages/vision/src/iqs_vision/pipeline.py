@@ -25,9 +25,13 @@ def seed_everything(seed: int) -> None:
 
 
 def _loader(
-    entries: Sequence[ManifestEntry], root: Path, size: int, batch_size: int
+    entries: Sequence[ManifestEntry],
+    root: Path,
+    size: int,
+    batch_size: int,
+    normalize: bool = True,
 ) -> DataLoader[dict[str, object]]:
-    ds = ManifestDataset(entries, root, size)
+    ds = ManifestDataset(entries, root, size, normalize=normalize)
     return DataLoader(ds, batch_size=batch_size, shuffle=False, num_workers=0)  # type: ignore[arg-type]
 
 
@@ -41,7 +45,7 @@ def fit_detector(
     entries = manifest.fit_entries(protocol)
 
     def images() -> Iterator[torch.Tensor]:
-        for b in _loader(entries, root, detector.image_size, batch_size):
+        for b in _loader(entries, root, detector.image_size, batch_size, detector.normalized_input):
             yield b["image"]
 
     return detector.fit(images(), n_images=len(entries))
@@ -66,7 +70,7 @@ def score_entries(
 ) -> Scored:
     paths: list[str] = []
     labels, scores, masks, maps = [], [], [], []
-    for b in _loader(entries, root, detector.image_size, batch_size):
+    for b in _loader(entries, root, detector.image_size, batch_size, detector.normalized_input):
         out = detector.predict(b["image"])
         paths += list(b["path"])
         labels.append(np.asarray(b["label"]))

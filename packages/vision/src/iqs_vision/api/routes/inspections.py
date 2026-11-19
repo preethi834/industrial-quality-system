@@ -123,7 +123,9 @@ def build_router(
                 status.HTTP_404_NOT_FOUND,
                 f"no model for category {category!r}; available: {registry.categories()}",
             ) from None
-        x = image_to_tensor(image, detector.image_size).unsqueeze(0)
+        x = image_to_tensor(
+            image, detector.image_size, normalize=detector.normalized_input
+        ).unsqueeze(0)
         with torch.inference_mode():
             out = detector.predict(x)
         score, amap = float(out.scores[0]), out.maps[0]

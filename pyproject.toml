@@ -41,6 +41,10 @@ src = ["packages/*/src"]
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
 
+[tool.ruff.lint.per-file-ignores]
+# Notebooks: shell (!) lines and Colab-only imports inside cells.
+"*.ipynb" = ["E402", "E501"]
+
 [tool.mypy]
 python_version = "3.11"
 # One command checks every tree: `uv run mypy`.
