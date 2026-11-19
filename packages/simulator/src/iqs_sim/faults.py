@@ -119,7 +119,7 @@ FAULT_SPECS: dict[FaultType, FaultSpec] = {
         -0.5,
         0.5,
         0.05,
-        (0.12, 0.25),
+        (0.2, 0.3),
         True,
         frozenset({"sensor_readings.power_actual_kw"}),
         "Drive delivers power that deviates from the commanded power.",
