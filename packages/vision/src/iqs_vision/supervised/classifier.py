@@ -121,7 +121,7 @@ def train_classifier(
             loss = loss_fn(model(x).reshape(-1), y)
             loss.backward()
             opt.step()
-            total += float(loss) * len(y)
+            total += loss.item() * len(y)
             count += len(y)
         labels, probs = predict_proba(model, val, root, cfg)
         val_auc = image_auroc(labels, probs) if len(set(labels.tolist())) == 2 else float("nan")
