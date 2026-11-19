@@ -1,0 +1,11 @@
+# PatchCore on CPU (step 1). Same settings as anomalib 2.7's defaults, which its published
+# MVTec AD benchmark uses: WideResNet-50-2, layers 2+3, 256 px, no centre crop, 10 % coreset,
+# k = 9. Weights: torchvision V1 (as in the PatchCore paper), from configs/assets.yaml.
+backbone: wide_resnet50_2
+weights: wide_resnet50_2.tv_in1k
+layers: [layer2, layer3]
+image_size: 256
+coreset_sampling_ratio: 0.1
+num_neighbors: 9
+batch_size: 8
+seed: 42
