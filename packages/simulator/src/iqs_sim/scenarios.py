@@ -131,16 +131,34 @@ def _sample_target(kind: TargetKind, rng: np.random.Generator, n_batches: int) -
     return batch_id(int(rng.integers(lo, hi)))
 
 
+def near_limit_range(fault_type: FaultType) -> tuple[float, float]:
+    """Weaker magnitudes around the monitoring detection limit.
+
+    From halfway between the validity floor and the standard range up into the bottom
+    quarter of the standard range: ``[floor + (lo - floor)/2, lo + (hi - lo)/4]``. One
+    rule for every fault; measured alarm rates in this band differ by fault (step-3 notes).
+    """
+    spec = FAULT_SPECS[fault_type]
+    floor = spec.min_abs_magnitude
+    lo, hi = spec.sample_range
+    return (floor + (lo - floor) / 2, lo + (hi - lo) / 4)
+
+
 def sample_fault(
     fault_type: FaultType,
     rng: np.random.Generator,
     *,
     duration_hours: float,
     line: LineConfig,
+    near_limit: bool = False,
 ) -> FaultConfig:
-    """Draw one fault of ``fault_type`` with random target, magnitude and onset."""
+    """Draw one fault of ``fault_type`` with random target, magnitude and onset.
+
+    ``near_limit``: draw the magnitude from ``near_limit_range`` (weaker faults around
+    the detection limit, used for the harder diagnosis corpus).
+    """
     spec = FAULT_SPECS[fault_type]
-    lo, hi = spec.sample_range
+    lo, hi = near_limit_range(fault_type) if near_limit else spec.sample_range
     magnitude = float(rng.uniform(lo, hi))
     sign = float(rng.choice([-1.0, 1.0])) if spec.signed else 1.0
     n_batches = int(duration_hours * 60 / line.takt_minutes / line.batch_size)
@@ -162,6 +180,7 @@ def generate_family(
     start: datetime,
     duration_hours: float,
     fault_types: tuple[FaultType, ...] = tuple(FaultType),
+    near_limit: bool = False,
 ) -> list[Scenario]:
     """A reproducible family of single-fault scenarios (``n_per_fault`` per fault type)."""
     scenarios: list[Scenario] = []
@@ -169,7 +188,9 @@ def generate_family(
     for fault_type in fault_types:
         rng = stream(seed, f"family:{family}:{fault_type}")
         for i in range(n_per_fault):
-            fault = sample_fault(fault_type, rng, duration_hours=duration_hours, line=line)
+            fault = sample_fault(
+                fault_type, rng, duration_hours=duration_hours, line=line, near_limit=near_limit
+            )
             scenarios.append(
                 Scenario(
                     name=f"{family}_{fault_type}_{i:03d}",
@@ -180,6 +201,51 @@ def generate_family(
                     faults=(fault,),
                 )
             )
+    return scenarios
+
+
+def generate_pair_family(
+    *,
+    family: str,
+    seed: int,
+    n_pairs: int,
+    start: datetime,
+    duration_hours: float,
+    fault_types: tuple[FaultType, ...] = tuple(FaultType),
+    near_limit: bool = False,
+) -> list[Scenario]:
+    """A reproducible family of two-fault scenarios: two distinct fault types per scenario,
+    drawn uniformly from ``fault_types``, each with its own target, magnitude and onset.
+
+    Scenario names do not name the faults (``<family>_pair_<i>``).
+    """
+    if len(fault_types) < 2:
+        raise ValueError("need at least two fault types for pairs")
+    line = LineConfig()
+    rng = stream(seed, f"pairs:{family}")
+    scenarios: list[Scenario] = []
+    for i in range(n_pairs):
+        a, b = rng.choice(len(fault_types), size=2, replace=False)
+        faults = tuple(
+            sample_fault(
+                fault_types[int(k)],
+                rng,
+                duration_hours=duration_hours,
+                line=line,
+                near_limit=near_limit,
+            )
+            for k in (a, b)
+        )
+        scenarios.append(
+            Scenario(
+                name=f"{family}_pair_{i:03d}",
+                seed=int(rng.integers(0, 2**31 - 1)),
+                start=start,
+                duration_hours=duration_hours,
+                line=line,
+                faults=faults,
+            )
+        )
     return scenarios
 
 

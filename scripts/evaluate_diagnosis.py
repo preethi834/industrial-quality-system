@@ -38,17 +38,31 @@ def main() -> int:
         "--params", type=Path, default=REPO_ROOT / "configs/diagnosis/ranker_params.json"
     )
     ap.add_argument("--out-dir", type=Path, default=REPO_ROOT / "reports/diagnosis")
+    ap.add_argument(
+        "--library-corpus",
+        help="take the case library from this corpus instead (default: the evaluated corpus)",
+    )
+    ap.add_argument("--tag", default="", help="suffix for the report file name")
     args = ap.parse_args()
 
     cfg = load_corpus_config(args.config)
     corpus = args.data_root / cfg.name
     taxonomy = load_taxonomy(REPO_ROOT / "configs/taxonomy/causes.yaml")
-    cases = collect_cases(corpus / "runs" / args.split)
+    # Single-fault runs live in runs/<split>, two-fault runs (if any) in runs/<split>-pairs.
+    cases = []
+    for runs in (corpus / "runs" / args.split, corpus / "runs" / f"{args.split}-pairs"):
+        if runs.is_dir():
+            cases += collect_cases(runs)
+    cases.sort(key=lambda cl: cl[0].case_id)
+    if len({c.case_id for c, _ in cases}) != len(cases):
+        raise SystemExit("error: duplicate case ids across run directories")
     t0 = time.perf_counter()
     results = asyncio.run(
         evaluate_cases(
             cases,
-            library=load_library(corpus / "library" / "train.jsonl"),
+            library=load_library(
+                args.data_root / (args.library_corpus or cfg.name) / "library" / "train.jsonl"
+            ),
             params=RankerParams.load(args.params),
             vocabulary=load_vocabulary(REPO_ROOT / "configs/diagnosis/symptoms.yaml"),
             taxonomy=taxonomy,
@@ -58,12 +72,14 @@ def main() -> int:
     s = summarize(results, len(taxonomy.causes))
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
-    out = args.out_dir / f"{cfg.name}_{args.split}.json"
+    out = args.out_dir / f"{cfg.name}_{args.split}{('_' + args.tag) if args.tag else ''}.json"
     out.write_text(
         json.dumps(
             {
                 "corpus": cfg.name,
                 "split": args.split,
+                "library_corpus": args.library_corpus or cfg.name,
+                "params": str(args.params.resolve().relative_to(REPO_ROOT)),
                 "note": "Simulator accuracy is not real-world accuracy.",
                 "wall_seconds": round(wall, 1),
                 "summary": s.model_dump(mode="json"),
@@ -85,6 +101,12 @@ def main() -> int:
         print(f"baseline {name:12s}  top-1 {m['top1']}  top-3 {m['top3']}")
     rnd = s.random_expected
     print(f"baseline random        top-1 {rnd['top1']:.3f}  top-3 {rnd['top3']:.3f} (expected)")
+    print(f"top-1 single-fault     {s.single_top1_known}")
+    pr = s.pairs
+    print(f"two-fault (n={pr.n})   top-1 primary {pr.top1_primary}")
+    print(f"                       top-3 primary {pr.top3_primary}")
+    print(f"                       top-3 all injected {pr.top3_all_injected}")
+    print(f"                       top-1 any injected {pr.top1_any_injected}")
     print(f"tool-call accuracy     {s.tool_call_accuracy}")
     print(f"8D completeness        mean {s.completeness_mean:.3f}, full {s.completeness_full}")
     lat = s.latency

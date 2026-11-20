@@ -17,7 +17,7 @@ import json
 from collections.abc import Iterable, Sequence
 from datetime import datetime
 from pathlib import Path
-from typing import Final, TypeVar
+from typing import Final, Literal, TypeVar
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -33,12 +33,27 @@ SPLITS: Final = ("train", "dev", "test")
 M = TypeVar("M", bound=BaseModel)
 
 
+class PairConfig(BaseModel):
+    """Two-fault scenarios (primary cause by the excess-defects rule, see labels.py)."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    family: str = Field(min_length=1)
+    seed: int
+    n: int = Field(gt=0)
+    magnitudes: Literal["standard", "near_limit"] = "standard"
+
+
 class SplitConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
     family: str = Field(min_length=1)
     seed: int
     n_per_fault: int = Field(gt=0)
+    # standard: v1 sampling ranges; near_limit: between the validity floor and the
+    # lower end of the standard range (weaker faults, near the detection limit).
+    magnitudes: Literal["standard", "near_limit"] = "standard"
+    pairs: PairConfig | None = None
 
 
 class CorpusConfig(BaseModel):
@@ -56,6 +71,10 @@ class CorpusConfig(BaseModel):
             raise ValueError(f"splits must be exactly {SPLITS}, got {sorted(self.splits)}")
         families = [s.family for s in self.splits.values()]
         seeds = [s.seed for s in self.splits.values()]
+        for sp in self.splits.values():
+            if sp.pairs is not None:
+                families.append(sp.pairs.family)
+                seeds.append(sp.pairs.seed)
         if len(set(families)) != len(families) or len(set(seeds)) != len(seeds):
             raise ValueError("every split needs its own family name and seed")
         return self

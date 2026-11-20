@@ -57,14 +57,55 @@ def test_label_matches_case(reference_runs: dict[str, Path]) -> None:
     assert load_case_label(reference_runs["baseline"]) is None
 
 
-def test_multi_fault_label_rejected(reference_runs: dict[str, Path], tmp_path: Path) -> None:
+def test_two_fault_label_uses_excess_defects(tmp_path: Path) -> None:
+    """Primary cause = fault with the most excess truly defective parts (labelling guide)."""
+    import pandas as pd
+
+    run = tmp_path / "run"
+    (run / "ground_truth").mkdir(parents=True)
+    (run / "ground_truth" / "case_labels.json").write_text(
+        json.dumps(
+            {
+                "case_id": "SIM-x",
+                "alarm_ts": "2026-01-05T20:00:00Z",
+                "faults": [
+                    {
+                        "fault_id": "F01",
+                        "simulator_fault": "bad_material_batch",
+                        "cause_code": "MATERIAL.BAD_BATCH",
+                    },
+                    {
+                        "fault_id": "F02",
+                        "simulator_fault": "accelerated_tool_wear",
+                        "cause_code": "MACHINE.TOOL_WEAR",
+                    },
+                ],
+            }
+        )
+    )
+    # 100 clean parts with 2 defects (p0 = 0.02); F01 touches 50 parts with 6 defects
+    # (excess 5), F02 touches 200 parts with 20 defects (excess 16).
+    rows: list[tuple[list[str], bool]] = [([], i < 2) for i in range(100)]
+    rows += [(["F01"], i < 6) for i in range(50)]
+    rows += [(["F02"], i < 20) for i in range(200)]
+    pd.DataFrame(rows, columns=["fault_ids", "truly_defective"]).to_parquet(
+        run / "ground_truth" / "part_truth.parquet"
+    )
+    label = load_case_label(run)
+    assert label is not None
+    assert label.cause_code == "MACHINE.TOOL_WEAR" and label.rule == "excess_defects"
+    assert label.secondary_causes == ("MATERIAL.BAD_BATCH",)
+    assert label.excess_defects == {"bad_material_batch": 5.0, "accelerated_tool_wear": 16.0}
+
+
+def test_duplicate_fault_ids_rejected(reference_runs: dict[str, Path], tmp_path: Path) -> None:
     run = tmp_path / "run"
     shutil.copytree(reference_runs["tool_wear_m1"] / "ground_truth", run / "ground_truth")
     path = run / "ground_truth" / "case_labels.json"
     raw = json.loads(path.read_text())
     raw["faults"] = raw["faults"] * 2
     path.write_text(json.dumps(raw))
-    with pytest.raises(ValueError, match="exactly one fault"):
+    with pytest.raises(ValueError, match="duplicate fault ids"):
         load_case_label(run)
 
 

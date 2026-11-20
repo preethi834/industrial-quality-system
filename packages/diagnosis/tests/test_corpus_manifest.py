@@ -35,6 +35,16 @@ SPLIT = {
     "seconds_simulate",
     "seconds_profiles",
 }
+# Added for corpora with near-limit magnitudes and two-fault scenarios (dx_corpus_v2).
+SPLIT_OPTIONAL = {
+    "magnitudes",
+    "n_two_fault_cases",
+    "pairs_family",
+    "pairs_seed",
+    "pairs_magnitudes",
+    "pairs_family_sha256",
+    "n_pair_scenarios",
+}
 
 
 def test_manifests_have_fixed_schema_and_hex_hashes() -> None:
@@ -48,9 +58,12 @@ def test_manifests_have_fixed_schema_and_hex_hashes() -> None:
             assert HEX64.match(m[key]), (path, key)
         assert set(m["splits"]) == {"train", "dev", "test"}
         for split, info in m["splits"].items():
-            assert set(info) == SPLIT, (path, split)
+            assert SPLIT <= set(info) <= SPLIT | SPLIT_OPTIONAL, (path, split)
             for key in ("family_sha256", "profiles_sha256", "labels_sha256"):
                 assert HEX64.match(info[key]), (path, split, key)
-            assert sum(info["cases_by_fault"].values()) == info["n_cases"] <= info["n_scenarios"]
+            if "pairs_family_sha256" in info:
+                assert HEX64.match(info["pairs_family_sha256"]), (path, split)
+            n_runs = info["n_scenarios"] + info.get("n_pair_scenarios", 0)
+            assert sum(info["cases_by_fault"].values()) == info["n_cases"] <= n_runs
         # Novel faults never appear in the case library.
         assert not set(m["novel_faults"]) & set(m["splits"]["train"]["cases_by_fault"])

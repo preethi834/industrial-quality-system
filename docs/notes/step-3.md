@@ -222,6 +222,64 @@ smoothing sits at the grid edge (alpha = 0.001), so conformal sets would be triv
 
 ---
 
+## dx_corpus_v2 — harder corpus for step 4 (built 2026-11-20; test split not evaluated)
+
+Config `configs/diagnosis/sim_corpus_v2.yaml`; manifest `eval_sets/diagnosis/sim/dx_corpus_v2.json`.
+
+- **Near-limit magnitudes** (single-fault scenarios): `iqs_sim.scenarios.near_limit_range` =
+  `[floor + (lo − floor)/2, lo + (hi − lo)/4]` (floor = `min_abs_magnitude`, [lo, hi] = v1
+  sampling range). One rule for every fault. It was chosen from a 160-run detection-curve
+  measurement (16 runs per fault across [floor, lo]; alarms only, no diagnosis results):
+  tool wear, overload, coolant and bad batch barely alarm below lo; setpoint change
+  and handling alarm even at the floor; gauge drift, fixture, ambient and drive switch on
+  mid-way. The first try ([floor, lo]) gave almost no bad-batch or tool-wear cases.
+- **Two-fault scenarios** (standard magnitudes, two distinct fault types), primary cause by
+  the excess-defects rule (labelling guide, simulator section; `evaluation/labels.py`).
+  All 280 pair scenarios raised an alarm.
+- **Larger dev split**: at least 32 cases per cause (32–82).
+
+| Split | Single / pair scenarios | Cases (two-fault) | Simulate | Profiles |
+| --- | --- | --- | --- | --- |
+| train (8 causes) | 320 / 80 | 306 (80) | 168 s | 51 s |
+| dev | 600 / 120 | 582 (120) | 304 s | 117 s |
+| test | 600 / 120 | 582 (120) | 394 s | 98 s |
+
+Build: 1133 s in the script, **18 min 54 s wall clock** (`nice -n 19`, 2 workers, 177 % CPU,
+peak RSS 387 MB, PatchCore training running), 1.5 GB on disk.
+
+**Dev results of the frozen v1 method** (v1 vocabulary, v1 ranker parameters:
+5 neighbours, alpha 0.001, novelty threshold 0.708; nothing refitted). Report
+`reports/diagnosis/dx_corpus_v2_dev_v1method_v2library.json`. 582 cases: 449 with a library
+primary cause (349 single, 100 two-fault), 133 with a held-out primary cause.
+
+| Metric (dev, 95 % Wilson) | v2 train library | v1 train library |
+| --- | --- | --- |
+| Top-1, known causes | 0.927 [0.899, 0.947] | 0.933 [0.906, 0.953] |
+| Top-3, known causes | 0.982 [0.965, 0.991] | 0.949 [0.924, 0.966] |
+| Top-1, single-fault (near limit) | 0.991 (346/349) | 0.997 (348/349) |
+| Two-fault: top-1 = primary | 0.700 [0.604, 0.781] | 0.710 |
+| Two-fault: primary in top-3 | 0.930 [0.863, 0.966] | 0.780 |
+| Two-fault: both causes in top-3 | 0.540 [0.443, 0.634] | 0.240 |
+| Two-fault: top-1 is one of the injected causes | 0.960 | 1.000 |
+| Novelty detected | 1.000 (133/133) | 1.000 |
+| False novelty (target 0.05) | **0.263** [0.224, 0.305] | **0.401** |
+| BM25-only / vector-only top-1 (known) | 0.898 / 0.911 | 0.873 / 0.918 |
+
+Reading:
+- v2 is harder where it matters for step 4: the method now makes errors (33/449 top-1),
+  mostly on two-fault cases, where the second cause often wins top-1 (top-1 is one of
+  the injected causes 96 % of the time, but the primary only 70 %).
+- On v2 the hybrid beats both of its parts (0.927 vs 0.898 / 0.911), which v1 could not show.
+- Near-limit single faults are still easy for the feature vector (0.991). Weak faults
+  mostly change whether a case exists (alarm yield), not how separable it is once it does.
+- The v1 novelty threshold does not transfer: 26 % false novelty with the v2 library.
+  It was calibrated on standard-magnitude cases; near-limit and two-fault cases lie
+  further from the library. Recalibrating on v2 dev is a step 4 task.
+- The pipeline found a bug in the harness on the first dev run (pair runs in
+  `runs/<split>-pairs` were not collected; fixed before these numbers).
+
+---
+
 ## Proposed ADR-006 (number may need renumbering at merge: step 1 holds ADR-004/005, step 5a has an unnumbered proposal)
 
 ### ADR-006 — Diagnosis minimum version: simulator symptom profiles, retrieval votes, novelty threshold (step 3a–3b)

@@ -48,8 +48,9 @@ class CaseResult(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
     case_id: str
-    truth: str
+    truth: str  # primary cause
     simulator_fault: str
+    secondary: list[str] = []  # other injected causes (two-fault cases)
     known: bool  # truth is among the library's causes
     top3: list[str]
     novel: bool
@@ -173,6 +174,7 @@ async def evaluate_cases(
                 case_id=case.case_id,
                 truth=label.cause_code,
                 simulator_fault=label.simulator_fault,
+                secondary=list(label.secondary_causes),
                 known=label.cause_code in library_causes,
                 top3=[c for c, _ in out["top3"]],
                 novel=bool(out["novel"]),
@@ -185,6 +187,18 @@ async def evaluate_cases(
             )
         )
     return results
+
+
+class PairSummary(BaseModel):
+    """Two-fault cases whose primary cause is in the library."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    n: int
+    top1_primary: Proportion
+    top3_primary: Proportion
+    top3_all_injected: Proportion  # every injected cause in the top 3
+    top1_any_injected: Proportion  # top 1 is the primary or a secondary cause
 
 
 class Summary(BaseModel):
@@ -201,6 +215,8 @@ class Summary(BaseModel):
     novelty_detection: Proportion
     baselines_known: dict[str, dict[str, Proportion]]
     random_expected: dict[str, float]
+    single_top1_known: Proportion
+    pairs: PairSummary
     tool_call_accuracy: Proportion
     completeness_mean: float
     completeness_full: Proportion
@@ -230,6 +246,19 @@ def summarize(results: Sequence[CaseResult], n_taxonomy_causes: int) -> Summary:
         }
         for b in ("majority", "bm25_only", "vector_only")
     }
+    singles = [r for r in known if not r.secondary]
+    pairs = [r for r in known if r.secondary]
+    pair_summary = PairSummary(
+        n=len(pairs),
+        top1_primary=wilson(hits(pairs, 1), len(pairs)),
+        top3_primary=wilson(hits(pairs, 3), len(pairs)),
+        top3_all_injected=wilson(
+            sum({r.truth, *r.secondary} <= set(r.top3) for r in pairs), len(pairs)
+        ),
+        top1_any_injected=wilson(
+            sum(r.top3[0] in {r.truth, *r.secondary} for r in pairs), len(pairs)
+        ),
+    )
     return Summary(
         n_cases=len(results),
         n_known=len(known),
@@ -242,6 +271,8 @@ def summarize(results: Sequence[CaseResult], n_taxonomy_causes: int) -> Summary:
         novelty_detection=wilson(sum(r.novel for r in novel), len(novel)),
         baselines_known=baselines,
         random_expected={"top1": 1 / n_taxonomy_causes, "top3": 3 / n_taxonomy_causes},
+        single_top1_known=wilson(hits(singles, 1), len(singles)),
+        pairs=pair_summary,
         tool_call_accuracy=wilson(
             sum(r.tool_calls_correct for r in results), sum(r.tool_calls_total for r in results)
         ),

@@ -50,3 +50,21 @@ Notes on two mappings:
    `MACHINE.SPINDLE_OVERLOAD`, `MACHINE.INSUFFICIENT_COOLING` and
    `METHOD.WRONG_PROCESS_PARAMETERS`. The other six causes get their Bayesian-network
    probabilities and test data from the simulator only, and results state this.
+
+## Simulator cases (step 3)
+
+Simulator labels are never assigned by hand: they come from the run's ground truth
+(`ground_truth/case_labels.json`, read only by `iqs_diagnosis.evaluation.labels`).
+
+- **One injected fault:** its taxonomy cause is the primary cause.
+- **Several injected faults: primary = the fault that adds the most defects.** For each
+  fault `f`, `excess(f) = (truly defective parts touched by f) − p0 × (parts touched by f)`,
+  where `p0` is the defect rate of parts touched by no fault. The fault with the largest
+  excess is the primary cause; ties go to the fault listed first in the scenario. The
+  other faults are recorded as secondary causes (`secondary_causes`), and the excess
+  values are stored with the label so every decision can be checked.
+- Rationale: it is the Pareto view an 8D team takes (fix what produces most of the
+  extra defects first). It uses ground truth only, so it does not depend on what the
+  agent can observe.
+- Results on two-fault cases are reported separately: top-1 against the primary cause,
+  top-3 containing the primary cause, and top-3 containing every injected cause.
