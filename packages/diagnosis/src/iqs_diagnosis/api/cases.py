@@ -97,6 +97,7 @@ def build_cases_router(service: CaseService) -> APIRouter:
             "phase": service.agent.phase(case_id),
             **_ranking(state),
             "ticket_id": (state.get("ticket") or {}).get("ticket_id"),
+            "data_supported_cause": (state.get("scientist") or {}).get("data_supported_cause"),
             "report_completeness": state["completeness"]["score"],
         }
 
@@ -107,6 +108,16 @@ def build_cases_router(service: CaseService) -> APIRouter:
         if cs is None:  # no calibration run configured
             return {"case_id": case_id, "kind": "top3", **_ranking(state)}
         return {"case_id": case_id, "kind": "conformal", **cs, **_ranking(state)}
+
+    @router.get("/{case_id}/hypotheses")
+    def hypotheses(case_id: str) -> dict[str, Any]:
+        """Scientist results: per hypothesis the SQL, test, p-values, verdict and figure."""
+        state = _require_run(case_id)
+        sci = state.get("scientist")
+        if sci is None:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, "no hypothesis tests for this case")
+        out: dict[str, Any] = sci
+        return out
 
     @router.get("/{case_id}/report-8d")
     def report_8d(case_id: str, lang: str = "en") -> dict[str, Any]:

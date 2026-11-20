@@ -34,6 +34,7 @@ from iqs_diagnosis.domain.case import DiagnosisCase, SymptomProfile
 from iqs_diagnosis.persistence.repository import CaseRepository
 from iqs_diagnosis.reporting.eight_d import check_completeness, draft_8d
 from iqs_diagnosis.retrieval.base import Hit
+from iqs_diagnosis.scientist.runner import test_case
 from iqs_diagnosis.scoring.ranker import CauseRanker
 from iqs_diagnosis.scoring.votes import top_k, vote_probabilities
 from iqs_diagnosis.symptoms import extract_profile
@@ -54,6 +55,7 @@ class AgentState(TypedDict, total=False):
     top3: list[list[Any]]
     neighbours: list[dict[str, Any]]
     cause_set: dict[str, Any] | None
+    scientist: dict[str, Any] | None
     report_8d: dict[str, Any]
     completeness: dict[str, Any]
     ticket: dict[str, Any]
@@ -70,6 +72,7 @@ class AgentDeps:
     tickets: TicketGateway
     repository: CaseRepository
     conformal: ConformalPredictor | None = None  # step 4; None = top 3 only
+    scientist_q: float | None = 0.05  # step 5b; None = no hypothesis tests
 
 
 def severity_for(case: DiagnosisCase) -> int:
@@ -147,6 +150,17 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
             "neighbours": neighbours,
         }
 
+    templates = {c.code: c.test_template for c in deps.taxonomy.causes if c.test_template}
+
+    def test_hypotheses(state: AgentState) -> dict[str, Any]:
+        """Scientist: test the top-3 causes on the case's data (BH over the three)."""
+        case = DiagnosisCase.model_validate(state["case"])
+        if deps.scientist_q is None or case.observed_dir is None:
+            return {"scientist": None}
+        hyps = [c for c, _ in state["top3"] if c in templates]
+        report = test_case(case, hyps, templates, q=deps.scientist_q)
+        return {"scientist": report.model_dump(mode="json")}
+
     def conformal_set(state: AgentState) -> dict[str, Any]:
         pred = deps.conformal
         if pred is None:
@@ -189,6 +203,7 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
             cause_names=cause_names,
             symptom_names=symptom_names,
             cause_set=state.get("cause_set"),
+            scientist=state.get("scientist"),
         )
         completeness = check_completeness(report, causes)
         deps.repository.save_report(report, completeness.score)
@@ -247,6 +262,7 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
     g.add_node("retrieve", _timed("retrieve", retrieve))
     g.add_node("novelty_check", _timed("novelty_check", novelty_check))
     g.add_node("score_causes", _timed("score_causes", score_causes))
+    g.add_node("test_hypotheses", _timed("test_hypotheses", test_hypotheses))
     g.add_node("conformal_set", _timed("conformal_set", conformal_set))
     g.add_node("draft_8d", _timed("draft_8d", draft_report))
     g.add_node("open_ticket", _atimed("open_ticket", open_ticket))
@@ -258,6 +274,7 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
         "retrieve",
         "novelty_check",
         "score_causes",
+        "test_hypotheses",
         "conformal_set",
         "draft_8d",
         "open_ticket",
@@ -291,6 +308,7 @@ class DiagnosisAgent:
     def __init__(self, deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> None:
         self.graph = build_graph(deps, checkpointer)
         self.has_conformal = deps.conformal is not None
+        self.has_scientist = deps.scientist_q is not None
 
     @staticmethod
     def _config(case_id: str) -> dict[str, Any]:

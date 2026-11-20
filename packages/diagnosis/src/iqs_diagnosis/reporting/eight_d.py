@@ -144,6 +144,7 @@ def draft_8d(
     cause_names: Mapping[str, str],
     symptom_names: Mapping[str, str],
     cause_set: Mapping[str, Any] | None = None,
+    scientist: Mapping[str, Any] | None = None,
 ) -> EightDReport:
     rate = next((s for s in case.reported_symptoms if s.get("code") == "reject_rate_increase"), {})
     alarm = case.alarm_ts.isoformat() if case.alarm_ts else None
@@ -204,6 +205,27 @@ def draft_8d(
             set_line += (
                 "\nUncertain / possible new problem: no single cause reaches the LAC threshold."
             )
+    sci_line = ""
+    if scientist is not None and scientist.get("hypotheses"):
+        parts = []
+        for h in scientist["hypotheses"]:
+            res = h["result"]
+            where = f" at {res['target']}" if res.get("target") else ""
+            p = "" if h["p_adjusted"] is None else f", adjusted p = {h['p_adjusted']:.2g}"
+            parts.append(
+                f"- {cause_names.get(h['cause_code'], h['cause_code'])}: {h['verdict']}"
+                f" ({res['test']}{where}{p})"
+            )
+        best = scientist.get("data_supported_cause")
+        sci_line = (
+            f"\nData check (Benjamini-Hochberg, q = {scientist['q']}):\n"
+            + "\n".join(parts)
+            + (
+                f"\nData-supported cause: {cause_names.get(best, best)} ({best})."
+                if best
+                else "\nNo candidate is supported by the data check."
+            )
+        )
     d4 = Section(
         key="D4",
         title=SECTION_TITLES["D4"],
@@ -212,13 +234,31 @@ def draft_8d(
         + "\n".join(cand_lines)
         + "\n"
         + novelty_line
-        + set_line,
+        + set_line
+        + sci_line,
         data={
             "candidates": [{"cause_code": c, "probability": round(p, 4)} for c, p in top3],
             "novel": novel,
             "max_similarity": round(max_similarity, 4),
             "neighbours": [dict(n) for n in neighbours],
             **({"cause_set": dict(cause_set)} if cause_set is not None else {}),
+            **(
+                {
+                    "data_check": [
+                        {
+                            "cause_code": h["cause_code"],
+                            "verdict": h["verdict"],
+                            "p_adjusted": h["p_adjusted"],
+                            "test": h["result"]["test"],
+                            "target": h["result"].get("target"),
+                        }
+                        for h in scientist["hypotheses"]
+                    ],
+                    "data_supported_cause": scientist.get("data_supported_cause"),
+                }
+                if scientist is not None
+                else {}
+            ),
         },
     )
     drafted = {"D0": d0, "D2": d2, "D4": d4}
