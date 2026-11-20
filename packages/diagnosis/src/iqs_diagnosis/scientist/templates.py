@@ -445,9 +445,13 @@ def station_defect_rate_change_point(store: ProcessStore, w: Window) -> Template
     name = "station_defect_rate_change_point"
     test = "mann_whitney_u_greater"
     parts, params = _parts(store)
-    params = [*params, str(w.reference_end), str(w.affected_start)]
-    dev = (parts["measured_dimension_mm"] - parts["measured_dimension_mm"].median()).abs()
-    parts = parts.assign(dev=dev)
+    params = [*params, str(w.reference_end), str(w.affected_start), "observed/run.json"]
+    spec = store.run_info()["spec"]
+    assert isinstance(spec, dict)
+    nominal = float(spec["nominal_dimension_mm"])
+    # Deviation from the nominal size (observable spec), not from a pooled median: a
+    # pooled median moves towards the faulty values when most parts are affected.
+    parts = parts.assign(dev=(parts["measured_dimension_mm"] - nominal).abs())
     ref = parts[parts["completed_ts"] < w.reference_end]
     aff = parts[parts["completed_ts"] >= w.affected_start]
     ps: dict[str, float] = {}
@@ -481,7 +485,7 @@ def station_defect_rate_change_point(store: ProcessStore, w: Window) -> Template
         sql=SQL_PARTS.strip(),
         params=params,
         plot=box_figure(
-            f"|dimension - median| through {target}: after vs before",
+            f"|dimension - nominal| through {target}: after vs before",
             "|deviation| (mm)",
             x,
             y,
