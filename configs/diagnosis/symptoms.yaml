@@ -1,0 +1,119 @@
+# Symptom vocabulary for the diagnosis agent (step 3a), validated by
+# iqs_diagnosis.symptoms.vocabulary. A symptom is an observation, never a cause:
+# codes describe what the data shows, cause codes live in configs/taxonomy/causes.yaml.
+#
+# Rules turn the descriptive features of iqs_diagnosis.symptoms.simulator_profile
+# into codes: every condition in `all` must hold. Thresholds were set by looking at
+# the 11 reference scenarios (configs/simulator/scenarios, 72 h) only, never at the
+# evaluation families. Retrieval uses the numeric features as well, so a threshold
+# decides the readable code, not the whole match.
+#
+# Feature units: z = shift of the mean in reference standard deviations;
+# log2 = log2 ratio (1.0 = doubled); share = 0..1; lift = log2(group rate / overall rate).
+version: "0.1.0"
+symptoms:
+  - code: reject_rate_increase
+    name_en: Reject rate increase
+    description: Monitoring raised a reject-rate alarm (every simulator case has it).
+    source: case
+
+  - code: reject_reason_dimension
+    name_en: Mostly dimension rejects
+    description: At least half of the rejects after the alarm window fail the dimension check.
+    all: [[reject_share_dimension, ">=", 0.5]]
+
+  - code: reject_reason_surface
+    name_en: Mostly surface rejects
+    description: At least half of the rejects after the alarm window are surface defects.
+    all: [[reject_share_surface, ">=", 0.5]]
+
+  - code: rejects_concentrate_machine
+    name_en: Rejects concentrate on one parallel machine
+    description: The reject rate of one S2 machine is at least 1.4x the overall rate.
+    all: [[reject_lift_s2_machine, ">=", 0.5]]
+    where: reject_lift_s2_machine
+
+  - code: rejects_concentrate_batch
+    name_en: Rejects concentrate in one material batch
+    description: The reject rate of one batch is at least 2.8x the overall rate.
+    all: [[reject_lift_batch, ">=", 1.5]]
+    where: reject_lift_batch
+
+  - code: rejects_concentrate_shift
+    name_en: Rejects concentrate in one shift
+    description: The reject rate of one shift code is at least 2x the overall rate.
+    all: [[reject_lift_shift, ">=", 1.0]]
+    where: reject_lift_shift
+
+  - code: dimension_mean_shift
+    name_en: Measured dimension shifted
+    description: Mean measured dimension moved by at least 1 reference SD.
+    all: [[dim_mean_shift_z, ">=", 1.0]]
+
+  - code: dimension_spread_increase
+    name_en: Measured dimension spread increased
+    description: SD of the measured dimension at least 1.4x the reference SD.
+    all: [[dim_sd_log2_ratio, ">=", 0.5]]
+
+  - code: dimension_shift_one_machine
+    name_en: Dimension shift on one parallel machine
+    description: Mean dimension shifts of M2A and M2B differ by at least 1.5 reference SD.
+    all: [[dim_shift_s2_gap_z, ">=", 1.5]]
+    where: dim_shift_s2_gap_z
+
+  - code: gauge_check_drift
+    name_en: Gauge master-part check drifted
+    description: Master-part gauge checks moved by at least 6 um (3x the gauge noise).
+    all: [[gauge_check_shift_um, ">=", 6.0]]
+
+  - code: machine_temperature_rise
+    name_en: Temperature rise on one machine
+    description: One machine's temperature up by at least 2 SD while not all machines rise.
+    all: [[temp_z_max, ">=", 2.0], [temp_z_min, "<", 2.0]]
+    where: temp_z_max
+
+  - code: temperature_rise_all_machines
+    name_en: Temperature rise on all machines
+    description: Every cutting machine's temperature is up by at least 2 SD.
+    all: [[temp_z_min, ">=", 2.0]]
+
+  - code: ambient_temperature_high
+    name_en: Hall temperature high
+    description: Mean ambient temperature at least 2 C above the reference period.
+    all: [[ambient_shift_c, ">=", 2.0]]
+
+  - code: spindle_load_rise
+    name_en: Spindle load rise
+    description: One machine's spindle load up by at least 1.5 SD.
+    all: [[load_z_max, ">=", 1.5]]
+    where: load_z_max
+
+  - code: batch_load_rise
+    name_en: Spindle load high for one batch
+    description: Parts of one batch run at least 2.5 SD above the reference load.
+    all: [[load_batch_z_max, ">=", 2.5]]
+    where: load_batch_z_max
+
+  - code: vibration_rise
+    name_en: Vibration rise
+    description: One machine's vibration up by at least 2 SD.
+    all: [[vibration_z_max, ">=", 2.0]]
+    where: vibration_z_max
+
+  - code: tool_wear_rate_rise
+    name_en: Faster tool wear
+    description: Wear increment per cut on one machine at least 1.19x the reference.
+    all: [[wear_rate_log2_ratio_max, ">=", 0.25]]
+    where: wear_rate_log2_ratio_max
+
+  - code: power_deviation
+    name_en: Actual power deviates from commanded power
+    description: One machine's actual/commanded power residual shifted by at least 3 SD.
+    all: [[power_residual_z_max, ">=", 3.0]]
+    where: power_residual_z_max
+
+  - code: setpoint_change
+    name_en: Setpoints changed
+    description: At least 5 % of one machine's cuts use a new parameter set or a speed outside the validated window.
+    all: [[setpoint_changed_share_max, ">=", 0.05]]
+    where: setpoint_changed_share_max

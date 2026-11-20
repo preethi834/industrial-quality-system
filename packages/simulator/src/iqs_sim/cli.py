@@ -5,6 +5,7 @@ Examples (from the repository root, prefixed with ``uv run python scripts/``)::
 simulate.py run --scenario configs/simulator/scenarios/tool_wear_m1.yaml --out ~/iqs-data/sim/tw1
 simulate.py validate configs/simulator/scenarios/*.yaml
 simulate.py family --name eval_v1 --seed 2026 --n-per-fault 50 --out families/eval_v1
+simulate.py run-family --family-dir families/eval_v1 --out runs/eval_v1 --workers 2
 """
 
 from __future__ import annotations
@@ -17,7 +18,7 @@ from pathlib import Path
 
 from iqs_common.taxonomy import load_taxonomy
 from iqs_sim.faults import FaultType
-from iqs_sim.pipeline import run_scenario
+from iqs_sim.pipeline import run_family, run_scenario
 from iqs_sim.scenarios import generate_family, load_scenario, write_family
 
 
@@ -51,6 +52,18 @@ def _parser(default_taxonomy: Path | None) -> argparse.ArgumentParser:
     fam.add_argument(
         "--fault", action="append", choices=[f.value for f in FaultType], help="limit fault types"
     )
+
+    rf = sub.add_parser("run-family", help="run every scenario YAML of a family directory")
+    rf.add_argument("--family-dir", type=Path, required=True, help="output of `family`")
+    rf.add_argument("--out", type=Path, required=True, help="runs directory (must be empty)")
+    rf.add_argument("--workers", type=int, default=1)
+    rf.add_argument(
+        "--taxonomy",
+        type=Path,
+        default=default_taxonomy,
+        required=default_taxonomy is None,
+        help="taxonomy YAML used to label ground truth",
+    )
     return p
 
 
@@ -83,6 +96,14 @@ def main(argv: Sequence[str] | None = None, *, default_taxonomy: Path | None = N
             else:
                 print(f"ok   {path} ({sc.name}, {len(sc.faults)} fault(s))")
         return 1 if failed else 0
+    if args.command == "run-family":
+        _require_empty(args.out)
+        paths = sorted(args.family_dir.glob("*.yaml"))
+        if not paths:
+            raise SystemExit(f"error: no scenario YAMLs in {args.family_dir}")
+        index = run_family(paths, args.out, args.taxonomy, workers=args.workers)
+        print(f"runs: {index['n_runs']}, cases: {index['n_cases']} -> {args.out}")
+        return 0
     # family
     _require_empty(args.out)
     start = datetime.fromisoformat(args.start.replace("Z", "+00:00"))
