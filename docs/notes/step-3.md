@@ -69,9 +69,11 @@ Total 537 s inside the script, 8 min 58 s wall clock, 170 % CPU, peak RSS 224 MB
 therefore no case (mostly `spindle_overload` and `bad_material_batch` at small
 magnitudes), consistent with the 5a detection numbers.
 
-**Not committed yet:** `eval_sets/diagnosis/sim/dx_corpus_v1.json` (family, profile and
-label SHA-256 values). The detect-secrets hook flags the hashes as high-entropy strings;
-excluding the path (as step 1 does for `eval_sets/vision/*`) needs the user's decision.
+**Manifest:** `eval_sets/diagnosis/sim/dx_corpus_v1.json` (family, profile and
+label SHA-256 values), committed after the user approved excluding
+`eval_sets/diagnosis/sim/*.json` from detect-secrets (same convention as step 1's
+`eval_sets/vision/*`; `test_corpus_manifest.py` validates the schema instead). Merge note:
+step 1 edits the same `exclude:` line in `.pre-commit-config.yaml`; combine both paths.
 
 ---
 
