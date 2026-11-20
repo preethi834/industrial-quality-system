@@ -118,3 +118,28 @@ def test_case_survives_restart_with_postgres_checkpointer(
     assert done["ticket"]["status"] == "cause_confirmed"
     repo = SqlCaseRepository(factory)
     assert repo.status(case.case_id) is CaseStatus.CONFIRMED
+
+
+def test_calibration_run_rows_and_cause_set(
+    migrated: Config, pg_settings: DatabaseSettings
+) -> None:
+    from iqs_diagnosis.domain.case import DiagnosisCase
+    from iqs_diagnosis.persistence.repository import SqlCaseRepository
+
+    factory = create_session_factory(create_db_engine(pg_settings))
+    repo = SqlCaseRepository(factory)
+    run = {
+        "run_id": "cal_t",
+        "corpus": "c",
+        "alpha": 0.1,
+        "n_calibration": 20,
+        "thresholds": {
+            "lac": {"method": "lac", "qhat": 0.5, "k": 19, "delta": None},
+            "aps": {"method": "aps", "qhat": 0.9, "k": 19, "delta": None},
+        },
+    }
+    repo.save_calibration_run(run)
+    repo.save_calibration_run(run)  # idempotent
+    repo.add(DiagnosisCase(case_id="SIM-c", source="simulator", title="t", description="d"))
+    repo.save_ranking("SIM-c", [("MACHINE.TOOL_WEAR", 0.9), ("MATERIAL.BAD_BATCH", 0.05)], False)
+    repo.save_cause_set("SIM-c", ["MACHINE.TOOL_WEAR"], "cal_t:lac")

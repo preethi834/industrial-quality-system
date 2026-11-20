@@ -24,7 +24,14 @@ from iqs_diagnosis.novelty.threshold import (
 from iqs_diagnosis.retrieval.base import LibraryCase
 from iqs_diagnosis.retrieval.fusion import RRF_K
 from iqs_diagnosis.retrieval.hybrid import HybridRetriever
-from iqs_diagnosis.scoring.votes import VoteParams, fit_vote_params, top_k, vote_probabilities
+from iqs_diagnosis.scoring.votes import (
+    DEFAULT_ALPHAS,
+    DEFAULT_NEIGHBOURS,
+    VoteParams,
+    fit_vote_params,
+    top_k,
+    vote_probabilities,
+)
 
 
 class RankerParams(BaseModel):
@@ -120,6 +127,8 @@ def fit_ranker(
     depth: int = 50,
     rrf_k: int = RRF_K,
     fitted_on: dict[str, str] | None = None,
+    neighbours: Sequence[int] = DEFAULT_NEIGHBOURS,
+    alphas: Sequence[float] = DEFAULT_ALPHAS,
 ) -> FitReport:
     """Fit vote parameters and the novelty threshold on labelled dev cases.
 
@@ -140,6 +149,8 @@ def fit_ranker(
         [dev_causes[i] for i in known],
         retriever.cause_of,
         causes,
+        neighbours=neighbours,
+        alphas=alphas,
     )
     known_sims = [results[i].max_similarity for i in known]
     novel_sims = [results[i].max_similarity for i in novel]

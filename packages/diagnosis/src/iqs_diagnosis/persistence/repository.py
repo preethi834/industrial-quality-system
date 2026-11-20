@@ -22,6 +22,7 @@ from sqlalchemy import (
     Text,
     delete,
     func,
+    select,
 )
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, Session, mapped_column, sessionmaker
@@ -46,6 +47,10 @@ class CaseRepository(Protocol):
     def save_ranking(self, case_id: str, top3: list[tuple[str, float]], novel: bool) -> None: ...
     def save_report(self, report: EightDReport, completeness: float) -> None: ...
     def save_confirmation(self, case_id: str, cause_code: str | None) -> None: ...
+    def save_calibration_run(self, run: dict[str, Any]) -> None: ...
+    def save_cause_set(
+        self, case_id: str, cause_set: list[str], calibration_run_id: str
+    ) -> None: ...
 
 
 class InMemoryCaseRepository:
@@ -56,6 +61,8 @@ class InMemoryCaseRepository:
         self.rankings: dict[str, dict[str, Any]] = {}
         self.reports: dict[str, list[EightDReport]] = {}
         self.confirmations: dict[str, str | None] = {}
+        self.calibration_runs: dict[str, dict[str, Any]] = {}
+        self.cause_sets: dict[str, tuple[list[str], str]] = {}
 
     def add(self, case: DiagnosisCase) -> None:
         with self._lock:
@@ -82,6 +89,14 @@ class InMemoryCaseRepository:
         with self._lock:
             self.confirmations[case_id] = cause_code
             self.statuses[case_id] = CaseStatus.CONFIRMED
+
+    def save_calibration_run(self, run: dict[str, Any]) -> None:
+        with self._lock:
+            self.calibration_runs.setdefault(run["run_id"], run)
+
+    def save_cause_set(self, case_id: str, cause_set: list[str], calibration_run_id: str) -> None:
+        with self._lock:
+            self.cause_sets[case_id] = (list(cause_set), calibration_run_id)
 
 
 # ------------------------------------------------------------------ Postgres
@@ -119,6 +134,26 @@ class CaseCauseRow(Base):
     score: Mapped[float] = mapped_column(Float)
     rank: Mapped[int] = mapped_column(Integer)
     in_conformal_set: Mapped[bool | None] = mapped_column()
+    calibration_run_id: Mapped[str | None] = mapped_column(
+        ForeignKey(f"{DIAGNOSIS_SCHEMA}.calibration_runs.id")
+    )
+
+
+class CalibrationRunRow(Base):
+    """Frozen calibration runs (blueprint §2.4); one row per threshold variant."""
+
+    __tablename__ = "calibration_runs"
+    __table_args__ = ({"schema": DIAGNOSIS_SCHEMA},)
+
+    id: Mapped[str] = mapped_column(String(96), primary_key=True)
+    method: Mapped[str] = mapped_column(String(16))
+    alpha: Mapped[float] = mapped_column(Float)
+    delta: Mapped[float | None] = mapped_column(Float)
+    qhat: Mapped[float] = mapped_column(Float)
+    n_calibration: Mapped[int] = mapped_column(Integer)
+    dataset: Mapped[str] = mapped_column(String(64))
+    content: Mapped[dict[str, Any]] = mapped_column(JSONB)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
 class Report8DRow(Base):
@@ -194,3 +229,42 @@ class SqlCaseRepository:
                 raise KeyError(case_id)
             row.confirmed_cause_code = cause_code
             row.status = CaseStatus.CONFIRMED.value
+
+    def save_calibration_run(self, run: dict[str, Any]) -> None:
+        """One row per threshold variant (``<run_id>:<variant>``); existing rows are kept."""
+        with session_scope(self._factory) as s:
+            for variant, t in run["thresholds"].items():
+                key = f"{run['run_id']}:{variant}"
+                if s.get(CalibrationRunRow, key) is None:
+                    s.add(
+                        CalibrationRunRow(
+                            id=key,
+                            method=t["method"],
+                            alpha=run["alpha"],
+                            delta=t.get("delta"),
+                            qhat=t["qhat"],
+                            n_calibration=run["n_calibration"],
+                            dataset=run["corpus"],
+                            content=run,
+                        )
+                    )
+
+    def save_cause_set(self, case_id: str, cause_set: list[str], calibration_run_id: str) -> None:
+        with session_scope(self._factory) as s:
+            rows = s.scalars(select(CaseCauseRow).where(CaseCauseRow.case_id == case_id)).all()
+            present = {r.cause_code for r in rows}
+            for r in rows:
+                r.in_conformal_set = r.cause_code in cause_set
+                r.calibration_run_id = calibration_run_id
+            for rank, code in enumerate(cause_set, start=len(rows) + 1):
+                if code not in present:
+                    s.add(
+                        CaseCauseRow(
+                            case_id=case_id,
+                            cause_code=code,
+                            score=0.0,
+                            rank=rank,
+                            in_conformal_set=True,
+                            calibration_run_id=calibration_run_id,
+                        )
+                    )
