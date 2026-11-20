@@ -48,7 +48,7 @@ SPLIT_OPTIONAL = {
 
 
 def test_manifests_have_fixed_schema_and_hex_hashes() -> None:
-    paths = sorted(MANIFEST_DIR.glob("*.json"))
+    paths = sorted(p for p in MANIFEST_DIR.glob("*.json") if not p.stem.endswith("_family"))
     assert paths, "no corpus manifest committed"
     for path in paths:
         m = json.loads(path.read_text(encoding="utf-8"))
@@ -67,3 +67,22 @@ def test_manifests_have_fixed_schema_and_hex_hashes() -> None:
             assert sum(info["cases_by_fault"].values()) == info["n_cases"] <= n_runs
         # Novel faults never appear in the case library.
         assert not set(m["novel_faults"]) & set(m["splits"]["train"]["cases_by_fault"])
+
+
+FAMILY_KEYS = {
+    "kind", "name", "seed", "n_per_fault", "duration_hours", "start", "magnitudes",
+    "purpose", "generated_by", "n_scenarios", "family_sha256", "files",
+}  # fmt: skip
+
+
+def test_family_manifests_have_fixed_schema_and_hex_hashes() -> None:
+    """Scenario-family manifests (committed before their first evaluation run, gate 3)."""
+    paths = sorted(MANIFEST_DIR.glob("*_family.json"))
+    assert paths, "no family manifest committed"
+    for path in paths:
+        m = json.loads(path.read_text(encoding="utf-8"))
+        assert set(m) == FAMILY_KEYS, path
+        assert m["kind"] == "scenario_family" and path.stem == f"{m['name']}_family"
+        assert HEX64.match(m["family_sha256"])
+        assert len(m["files"]) == m["n_scenarios"] >= 500
+        assert all(HEX64.match(h) and f.endswith(".yaml") for f, h in m["files"].items())
