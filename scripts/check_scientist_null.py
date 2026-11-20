@@ -34,8 +34,8 @@ import numpy as np
 
 from iqs_common.taxonomy import load_taxonomy
 from iqs_diagnosis.data.process_store import ProcessStore
+from iqs_diagnosis.evaluation.scientist_checks import null_summary, template_pvalues
 from iqs_diagnosis.ingestion.simulator import load_case
-from iqs_diagnosis.scientist.checks import null_summary, template_pvalues
 from iqs_diagnosis.scientist.runner import window_for_case
 from iqs_diagnosis.scientist.templates import TEMPLATES
 from iqs_sim.faults import FAULT_SPECS, FaultType

@@ -106,7 +106,9 @@ def main() -> int:
     summary = summarize(cases)
     report = {
         "family": committed["name"],
-        "family_sha256": committed["family_sha256"],
+        # The hash lives in the committed manifest (the report only points to it, so
+        # the report holds no high-entropy strings for the secret scan).
+        "family_manifest": str(MANIFEST.relative_to(REPO_ROOT)),
         "n_scenarios": committed["n_scenarios"],
         "n_cases": len(cases),
         "library": "dx_corpus_v2 train",

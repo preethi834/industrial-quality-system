@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from iqs_diagnosis.scientist.checks import null_summary, template_pvalues
+from iqs_diagnosis.evaluation.scientist_checks import null_summary, template_pvalues
 from iqs_diagnosis.scientist.templates import TEMPLATES
 
 
