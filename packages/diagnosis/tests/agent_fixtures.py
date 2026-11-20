@@ -9,6 +9,7 @@ from iqs_common.taxonomy import load_taxonomy
 from iqs_diagnosis.agent.checkpoint import memory_checkpointer
 from iqs_diagnosis.agent.graph import AgentDeps, DiagnosisAgent
 from iqs_diagnosis.agent.tickets import McpTicketGateway, TicketGateway
+from iqs_diagnosis.conformal.calibration import CalibrationRun, ConformalPredictor, calibrate
 from iqs_diagnosis.persistence.repository import InMemoryCaseRepository
 from iqs_diagnosis.retrieval.base import LibraryCase
 from iqs_diagnosis.scoring.ranker import CauseRanker, RankerParams
@@ -27,8 +28,31 @@ PARAMS = RankerParams(
 )
 
 
+def test_calibration_run(lac_qhat: float = 0.5) -> CalibrationRun:
+    """A small synthetic calibration run (n = 40) with the given LAC threshold."""
+    run = calibrate(
+        run_id="test_run",
+        corpus="test",
+        probabilities=[{"A": 0.9, "B": 0.1}] * 40,
+        truths=["A"] * 40,
+        calibration_ids=[f"c{i}" for i in range(40)],
+        fit_ids=[],
+        library_ids=set(),
+        scorer=PARAMS,
+        vocabulary_version="t",
+        taxonomy_version="t",
+    )
+    t = run.thresholds["lac"].model_copy(update={"qhat": lac_qhat})
+    return run.model_copy(update={"thresholds": {**run.thresholds, "lac": t}})
+
+
+test_calibration_run.__test__ = False  # type: ignore[attr-defined]  # not a pytest test
+
+
 def make_agent(
-    reference_profiles: dict[str, tuple[Any, Any]], gateway: TicketGateway | None = None
+    reference_profiles: dict[str, tuple[Any, Any]],
+    gateway: TicketGateway | None = None,
+    conformal: ConformalPredictor | None = None,
 ) -> tuple[DiagnosisAgent, InMemoryCaseRepository, Any]:
     from iqs_mcp.server import build_server
     from iqs_mcp.store import InMemoryTicketStore
@@ -48,6 +72,7 @@ def make_agent(
         taxonomy=taxonomy,
         tickets=gateway or McpTicketGateway(build_server(store)),
         repository=repo,
+        conformal=conformal,
     )
     return DiagnosisAgent(deps, memory_checkpointer()), repo, store
 

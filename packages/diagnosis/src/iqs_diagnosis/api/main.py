@@ -63,6 +63,7 @@ def create_app(
     routers = []
     if case_service is not None:
         features.update(cases=True, retrieval=True, report_8d=True)
+        features["conformal_cause_set"] = case_service.agent.has_conformal
         routers.append(build_cases_router(case_service))
     return create_service_app(
         service=SERVICE,

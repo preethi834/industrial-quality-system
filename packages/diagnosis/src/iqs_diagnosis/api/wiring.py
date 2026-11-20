@@ -11,6 +11,7 @@ from iqs_diagnosis.agent.checkpoint import memory_checkpointer, postgres_checkpo
 from iqs_diagnosis.agent.graph import AgentDeps, DiagnosisAgent
 from iqs_diagnosis.agent.tickets import McpTicketGateway
 from iqs_diagnosis.api.cases import CaseService
+from iqs_diagnosis.conformal.calibration import CalibrationRun, ConformalPredictor
 from iqs_diagnosis.persistence.repository import (
     CaseRepository,
     InMemoryCaseRepository,
@@ -29,9 +30,9 @@ def build_case_service(settings: DiagnosisSettings) -> CaseService | None:
         return None
     taxonomy = load_taxonomy(settings.taxonomy_path)
     causes = [c.code for c in taxonomy.causes]
-    ranker = CauseRanker(
-        load_library(d.library_path), causes, RankerParams.load(d.ranker_params_path)
-    )
+    calibration = CalibrationRun.load(d.calibration_run_path) if d.calibration_run_path else None
+    params = calibration.scorer if calibration else RankerParams.load(d.ranker_params_path)
+    ranker = CauseRanker(load_library(d.library_path), causes, params)
     # The QMS MCP server runs in-process here; a separate MCP service (stdio/HTTP)
     # is wired in step 7 when the compose stack gains it.
     from iqs_mcp.server import build_server
@@ -57,7 +58,10 @@ def build_case_service(settings: DiagnosisSettings) -> CaseService | None:
         taxonomy=taxonomy,
         tickets=McpTicketGateway(build_server(tickets)),
         repository=repository,
+        conformal=ConformalPredictor(calibration, d.cause_set_variant) if calibration else None,
     )
+    if calibration is not None:
+        repository.save_calibration_run(calibration.model_dump(mode="json"))
     return CaseService(
         agent=DiagnosisAgent(deps, checkpointer),
         repository=repository,

@@ -65,6 +65,7 @@ def test_full_case_flow(client: TestClient) -> None:
 
         cs = c.get(f"/v1/cases/{case_id}/cause-set", headers=H).json()
         assert cs["kind"] == "top3" and len(cs["top3"]) == 3
+        assert caps["conformal_cause_set"] is False
         rep = c.get(f"/v1/cases/{case_id}/report-8d", headers=H).json()
         assert [s["key"] for s in rep["sections"]][0] == "D0"
         assert c.get(f"/v1/cases/{case_id}/report-8d?lang=de", headers=H).status_code == 422
@@ -100,3 +101,35 @@ def test_register_errors(client: TestClient) -> None:
         )
         assert c.get("/v1/cases/SIM-nope", headers=H).status_code == 404
         assert c.post("/v1/cases/SIM-nope/run", headers=H).status_code == 404
+
+
+def test_cause_set_is_conformal_when_calibrated(
+    reference_runs: dict[str, Path], reference_profiles: dict[str, Any], tmp_path: Path
+) -> None:
+    from iqs_diagnosis.conformal.calibration import ConformalPredictor
+
+    from .agent_fixtures import test_calibration_run
+
+    runs_root = tmp_path / "runs"
+    shutil.copytree(reference_runs["tool_wear_m1"], runs_root / RUN)
+    agent, repo, _ = make_agent(
+        reference_profiles, conformal=ConformalPredictor(test_calibration_run(0.75), "lac")
+    )
+    service = CaseService(
+        agent=agent,
+        repository=repo,
+        runs_root=runs_root,
+        cause_codes=frozenset(c.code for c in load_taxonomy(TAXONOMY_PATH).causes),
+    )
+    settings = DiagnosisSettings(
+        api={"keys": KEY, "ready_timeout_s": 1},
+        database={"host": "127.0.0.1", "port": 1, "password": "x"},
+        neo4j={"uri": "bolt://127.0.0.1:1", "password": "x"},
+    )
+    with TestClient(create_app(settings, case_service=service)) as c:
+        assert c.get("/v1/capabilities", headers=H).json()["features"]["conformal_cause_set"]
+        case_id = c.post("/v1/cases", json={"run_id": RUN}, headers=H).json()["case_id"]
+        c.post(f"/v1/cases/{case_id}/run", headers=H)
+        cs = c.get(f"/v1/cases/{case_id}/cause-set", headers=H).json()
+    assert cs["kind"] == "conformal" and cs["causes"][0] == "MACHINE.TOOL_WEAR"
+    assert cs["alpha"] == 0.1 and "marginally" in cs["guarantee"]

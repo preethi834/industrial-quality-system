@@ -29,6 +29,7 @@ from langgraph.types import Command, interrupt
 
 from iqs_common.taxonomy import Taxonomy
 from iqs_diagnosis.agent.tickets import TicketGateway, TicketToolError
+from iqs_diagnosis.conformal.calibration import ConformalPredictor
 from iqs_diagnosis.domain.case import DiagnosisCase, SymptomProfile
 from iqs_diagnosis.persistence.repository import CaseRepository
 from iqs_diagnosis.reporting.eight_d import check_completeness, draft_8d
@@ -52,6 +53,7 @@ class AgentState(TypedDict, total=False):
     probabilities: dict[str, float]
     top3: list[list[Any]]
     neighbours: list[dict[str, Any]]
+    cause_set: dict[str, Any] | None
     report_8d: dict[str, Any]
     completeness: dict[str, Any]
     ticket: dict[str, Any]
@@ -67,6 +69,7 @@ class AgentDeps:
     taxonomy: Taxonomy
     tickets: TicketGateway
     repository: CaseRepository
+    conformal: ConformalPredictor | None = None  # step 4; None = top 3 only
 
 
 def severity_for(case: DiagnosisCase) -> int:
@@ -144,6 +147,34 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
             "neighbours": neighbours,
         }
 
+    def conformal_set(state: AgentState) -> dict[str, Any]:
+        pred = deps.conformal
+        if pred is None:
+            return {"cause_set": None}
+        causes_in = pred.cause_set(state["probabilities"])
+        run = pred.run
+        run_key = f"{run.run_id}:{pred.variant}"
+        deps.repository.save_cause_set(state["case"]["case_id"], causes_in, run_key)
+        return {
+            "cause_set": {
+                "causes": causes_in,
+                "empty": not causes_in,
+                "method": pred.threshold.method.value,
+                "variant": pred.variant,
+                "alpha": run.alpha,
+                "delta": pred.threshold.delta,
+                "qhat": pred.threshold.qhat,
+                "calibration_run_id": run_key,
+                "source": run.source,
+                "guarantee": (
+                    f"Contains the true cause with probability >= {1 - run.alpha:.2f}, "
+                    f"marginally over {run.source} cases exchangeable with the "
+                    f"{run.n_calibration} calibration cases; causes outside the taxonomy "
+                    "and new problems are not covered."
+                ),
+            }
+        }
+
     def draft_report(state: AgentState) -> dict[str, Any]:
         case = DiagnosisCase.model_validate(state["case"])
         report = draft_8d(
@@ -155,6 +186,7 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
             neighbours=state["neighbours"],
             cause_names=cause_names,
             symptom_names=symptom_names,
+            cause_set=state.get("cause_set"),
         )
         completeness = check_completeness(report, causes)
         deps.repository.save_report(report, completeness.score)
@@ -213,6 +245,7 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
     g.add_node("retrieve", _timed("retrieve", retrieve))
     g.add_node("novelty_check", _timed("novelty_check", novelty_check))
     g.add_node("score_causes", _timed("score_causes", score_causes))
+    g.add_node("conformal_set", _timed("conformal_set", conformal_set))
     g.add_node("draft_8d", _timed("draft_8d", draft_report))
     g.add_node("open_ticket", _atimed("open_ticket", open_ticket))
     g.add_node("confirm", confirm)
@@ -223,6 +256,7 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
         "retrieve",
         "novelty_check",
         "score_causes",
+        "conformal_set",
         "draft_8d",
         "open_ticket",
         "confirm",
@@ -254,6 +288,7 @@ class DiagnosisAgent:
 
     def __init__(self, deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> None:
         self.graph = build_graph(deps, checkpointer)
+        self.has_conformal = deps.conformal is not None
 
     @staticmethod
     def _config(case_id: str) -> dict[str, Any]:

@@ -129,3 +129,55 @@ def test_severity_rule(reference_runs: dict[str, Path]) -> None:
         severity_for(_case(reference_runs, n)) for n in ("ambient_excursion", "drive_fault_m1")
     ]
     assert all(r in (1, 2, 3) for r in rates)
+
+
+def test_conformal_cause_set_node(
+    reference_runs: dict[str, Path], reference_profiles: Profiles
+) -> None:
+    from iqs_diagnosis.conformal.calibration import ConformalPredictor
+
+    from .agent_fixtures import test_calibration_run
+
+    pred = ConformalPredictor(test_calibration_run(0.75), "lac")
+    agent, repo, _ = make_agent(reference_profiles, conformal=pred)
+    case = _case(reference_runs, "fixture_offset_m2b")
+    out = asyncio.run(agent.run(case))
+    cs = out["cause_set"]
+    # The test library holds one fixture case: with 3 neighbours it gets about a third
+    # of the votes, so LAC with qhat = 0.75 (p >= 0.25) includes it and nothing else.
+    assert out["probabilities"]["MACHINE.FIXTURE_MISALIGNMENT"] >= 0.25
+    assert cs["causes"] == [
+        c
+        for c, p in sorted(out["probabilities"].items(), key=lambda kv: (-kv[1], kv[0]))
+        if p >= 0.25
+    ]
+    assert cs["causes"][0] == "MACHINE.FIXTURE_MISALIGNMENT" and not cs["empty"]
+    assert cs["method"] == "lac" and cs["calibration_run_id"] == "test_run:lac"
+    assert repo.cause_sets[case.case_id] == (cs["causes"], "test_run:lac")
+    d4 = out["report_8d"]["sections"][4]
+    assert "Cause set (LAC, 90 % target)" in d4["content"]
+    assert d4["data"]["cause_set"]["causes"] == cs["causes"]
+
+
+def test_empty_cause_set_escalates(
+    reference_runs: dict[str, Path], reference_profiles: Profiles
+) -> None:
+    from iqs_diagnosis.conformal.calibration import ConformalPredictor
+
+    from .agent_fixtures import test_calibration_run
+
+    # qhat = 0: only a cause with probability 1 qualifies, so the set is empty.
+    pred = ConformalPredictor(test_calibration_run(0.0), "lac")
+    agent, _, _ = make_agent(reference_profiles, conformal=pred)
+    out = asyncio.run(agent.run(_case(reference_runs, "drive_fault_m1")))
+    assert out["cause_set"]["empty"] and out["cause_set"]["causes"] == []
+    assert "escalate" in out["report_8d"]["sections"][4]["content"]
+
+
+def test_without_calibration_there_is_no_set(
+    reference_runs: dict[str, Path], reference_profiles: Profiles
+) -> None:
+    agent, _, _ = make_agent(reference_profiles)
+    out = asyncio.run(agent.run(_case(reference_runs, "tool_wear_m1")))
+    assert out["cause_set"] is None
+    assert "cause_set" not in out["report_8d"]["sections"][4]["data"]

@@ -19,6 +19,10 @@ class DiagnosisSection(BaseModel):
     library_path: Path | None = None
     ranker_params_path: Path = Path("configs/diagnosis/ranker_params.json")
     vocabulary_path: Path = Path("configs/diagnosis/symptoms.yaml")
+    # Frozen calibration run (step 4). When set, its scorer parameters replace
+    # ranker_params_path so the served scores are the calibrated ones.
+    calibration_run_path: Path | None = None
+    cause_set_variant: Literal["lac", "aps", "lac_pac", "aps_pac"] = "lac"
     # memory: cases, checkpoints and tickets live in the process (demo, tests).
     # postgres: diagnosis.* tables, LangGraph Postgres checkpointer, qms.* tickets.
     store: Literal["memory", "postgres"] = "memory"

@@ -103,8 +103,10 @@ def build_cases_router(service: CaseService) -> APIRouter:
     @router.get("/{case_id}/cause-set")
     def cause_set(case_id: str) -> dict[str, Any]:
         state = _require_run(case_id)
-        # Step 4 replaces the top 3 with a conformal set ("kind": "conformal").
-        return {"case_id": case_id, "kind": "top3", **_ranking(state)}
+        cs = state.get("cause_set")
+        if cs is None:  # no calibration run configured
+            return {"case_id": case_id, "kind": "top3", **_ranking(state)}
+        return {"case_id": case_id, "kind": "conformal", **cs, **_ranking(state)}
 
     @router.get("/{case_id}/report-8d")
     def report_8d(case_id: str, lang: str = "en") -> dict[str, Any]:

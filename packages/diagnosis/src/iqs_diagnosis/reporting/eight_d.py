@@ -143,6 +143,7 @@ def draft_8d(
     neighbours: Sequence[Mapping[str, Any]],
     cause_names: Mapping[str, str],
     symptom_names: Mapping[str, str],
+    cause_set: Mapping[str, Any] | None = None,
 ) -> EightDReport:
     rate = next((s for s in case.reported_symptoms if s.get("code") == "reject_rate_increase"), {})
     alarm = case.alarm_ts.isoformat() if case.alarm_ts else None
@@ -186,6 +187,19 @@ def draft_8d(
         if novel
         else f"Closest past case similarity {max_similarity:.2f}."
     )
+    set_line = ""
+    if cause_set is not None:
+        if cause_set["causes"]:
+            names = ", ".join(f"{cause_names.get(c, c)} ({c})" for c in cause_set["causes"])
+            set_line = (
+                f"\nCause set ({cause_set['method'].upper()}, "
+                f"{100 * (1 - cause_set['alpha']):.0f} % target): {names}."
+            )
+        else:
+            set_line = (
+                "\nCause set is empty: no cause reaches the calibrated threshold. "
+                "Treat as a possible new problem and escalate."
+            )
     d4 = Section(
         key="D4",
         title=SECTION_TITLES["D4"],
@@ -193,12 +207,14 @@ def draft_8d(
         content="Candidate causes from similar confirmed past cases (not confirmed):\n"
         + "\n".join(cand_lines)
         + "\n"
-        + novelty_line,
+        + novelty_line
+        + set_line,
         data={
             "candidates": [{"cause_code": c, "probability": round(p, 4)} for c, p in top3],
             "novel": novel,
             "max_similarity": round(max_similarity, 4),
             "neighbours": [dict(n) for n in neighbours],
+            **({"cause_set": dict(cause_set)} if cause_set is not None else {}),
         },
     )
     drafted = {"D0": d0, "D2": d2, "D4": d4}
