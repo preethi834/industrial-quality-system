@@ -134,12 +134,9 @@ Design points:
 `tests/integration/test_diagnosis_persistence.py` (migration 0002 tables, SqlTicketStore,
 case survives a restart with the Postgres checkpointer). Run with `make test-integration`.
 
-**Needs approval (uv.lock):** `iqs-diagnosis` uses `mcp` (agent MCP client, imported lazily)
-and `iqs_mcp` (in-process QMS server in `api/wiring.py`) without declaring them. Both are
-in the workspace and `mcp 2.3.0` is already locked, so adding `"mcp"` and
-`"iqs-mcp"` (workspace source) to `packages/diagnosis/pyproject.toml` changes only
-the member's dependency list in `uv.lock`, with no new downloads. Until then the
-diagnosis Docker image cannot enable the case endpoints.
+**Dependencies (approved 2026-11-20):** `mcp` and `iqs-mcp` (workspace source) added to
+`packages/diagnosis/pyproject.toml`; `uv.lock` gained 4 lines in the `iqs-diagnosis`
+entry only (resolved offline, no version changes, nothing downloaded).
 
 ---
 

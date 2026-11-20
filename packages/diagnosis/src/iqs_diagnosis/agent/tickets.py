@@ -3,15 +3,13 @@
 ``TicketGateway`` is the port the agent depends on. ``McpTicketGateway`` calls the
 tools of the mock QMS MCP server (``iqs_mcp``): in-process (tests, evaluation), over
 stdio (development) or streamable HTTP (Docker).
-
-Note: ``mcp`` is not yet a declared dependency of ``iqs-diagnosis`` (adding it changes
-uv.lock and awaits approval); it is imported lazily and is present in the workspace
-through ``iqs-mcp``.
 """
 
 from __future__ import annotations
 
 from typing import Any, Protocol
+
+from mcp import Client
 
 
 class TicketToolError(RuntimeError):
@@ -30,8 +28,6 @@ class McpTicketGateway:
         self.target = target
 
     async def call(self, tool: str, arguments: dict[str, Any]) -> dict[str, Any]:
-        from mcp import Client
-
         async with Client(self.target) as client:
             result = await client.call_tool(tool, arguments)
         if result.is_error:
