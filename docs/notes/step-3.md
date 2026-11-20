@@ -69,6 +69,39 @@ Total 537 s inside the script, 8 min 58 s wall clock, 170 % CPU, peak RSS 224 MB
 therefore no case (mostly `spindle_overload` and `bad_material_batch` at small
 magnitudes), consistent with the 5a detection numbers.
 
+**Not committed yet:** `eval_sets/diagnosis/sim/dx_corpus_v1.json` (family, profile and
+label SHA-256 values). The detect-secrets hook flags the hashes as high-entropy strings;
+excluding the path (as step 1 does for `eval_sets/vision/*`) needs the user's decision.
+
+---
+
+## 3b — retrieval, scoring, novelty (pure domain code)
+
+| Module / file | Role |
+| --- | --- |
+| `retrieval/bm25.py` | BM25Okapi over the rendered symptom text (`code` and `code@where` tokens) |
+| `retrieval/vector.py` | asinh-compressed, library-standardised features; similarity 1/(1 + RMS distance) |
+| `retrieval/fusion.py` | Reciprocal-rank fusion, k = 60 |
+| `retrieval/hybrid.py` | BM25 + vector → RRF, plus the max vector similarity for novelty |
+| `scoring/votes.py` | RRF-weighted votes of the top n neighbours, additive smoothing over all 10 causes; grid fit by dev NLL |
+| `novelty/threshold.py` | Order-statistic threshold on dev known-case similarities: P(known case flagged) ≤ α under exchangeability |
+| `scoring/ranker.py` | `CauseRanker` (top 3 + probabilities + novelty + neighbours), `fit_ranker`, `RankerParams` JSON |
+| `scripts/fit_ranker.py` → `configs/diagnosis/ranker_params.json` | Fit on train (library) + dev; test split not read |
+
+**Dev fit (tuning data, optimistic by construction; not the 3d evaluation):** library
+225 cases / 8 causes; chosen n_neighbours = 5, alpha = 0.001 (the smallest grid value);
+novelty α = 0.05 → threshold 0.708 on 74 known dev cases. Dev top-1 74/74, top-3 74/74,
+NLL 0.012; false novelty 2/74 (0.027); novel cases detected 20/20 (drive fault and
+handling error, absent from the library). Fit takes under 2 s.
+
+Points for later steps:
+- alpha at the grid edge means very peaked probabilities: dev gives no evidence against
+  overconfidence because dev has no errors. Step 4 (conformal sets) must calibrate on
+  data with errors; a harder corpus (smaller magnitudes, two-fault cases) would be needed
+  for informative sets.
+- Simulator faults leave clean, distinct signatures; near-perfect simulator accuracy is
+  expected and must not be presented as real-world accuracy.
+
 ---
 
 ## Proposed ADR-006 (number may need renumbering at merge: step 1 holds ADR-004/005, step 5a has an unnumbered proposal)
