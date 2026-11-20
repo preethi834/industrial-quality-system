@@ -45,6 +45,13 @@ class ProcessStore:
         path = self.observed_dir / f"{name}.parquet"
         return self.query("SELECT * FROM read_parquet(?)", [str(path)])
 
+    def run_info(self) -> dict[str, object]:
+        """The observable run metadata (``observed/run.json``: spec limits, table hashes)."""
+        import json
+
+        data: dict[str, object] = json.loads((self.observed_dir / "run.json").read_text("utf-8"))
+        return data
+
     def query(self, sql: str, params: list[object] | None = None) -> pd.DataFrame:
         """Run a fixed SQL template (never free-form model output) on this connection."""
         rel = self._con.sql(sql, params=params or None)
