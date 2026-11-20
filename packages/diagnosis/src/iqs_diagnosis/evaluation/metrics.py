@@ -61,3 +61,17 @@ def latency(values_ms: Sequence[float]) -> Latency:
         return xs[min(len(xs) - 1, max(0, math.ceil(p * len(xs)) - 1))]
 
     return Latency(n=len(xs), p50_ms=q(0.5), p95_ms=q(0.95), max_ms=xs[-1])
+
+
+def clopper_pearson(k: int, n: int, level: float = 0.95) -> Proportion:
+    """Exact (Clopper-Pearson) interval for k successes out of n (blueprint §5 step 4)."""
+    from scipy.stats import beta
+
+    if n < 0 or not 0 <= k <= n:
+        raise ValueError("need 0 <= k <= n")
+    if n == 0:
+        return Proportion(k=0, n=0, value=math.nan, low=math.nan, high=math.nan)
+    a = (1 - level) / 2
+    low = 0.0 if k == 0 else float(beta.ppf(a, k, n - k + 1))
+    high = 1.0 if k == n else float(beta.ppf(1 - a, k + 1, n - k))
+    return Proportion(k=k, n=n, value=k / n, low=low, high=high)
