@@ -143,6 +143,88 @@ diagnosis Docker image cannot enable the case endpoints.
 
 ---
 
+## 3d — evaluation (simulator corpus, test split, run once)
+
+> **Simulator accuracy is not real-world accuracy.** The faults are injected into a
+> line model whose signals were designed so that each fault is observable and
+> distinguishable (step 5a). These numbers show that the pipeline works end to end
+> and that retrieval separates the designed signatures; they say nothing about
+> NHTSA cases or a real plant. Real-data results (3f) will be reported separately.
+
+`scripts/evaluate_diagnosis.py` runs the **full agent** per case (symptoms from
+`observed/` → retrieval → novelty → votes → 8D → `create_ticket` over MCP → simulated
+engineer confirms the true cause → `update_ticket`). Library = train split (225 cases,
+8 causes); parameters fitted on dev (3b) and frozen; the test split was evaluated
+**once** (2026-11-20, `nice -n 19`, 68 s for 188 cases). Report:
+`reports/diagnosis/dx_corpus_v1_test.json` (dev run alongside, tuning data).
+
+**Test split: 188 cases, 148 with a library cause, 40 with a held-out cause**
+(95 % Wilson intervals):
+
+| Metric | Result |
+| --- | --- |
+| Top-1 accuracy, known causes | **1.000** [0.975, 1.000] (148/148) |
+| Top-3 accuracy, known causes | 1.000 [0.975, 1.000] (148/148) |
+| Top-3 accuracy, all cases (held-out causes cannot be named) | 0.787 [0.723, 0.840] (148/188) |
+| Novelty detected (held-out causes flagged "no close past case") | **1.000** [0.912, 1.000] (40/40) |
+| False novelty (known causes flagged as new; target α = 0.05) | **0.061** [0.032, 0.112] (9/148) |
+| Tool-call accuracy (create + update, arguments and QMS state checked) | 1.000 [0.990, 1.000] (376/376) |
+| 8D completeness (D0/D2/D4 valid) | 1.000; 188/188 complete |
+| Latency to the confirmation point | p50 317 ms, p95 414 ms, max 564 ms |
+| LLM cost | 0 (no LLM in this version) |
+
+| Baseline (known causes) | Top-1 | Top-3 |
+| --- | --- | --- |
+| Random over 10 causes (expected) | 0.100 | 0.300 |
+| Majority (most frequent library causes) | 0.135 [0.089, 0.200] | 0.405 [0.330, 0.486] |
+| BM25 on symptom codes only | 0.973 [0.933, 0.989] | 0.993 [0.963, 0.999] |
+| Vector on features only | 1.000 [0.975, 1.000] | 1.000 [0.975, 1.000] |
+| **Hybrid (agent)** | **1.000** [0.975, 1.000] | **1.000** [0.975, 1.000] |
+
+Per fault, top-1 is 1.000 for all eight library causes (15–20 cases each) and 0 for the
+two held-out causes by construction.
+
+Reading the results honestly:
+- **The task is easy by design.** The feature vector alone is perfect; BM25 on the
+  readable codes loses 4 cases (ambient ↔ bad batch, coolant → bad batch). The hybrid
+  cannot beat a perfect component here, so this corpus cannot show the value of fusion.
+- **False novelty 6.1 % exceeds the 5 % target.** The order-statistic bound holds on
+  average over calibration sets; one dev set of 74 known cases (k = 3, bound 3/75 = 4 %)
+  gives a threshold whose conditional rate scatters around that, and the interval
+  [3.2 %, 11.2 %] includes 5 %. The 9 cases spread over 6 faults (similarity 0.52–0.70,
+  threshold 0.708). On test, held-out cases reach at most 0.528 similarity, so a lower
+  threshold would separate almost perfectly, but choosing it from test would be test
+  tuning; it was not changed. Step 4 should calibrate on a larger dev set.
+- Only the agent sections of the 8D are measured for completeness; D1, D3, D5–D8 are
+  left to engineers on purpose.
+- Tool-call accuracy checks arguments against the agent's own state and the QMS ticket
+  afterwards: it shows that the MCP round trip is faithful, not that an LLM chose tools
+  well (there is no LLM yet).
+
+Deterministic CI subset: `packages/diagnosis/tests/test_eval_harness.py` runs the
+same harness on the 10 reference cases with every `pytest` run (no LLM, no Docker,
+about 25 s). No separate `eval.yml` workflow was added: the existing CI test job runs it.
+Results are written as JSON reports (MLflow is a vision-package dependency and was
+not added to diagnosis).
+
+### Step 4 needs a harder family
+
+The conformal step needs probability vectors that are sometimes wrong. On
+`dx_corpus_v1` the agent makes no top-1 errors on known causes and the fitted vote
+smoothing sits at the grid edge (alpha = 0.001), so conformal sets would be trivial
+(size 1) and coverage uninformative. Before step 4, build a harder family:
+- **smaller magnitudes** near each fault's detection limit (for example the lower
+  half of each sampling range, or below it), so signatures overlap with noise;
+- **two-fault cases** (the engine supports several faults per scenario, 5a open
+  question 6), labelled with the primary cause by a written rule, or evaluated with a
+  set-valued truth;
+- optionally fewer library cases per cause and faults on different machines than in
+  the library;
+- a larger dev split (for example 30 per cause) so the novelty and conformal
+  thresholds are calibrated on more than 74 cases.
+
+---
+
 ## Proposed ADR-006 (number may need renumbering at merge: step 1 holds ADR-004/005, step 5a has an unnumbered proposal)
 
 ### ADR-006 — Diagnosis minimum version: simulator symptom profiles, retrieval votes, novelty threshold (step 3a–3b)

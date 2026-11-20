@@ -1,0 +1,3392 @@
+{
+  "cases": [
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.SPINDLE_OVERLOAD",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.SPINDLE_OVERLOAD",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-053f12a3372c",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 526.32,
+      "max_similarity": 0.8223360543855016,
+      "novel": false,
+      "simulator_fault": "spindle_overload",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.SPINDLE_OVERLOAD",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.SPINDLE_OVERLOAD"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.SPINDLE_OVERLOAD",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.SPINDLE_OVERLOAD",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-083c80d4d72e",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 374.748,
+      "max_similarity": 0.7625880171260072,
+      "novel": false,
+      "simulator_fault": "spindle_overload",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.SPINDLE_OVERLOAD",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.SPINDLE_OVERLOAD"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.SPINDLE_OVERLOAD",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.SPINDLE_OVERLOAD",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-0bddde1bcd5b",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 296.266,
+      "max_similarity": 0.8226478339203879,
+      "novel": false,
+      "simulator_fault": "spindle_overload",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.SPINDLE_OVERLOAD",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.SPINDLE_OVERLOAD"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-0c18c4514e22",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 324.384,
+      "max_similarity": 0.7135797439209691,
+      "novel": false,
+      "simulator_fault": "bad_material_batch",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MATERIAL.BAD_BATCH",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MATERIAL.BAD_BATCH"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MACHINE.SPINDLE_OVERLOAD"
+        ]
+      },
+      "case_id": "SIM-15d85528dec9",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 348.365,
+      "max_similarity": 0.05401985907779396,
+      "novel": true,
+      "simulator_fault": "drive_power_deviation",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.INSUFFICIENT_COOLING",
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "MACHINE.FIXTURE_MISALIGNMENT"
+      ],
+      "truth": "MACHINE.DRIVE_FAULT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-1de40c9f190b",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 313.609,
+      "max_similarity": 0.798401011145898,
+      "novel": false,
+      "simulator_fault": "bad_material_batch",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MATERIAL.BAD_BATCH",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MATERIAL.BAD_BATCH"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "MACHINE.SPINDLE_OVERLOAD",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-1ecda210a280",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 464.602,
+      "max_similarity": 0.7387205233169237,
+      "novel": false,
+      "simulator_fault": "coolant_flow_loss",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.INSUFFICIENT_COOLING",
+        "MACHINE.SPINDLE_OVERLOAD",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+      ],
+      "truth": "MACHINE.INSUFFICIENT_COOLING"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.INSUFFICIENT_COOLING",
+          "METHOD.WRONG_PROCESS_PARAMETERS"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MACHINE.SPINDLE_OVERLOAD",
+          "MACHINE.INSUFFICIENT_COOLING"
+        ]
+      },
+      "case_id": "SIM-1fd0eacf3c93",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 310.235,
+      "max_similarity": 0.0558660030910416,
+      "novel": true,
+      "simulator_fault": "drive_power_deviation",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+      ],
+      "truth": "MACHINE.DRIVE_FAULT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.SPINDLE_OVERLOAD",
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.SPINDLE_OVERLOAD",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-2149c6637321",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 338.439,
+      "max_similarity": 0.7562474858454986,
+      "novel": false,
+      "simulator_fault": "spindle_overload",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.SPINDLE_OVERLOAD",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.SPINDLE_OVERLOAD"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "MACHINE.SPINDLE_OVERLOAD",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-23f4516365c5",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 354.047,
+      "max_similarity": 0.8060785494975665,
+      "novel": false,
+      "simulator_fault": "coolant_flow_loss",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.INSUFFICIENT_COOLING"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ]
+      },
+      "case_id": "SIM-24f262af7816",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 316.823,
+      "max_similarity": 0.5084890009962436,
+      "novel": true,
+      "simulator_fault": "handling_error_on_shift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "PERSONNEL.PART_HANDLING_ERROR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-2586ef1ea9b1",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 356.135,
+      "max_similarity": 0.7495466748132641,
+      "novel": false,
+      "simulator_fault": "accelerated_tool_wear",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.TOOL_WEAR",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.TOOL_WEAR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ]
+      },
+      "case_id": "SIM-266e14e3214f",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 364.643,
+      "max_similarity": 0.4864559778148475,
+      "novel": true,
+      "simulator_fault": "handling_error_on_shift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "PERSONNEL.PART_HANDLING_ERROR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ]
+      },
+      "case_id": "SIM-27eeadbc628a",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 316.566,
+      "max_similarity": 0.8332799692298698,
+      "novel": false,
+      "simulator_fault": "ambient_temperature_excursion",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT",
+        "MACHINE.FIXTURE_MISALIGNMENT"
+      ],
+      "truth": "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-281f31c8ff21",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 320.487,
+      "max_similarity": 0.762572277180988,
+      "novel": false,
+      "simulator_fault": "accelerated_tool_wear",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.TOOL_WEAR",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.TOOL_WEAR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ]
+      },
+      "case_id": "SIM-2c22ade44455",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 332.628,
+      "max_similarity": 0.4876419030212783,
+      "novel": true,
+      "simulator_fault": "handling_error_on_shift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "MATERIAL.BAD_BATCH",
+        "MEASUREMENT.SENSOR_DRIFT"
+      ],
+      "truth": "PERSONNEL.PART_HANDLING_ERROR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-2e28a3e1c1d8",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 300.496,
+      "max_similarity": 0.7198818278047736,
+      "novel": false,
+      "simulator_fault": "accelerated_tool_wear",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.TOOL_WEAR",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.TOOL_WEAR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.INSUFFICIENT_COOLING",
+          "METHOD.WRONG_PROCESS_PARAMETERS"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MACHINE.SPINDLE_OVERLOAD",
+          "MACHINE.INSUFFICIENT_COOLING"
+        ]
+      },
+      "case_id": "SIM-2f3dd5b062ea",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 311.797,
+      "max_similarity": 0.06176250893822754,
+      "novel": true,
+      "simulator_fault": "drive_power_deviation",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+      ],
+      "truth": "MACHINE.DRIVE_FAULT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-321861496597",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 308.755,
+      "max_similarity": 0.7681161367839417,
+      "novel": false,
+      "simulator_fault": "sensor_calibration_drift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MEASUREMENT.SENSOR_DRIFT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MEASUREMENT.SENSOR_DRIFT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-3500abdb2f04",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 298.716,
+      "max_similarity": 0.7399303153730493,
+      "novel": false,
+      "simulator_fault": "fixture_offset",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.FIXTURE_MISALIGNMENT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-3544444cb74b",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 308.723,
+      "max_similarity": 0.8310221163363687,
+      "novel": false,
+      "simulator_fault": "fixture_offset",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.FIXTURE_MISALIGNMENT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.SPINDLE_OVERLOAD",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.SPINDLE_OVERLOAD",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-35f51fd8b9f9",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 294.001,
+      "max_similarity": 0.7223437930953701,
+      "novel": false,
+      "simulator_fault": "spindle_overload",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.SPINDLE_OVERLOAD",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.SPINDLE_OVERLOAD"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ]
+      },
+      "case_id": "SIM-41cb67087c75",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 314.391,
+      "max_similarity": 0.833734448954401,
+      "novel": false,
+      "simulator_fault": "ambient_temperature_excursion",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT",
+        "MACHINE.FIXTURE_MISALIGNMENT"
+      ],
+      "truth": "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-44597a2e509a",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 316.135,
+      "max_similarity": 0.8564860128654466,
+      "novel": false,
+      "simulator_fault": "fixture_offset",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.FIXTURE_MISALIGNMENT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.INSUFFICIENT_COOLING",
+          "METHOD.WRONG_PROCESS_PARAMETERS"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MACHINE.SPINDLE_OVERLOAD",
+          "MACHINE.INSUFFICIENT_COOLING"
+        ]
+      },
+      "case_id": "SIM-446482137032",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 322.425,
+      "max_similarity": 0.05396079732993366,
+      "novel": true,
+      "simulator_fault": "drive_power_deviation",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+      ],
+      "truth": "MACHINE.DRIVE_FAULT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-45235b23e9d3",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 369.889,
+      "max_similarity": 0.7356817208363421,
+      "novel": false,
+      "simulator_fault": "parameter_setpoint_change",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "METHOD.WRONG_PROCESS_PARAMETERS"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-488c52c5061a",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 297.521,
+      "max_similarity": 0.7712143390504436,
+      "novel": false,
+      "simulator_fault": "bad_material_batch",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MATERIAL.BAD_BATCH",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MATERIAL.BAD_BATCH"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-4bdbb688d8d5",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 301.522,
+      "max_similarity": 0.7273168614206325,
+      "novel": false,
+      "simulator_fault": "accelerated_tool_wear",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.TOOL_WEAR",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.TOOL_WEAR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-4cfad410eb06",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 280.215,
+      "max_similarity": 0.8507752448691813,
+      "novel": false,
+      "simulator_fault": "sensor_calibration_drift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MEASUREMENT.SENSOR_DRIFT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MEASUREMENT.SENSOR_DRIFT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MACHINE.SPINDLE_OVERLOAD"
+        ]
+      },
+      "case_id": "SIM-572dce71c9af",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 292.55,
+      "max_similarity": 0.05389775846170579,
+      "novel": true,
+      "simulator_fault": "drive_power_deviation",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.INSUFFICIENT_COOLING",
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "MACHINE.FIXTURE_MISALIGNMENT"
+      ],
+      "truth": "MACHINE.DRIVE_FAULT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-5ebbf7a6c46e",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 302.664,
+      "max_similarity": 0.7170057633230426,
+      "novel": false,
+      "simulator_fault": "fixture_offset",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.FIXTURE_MISALIGNMENT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-62e23d4bce76",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 277.362,
+      "max_similarity": 0.7578155392136249,
+      "novel": false,
+      "simulator_fault": "coolant_flow_loss",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.INSUFFICIENT_COOLING"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-63d70efbc789",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 304.851,
+      "max_similarity": 0.7573399560072489,
+      "novel": false,
+      "simulator_fault": "fixture_offset",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.FIXTURE_MISALIGNMENT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-661ea3e8be19",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 295.763,
+      "max_similarity": 0.7873702318754177,
+      "novel": false,
+      "simulator_fault": "fixture_offset",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.FIXTURE_MISALIGNMENT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.INSUFFICIENT_COOLING",
+          "METHOD.WRONG_PROCESS_PARAMETERS"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MACHINE.SPINDLE_OVERLOAD",
+          "MACHINE.INSUFFICIENT_COOLING"
+        ]
+      },
+      "case_id": "SIM-67cd918aa0e7",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 287.697,
+      "max_similarity": 0.06035384292930381,
+      "novel": true,
+      "simulator_fault": "drive_power_deviation",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+      ],
+      "truth": "MACHINE.DRIVE_FAULT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ]
+      },
+      "case_id": "SIM-75329b092bc8",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 310.64,
+      "max_similarity": 0.7695933333808788,
+      "novel": false,
+      "simulator_fault": "ambient_temperature_excursion",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT",
+        "MACHINE.FIXTURE_MISALIGNMENT"
+      ],
+      "truth": "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-758d59382f3c",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 311.564,
+      "max_similarity": 0.8532848451094878,
+      "novel": false,
+      "simulator_fault": "coolant_flow_loss",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.INSUFFICIENT_COOLING"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ]
+      },
+      "case_id": "SIM-758f597d6038",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 303.474,
+      "max_similarity": 0.506785919587442,
+      "novel": true,
+      "simulator_fault": "handling_error_on_shift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MATERIAL.BAD_BATCH",
+        "MEASUREMENT.SENSOR_DRIFT",
+        "MACHINE.FIXTURE_MISALIGNMENT"
+      ],
+      "truth": "PERSONNEL.PART_HANDLING_ERROR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-773ec6cb595a",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 309.621,
+      "max_similarity": 0.7902010263947391,
+      "novel": false,
+      "simulator_fault": "bad_material_batch",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MATERIAL.BAD_BATCH",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MATERIAL.BAD_BATCH"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-7747dc90e9ad",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 317.653,
+      "max_similarity": 0.7839126274076154,
+      "novel": false,
+      "simulator_fault": "bad_material_batch",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MATERIAL.BAD_BATCH",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MATERIAL.BAD_BATCH"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-79c0ddf8adb3",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 291.854,
+      "max_similarity": 0.5319993470866264,
+      "novel": true,
+      "simulator_fault": "handling_error_on_shift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MEASUREMENT.SENSOR_DRIFT",
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+      ],
+      "truth": "PERSONNEL.PART_HANDLING_ERROR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ]
+      },
+      "case_id": "SIM-79fd11e440ec",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 318.415,
+      "max_similarity": 0.8286749242311625,
+      "novel": false,
+      "simulator_fault": "ambient_temperature_excursion",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT",
+        "MACHINE.FIXTURE_MISALIGNMENT"
+      ],
+      "truth": "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.INSUFFICIENT_COOLING",
+          "METHOD.WRONG_PROCESS_PARAMETERS"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MACHINE.SPINDLE_OVERLOAD",
+          "MACHINE.INSUFFICIENT_COOLING"
+        ]
+      },
+      "case_id": "SIM-7df5e9436d6f",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 299.754,
+      "max_similarity": 0.06470017603322913,
+      "novel": true,
+      "simulator_fault": "drive_power_deviation",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+      ],
+      "truth": "MACHINE.DRIVE_FAULT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-80dffe408557",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 309.253,
+      "max_similarity": 0.7577284747839745,
+      "novel": false,
+      "simulator_fault": "bad_material_batch",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MATERIAL.BAD_BATCH",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MATERIAL.BAD_BATCH"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-821f4c657123",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 311.928,
+      "max_similarity": 0.8399507209614459,
+      "novel": false,
+      "simulator_fault": "fixture_offset",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.FIXTURE_MISALIGNMENT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-88236c423bac",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 281.203,
+      "max_similarity": 0.8275857602049307,
+      "novel": false,
+      "simulator_fault": "parameter_setpoint_change",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "METHOD.WRONG_PROCESS_PARAMETERS"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ]
+      },
+      "case_id": "SIM-8d084f879060",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 312.475,
+      "max_similarity": 0.4738392018413087,
+      "novel": true,
+      "simulator_fault": "handling_error_on_shift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MATERIAL.BAD_BATCH",
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "MEASUREMENT.SENSOR_DRIFT"
+      ],
+      "truth": "PERSONNEL.PART_HANDLING_ERROR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ]
+      },
+      "case_id": "SIM-8ed3d48d2ec2",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 327.902,
+      "max_similarity": 0.5154238716236744,
+      "novel": true,
+      "simulator_fault": "handling_error_on_shift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "PERSONNEL.PART_HANDLING_ERROR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-913ca22f68ba",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 288.39,
+      "max_similarity": 0.8072142324212791,
+      "novel": false,
+      "simulator_fault": "coolant_flow_loss",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.INSUFFICIENT_COOLING"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-931b0e6e635d",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 308.336,
+      "max_similarity": 0.7716346900990235,
+      "novel": false,
+      "simulator_fault": "parameter_setpoint_change",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "METHOD.WRONG_PROCESS_PARAMETERS"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-96cd23c0b074",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 341.044,
+      "max_similarity": 0.7944282793604042,
+      "novel": false,
+      "simulator_fault": "accelerated_tool_wear",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.TOOL_WEAR",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.TOOL_WEAR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MACHINE.SPINDLE_OVERLOAD"
+        ]
+      },
+      "case_id": "SIM-9711ffbe855a",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 283.309,
+      "max_similarity": 0.06047447382504517,
+      "novel": true,
+      "simulator_fault": "drive_power_deviation",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "MACHINE.INSUFFICIENT_COOLING",
+        "MACHINE.SPINDLE_OVERLOAD"
+      ],
+      "truth": "MACHINE.DRIVE_FAULT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-97fefd62406a",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 303.127,
+      "max_similarity": 0.8551674729445033,
+      "novel": false,
+      "simulator_fault": "sensor_calibration_drift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MEASUREMENT.SENSOR_DRIFT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MEASUREMENT.SENSOR_DRIFT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ]
+      },
+      "case_id": "SIM-9a946aed3c94",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 306.625,
+      "max_similarity": 0.8333308646043797,
+      "novel": false,
+      "simulator_fault": "ambient_temperature_excursion",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT",
+        "MACHINE.FIXTURE_MISALIGNMENT"
+      ],
+      "truth": "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-9b9a58cbbc57",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 285.533,
+      "max_similarity": 0.6327347272886539,
+      "novel": true,
+      "simulator_fault": "accelerated_tool_wear",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.TOOL_WEAR",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.TOOL_WEAR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-9bbbd82f475f",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 303.248,
+      "max_similarity": 0.7381588133823026,
+      "novel": false,
+      "simulator_fault": "bad_material_batch",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MATERIAL.BAD_BATCH",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MATERIAL.BAD_BATCH"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-9ed67dc16068",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 284.455,
+      "max_similarity": 0.8455899303583599,
+      "novel": false,
+      "simulator_fault": "sensor_calibration_drift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MEASUREMENT.SENSOR_DRIFT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MEASUREMENT.SENSOR_DRIFT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-a4ab4faacd0f",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 280.112,
+      "max_similarity": 0.7891654158948304,
+      "novel": false,
+      "simulator_fault": "coolant_flow_loss",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.INSUFFICIENT_COOLING"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-a4c9626f2a48",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 314.612,
+      "max_similarity": 0.7084092066987815,
+      "novel": false,
+      "simulator_fault": "sensor_calibration_drift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MEASUREMENT.SENSOR_DRIFT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MEASUREMENT.SENSOR_DRIFT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ]
+      },
+      "case_id": "SIM-a8728f7ca7a2",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 293.148,
+      "max_similarity": 0.4696940987315543,
+      "novel": true,
+      "simulator_fault": "handling_error_on_shift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MATERIAL.BAD_BATCH",
+        "MEASUREMENT.SENSOR_DRIFT",
+        "MACHINE.FIXTURE_MISALIGNMENT"
+      ],
+      "truth": "PERSONNEL.PART_HANDLING_ERROR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ]
+      },
+      "case_id": "SIM-b154ec7b33d7",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 302.126,
+      "max_similarity": 0.8029251095601888,
+      "novel": false,
+      "simulator_fault": "ambient_temperature_excursion",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT",
+        "MACHINE.FIXTURE_MISALIGNMENT"
+      ],
+      "truth": "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-b47a65bc45a8",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 288.379,
+      "max_similarity": 0.7526075600358038,
+      "novel": false,
+      "simulator_fault": "parameter_setpoint_change",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "METHOD.WRONG_PROCESS_PARAMETERS"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-b5596b06db71",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 300.194,
+      "max_similarity": 0.7889185302312602,
+      "novel": false,
+      "simulator_fault": "parameter_setpoint_change",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "METHOD.WRONG_PROCESS_PARAMETERS"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ]
+      },
+      "case_id": "SIM-bb1ca3510a05",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 290.223,
+      "max_similarity": 0.8163693929524635,
+      "novel": false,
+      "simulator_fault": "ambient_temperature_excursion",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT",
+        "MACHINE.FIXTURE_MISALIGNMENT"
+      ],
+      "truth": "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-bbd4a58b060e",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 284.134,
+      "max_similarity": 0.8221951844030561,
+      "novel": false,
+      "simulator_fault": "sensor_calibration_drift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MEASUREMENT.SENSOR_DRIFT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MEASUREMENT.SENSOR_DRIFT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-bbe97956f55a",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 308.123,
+      "max_similarity": 0.7615686371225262,
+      "novel": false,
+      "simulator_fault": "sensor_calibration_drift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MEASUREMENT.SENSOR_DRIFT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MEASUREMENT.SENSOR_DRIFT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-bd01ca1fb02f",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 320.136,
+      "max_similarity": 0.7513943738337278,
+      "novel": false,
+      "simulator_fault": "parameter_setpoint_change",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "METHOD.WRONG_PROCESS_PARAMETERS"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-bd9b6f36fbbb",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 312.837,
+      "max_similarity": 0.7874435634713295,
+      "novel": false,
+      "simulator_fault": "accelerated_tool_wear",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.TOOL_WEAR",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.TOOL_WEAR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-c041dd446164",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 303.961,
+      "max_similarity": 0.7214573369739978,
+      "novel": false,
+      "simulator_fault": "parameter_setpoint_change",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "METHOD.WRONG_PROCESS_PARAMETERS"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-c0c10f8d6ed5",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 293.808,
+      "max_similarity": 0.7910030696105136,
+      "novel": false,
+      "simulator_fault": "parameter_setpoint_change",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "METHOD.WRONG_PROCESS_PARAMETERS"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-c1a7021f8c9b",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 307.861,
+      "max_similarity": 0.6438909338655125,
+      "novel": true,
+      "simulator_fault": "coolant_flow_loss",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.INSUFFICIENT_COOLING"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-c30337a78118",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 296.035,
+      "max_similarity": 0.7739309997686277,
+      "novel": false,
+      "simulator_fault": "bad_material_batch",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MATERIAL.BAD_BATCH",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MATERIAL.BAD_BATCH"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-c970da0d8da5",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 333.316,
+      "max_similarity": 0.8284589663803381,
+      "novel": false,
+      "simulator_fault": "sensor_calibration_drift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MEASUREMENT.SENSOR_DRIFT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MEASUREMENT.SENSOR_DRIFT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-cb288a1abab8",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 301.381,
+      "max_similarity": 0.7949159804260286,
+      "novel": false,
+      "simulator_fault": "coolant_flow_loss",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.INSUFFICIENT_COOLING"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-cc17cab73442",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 296.887,
+      "max_similarity": 0.7214101729815342,
+      "novel": false,
+      "simulator_fault": "parameter_setpoint_change",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "METHOD.WRONG_PROCESS_PARAMETERS"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.SPINDLE_OVERLOAD",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.SPINDLE_OVERLOAD",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-cce1acf3f03a",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 289.833,
+      "max_similarity": 0.7908729961746209,
+      "novel": false,
+      "simulator_fault": "spindle_overload",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.SPINDLE_OVERLOAD",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.SPINDLE_OVERLOAD"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-cec63178c146",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 331.891,
+      "max_similarity": 0.7860858547618423,
+      "novel": false,
+      "simulator_fault": "accelerated_tool_wear",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.TOOL_WEAR",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.TOOL_WEAR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-d378902b6dce",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 312.964,
+      "max_similarity": 0.9048262163851379,
+      "novel": false,
+      "simulator_fault": "fixture_offset",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.FIXTURE_MISALIGNMENT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.INSUFFICIENT_COOLING",
+          "METHOD.WRONG_PROCESS_PARAMETERS"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MACHINE.SPINDLE_OVERLOAD",
+          "MACHINE.INSUFFICIENT_COOLING"
+        ]
+      },
+      "case_id": "SIM-d439b5bbecc3",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 301.747,
+      "max_similarity": 0.06252423681869401,
+      "novel": true,
+      "simulator_fault": "drive_power_deviation",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+      ],
+      "truth": "MACHINE.DRIVE_FAULT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-d46417c53c50",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 305.596,
+      "max_similarity": 0.8075391002373504,
+      "novel": false,
+      "simulator_fault": "coolant_flow_loss",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.INSUFFICIENT_COOLING"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-d74763a255a2",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 291.494,
+      "max_similarity": 0.742133097602412,
+      "novel": false,
+      "simulator_fault": "fixture_offset",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.FIXTURE_MISALIGNMENT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ]
+      },
+      "case_id": "SIM-df8e9b952f5f",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 293.917,
+      "max_similarity": 0.7852767203315384,
+      "novel": false,
+      "simulator_fault": "ambient_temperature_excursion",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT",
+        "MACHINE.FIXTURE_MISALIGNMENT"
+      ],
+      "truth": "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-e36ce8cb3976",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 300.506,
+      "max_similarity": 0.7906954803066412,
+      "novel": false,
+      "simulator_fault": "coolant_flow_loss",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.INSUFFICIENT_COOLING"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ]
+      },
+      "case_id": "SIM-e5ba84341a12",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 316.833,
+      "max_similarity": 0.8397986645061549,
+      "novel": false,
+      "simulator_fault": "ambient_temperature_excursion",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT",
+        "MACHINE.FIXTURE_MISALIGNMENT"
+      ],
+      "truth": "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MATERIAL.BAD_BATCH"
+        ]
+      },
+      "case_id": "SIM-e84ac25a29e5",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 317.039,
+      "max_similarity": 0.49486233530812734,
+      "novel": true,
+      "simulator_fault": "handling_error_on_shift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "MATERIAL.BAD_BATCH",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+      ],
+      "truth": "PERSONNEL.PART_HANDLING_ERROR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-eafb36c411e3",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 296.492,
+      "max_similarity": 0.7317400857690474,
+      "novel": false,
+      "simulator_fault": "bad_material_batch",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MATERIAL.BAD_BATCH",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MATERIAL.BAD_BATCH"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.INSUFFICIENT_COOLING",
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MACHINE.SPINDLE_OVERLOAD"
+        ]
+      },
+      "case_id": "SIM-ec39a8e6a2e0",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 304.089,
+      "max_similarity": 0.057172182375016714,
+      "novel": true,
+      "simulator_fault": "drive_power_deviation",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.INSUFFICIENT_COOLING",
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "MACHINE.FIXTURE_MISALIGNMENT"
+      ],
+      "truth": "MACHINE.DRIVE_FAULT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT",
+          "MACHINE.FIXTURE_MISALIGNMENT"
+        ]
+      },
+      "case_id": "SIM-efbc4c22f80b",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 286.074,
+      "max_similarity": 0.864918042877597,
+      "novel": false,
+      "simulator_fault": "ambient_temperature_excursion",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT",
+        "MACHINE.FIXTURE_MISALIGNMENT"
+      ],
+      "truth": "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.TOOL_WEAR",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-f02bb2f98f9e",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 274.841,
+      "max_similarity": 0.731098287267246,
+      "novel": false,
+      "simulator_fault": "accelerated_tool_wear",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.TOOL_WEAR",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.TOOL_WEAR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "MATERIAL.BAD_BATCH",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+        ]
+      },
+      "case_id": "SIM-f0f5ad774652",
+      "completeness": 1.0,
+      "known": false,
+      "latency_ms": 306.202,
+      "max_similarity": 0.5209803575885255,
+      "novel": true,
+      "simulator_fault": "handling_error_on_shift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MATERIAL.BAD_BATCH",
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION"
+      ],
+      "truth": "PERSONNEL.PART_HANDLING_ERROR"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "METHOD.WRONG_PROCESS_PARAMETERS",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-f3ee50cadd7e",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 301.588,
+      "max_similarity": 0.7660816120559992,
+      "novel": false,
+      "simulator_fault": "parameter_setpoint_change",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "METHOD.WRONG_PROCESS_PARAMETERS"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-f7edcfb63c24",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 279.862,
+      "max_similarity": 0.7803375350316724,
+      "novel": false,
+      "simulator_fault": "sensor_calibration_drift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MEASUREMENT.SENSOR_DRIFT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MEASUREMENT.SENSOR_DRIFT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-fc38205379bd",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 321.622,
+      "max_similarity": 0.8014253700624566,
+      "novel": false,
+      "simulator_fault": "fixture_offset",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MACHINE.FIXTURE_MISALIGNMENT"
+    },
+    {
+      "baselines": {
+        "bm25_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ],
+        "majority": [
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.FIXTURE_MISALIGNMENT",
+          "MEASUREMENT.SENSOR_DRIFT"
+        ],
+        "vector_only": [
+          "MEASUREMENT.SENSOR_DRIFT",
+          "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+          "MACHINE.DRIVE_FAULT"
+        ]
+      },
+      "case_id": "SIM-fe123a9003e4",
+      "completeness": 1.0,
+      "known": true,
+      "latency_ms": 283.073,
+      "max_similarity": 0.8514869257694113,
+      "novel": false,
+      "simulator_fault": "sensor_calibration_drift",
+      "tool_calls_correct": 2,
+      "tool_calls_total": 2,
+      "top3": [
+        "MEASUREMENT.SENSOR_DRIFT",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MACHINE.DRIVE_FAULT"
+      ],
+      "truth": "MEASUREMENT.SENSOR_DRIFT"
+    }
+  ],
+  "corpus": "dx_corpus_v1",
+  "note": "Simulator accuracy is not real-world accuracy.",
+  "split": "dev",
+  "summary": {
+    "baselines_known": {
+      "bm25_only": {
+        "top1": {
+          "high": 0.9976105365965432,
+          "k": 73,
+          "low": 0.9273464348015678,
+          "n": 74,
+          "value": 0.9864864864864865
+        },
+        "top3": {
+          "high": 1.0,
+          "k": 74,
+          "low": 0.950650220603614,
+          "n": 74,
+          "value": 1.0
+        }
+      },
+      "majority": {
+        "top1": {
+          "high": 0.23119178552523312,
+          "k": 10,
+          "low": 0.07509048592618377,
+          "n": 74,
+          "value": 0.13513513513513514
+        },
+        "top3": {
+          "high": 0.5192416109359206,
+          "k": 30,
+          "low": 0.3009056446255579,
+          "n": 74,
+          "value": 0.40540540540540543
+        }
+      },
+      "vector_only": {
+        "top1": {
+          "high": 1.0,
+          "k": 74,
+          "low": 0.950650220603614,
+          "n": 74,
+          "value": 1.0
+        },
+        "top3": {
+          "high": 1.0,
+          "k": 74,
+          "low": 0.950650220603614,
+          "n": 74,
+          "value": 1.0
+        }
+      }
+    },
+    "completeness_full": {
+      "high": 1.0,
+      "k": 94,
+      "low": 0.9607379237084551,
+      "n": 94,
+      "value": 1.0
+    },
+    "completeness_mean": 1.0,
+    "false_novelty": {
+      "high": 0.09329292516912502,
+      "k": 2,
+      "low": 0.007443352638267217,
+      "n": 74,
+      "value": 0.02702702702702703
+    },
+    "latency": {
+      "max_ms": 526.32,
+      "n": 94,
+      "p50_ms": 304.851,
+      "p95_ms": 364.643
+    },
+    "llm_cost_usd": 0.0,
+    "n_cases": 94,
+    "n_known": 74,
+    "n_novel": 20,
+    "novelty_detection": {
+      "high": 1.0,
+      "k": 20,
+      "low": 0.8388748419471806,
+      "n": 20,
+      "value": 1.0
+    },
+    "per_fault_top1": {
+      "accelerated_tool_wear": {
+        "high": 1.0,
+        "k": 9,
+        "low": 0.7008549515804559,
+        "n": 9,
+        "value": 1.0
+      },
+      "ambient_temperature_excursion": {
+        "high": 1.0,
+        "k": 10,
+        "low": 0.7224672001371107,
+        "n": 10,
+        "value": 1.0
+      },
+      "bad_material_batch": {
+        "high": 1.0,
+        "k": 9,
+        "low": 0.7008549515804559,
+        "n": 9,
+        "value": 1.0
+      },
+      "coolant_flow_loss": {
+        "high": 1.0,
+        "k": 10,
+        "low": 0.7224672001371107,
+        "n": 10,
+        "value": 1.0
+      },
+      "drive_power_deviation": {
+        "high": 0.2775327998628892,
+        "k": 0,
+        "low": 0.0,
+        "n": 10,
+        "value": 0.0
+      },
+      "fixture_offset": {
+        "high": 1.0,
+        "k": 10,
+        "low": 0.7224672001371107,
+        "n": 10,
+        "value": 1.0
+      },
+      "handling_error_on_shift": {
+        "high": 0.2775327998628892,
+        "k": 0,
+        "low": 0.0,
+        "n": 10,
+        "value": 0.0
+      },
+      "parameter_setpoint_change": {
+        "high": 1.0,
+        "k": 10,
+        "low": 0.7224672001371107,
+        "n": 10,
+        "value": 1.0
+      },
+      "sensor_calibration_drift": {
+        "high": 1.0,
+        "k": 10,
+        "low": 0.7224672001371107,
+        "n": 10,
+        "value": 1.0
+      },
+      "spindle_overload": {
+        "high": 1.0,
+        "k": 6,
+        "low": 0.6096657120978346,
+        "n": 6,
+        "value": 1.0
+      }
+    },
+    "random_expected": {
+      "top1": 0.1,
+      "top3": 0.3
+    },
+    "tool_call_accuracy": {
+      "high": 1.0,
+      "k": 188,
+      "low": 0.9799758673421861,
+      "n": 188,
+      "value": 1.0
+    },
+    "top1_known": {
+      "high": 1.0,
+      "k": 74,
+      "low": 0.950650220603614,
+      "n": 74,
+      "value": 1.0
+    },
+    "top3_all": {
+      "high": 0.8578312023149222,
+      "k": 74,
+      "low": 0.6940820730069563,
+      "n": 94,
+      "value": 0.7872340425531915
+    },
+    "top3_known": {
+      "high": 1.0,
+      "k": 74,
+      "low": 0.950650220603614,
+      "n": 74,
+      "value": 1.0
+    }
+  },
+  "wall_seconds": 33.7
+}
