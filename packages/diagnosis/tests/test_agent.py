@@ -153,6 +153,7 @@ def test_conformal_cause_set_node(
     ]
     assert cs["causes"][0] == "MACHINE.FIXTURE_MISALIGNMENT" and not cs["empty"]
     assert cs["method"] == "lac" and cs["calibration_run_id"] == "test_run:lac"
+    assert cs["lac_empty"] is False
     assert repo.cause_sets[case.case_id] == (cs["causes"], "test_run:lac")
     d4 = out["report_8d"]["sections"][4]
     assert "Cause set (LAC, 90 % target)" in d4["content"]
@@ -181,3 +182,22 @@ def test_without_calibration_there_is_no_set(
     out = asyncio.run(agent.run(_case(reference_runs, "tool_wear_m1")))
     assert out["cause_set"] is None
     assert "cause_set" not in out["report_8d"]["sections"][4]["data"]
+
+
+def test_default_variant_is_aps_with_lac_empty_flag(
+    reference_runs: dict[str, Path], reference_profiles: Profiles
+) -> None:
+    from iqs_diagnosis.conformal.calibration import ConformalPredictor
+    from iqs_diagnosis.settings import DiagnosisSection
+
+    from .agent_fixtures import test_calibration_run
+
+    assert DiagnosisSection().cause_set_variant == "aps"
+    # LAC qhat = 0 -> LAC set empty; APS set is never empty.
+    pred = ConformalPredictor(test_calibration_run(0.0))
+    assert pred.variant == "aps"
+    agent, _, _ = make_agent(reference_profiles, conformal=pred)
+    out = asyncio.run(agent.run(_case(reference_runs, "drive_fault_m1")))
+    cs = out["cause_set"]
+    assert cs["method"] == "aps" and cs["causes"] and cs["lac_empty"] is True
+    assert "possible new problem" in out["report_8d"]["sections"][4]["content"]

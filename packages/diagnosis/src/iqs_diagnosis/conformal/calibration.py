@@ -130,9 +130,14 @@ def calibrate(
 
 
 class ConformalPredictor:
-    """Cause set for one case from a frozen calibration run and a chosen threshold."""
+    """Cause set for one case from a frozen calibration run and a chosen threshold.
 
-    def __init__(self, run: CalibrationRun, variant: str = "lac") -> None:
+    Default variant is APS (user decision 2026-11-20): APS sets are shown to the engineer,
+    and an empty LAC set at the same alpha is reported alongside as the
+    "uncertain / possible new problem" flag (``lac_empty``).
+    """
+
+    def __init__(self, run: CalibrationRun, variant: str = "aps") -> None:
         if variant not in run.thresholds:
             raise ValueError(f"unknown threshold variant {variant!r}")
         self.run = run
@@ -141,3 +146,8 @@ class ConformalPredictor:
 
     def cause_set(self, probabilities: Mapping[str, float]) -> list[str]:
         return prediction_set(self.threshold.method, probabilities, self.threshold.qhat)
+
+    def lac_empty(self, probabilities: Mapping[str, float]) -> bool:
+        """True when no cause passes the marginal LAC threshold of the same run."""
+        lac = self.run.thresholds["lac"]
+        return not prediction_set(lac.method, probabilities, lac.qhat)

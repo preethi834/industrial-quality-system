@@ -14,7 +14,7 @@ Reference: blueprint Revision 2, §2.8 (conformal maths), §5 Step 4 (gate).
 | Gate (§5 Step 4) | Status |
 | --- | --- |
 | **1. Coverage and set size on the real test split (LAC, APS, α = 0.1, Clopper–Pearson 95 %)** | **OPEN.** Needs the hand-labelled NHTSA set (step 3f, labelling guide NHTSA section, about 2–3 h of user labelling). No real cases exist yet. |
-| 2. Statistical validity on ≥ 500 simulator cases: mean coverage over R = 100 resplits ≥ 0.9 − 3 SE | **PASSED** for LAC (0.8956 ≥ 0.8934) and APS (0.9602 ≥ 0.8985), pool 684 |
+| 2. Statistical validity on ≥ 500 simulator cases: mean coverage over R = 100 resplits ≥ 0.9 − 3 SE | **PASSED** for LAC (0.8956 ≥ 0.8934; **margin only 0.002**) and APS (0.9602 ≥ 0.8985), pool 684 |
 | 3. New-problem coverage reported as "stress test, no guarantee" | **DONE** (below) |
 | Universal gate (CI green on main, docs, tag) | Pending merge; docs text below |
 
@@ -100,10 +100,13 @@ Reading the results:
 - **LAC sets have at most one cause** at this α: q̂ = 0.4992 means p ≥ 0.5008, and only
   one cause can exceed 0.5. LAC therefore behaves as "top-1 or escalate". For two-fault
   cases APS is the useful set (primary covered 96 %, both causes 56 %, 2.8 causes).
-- Recommended default for the dashboard (step 7): show **APS** as the cause set and the
-  LAC-empty flag as an extra "uncertain/new" signal. The service default is still LAC
-  (`IQS_DIAGNOSIS__CAUSE_SET_VARIANT`); changing it is a one-line settings choice for the
-  user.
+- **Decision (user, 2026-11-20):** the dashboard shows **APS** sets, with the LAC-empty
+  flag as an "uncertain / possible new problem" signal. `IQS_DIAGNOSIS__CAUSE_SET_VARIANT`
+  now defaults to `aps`; every cause set also carries `lac_empty` (LAC set at the same α
+  is empty), and the 8D D4 text states it.
+- **The LAC gate-2 margin is only 0.002** (0.8956 vs 0.8934). It passes, but a slightly
+  different pool or seed could fail it; LAC coverage on test (0.894 [0.862, 0.921]) is
+  also just under target. Treat LAC's 90 % as borderline on this corpus; APS is far above.
 
 ## Tests (all at `nice -n 19`, changed files only; no Docker)
 

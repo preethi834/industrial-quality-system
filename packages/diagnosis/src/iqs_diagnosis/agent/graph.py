@@ -159,6 +159,8 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
             "cause_set": {
                 "causes": causes_in,
                 "empty": not causes_in,
+                # Shown as "uncertain / possible new problem" (dashboard decision).
+                "lac_empty": pred.lac_empty(state["probabilities"]),
                 "method": pred.threshold.method.value,
                 "variant": pred.variant,
                 "alpha": run.alpha,

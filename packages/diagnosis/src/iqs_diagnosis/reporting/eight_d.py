@@ -200,6 +200,10 @@ def draft_8d(
                 "\nCause set is empty: no cause reaches the calibrated threshold. "
                 "Treat as a possible new problem and escalate."
             )
+        if cause_set.get("lac_empty") and cause_set["causes"]:
+            set_line += (
+                "\nUncertain / possible new problem: no single cause reaches the LAC threshold."
+            )
     d4 = Section(
         key="D4",
         title=SECTION_TITLES["D4"],
