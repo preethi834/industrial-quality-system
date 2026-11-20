@@ -33,7 +33,9 @@ SCENARIOS = REPO_ROOT / "configs/simulator/scenarios"
 def test_migration_creates_tables(migrated: Config, pg_settings: DatabaseSettings) -> None:
     engine = create_db_engine(pg_settings)
     insp = inspect(engine)
-    assert {"cases", "case_causes", "reports_8d"} <= set(insp.get_table_names("diagnosis"))
+    assert {"cases", "case_causes", "reports_8d", "hypothesis_tests"} <= set(
+        insp.get_table_names("diagnosis")
+    )
     assert {"tickets", "ticket_events"} <= set(insp.get_table_names("qms"))
     engine.dispose()
 
@@ -143,3 +145,49 @@ def test_calibration_run_rows_and_cause_set(
     repo.add(DiagnosisCase(case_id="SIM-c", source="simulator", title="t", description="d"))
     repo.save_ranking("SIM-c", [("MACHINE.TOOL_WEAR", 0.9), ("MATERIAL.BAD_BATCH", 0.05)], False)
     repo.save_cause_set("SIM-c", ["MACHINE.TOOL_WEAR"], "cal_t:lac")
+
+
+def test_hypothesis_tests_rows_replace_per_case(
+    migrated: Config, pg_settings: DatabaseSettings
+) -> None:
+    """Migration 0004: one row per hypothesis; a new report replaces the case's rows."""
+    from sqlalchemy import select
+
+    from iqs_diagnosis.domain.case import DiagnosisCase
+    from iqs_diagnosis.persistence.repository import HypothesisTestRow, SqlCaseRepository
+    from iqs_diagnosis.scientist.runner import HypothesisResult, ScientistReport
+    from iqs_diagnosis.scientist.templates import TemplateResult
+
+    def report(mode: str, causes: list[str]) -> ScientistReport:
+        hs = [
+            HypothesisResult(
+                cause_code=c,
+                rank=i,
+                result=TemplateResult(
+                    template="t", test="fisher", p_value=0.01, sql="SELECT 1", effect={"d": 1.0}
+                ),
+                p_adjusted=0.02,
+                verdict="supported",
+            )
+            for i, c in enumerate(causes, 1)
+        ]
+        return ScientistReport(
+            case_id="SIM-h",
+            q=0.05,
+            mode=mode,
+            reference_end="a",
+            affected_start="b",
+            hypotheses=hs,
+            supported_causes=causes,
+            data_supported_cause=causes[0],
+        )
+
+    factory = create_session_factory(create_db_engine(pg_settings))
+    repo = SqlCaseRepository(factory)
+    repo.add(DiagnosisCase(case_id="SIM-h", source="simulator", title="t", description="d"))
+    repo.save_hypothesis_tests("SIM-h", report("top3", ["A", "B", "C"]))
+    repo.save_hypothesis_tests("SIM-h", report("all_causes", ["A", "B"]))
+    with factory() as s:
+        rows = s.scalars(select(HypothesisTestRow).where(HypothesisTestRow.case_id == "SIM-h"))
+        got = sorted((r.cause_code, r.mode, r.verdict) for r in rows)
+    assert got == [("A", "all_causes", "supported"), ("B", "all_causes", "supported")]

@@ -3,6 +3,8 @@
 Tables follow blueprint §2.4 with two simplifications for step 3c: causes are stored by
 taxonomy code (the ``cause_taxonomy`` table is not created yet), and
 ``in_conformal_set`` / ``calibration_run_id`` stay empty until step 4.
+``hypothesis_tests`` (migration 0004) holds one row per scientist hypothesis; a new
+scientist report for a case replaces that case's rows.
 """
 
 from __future__ import annotations
@@ -10,7 +12,7 @@ from __future__ import annotations
 import threading
 from datetime import datetime
 from enum import StrEnum
-from typing import Any, Protocol
+from typing import TYPE_CHECKING, Any, Protocol
 
 from sqlalchemy import (
     CheckConstraint,
@@ -30,6 +32,9 @@ from sqlalchemy.orm import Mapped, Session, mapped_column, sessionmaker
 from iqs_common.db import Base, session_scope
 from iqs_diagnosis.domain.case import DiagnosisCase
 from iqs_diagnosis.reporting.eight_d import EightDReport
+
+if TYPE_CHECKING:
+    from iqs_diagnosis.scientist.runner import ScientistReport
 
 DIAGNOSIS_SCHEMA = "diagnosis"
 
@@ -51,6 +56,42 @@ class CaseRepository(Protocol):
     def save_cause_set(
         self, case_id: str, cause_set: list[str], calibration_run_id: str
     ) -> None: ...
+    def save_hypothesis_tests(self, case_id: str, report: ScientistReport) -> None: ...
+
+
+def hypothesis_rows(report: ScientistReport) -> list[dict[str, Any]]:
+    """Flatten a scientist report into ``diagnosis.hypothesis_tests`` column values."""
+    rows = []
+    for h in report.hypotheses:
+        r = h.result
+        rows.append(
+            {
+                "cause_code": h.cause_code,
+                "rank": h.rank,
+                "mode": report.mode,
+                "sql_template": r.template,
+                "sql": r.sql,
+                "params": list(r.params),
+                "test_name": r.test,
+                "target": r.target,
+                "statistic": r.statistic,
+                "p_value": r.p_value,
+                "p_adjusted": h.p_adjusted,
+                "q": report.q,
+                "effect_size": dict(r.effect),
+                "verdict": h.verdict,
+                "evidence": {
+                    "groups": dict(r.groups),
+                    "n_targets": r.n_targets,
+                    "p_min_raw": r.p_min_raw,
+                    "reason": r.reason,
+                    "reference_end": report.reference_end,
+                    "affected_start": report.affected_start,
+                    "plot": r.plot,
+                },
+            }
+        )
+    return rows
 
 
 class InMemoryCaseRepository:
@@ -63,6 +104,7 @@ class InMemoryCaseRepository:
         self.confirmations: dict[str, str | None] = {}
         self.calibration_runs: dict[str, dict[str, Any]] = {}
         self.cause_sets: dict[str, tuple[list[str], str]] = {}
+        self.hypothesis_tests: dict[str, list[dict[str, Any]]] = {}
 
     def add(self, case: DiagnosisCase) -> None:
         with self._lock:
@@ -98,10 +140,16 @@ class InMemoryCaseRepository:
         with self._lock:
             self.cause_sets[case_id] = (list(cause_set), calibration_run_id)
 
+    def save_hypothesis_tests(self, case_id: str, report: ScientistReport) -> None:
+        with self._lock:
+            self.hypothesis_tests[case_id] = hypothesis_rows(report)
+
 
 # ------------------------------------------------------------------ Postgres
 
 _STATUS_SQL = ", ".join(f"'{s.value}'" for s in CaseStatus)
+VERDICTS = ("supported", "rejected", "inconclusive")
+_VERDICT_SQL = ", ".join(f"'{v}'" for v in VERDICTS)
 
 
 class CaseRow(Base):
@@ -153,6 +201,36 @@ class CalibrationRunRow(Base):
     n_calibration: Mapped[int] = mapped_column(Integer)
     dataset: Mapped[str] = mapped_column(String(64))
     content: Mapped[dict[str, Any]] = mapped_column(JSONB)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class HypothesisTestRow(Base):
+    """One scientist hypothesis per row (blueprint §2.4 ``hypothesis_tests``)."""
+
+    __tablename__ = "hypothesis_tests"
+    __table_args__ = (
+        CheckConstraint(f"verdict IN ({_VERDICT_SQL})", name="verdict"),
+        CheckConstraint("mode IN ('top3', 'all_causes')", name="mode"),
+        {"schema": DIAGNOSIS_SCHEMA},
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    case_id: Mapped[str] = mapped_column(ForeignKey(f"{DIAGNOSIS_SCHEMA}.cases.id"), index=True)
+    cause_code: Mapped[str] = mapped_column(String(64))
+    rank: Mapped[int] = mapped_column(Integer)
+    mode: Mapped[str] = mapped_column(String(16))
+    sql_template: Mapped[str] = mapped_column(String(64))
+    sql: Mapped[str] = mapped_column(Text)
+    params: Mapped[list[str]] = mapped_column(JSONB)
+    test_name: Mapped[str] = mapped_column(String(64))
+    target: Mapped[str | None] = mapped_column(String(64))
+    statistic: Mapped[float | None] = mapped_column(Float)
+    p_value: Mapped[float | None] = mapped_column(Float)
+    p_adjusted: Mapped[float | None] = mapped_column(Float)
+    q: Mapped[float] = mapped_column(Float)
+    effect_size: Mapped[dict[str, float]] = mapped_column(JSONB)
+    verdict: Mapped[str] = mapped_column(String(16))
+    evidence: Mapped[dict[str, Any]] = mapped_column(JSONB)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
@@ -268,3 +346,9 @@ class SqlCaseRepository:
                             calibration_run_id=calibration_run_id,
                         )
                     )
+
+    def save_hypothesis_tests(self, case_id: str, report: ScientistReport) -> None:
+        with session_scope(self._factory) as s:
+            s.execute(delete(HypothesisTestRow).where(HypothesisTestRow.case_id == case_id))
+            for row in hypothesis_rows(report):
+                s.add(HypothesisTestRow(case_id=case_id, **row))

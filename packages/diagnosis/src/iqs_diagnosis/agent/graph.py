@@ -34,7 +34,7 @@ from iqs_diagnosis.domain.case import DiagnosisCase, SymptomProfile
 from iqs_diagnosis.persistence.repository import CaseRepository
 from iqs_diagnosis.reporting.eight_d import check_completeness, draft_8d
 from iqs_diagnosis.retrieval.base import Hit
-from iqs_diagnosis.scientist.runner import test_case
+from iqs_diagnosis.scientist.runner import hypotheses_for, test_case
 from iqs_diagnosis.scoring.ranker import CauseRanker
 from iqs_diagnosis.scoring.votes import top_k, vote_probabilities
 from iqs_diagnosis.symptoms import extract_profile
@@ -152,13 +152,19 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
 
     templates = {c.code: c.test_template for c in deps.taxonomy.causes if c.test_template}
 
+    testable = [c.code for c in deps.taxonomy.causes if c.test_template]
+
     def test_hypotheses(state: AgentState) -> dict[str, Any]:
-        """Scientist: test the top-3 causes on the case's data (BH over the three)."""
+        """Scientist: test the top-3 causes on the case's data (BH over the three); for a
+        case flagged novel, test every cause (BH over all), since the ranking comes from
+        past cases that do not resemble this one."""
         case = DiagnosisCase.model_validate(state["case"])
         if deps.scientist_q is None or case.observed_dir is None:
             return {"scientist": None}
-        hyps = [c for c, _ in state["top3"] if c in templates]
-        report = test_case(case, hyps, templates, q=deps.scientist_q)
+        top3 = [c for c, _ in state["top3"] if c in templates]
+        hyps, mode = hypotheses_for(top3, testable, novel=state["novel"])
+        report = test_case(case, hyps, templates, q=deps.scientist_q, mode=mode)
+        deps.repository.save_hypothesis_tests(case.case_id, report)
         return {"scientist": report.model_dump(mode="json")}
 
     def conformal_set(state: AgentState) -> dict[str, Any]:

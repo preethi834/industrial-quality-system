@@ -11,7 +11,14 @@ Verdicts:
 - ``inconclusive``: the template's minimum group sizes were not met.
 
 The scientist does not change the cause probabilities or the conformal set (they are
-calibrated as they are); it adds evidence and names the highest-ranked supported cause.
+calibrated as they are); it adds evidence and names one data-supported cause:
+
+- ``mode="top3"`` (default): the agent's top 3 are tested and the pick is the
+  highest-ranked supported hypothesis;
+- ``mode="all_causes"`` (used when the case is flagged novel; post-evaluation change, see
+  docs/notes/step-5b.md): every taxonomy cause is tested, BH over all of them, and the
+  pick is the supported cause with the smallest adjusted p (ties: rank). The ranking is
+  not trusted for a new problem, so rank does not decide the pick.
 """
 
 from __future__ import annotations
@@ -28,6 +35,7 @@ from iqs_diagnosis.domain.case import DiagnosisCase
 from iqs_diagnosis.scientist.templates import TEMPLATES, TemplateResult, Window
 
 Verdict = Literal["supported", "rejected", "inconclusive"]
+Mode = Literal["top3", "all_causes"]
 
 
 class HypothesisResult(BaseModel):
@@ -45,10 +53,12 @@ class ScientistReport(BaseModel):
 
     case_id: str
     q: float
+    mode: Mode = "top3"
     reference_end: str
     affected_start: str
     hypotheses: list[HypothesisResult]
-    data_supported_cause: str | None  # highest-ranked supported hypothesis
+    supported_causes: list[str] = []  # every supported hypothesis, in rank order
+    data_supported_cause: str | None  # the pick (rule depends on ``mode``)
 
 
 def window_for_case(case: DiagnosisCase, store: ProcessStore) -> Window:
@@ -82,6 +92,7 @@ def run_hypotheses(
     *,
     case_id: str,
     q: float = 0.05,
+    mode: Mode = "top3",
 ) -> ScientistReport:
     if len(set(hypotheses)) != len(hypotheses):
         raise ValueError("duplicate hypotheses")
@@ -94,14 +105,31 @@ def run_hypotheses(
             HypothesisResult(cause_code=cause, rank=rank, result=r, p_adjusted=a, verdict=verdict)
         )
     supported = [h for h in out if h.verdict == "supported"]
+    if mode == "all_causes":
+        supported_by_p = sorted(supported, key=lambda h: (h.p_adjusted or 1.0, h.rank))
+        pick = supported_by_p[0].cause_code if supported_by_p else None
+    else:
+        pick = supported[0].cause_code if supported else None
     return ScientistReport(
         case_id=case_id,
         q=q,
+        mode=mode,
         reference_end=str(window.reference_end),
         affected_start=str(window.affected_start),
         hypotheses=out,
-        data_supported_cause=supported[0].cause_code if supported else None,
+        supported_causes=[h.cause_code for h in supported],
+        data_supported_cause=pick,
     )
+
+
+def hypotheses_for(
+    top3: Sequence[str], all_causes: Sequence[str], *, novel: bool
+) -> tuple[list[str], Mode]:
+    """Top 3 for a known-looking case; for a novel case the top 3 first, then every other
+    cause in taxonomy order (all causes tested)."""
+    if not novel:
+        return list(top3), "top3"
+    return [*top3, *(c for c in all_causes if c not in top3)], "all_causes"
 
 
 def test_case(
@@ -110,6 +138,7 @@ def test_case(
     templates_by_cause: Mapping[str, str],
     *,
     q: float = 0.05,
+    mode: Mode = "top3",
 ) -> ScientistReport:
     if case.observed_dir is None:
         raise ValueError(f"{case.case_id}: no observable process data")
@@ -121,6 +150,7 @@ def test_case(
             templates_by_cause,
             case_id=case.case_id,
             q=q,
+            mode=mode,
         )
 
 

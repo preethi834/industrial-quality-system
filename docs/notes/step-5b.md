@@ -205,6 +205,48 @@ before it was removed. No result changed and the evaluation was not rerun.
 evidence run) flagged that it imported `iqs_diagnosis.evaluation` from the agent path. No
 behaviour change; the reports were produced by identical code.
 
+### Post-evaluation change: novel cases test all 10 causes (2026-11-20, approved)
+
+**This change was made after the one `sci_eval_v1` evaluation. The numbers above
+describe the code before it and remain the step-5b evaluation result. No new number on
+`sci_eval_v1` is reported for the changed behaviour, and none should be: that family has
+been used.**
+
+What changed (`scientist/runner.py`, `agent/graph.py`):
+- If the case is flagged novel, the scientist tests the top 3 first and then every other
+  taxonomy cause (10 hypotheses, BH over all conclusive ones; `mode = "all_causes"`).
+  Known-looking cases are unchanged (top 3, BH over 3, `mode = "top3"`).
+- In `all_causes` mode the pick (`data_supported_cause`) is the supported cause with the
+  smallest adjusted p (ties: rank), not the highest-ranked supported one, because the
+  ranking is not trusted for a new problem. The report also lists every supported cause
+  (`supported_causes`), and the 8D D4 text states which mode was used.
+- Motivation from the evaluation: on drive-fault and handling-error cases (not in the
+  library) the true cause was outside the top 3 and a wrong candidate was supported,
+  although the true cause's template was supported in 100 % of these cases in
+  all-causes mode.
+- Expected cost, not measured: BH over 10 instead of 3 is stricter, and wrong causes
+  with real side effects (e.g. tool wear raising load) can still have a smaller p than
+  the true cause. The pick rule is the "templates alone" rule, which scored 0.672 over
+  all faults in the evaluation; on novel cases it is unmeasured.
+- `scripts/evaluate_scientist.py` is unchanged: it still reproduces the recorded
+  evaluation (agent mode = top 3 for every case).
+
+Re-measurement rule: any measurement of this behaviour must use a **new** family (e.g.
+`sci_eval_v2`, new seeds), with its manifest committed before its first run, and must be
+labelled "post-evaluation change, measured on sci_eval_v2", not as the step-5b result.
+Not done yet.
+
+### Migration 0004: `diagnosis.hypothesis_tests` (2026-11-20, approved)
+
+One row per hypothesis: case_id, cause_code, rank, mode, sql_template, sql, params,
+test_name, target, statistic, p_value, p_adjusted, q, effect_size (jsonb), verdict
+(check: supported / rejected / inconclusive), evidence (jsonb: groups, window, reason,
+figure), created_at. Causes are stored by taxonomy code (as in `case_causes`; no
+`cause_taxonomy` table yet). The agent writes the rows in `test_hypotheses`; a new report
+for a case replaces that case's rows. The Postgres round trip is in
+`tests/integration/test_diagnosis_persistence.py` (integration-marked, **not run yet**:
+no Docker tonight).
+
 ### Proposed ADR-008 (number may need renumbering at merge)
 
 **ADR-008 — Scientist agent: one pre-registered template per cause, BH per case,
@@ -216,5 +258,7 @@ evidence only (step 5b).**
 3. The scientist does not change probabilities or conformal sets (calibration stays valid);
    it adds evidence and a data-supported cause.
 4. Evidence figures are plotly-compatible JSON; no plotting dependency in diagnosis.
-5. Evidence is stored inside the 8D report content until a `diagnosis.hypothesis_tests`
-   table (migration 0004) is approved.
+5. Evidence is stored in `diagnosis.hypothesis_tests` (migration 0004) and summarised in
+   the 8D report content.
+6. Cases flagged novel test every cause and pick by smallest adjusted p (post-evaluation
+   change; unmeasured until a new family is evaluated).

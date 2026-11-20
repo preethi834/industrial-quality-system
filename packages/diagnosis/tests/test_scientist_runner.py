@@ -96,3 +96,65 @@ def test_hypotheses_endpoint(
     first = body["hypotheses"][0]
     assert {"sql", "params", "plot", "test", "p_value"} <= set(first["result"])
     assert first["verdict"] in ("supported", "rejected", "inconclusive")
+
+
+def test_hypotheses_for_known_and_novel() -> None:
+    from iqs_diagnosis.scientist.runner import hypotheses_for
+
+    allc = ["A", "B", "C", "D", "E"]
+    assert hypotheses_for(["C", "A", "E"], allc, novel=False) == (["C", "A", "E"], "top3")
+    assert hypotheses_for(["C", "A", "E"], allc, novel=True) == (
+        ["C", "A", "E", "B", "D"],
+        "all_causes",
+    )
+
+
+def test_all_causes_mode_picks_smallest_adjusted_p(reference_runs: dict[str, Path]) -> None:
+    case = load_case(reference_runs["tool_wear_m1"])
+    assert case is not None
+    allc = list(TEMPLATES)
+    # Put tool wear last so a rank-based pick would choose something else if supported.
+    hyps = [c for c in allc if c != "MACHINE.TOOL_WEAR"] + ["MACHINE.TOOL_WEAR"]
+    rep = test_case(case, hyps, TEMPLATES, mode="all_causes")
+    assert rep.mode == "all_causes" and len(rep.hypotheses) == len(allc)
+    sup = [h for h in rep.hypotheses if h.verdict == "supported"]
+    assert sup and rep.supported_causes == [h.cause_code for h in sup]
+    best = min(sup, key=lambda h: (h.p_adjusted or 1.0, h.rank))
+    assert rep.data_supported_cause == best.cause_code
+    # BH over all conclusive hypotheses, not three.
+    rank_pick = test_case(case, hyps, TEMPLATES).data_supported_cause
+    assert rank_pick == sup[0].cause_code
+
+
+def test_novel_case_tests_every_cause_and_persists(
+    reference_runs: dict[str, Path], reference_profiles: dict[str, Any]
+) -> None:
+    agent, repo, _ = make_agent(reference_profiles)
+    case = load_case(reference_runs["drive_fault_m1"])  # left out of the library
+    assert case is not None
+    out = asyncio.run(agent.run(case))
+    assert out["novel"] is True
+    sci = out["scientist"]
+    assert sci["mode"] == "all_causes"
+    tested = [h["cause_code"] for h in sci["hypotheses"]]
+    assert tested[:3] == [c for c, _ in out["top3"]]
+    assert sorted(tested) == sorted(TEMPLATES)
+    d4 = out["report_8d"]["sections"][4]
+    assert "all causes tested" in d4["content"]
+    assert d4["data"]["data_check_mode"] == "all_causes"
+    rows = repo.hypothesis_tests[case.case_id]
+    assert len(rows) == len(TEMPLATES) and {r["mode"] for r in rows} == {"all_causes"}
+    assert {r["verdict"] for r in rows} <= {"supported", "rejected", "inconclusive"}
+
+
+def test_known_case_persists_top3_rows(
+    reference_runs: dict[str, Path], reference_profiles: dict[str, Any]
+) -> None:
+    agent, repo, _ = make_agent(reference_profiles)
+    case = load_case(reference_runs["wrong_parameters_m3"])
+    assert case is not None
+    out = asyncio.run(agent.run(case))
+    assert out["scientist"]["mode"] == "top3"
+    rows = repo.hypothesis_tests[case.case_id]
+    assert [r["cause_code"] for r in rows] == [c for c, _ in out["top3"]]
+    assert all(r["sql"] and r["test_name"] for r in rows)

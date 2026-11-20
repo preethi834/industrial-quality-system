@@ -217,8 +217,14 @@ def draft_8d(
                 f" ({res['test']}{where}{p})"
             )
         best = scientist.get("data_supported_cause")
+        scope = (
+            "all causes tested because the case is flagged as a possible new problem; "
+            "pick = smallest adjusted p"
+            if scientist.get("mode") == "all_causes"
+            else "top 3 tested"
+        )
         sci_line = (
-            f"\nData check (Benjamini-Hochberg, q = {scientist['q']}):\n"
+            f"\nData check (Benjamini-Hochberg, q = {scientist['q']}; {scope}):\n"
             + "\n".join(parts)
             + (
                 f"\nData-supported cause: {cause_names.get(best, best)} ({best})."
@@ -255,6 +261,7 @@ def draft_8d(
                         for h in scientist["hypotheses"]
                     ],
                     "data_supported_cause": scientist.get("data_supported_cause"),
+                    "data_check_mode": scientist.get("mode", "top3"),
                 }
                 if scientist is not None
                 else {}
