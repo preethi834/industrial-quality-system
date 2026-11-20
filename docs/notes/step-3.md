@@ -222,7 +222,13 @@ smoothing sits at the grid edge (alpha = 0.001), so conformal sets would be triv
 
 ---
 
-## dx_corpus_v2 — harder corpus for step 4 (built 2026-11-20; test split not evaluated)
+## dx_corpus_v2 — harder corpus for step 4
+
+> **Commit numbering note.** This work was committed as `a55bb36 feat(step-3e): …`. In the
+> step-3 plan, **3e is the LLM gateway (Ollama only)**, which is not built yet. The commit
+> was not renamed (user decision, 2026-11-20); the corpus belongs to the step 3→4 hand-over.
+> When the LLM gateway is built it keeps the label 3e in docs, and this commit should be
+> read as "step 4 preparation". (built 2026-11-20; test split not evaluated)
 
 Config `configs/diagnosis/sim_corpus_v2.yaml`; manifest `eval_sets/diagnosis/sim/dx_corpus_v2.json`.
 
