@@ -106,6 +106,43 @@ Points for later steps:
 
 ---
 
+## 3c — agent graph, 8D draft, MCP ticket tools, API
+
+| Module / file | Role |
+| --- | --- |
+| `agent/graph.py` | LangGraph: intake → extract_symptoms → retrieve → novelty_check → score_causes → draft_8d → open_ticket (MCP) → confirm (**interrupt**) → close_ticket (MCP). JSON-only state; tool calls recorded in `tool_calls`; per-node timings |
+| `agent/tickets.py` | `TicketGateway` port; `McpTicketGateway` (MCP client: in-process server, stdio or URL) |
+| `agent/checkpoint.py` | `InMemorySaver` (tests, eval) / `PostgresSaver` (service; case pauses survive restarts) |
+| `reporting/eight_d.py` | D0–D8 schema; template draft of D0/D2/D4; D1, D3, D5–D8 `pending_engineer` and must be empty; completeness = agent sections valid / 3 |
+| `persistence/repository.py` | `CaseRepository` port: in memory + SQL (`diagnosis.cases`, `case_causes`, `reports_8d`) |
+| `iqs_mcp/{models,store,server}.py` | Mock QMS: `create_ticket` (idempotent per open case), `get_ticket`, `update_ticket`; in-memory + SQL (`qms.tickets`, `ticket_events`); `python -m iqs_mcp` (stdio) |
+| `migrations/versions/0002_…` | The five tables (rendered offline with `alembic upgrade 0001:0002 --sql`; checked against Postgres by the integration test tomorrow) |
+| `api/cases.py`, `api/wiring.py`, `settings.py` | `POST /v1/cases` (run_id under `IQS_DIAGNOSIS__RUNS_ROOT`), `/run`, `GET /{id}`, `/cause-set` (kind `top3` until step 4), `/report-8d` (en only before 3e), `/confirm`; features `cases`, `retrieval`, `report_8d` switch on when `IQS_DIAGNOSIS__LIBRARY_PATH` is set |
+| `retrieval/library.py` + `evaluation.corpus.write_library` | The agent reads a library file of confirmed past cases, never a labels file |
+
+Design points:
+- `/run` is synchronous up to the confirmation interrupt: without an LLM a run is under a
+  second (measured in 3d). With LLM nodes (3e) it becomes 202 + job ID.
+- Tool calls run in their own nodes *after* the interrupt, because LangGraph re-runs an
+  interrupted node from its start.
+- A failed QMS call is recorded (`ok: false`) and the case still reaches the engineer.
+- Ticket severity rule (stated, not learned): reject rate after the alarm ≥ 15 % → 1,
+  ≥ 7 % → 2, else 3.
+- Causes are stored by taxonomy code; the `cause_taxonomy` table of §2.4 is not created yet.
+
+**Integration tests written, not run (no Docker tonight):**
+`tests/integration/test_diagnosis_persistence.py` (migration 0002 tables, SqlTicketStore,
+case survives a restart with the Postgres checkpointer). Run with `make test-integration`.
+
+**Needs approval (uv.lock):** `iqs-diagnosis` uses `mcp` (agent MCP client, imported lazily)
+and `iqs_mcp` (in-process QMS server in `api/wiring.py`) without declaring them. Both are
+in the workspace and `mcp 2.3.0` is already locked, so adding `"mcp"` and
+`"iqs-mcp"` (workspace source) to `packages/diagnosis/pyproject.toml` changes only
+the member's dependency list in `uv.lock`, with no new downloads. Until then the
+diagnosis Docker image cannot enable the case endpoints.
+
+---
+
 ## Proposed ADR-006 (number may need renumbering at merge: step 1 holds ADR-004/005, step 5a has an unnumbered proposal)
 
 ### ADR-006 — Diagnosis minimum version: simulator symptom profiles, retrieval votes, novelty threshold (step 3a–3b)

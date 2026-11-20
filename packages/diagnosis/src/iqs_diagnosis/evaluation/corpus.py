@@ -25,6 +25,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from iqs_diagnosis.domain.case import SymptomProfile
 from iqs_diagnosis.evaluation.labels import CaseLabel, load_case_label
 from iqs_diagnosis.ingestion.simulator import iter_run_dirs, load_case
+from iqs_diagnosis.retrieval.library import LibraryRecord, write_library_file
 from iqs_diagnosis.symptoms import extract_profile
 from iqs_diagnosis.symptoms.vocabulary import Vocabulary
 
@@ -108,3 +109,25 @@ def counts_by_fault(labels: Sequence[CaseLabel]) -> dict[str, int]:
     for lab in labels:
         out[lab.simulator_fault] = out.get(lab.simulator_fault, 0) + 1
     return dict(sorted(out.items()))
+
+
+def write_library(corpus_dir: Path, split: str = "train") -> Path:
+    """Case library for the agent: the split's profiles with their causes as confirmed causes.
+
+    Written to ``<corpus>/library/<split>.jsonl``; the agent reads only this file.
+    """
+    profiles, labels = load_split(corpus_dir, split)
+    path = corpus_dir / "library" / f"{split}.jsonl"
+    write_library_file(
+        path,
+        (
+            LibraryRecord(
+                profile=p,
+                cause_code=lab.cause_code,
+                source="simulator",
+                confirmed_by="simulator_ground_truth",
+            )
+            for p, lab in zip(profiles, labels, strict=True)
+        ),
+    )
+    return path

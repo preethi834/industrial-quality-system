@@ -5,15 +5,15 @@ from __future__ import annotations
 import pytest
 from fastapi.testclient import TestClient
 
-from iqs_common.settings import CommonSettings
 from iqs_diagnosis.api.main import FEATURES, create_app
+from iqs_diagnosis.settings import DiagnosisSettings, get_diagnosis_settings
 
 KEY = "diagnosis-test-key"
 
 
-def _settings() -> CommonSettings:
+def _settings() -> DiagnosisSettings:
     # Port 1 on localhost: nothing listens, connections are refused at once.
-    return CommonSettings(
+    return DiagnosisSettings(
         api={"keys": KEY, "ready_timeout_s": 1},
         database={"host": "127.0.0.1", "port": 1, "password": "x"},
         neo4j={"uri": "bolt://127.0.0.1:1", "password": "x"},
@@ -52,5 +52,6 @@ def test_factory_reads_environment(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("IQS_API__KEYS", "from-env")
     monkeypatch.setenv("IQS_DATABASE__PORT", "1")
     monkeypatch.setenv("IQS_NEO4J__URI", "bolt://127.0.0.1:1")
+    get_diagnosis_settings.cache_clear()
     with TestClient(create_app()) as c:
         assert c.get("/v1/capabilities", headers={"X-API-Key": "from-env"}).status_code == 200

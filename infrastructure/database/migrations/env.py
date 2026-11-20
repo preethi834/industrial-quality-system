@@ -16,6 +16,8 @@ from alembic import context
 from sqlalchemy import create_engine, pool
 
 import iqs_common.outbox  # noqa: F401  (registers platform.events)
+import iqs_diagnosis.persistence.repository  # noqa: F401  (registers diagnosis.* tables)
+import iqs_mcp.store  # noqa: F401  (registers qms.* tables)
 from iqs_common.db import Base
 from iqs_common.settings import CommonSettings
 
