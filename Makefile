@@ -16,7 +16,7 @@ help: ## List targets
 setup: ## Install every workspace package + dev tools exactly as locked
 	uv sync --all-packages --frozen
 
-build: ## Build the service images (vision, diagnosis)
+build: ## Build the images (vision, diagnosis, dashboard)
 	COMPOSE_PROFILES=apps $(COMPOSE) build
 
 config: ## Show the resolved compose file (passwords included: do not paste it anywhere)

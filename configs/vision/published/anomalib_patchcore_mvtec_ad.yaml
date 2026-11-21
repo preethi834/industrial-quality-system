@@ -1,0 +1,38 @@
+# Published PatchCore results on MVTec AD, copied from anomalib 2.7.0
+# (src/anomalib/models/image/patchcore/README.md, "Benchmark", Wide ResNet-50 row,
+# "All results gathered with seed 42"). Used by scripts/report_patchcore.py for the
+# step-1 gate: deviations above 0.02 AUROC need an investigation in KNOWN_ISSUES.
+source: anomalib 2.7.0 models/image/patchcore/README.md
+backbone: wide_resnet50_2
+image_auroc:
+  carpet: 0.984
+  grid: 0.959
+  leather: 1.000
+  tile: 1.000
+  wood: 0.989
+  bottle: 1.000
+  cable: 0.990
+  capsule: 0.982
+  hazelnut: 1.000
+  metal_nut: 0.994
+  pill: 0.924
+  screw: 0.960
+  toothbrush: 0.933
+  transistor: 1.000
+  zipper: 0.982
+pixel_auroc:
+  carpet: 0.988
+  grid: 0.968
+  leather: 0.991
+  tile: 0.961
+  wood: 0.934
+  bottle: 0.984
+  cable: 0.988
+  capsule: 0.988
+  hazelnut: 0.987
+  metal_nut: 0.989
+  pill: 0.980
+  screw: 0.989
+  toothbrush: 0.988
+  transistor: 0.981
+  zipper: 0.983

@@ -3,7 +3,32 @@
 All notable changes to this project. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versions follow the roadmap tags (`v0.1-step0`, `v0.1-step1`, ...).
 
-## [Unreleased] — step 0 (foundation)
+## [Unreleased] — step 1 (P2 Layer 1: defect detector + demo, done locally; tag `v0.1-step1` pending)
+
+### Added
+- **1a** Blueprint Revision 2; GitHub Actions pinned by SHA on Node.js 24 (checkout v7.0.1,
+  setup-uv v10.3.3); approval-gated asset allowlist (`configs/assets.yaml`, fetch/import
+  scripts with `--approve` and SHA-256 checks); `docs/APPROVALS.md`; compose profile `vision`.
+- **1b** MVTec AD adapter (never downloads), split manifests with per-image SHA-256 and
+  leakage checks for all 15 categories, preprocessing, synthetic fixtures.
+- **1c** CPU PatchCore (anomalib components, preallocated bank, faster greedy k-center),
+  metrics, MLflow tracking, train / evaluate / report scripts, training queue.
+- **1d** `POST /v1/inspections`, `GET /v1/models`, heatmaps, model registry, VLM interface
+  (disabled: field absent), latency benchmark script.
+- **1e** Supervised ResNet-18 baseline on a stratified re-split of the test set.
+- **1f** Dashboard (home + defect inspection page), dashboard image, extended smoke test.
+- **1g** EfficientAD Colab notebook, run bundles with verified import and CPU re-evaluation.
+- **1h** Results: PatchCore on all 15 MVTec AD categories (official mean image / pixel AUROC
+  0.984 / 0.982; deploy 0.981 / 0.982), supervised baseline (mean 0.849 vs PatchCore 0.977 on
+  sup_test), same-seed rerun and reload checks, inspection latency p50 529 ms / p95 560 ms;
+  reports `reports/patchcore_mvtec_ad_{official,deploy}.md`; grid / pill investigation (#11, #14).
+
+### Fixed
+- Smoke test no longer echoes the API key.
+- `docker` workflow: free runner disk space (unused toolchains, `docker system prune`) before
+  the build and prune the build cache after it; the PR run had failed with "no space left on device".
+
+## [v0.1-step0] — step 0 (foundation)
 
 ### Added
 - **0a** uv workspace with six packages (`iqs_common`, `iqs_vision`, `iqs_diagnosis`, `iqs_mcp`,

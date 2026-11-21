@@ -7,7 +7,8 @@
 # IQS_* variables the Python services read. Only variables named under `environment`
 # reach a container; .env itself is not injected.
 #
-# Profiles: core = Postgres + Neo4j. apps = core + the vision and diagnosis APIs.
+# Profiles: core = Postgres + Neo4j. apps = core + the vision and diagnosis APIs (+ dashboard).
+# vision = Postgres + vision API (+ dashboard): the step-1 demo without Neo4j (ADR-004).
 # llm / observability are added in later steps.
 
 name: iqs
@@ -16,7 +17,7 @@ services:
   postgres:
     # pgvector 0.8.7 on PostgreSQL 16 (Debian bookworm), pinned by digest.
     image: pgvector/pgvector:0.8.7-pg16-bookworm@sha256:484e838076e04939d27d3e176e91c86eea96236126023be8d3059761122e579f
-    profiles: [core, apps]
+    profiles: [core, apps, vision]
     environment:
       POSTGRES_DB: ${IQS_DATABASE__NAME:?set IQS_DATABASE__NAME in .env}
       POSTGRES_USER: ${IQS_DATABASE__USER:?set IQS_DATABASE__USER in .env}
@@ -68,7 +69,7 @@ services:
       context: .
       dockerfile: deploy/docker/vision.Dockerfile
     image: iqs-vision:dev
-    profiles: [apps]
+    profiles: [apps, vision]
     environment: &service-env
       IQS_ENVIRONMENT: ${IQS_ENVIRONMENT:-dev}
       IQS_LOGGING__LEVEL: ${IQS_LOGGING__LEVEL:-INFO}
@@ -78,12 +79,18 @@ services:
       IQS_DATABASE__USER: ${IQS_DATABASE__USER:?set IQS_DATABASE__USER in .env}
       IQS_DATABASE__PASSWORD: ${IQS_DATABASE__PASSWORD:?set IQS_DATABASE__PASSWORD in .env}
       IQS_API__KEYS: ${IQS_API__KEYS:?set IQS_API__KEYS in .env}
+      IQS_VISION__PROTOCOL: ${IQS_VISION__PROTOCOL:-deploy}
+    volumes:
+      # Trained detectors (models/patchcore) and backbone weights (models/weights),
+      # read-only; the image never downloads anything (blueprint Rev 2 §3.9).
+      - ./models:/app/models:ro
     ports:
       - "127.0.0.1:8001:8001"
     depends_on:
       postgres:
         condition: service_healthy
-    mem_limit: 1g
+    # WideResNet-50 backbone + up to two cached memory banks (estimate; see TESTING.md).
+    mem_limit: 2g
     restart: unless-stopped
 
   diagnosis:
@@ -105,6 +112,24 @@ services:
       neo4j:
         condition: service_healthy
     mem_limit: 1g
+    restart: unless-stopped
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: deploy/docker/dashboard.Dockerfile
+    image: iqs-dashboard:dev
+    profiles: [apps, vision]
+    environment:
+      IQS_ENVIRONMENT: ${IQS_ENVIRONMENT:-dev}
+      IQS_API__KEYS: ${IQS_API__KEYS:?set IQS_API__KEYS in .env}
+      IQS_DASHBOARD__VISION_URL: http://vision:8001
+    ports:
+      - "127.0.0.1:8501:8501"
+    depends_on:
+      vision:
+        condition: service_healthy
+    mem_limit: 512m
     restart: unless-stopped
 
 volumes:

@@ -1,0 +1,9 @@
+# Colab/Kaggle runtime for EfficientAD training (step 1g). The runtime's CUDA torch and
+# torchvision are kept; these pins match uv.lock so local CPU re-evaluation agrees.
+anomalib==2.7.0
+timm==1.0.31
+lightning==2.6.6
+scikit-learn==1.9.1
+pydantic==2.14.3
+pyyaml==6.0.3
+safetensors==0.8.0

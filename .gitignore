@@ -50,3 +50,4 @@ htmlcov/
 *.db
 *.sqlite
 *.sqlite3
+reports/logs/

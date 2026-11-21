@@ -9,6 +9,7 @@ from pydantic import SecretStr
 from iqs_common.settings import ApiSettings, CommonSettings, DatabaseSettings, Neo4jSettings
 from iqs_diagnosis.api.main import create_app as create_diagnosis_app
 from iqs_vision.api.main import create_app as create_vision_app
+from iqs_vision.settings import VisionSettings
 
 pytestmark = pytest.mark.integration
 
@@ -23,7 +24,8 @@ def _settings(db: DatabaseSettings, graph: Neo4jSettings | None = None) -> Commo
 
 
 def test_vision_ready_with_postgres(pg_settings: DatabaseSettings) -> None:
-    with TestClient(create_vision_app(_settings(pg_settings))) as c:
+    settings = VisionSettings(**_settings(pg_settings).model_dump(), _env_file=None)
+    with TestClient(create_vision_app(settings)) as c:
         r = c.get("/ready")
     assert r.status_code == 200, r.text
     assert r.json() == {"status": "ready", "checks": {"postgres": "ok"}}
