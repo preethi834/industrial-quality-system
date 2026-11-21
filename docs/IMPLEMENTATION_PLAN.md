@@ -11,7 +11,7 @@ Status labels (blueprint §7.1): **planned** · **in progress** · **working (te
 | --- | --- | --- |
 | 0 | Foundation: repo, settings, logging, databases, service skeletons, CI, docs | **done** (`v0.1-step0`); CI green on `main` |
 | 1 | P2 L1: defect detector (PatchCore / EfficientAD + supervised baseline) + demo | **done** (`v0.1-step1`, merged in PR #2): 15/15 categories, both protocols; EfficientAD deferred (KNOWN_ISSUES #15) |
-| 2 | P2 L2–3: MVTec AD 2 / VisA + conformal threshold | planned |
+| 2 | P2 L2–3: MVTec AD 2 / VisA + conformal threshold | **working locally** (branch `step-2`, not pushed): gates 1–4 met |
 | 3 | P1 L1–2: diagnosis agent (hybrid RAG + KG, MCP, 8D) + evaluation | planned |
 | 4 | P1 L3: conformal cause sets | planned |
 | 5 | Factory simulator + scientist agent | planned |
@@ -62,7 +62,37 @@ Step 1 gates (blueprint Rev 2 §5):
 - [x] (6) EfficientAD deferred in KNOWN_ISSUES #15 (confirmed by the owner 2026-11-21)
 - [x] universal gate: CI green on `main` (`ci` #9, `docker` #5 on `f459752`), tag `v0.1-step1` pushed
 
+## Step 2 — Project 2 Layers 2–3
+
+| Sub-step | Content | Commit | Status |
+| --- | --- | --- | --- |
+| 2f | VisA + MVTec AD 2 adapters, manifests, verified imports; 4 deploy models | `27227f0` | working (tested); models trained 2026-11-21 (EXP-2-01) |
+| 2a | Split-conformal + (α, δ) thresholds, Clopper–Pearson, Beta-binomial prediction | `368c05c` | working (tested) |
+| 2b | `scripts/calibrate.py`, scores.json / calibration.json, D1 policy, leakage refusal | `238bc31` | working (tested): 19 categories calibrated |
+| 2c | Repeated-split validity check, conformal reports, guarantee plot | `263c248` | working (tested): gate passes 19/19 (EXP-2-02) |
+| 2d | Shift experiment (real AD 2 conditions + synthetic) | `8c5c74e` | working (tested): run 2026-11-21 (EXP-2-03) |
+| 2e | `/v1/calibrations`, conformal threshold in inspections, model-evaluation page | `a9efe42` | working (tested); not yet checked in Docker |
+| 2g | Results + docs (ADR-010, KNOWN_ISSUES #17 update, #28–#32) | this commit | done |
+
+Step 2 gates (blueprint Rev 2 §5):
+
+- [x] (1) AUROC for ≥ 2 MVTec AD 2 (vial, fruit_jelly) and ≥ 2 VisA (cashew, pipe_fryum) categories logged (EXP-2-01)
+- [x] (2) calibration set smaller than ⌈1/α⌉ − 1 refused — unit tests + API 422
+- [x] (3) R = 100 resplits, mean FA ≤ α + 3 SE: pass for all 11 α = 0.02 categories and the 8 at α = 0.05 / 0.10 (#31); fixed split fails for leather / carpet (#17, investigated as non-exchangeability)
+- [x] (4) shift experiment executed and reported (`reports/shift_experiment.md`)
+- [ ] universal gate: CI green on `main` after merge, tag `v0.1-step2`
+
 ## Hand-off notes
+
+### 2026-11-21 — step 2 done locally (2a–2f), branch `step-2`, not pushed
+
+- **Done:** VisA cashew / pipe_fryum and MVTec AD 2 vial / fruit_jelly imported (SHA-256 verified)
+  and trained (deploy); 19 categories calibrated; gate 3 passes 19/19; shift experiment run.
+  Results: EXPERIMENTS EXP-2-01…03; reports `reports/conformal_*.md`, `reports/shift_experiment.md`.
+- **Read first:** KNOWN_ISSUES #17 (leather / carpet fixed split fails: non-exchangeable), #28–#32.
+- **Numbering:** new known issues from #28, ADRs from ADR-010 (step-5b, PR #3, adds #18–#27 and
+  ADR-006…009). **Next:** merge `main` (with PR #3) into `step-2` when the owner asks; Docker
+  check of `/v1/calibrations` and the model-evaluation page; push / PR only with permission.
 
 ### 2026-11-21 — step 1 done locally (1h)
 

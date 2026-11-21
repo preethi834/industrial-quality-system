@@ -82,7 +82,7 @@ def svg_plot(rows: list[dict[str, Any]], title: str) -> str:
         "red line: α · orange square: fixed official split</text>"
     )
     out.append("</svg>")
-    return "\n".join(out)
+    return "\n".join(out) + "\n"
 
 
 def main(argv: list[str] | None = None) -> int:
