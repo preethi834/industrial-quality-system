@@ -7,16 +7,12 @@ cluster (``source_cluster_id is None``) are not vision's business and are acknow
 
 from __future__ import annotations
 
-from iqs_common.events import CaseConfirmedEvent, Event
+from iqs_common.events import CaseConfirmedEvent, Event, default_defect_class_name
 from iqs_common.log import get_logger
 from iqs_common.outbox_worker import Handler
 from iqs_vision.discovery.store import DiscoveryStore
 
 _log = get_logger("iqs_vision.discovery.consumer")
-
-
-def default_class_name(category: str, cause_code: str) -> str:
-    return f"{category}:{cause_code.split('.')[-1].lower()}"
 
 
 def make_case_confirmed_handler(store: DiscoveryStore) -> Handler:
@@ -27,7 +23,7 @@ def make_case_confirmed_handler(store: DiscoveryStore) -> Handler:
         if p.source_cluster_id is None:
             return
         cluster = store.get_cluster(p.source_cluster_id)
-        name = p.defect_class_name or default_class_name(
+        name = p.defect_class_name or default_defect_class_name(
             cluster.category if cluster else "unknown", p.cause_code
         )
         changed = store.name_cluster(

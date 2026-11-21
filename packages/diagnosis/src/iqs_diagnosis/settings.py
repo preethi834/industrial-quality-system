@@ -31,6 +31,10 @@ class DiagnosisSection(BaseModel):
     # Step 7: reference period for vision-originated cases (same as the simulator alarm
     # rule's baseline, iqs_sim.cases.AlarmConfig.baseline_hours).
     vision_baseline_hours: float = Field(default=12.0, gt=0)
+    # Step 7 feedback after confirmation. Graph writes go to Neo4j only when "neo4j";
+    # "none" reports the graph write as disabled (never faked).
+    feedback: bool = True
+    graph_writes: Literal["none", "neo4j"] = "none"
 
 
 class DiagnosisSettings(CommonSettings):

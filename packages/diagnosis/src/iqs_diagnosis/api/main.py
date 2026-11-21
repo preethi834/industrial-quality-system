@@ -14,7 +14,7 @@ from iqs_common.api import create_service_app
 from iqs_common.db import check_database, create_db_engine
 from iqs_common.log import configure_logging
 from iqs_common.settings import CommonSettings, Neo4jSettings
-from iqs_diagnosis.api.cases import CaseService, build_cases_router
+from iqs_diagnosis.api.cases import CaseService, build_cases_router, build_feedback_router
 from iqs_diagnosis.settings import DiagnosisSettings, get_diagnosis_settings
 
 SERVICE = "diagnosis"
@@ -30,6 +30,7 @@ FEATURES: dict[str, bool] = {
     "conformal_cause_set": False,  # step 4
     "hypothesis_tests": False,  # step 5
     "fmea_proposals": False,  # step 6
+    "feedback": False,  # step 7: counts, candidate pool, graph writes after confirmation
 }
 
 
@@ -66,6 +67,10 @@ def create_app(
         features["conformal_cause_set"] = case_service.agent.has_conformal
         features["hypothesis_tests"] = case_service.agent.has_scientist
         routers.append(build_cases_router(case_service))
+        if case_service.feedback is not None:  # step 7
+            features["feedback"] = True
+            features["graph"] = case_service.feedback.graph is not None
+            routers.append(build_feedback_router(case_service.feedback))
     return create_service_app(
         service=SERVICE,
         version=version("iqs-diagnosis"),

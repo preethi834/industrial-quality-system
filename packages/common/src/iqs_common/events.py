@@ -78,6 +78,15 @@ class NewDefectClusterPayload(_Strict):
         return self
 
 
+def default_defect_class_name(category: str, cause_code: str) -> str:
+    """Name a confirmed vision cluster gets when the engineer gives none (step 7).
+
+    Both services use this one function, so the vision class and the knowledge-graph
+    ``DefectType`` node always carry the same name.
+    """
+    return f"{category}:{cause_code.split('.')[-1].lower()}"
+
+
 class CaseConfirmedPayload(_Strict):
     case_id: UUID
     cause_code: CauseCode  # format checked here; existence checked by the consumer

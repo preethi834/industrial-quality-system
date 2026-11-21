@@ -53,6 +53,7 @@ def make_agent(
     reference_profiles: dict[str, tuple[Any, Any]],
     gateway: TicketGateway | None = None,
     conformal: ConformalPredictor | None = None,
+    feedback: Any = None,
 ) -> tuple[DiagnosisAgent, InMemoryCaseRepository, Any]:
     from iqs_mcp.server import build_server
     from iqs_mcp.store import InMemoryTicketStore
@@ -73,6 +74,7 @@ def make_agent(
         tickets=gateway or McpTicketGateway(build_server(store)),
         repository=repo,
         conformal=conformal,
+        feedback=feedback,
     )
     return DiagnosisAgent(deps, memory_checkpointer()), repo, store
 
