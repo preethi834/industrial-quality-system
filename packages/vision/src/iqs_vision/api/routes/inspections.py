@@ -23,6 +23,19 @@ THRESHOLD_NOTE = (
     "not a conformal guarantee (step 2)"
 )
 
+
+def threshold_note(method: str | None, alpha: float | None, n: int | None) -> str:
+    if method is None:
+        return "no threshold"
+    if alpha is None:
+        return THRESHOLD_NOTE
+    return (
+        f"conformal ({method}): P(a new good part of this category is flagged) <= {alpha:g}, "
+        f"from n = {n} held-out good images, assuming they are exchangeable with production "
+        "parts; no guarantee on the miss rate or under shifted conditions"
+    )
+
+
 _log = get_logger("iqs_vision.inspections")
 
 
@@ -33,6 +46,7 @@ class ModelSummary(BaseModel):
     protocol: str
     threshold: float | None
     threshold_method: str | None
+    threshold_alpha: float | None = None
     mlflow_run_id: str | None
     image_auroc: float | None = None
     pixel_auroc: float | None = None
@@ -68,6 +82,7 @@ def _summary(info: object) -> ModelSummary:
         protocol=info.protocol,
         threshold=info.threshold,
         threshold_method=info.threshold_method,
+        threshold_alpha=info.threshold_alpha,
         mlflow_run_id=info.mlflow_run_id,
         image_auroc=info.metrics.get("image_auroc"),
         pixel_auroc=info.metrics.get("pixel_auroc"),
@@ -140,7 +155,11 @@ def build_router(
             model=_summary(info),
             score=score,
             threshold=threshold,
-            threshold_note=THRESHOLD_NOTE if threshold is not None else "no threshold",
+            threshold_note=threshold_note(
+                info.threshold_method,
+                info.threshold_alpha,
+                info.calibration["n_calib"] if info.calibration else None,
+            ),
             decision=decision,
             heatmap_png_base64=heat,
             heatmap_scale=(

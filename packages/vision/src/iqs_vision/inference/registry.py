@@ -2,6 +2,11 @@
 
 Never downloads: backbone weights are resolved through the asset allowlist and a missing
 file raises AssetMissingError with the fetch command.
+
+Threshold per model: the conformal threshold from calibration.json (scripts/calibrate.py,
+step 2) when present, else the provisional largest calibration score from metrics.json.
+POST /v1/calibrations can replace it in memory (models are mounted read-only in Docker), so
+a restart returns to the file on disk.
 """
 
 from __future__ import annotations
@@ -9,11 +14,12 @@ from __future__ import annotations
 import json
 import threading
 from collections import OrderedDict
-from dataclasses import dataclass
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any
 
 from iqs_common.assets import load_assets, resolve_model_file
+from iqs_vision.calibration.calibrate import CALIBRATION_FILE, SCORES_FILE
 from iqs_vision.detectors.patchcore import PatchCoreDetector
 
 
@@ -28,6 +34,21 @@ class ModelInfo:
     mlflow_run_id: str | None
     metrics: dict[str, float]
     path: Path
+    threshold_alpha: float | None = None  # conformal level; None for the provisional threshold
+    calibration: dict[str, Any] | None = field(default=None, compare=False, repr=False)
+    calibration_source: str | None = None  # "file" | "api"
+
+
+def _with_calibration(info: ModelInfo, cal: dict[str, Any], source: str) -> ModelInfo:
+    active = cal["active"]
+    return replace(
+        info,
+        threshold=float(active["threshold"]),
+        threshold_method=f"split_conformal_{active['method']}",
+        threshold_alpha=float(active["alpha"]),
+        calibration=cal,
+        calibration_source=source,
+    )
 
 
 class UnknownModelError(KeyError):
@@ -66,7 +87,7 @@ class ModelRegistry:
             run = meta.get("mlflow_run_id")
             cat = meta["category"]
             threshold = m.get("threshold_max_calib")
-            infos[cat] = ModelInfo(
+            info = ModelInfo(
                 category=cat,
                 protocol=self.protocol,
                 detector="patchcore",
@@ -77,7 +98,21 @@ class ModelRegistry:
                 metrics={k: float(v) for k, v in m.items()},
                 path=model_file,
             )
+            cal_file = metrics_file.with_name(CALIBRATION_FILE)
+            if cal_file.is_file():
+                info = _with_calibration(info, json.loads(cal_file.read_text()), "file")
+            infos[cat] = info
         return infos
+
+    def scores_file(self, category: str) -> Path:
+        return self.info(category).path.with_name(SCORES_FILE)
+
+    def set_calibration(self, category: str, calibration: dict[str, Any]) -> ModelInfo:
+        """Activate a calibration in memory (not written to disk)."""
+        with self._lock:
+            info = _with_calibration(self.info(category), calibration, "api")
+            self._infos[category] = info
+        return info
 
     def categories(self) -> list[str]:
         return sorted(self._infos)

@@ -68,3 +68,40 @@ def test_inspection_page_handles_unreachable_api(monkeypatch: pytest.MonkeyPatch
     monkeypatch.setattr(dash_client, "get_client", boom)
     at = AppTest.from_file(str(PAGES / "pages/2_Defect_Inspection.py")).run(timeout=60)
     assert any("Cannot load models" in e.value for e in at.error)
+
+
+def test_model_evaluation_page_without_calibration(wired: None) -> None:
+    at = AppTest.from_file(str(PAGES / "pages/3_Model_Evaluation.py")).run(timeout=60)
+    assert not at.exception
+    assert at.selectbox(key="category").options == ["toy"]
+    assert any("No conformal calibration" in i.value for i in at.info)
+
+
+def test_model_evaluation_page_shows_levels(
+    vision_http: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from iqs_vision.calibration.calibrate import ScoreRecord, build_calibration
+
+    recs = [ScoreRecord(f"c{i}", "0", "calib", 0, "good", float(i)) for i in range(60)]
+    recs += [
+        ScoreRecord("g", "0", "test", 0, "good", 1.0),
+        ScoreRecord("b", "0", "test", 1, "x", 99.0),
+    ]
+    meta = {"dataset": "s", "category": "toy", "protocol": "deploy", "manifest_fingerprint": "f"}
+    detail = {"category": "toy", "calibration": build_calibration(recs, meta)}
+    c = dash_client.VisionClient(cast(httpx.Client, vision_http), KEY)
+    monkeypatch.setattr(c, "calibration", lambda _cat: detail)
+    monkeypatch.setattr(dash_client, "get_client", lambda: c)
+    at = AppTest.from_file(str(PAGES / "pages/3_Model_Evaluation.py")).run(timeout=60)
+    assert not at.exception
+    assert any("n = 60 held-out good images" in s.value for s in at.subheader)
+    assert len(at.dataframe) == 2
+
+
+def test_model_evaluation_page_handles_unreachable_api(monkeypatch: pytest.MonkeyPatch) -> None:
+    def boom() -> dash_client.VisionClient:
+        raise ConnectionError("down")
+
+    monkeypatch.setattr(dash_client, "get_client", boom)
+    at = AppTest.from_file(str(PAGES / "pages/3_Model_Evaluation.py")).run(timeout=60)
+    assert any("Cannot load models" in e.value for e in at.error)
