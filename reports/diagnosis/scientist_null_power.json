@@ -1,0 +1,670 @@
+{
+  "note": "Simulator null and power checks; not real-plant numbers.",
+  "null": {
+    "gate2_passed": true,
+    "runs": 1000,
+    "seconds": 739.9,
+    "templates": [
+      {
+        "false_positive_rate": {
+          "high": 0.003682083896865671,
+          "k": 0,
+          "low": 0.0,
+          "n": 1000,
+          "value": 0.0
+        },
+        "inconclusive": 1000,
+        "limit": 0.07067607312813534,
+        "n": 1000,
+        "passed": true,
+        "positives": 0,
+        "rate_among_conclusive": {
+          "high": NaN,
+          "k": 0,
+          "low": NaN,
+          "n": 0,
+          "value": NaN
+        },
+        "template": "ambient_temperature_defective_vs_good"
+      },
+      {
+        "false_positive_rate": {
+          "high": 0.005558924279826672,
+          "k": 1,
+          "low": 2.5317487491294065e-05,
+          "n": 1000,
+          "value": 0.001
+        },
+        "inconclusive": 0,
+        "limit": 0.07067607312813534,
+        "n": 1000,
+        "passed": true,
+        "positives": 1,
+        "rate_among_conclusive": {
+          "high": 0.005558924279826672,
+          "k": 1,
+          "low": 2.5317487491294065e-05,
+          "n": 1000,
+          "value": 0.001
+        },
+        "template": "defect_rate_by_batch"
+      },
+      {
+        "false_positive_rate": {
+          "high": 0.003682083896865671,
+          "k": 0,
+          "low": 0.0,
+          "n": 1000,
+          "value": 0.0
+        },
+        "inconclusive": 1000,
+        "limit": 0.07067607312813534,
+        "n": 1000,
+        "passed": true,
+        "positives": 0,
+        "rate_among_conclusive": {
+          "high": NaN,
+          "k": 0,
+          "low": NaN,
+          "n": 0,
+          "value": NaN
+        },
+        "template": "defect_rate_by_parameter_set"
+      },
+      {
+        "false_positive_rate": {
+          "high": 0.003682083896865671,
+          "k": 0,
+          "low": 0.0,
+          "n": 1000,
+          "value": 0.0
+        },
+        "inconclusive": 992,
+        "limit": 0.07067607312813534,
+        "n": 1000,
+        "passed": true,
+        "positives": 0,
+        "rate_among_conclusive": {
+          "high": 0.3694166475528192,
+          "k": 0,
+          "low": 0.0,
+          "n": 8,
+          "value": 0.0
+        },
+        "template": "defect_rate_by_shift"
+      },
+      {
+        "false_positive_rate": {
+          "high": 0.003682083896865671,
+          "k": 0,
+          "low": 0.0,
+          "n": 1000,
+          "value": 0.0
+        },
+        "inconclusive": 1000,
+        "limit": 0.07067607312813534,
+        "n": 1000,
+        "passed": true,
+        "positives": 0,
+        "rate_among_conclusive": {
+          "high": NaN,
+          "k": 0,
+          "low": NaN,
+          "n": 0,
+          "value": NaN
+        },
+        "template": "defect_rate_by_tool_wear_level"
+      },
+      {
+        "false_positive_rate": {
+          "high": 0.0319223351804155,
+          "k": 21,
+          "low": 0.013045192290387685,
+          "n": 1000,
+          "value": 0.021
+        },
+        "inconclusive": 270,
+        "limit": 0.07067607312813534,
+        "n": 1000,
+        "passed": true,
+        "positives": 21,
+        "rate_among_conclusive": {
+          "high": 0.04363867941164738,
+          "k": 21,
+          "low": 0.017893615781728617,
+          "n": 730,
+          "value": 0.028767123287671233
+        },
+        "template": "power_command_residual_defective_vs_good"
+      },
+      {
+        "false_positive_rate": {
+          "high": 0.06875518328996323,
+          "k": 53,
+          "low": 0.03994925236001937,
+          "n": 1000,
+          "value": 0.053
+        },
+        "inconclusive": 0,
+        "limit": 0.07067607312813534,
+        "n": 1000,
+        "passed": true,
+        "positives": 53,
+        "rate_among_conclusive": {
+          "high": 0.06875518328996323,
+          "k": 53,
+          "low": 0.03994925236001937,
+          "n": 1000,
+          "value": 0.053
+        },
+        "template": "sensor_reference_residual_trend"
+      },
+      {
+        "false_positive_rate": {
+          "high": 0.06875518328996323,
+          "k": 53,
+          "low": 0.03994925236001937,
+          "n": 1000,
+          "value": 0.053
+        },
+        "inconclusive": 0,
+        "limit": 0.07067607312813534,
+        "n": 1000,
+        "passed": true,
+        "positives": 53,
+        "rate_among_conclusive": {
+          "high": 0.06875518328996323,
+          "k": 53,
+          "low": 0.03994925236001937,
+          "n": 1000,
+          "value": 0.053
+        },
+        "template": "spindle_load_defective_vs_good"
+      },
+      {
+        "false_positive_rate": {
+          "high": 0.03904174680597016,
+          "k": 27,
+          "low": 0.017866905925249688,
+          "n": 1000,
+          "value": 0.027
+        },
+        "inconclusive": 0,
+        "limit": 0.07067607312813534,
+        "n": 1000,
+        "passed": true,
+        "positives": 27,
+        "rate_among_conclusive": {
+          "high": 0.03904174680597016,
+          "k": 27,
+          "low": 0.017866905925249688,
+          "n": 1000,
+          "value": 0.027
+        },
+        "template": "station_defect_rate_change_point"
+      },
+      {
+        "false_positive_rate": {
+          "high": 0.059752832693407795,
+          "k": 45,
+          "low": 0.03300962543114875,
+          "n": 1000,
+          "value": 0.045
+        },
+        "inconclusive": 0,
+        "limit": 0.07067607312813534,
+        "n": 1000,
+        "passed": true,
+        "positives": 45,
+        "rate_among_conclusive": {
+          "high": 0.059752832693407795,
+          "k": 45,
+          "low": 0.03300962543114875,
+          "n": 1000,
+          "value": 0.045
+        },
+        "template": "temperature_delta_defective_vs_good"
+      }
+    ],
+    "window": "reference first 12 h, affected from hour 36"
+  },
+  "power": {
+    "by_fault": {
+      "accelerated_tool_wear": [
+        {
+          "alarm_rate": 0.05,
+          "cases": 1,
+          "magnitude": 1.2,
+          "power_given_case": 0.0,
+          "runs": 20,
+          "supported": 0
+        },
+        {
+          "alarm_rate": 0.1,
+          "cases": 2,
+          "magnitude": 1.775,
+          "power_given_case": 0.0,
+          "runs": 20,
+          "supported": 0
+        },
+        {
+          "alarm_rate": 0.95,
+          "cases": 19,
+          "magnitude": 2.3499999999999996,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 19
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 2.925,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 3.5,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        }
+      ],
+      "ambient_temperature_excursion": [
+        {
+          "alarm_rate": 0.05,
+          "cases": 1,
+          "magnitude": 3.0,
+          "power_given_case": 0.0,
+          "runs": 20,
+          "supported": 0
+        },
+        {
+          "alarm_rate": 0.9,
+          "cases": 18,
+          "magnitude": 4.5,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 18
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 6.0,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 7.5,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 9.0,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        }
+      ],
+      "bad_material_batch": [
+        {
+          "alarm_rate": 0.0,
+          "cases": 0,
+          "magnitude": 20.0,
+          "power_given_case": null,
+          "runs": 20,
+          "supported": 0
+        },
+        {
+          "alarm_rate": 0.2,
+          "cases": 4,
+          "magnitude": 30.0,
+          "power_given_case": 0.0,
+          "runs": 20,
+          "supported": 0
+        },
+        {
+          "alarm_rate": 0.8,
+          "cases": 16,
+          "magnitude": 40.0,
+          "power_given_case": 0.6875,
+          "runs": 20,
+          "supported": 11
+        },
+        {
+          "alarm_rate": 0.95,
+          "cases": 19,
+          "magnitude": 50.0,
+          "power_given_case": 0.8947368421052632,
+          "runs": 20,
+          "supported": 17
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 60.0,
+          "power_given_case": 0.9,
+          "runs": 20,
+          "supported": 18
+        }
+      ],
+      "coolant_flow_loss": [
+        {
+          "alarm_rate": 0.0,
+          "cases": 0,
+          "magnitude": 0.1,
+          "power_given_case": null,
+          "runs": 20,
+          "supported": 0
+        },
+        {
+          "alarm_rate": 0.35,
+          "cases": 7,
+          "magnitude": 0.2,
+          "power_given_case": 0.7142857142857143,
+          "runs": 20,
+          "supported": 5
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.30000000000000004,
+          "power_given_case": 0.95,
+          "runs": 20,
+          "supported": 19
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.4,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.5,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        }
+      ],
+      "drive_power_deviation": [
+        {
+          "alarm_rate": 0.15,
+          "cases": 3,
+          "magnitude": 0.05,
+          "power_given_case": 0.3333333333333333,
+          "runs": 20,
+          "supported": 1
+        },
+        {
+          "alarm_rate": 0.4,
+          "cases": 8,
+          "magnitude": 0.1125,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 8
+        },
+        {
+          "alarm_rate": 0.9,
+          "cases": 18,
+          "magnitude": 0.175,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 18
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.2375,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.3,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        }
+      ],
+      "fixture_offset": [
+        {
+          "alarm_rate": 0.05,
+          "cases": 1,
+          "magnitude": 0.005,
+          "power_given_case": 0.0,
+          "runs": 20,
+          "supported": 0
+        },
+        {
+          "alarm_rate": 0.5,
+          "cases": 10,
+          "magnitude": 0.0125,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 10
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.02,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.027500000000000004,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.035,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        }
+      ],
+      "handling_error_on_shift": [
+        {
+          "alarm_rate": 0.2,
+          "cases": 4,
+          "magnitude": 0.02,
+          "power_given_case": 0.5,
+          "runs": 20,
+          "supported": 2
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.09,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.15999999999999998,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.22999999999999995,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.3,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        }
+      ],
+      "parameter_setpoint_change": [
+        {
+          "alarm_rate": 0.95,
+          "cases": 19,
+          "magnitude": 0.15,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 19
+        },
+        {
+          "alarm_rate": 0.9,
+          "cases": 18,
+          "magnitude": 0.19999999999999998,
+          "power_given_case": 0.9444444444444444,
+          "runs": 20,
+          "supported": 17
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.25,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.3,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        },
+        {
+          "alarm_rate": 0.9,
+          "cases": 18,
+          "magnitude": 0.35,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 18
+        }
+      ],
+      "sensor_calibration_drift": [
+        {
+          "alarm_rate": 0.1,
+          "cases": 2,
+          "magnitude": 0.0002,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 2
+        },
+        {
+          "alarm_rate": 0.95,
+          "cases": 19,
+          "magnitude": 0.00045,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 19
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.0006999999999999999,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.0009499999999999998,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 0.0012,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        }
+      ],
+      "spindle_overload": [
+        {
+          "alarm_rate": 0.0,
+          "cases": 0,
+          "magnitude": 1.1,
+          "power_given_case": null,
+          "runs": 20,
+          "supported": 0
+        },
+        {
+          "alarm_rate": 0.2,
+          "cases": 4,
+          "magnitude": 1.25,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 4
+        },
+        {
+          "alarm_rate": 0.65,
+          "cases": 13,
+          "magnitude": 1.4,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 13
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 1.55,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        },
+        {
+          "alarm_rate": 1.0,
+          "cases": 20,
+          "magnitude": 1.7,
+          "power_given_case": 1.0,
+          "runs": 20,
+          "supported": 20
+        }
+      ]
+    },
+    "own_template": {
+      "accelerated_tool_wear": "defect_rate_by_tool_wear_level",
+      "ambient_temperature_excursion": "ambient_temperature_defective_vs_good",
+      "bad_material_batch": "defect_rate_by_batch",
+      "coolant_flow_loss": "temperature_delta_defective_vs_good",
+      "drive_power_deviation": "power_command_residual_defective_vs_good",
+      "fixture_offset": "station_defect_rate_change_point",
+      "handling_error_on_shift": "defect_rate_by_shift",
+      "parameter_setpoint_change": "defect_rate_by_parameter_set",
+      "sensor_calibration_drift": "sensor_reference_residual_trend",
+      "spindle_overload": "spindle_load_defective_vs_good"
+    },
+    "runs": 1000,
+    "seconds": 595.1
+  },
+  "workers": 2
+}

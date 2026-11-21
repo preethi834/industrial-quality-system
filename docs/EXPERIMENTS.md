@@ -171,6 +171,36 @@ labelled defects, and the reason PatchCore is the primary model.
 | Result | client **p50 529 ms, p95 560 ms**, mean 531 ms; server-reported p50 522 ms, p95 550 ms; sequential requests, CPU only (`reports/inspection_latency.jsonl`) |
 | Note | The first request for a category also loads its model: 18.8 s for bottle on a cold container, 3.7 s for screw later |
 
+### EXP-3-02 — Diagnosis agent on simulator cases, `dx_corpus_v1` test split (done, simulator only)
+
+| Field | Content |
+| --- | --- |
+| Date | 2026-11-20 (test split evaluated once) |
+| Command | `scripts/evaluate_diagnosis.py` (full agent per case, `nice -n 19`) |
+| Data | `eval_sets/diagnosis/sim/dx_corpus_v1.json` (library = train, 225 cases, 8 causes; parameters frozen on dev) |
+| Result | 188 test cases (148 known cause, 40 held-out). Top-1 known **1.000** [0.975, 1.000]; novelty detected 1.000 [0.912, 1.000]; false novelty **0.061** [0.032, 0.112] (target 0.05); tool-call accuracy 1.000; latency p50 317 ms. Baselines: BM25 0.973, vector 1.000, majority 0.135. Report `reports/diagnosis/dx_corpus_v1_test.json` |
+| Notes | **Simulator accuracy is not real-world accuracy.** The task is easy by design; no LLM yet, so LLM-as-judge agreement is not measured. Full tables: `docs/notes/step-3.md` §3d |
+
+### EXP-4-01 — Conformal cause sets on `dx_corpus_v2` (done, simulator only)
+
+| Field | Content |
+| --- | --- |
+| Date | 2026-11-20 |
+| Command | `scripts/calibrate_causes.py`, then `scripts/evaluate_conformal.py` |
+| Data | v2 dev halves by case hash (fit 289, calibration 230 known-cause cases); v2 test 582 cases, evaluated once |
+| Result | α = 0.1, known causes (n = 454): LAC coverage **0.894** [0.862, 0.921], size 0.96; APS **0.989** [0.974, 0.996], size 1.56. Two-fault primary covered: LAC 0.571, APS 0.962. Gate 2 (R = 100 resplits): LAC 0.8956 ≥ 0.8934, APS 0.9602. New problems: coverage 0 (stress test), LAC empty for 57.8 %. Report `reports/diagnosis/conformal_dx_corpus_v2_test.json` |
+| Notes | Marginal, simulator-only coverage; LAC margin 0.002 (KNOWN_ISSUES #22). Real-data gate 1 open (#19). Full tables: `docs/notes/step-4.md` |
+
+### EXP-5-01 — Scientist agent: null check, power and `sci_eval_v1` (done, simulator only)
+
+| Field | Content |
+| --- | --- |
+| Date | 2026-11-20 |
+| Command | `scripts/check_scientist_null.py` (1,000 fault-free runs + power grid), `scripts/evaluate_scientist.py` (family manifest committed first, `aa6152c`) |
+| Data | seeds 900000–900999 (null); `sci_eval_v1`, 600 scenarios → 577 cases |
+| Result | Null FP rate ≤ 0.0707 for all 10 templates (max 0.053; vacuous for 4, KNOWN_ISSUES #23). All-causes mode: correct cause supported **0.957** [0.937, 0.970], wrong causes rejected 0.459, wrong supported 0.137. Agent top-1 0.787 overall (new problems 0); scientist pick correct 0.922 of 474 picks; templates alone 0.672. Reports `reports/diagnosis/scientist_null_power.json`, `scientist_sci_eval_v1.json` |
+| Notes | Simulator results, not real-plant results. Novel-case all-causes mode was added after this run and is unmeasured (#24). Full tables: `docs/notes/step-5b.md` |
+
 ## Planned
 
 | ID | Step | Question | Status |
@@ -181,7 +211,7 @@ labelled defects, and the reason PatchCore is the primary model.
 | EXP-2-01 | 2 | Detector performance on MVTec AD 2 and VisA, incl. the lighting-shift test set | planned |
 | EXP-2-02 | 2 | Realised false-alarm rate of the conformal threshold vs target α over repeated splits | planned |
 | EXP-3-01 | 3 | Embedding model choice by recall@k on the retrieval set | planned |
-| EXP-3-02 | 3 | Diagnosis top-3 accuracy and LLM-as-judge agreement (Cohen's κ) with hand labels | planned |
-| EXP-4-01 | 4 | Empirical coverage and average size of conformal cause sets (LAC vs APS) | planned |
-| EXP-5-01 | 5 | Root-cause accuracy on simulator scenarios with known injected faults | planned |
+| EXP-3-02 | 3 | Diagnosis top-3 accuracy and LLM-as-judge agreement (Cohen's κ) with hand labels | simulator part done (above); NHTSA and LLM-as-judge planned |
+| EXP-4-01 | 4 | Empirical coverage and average size of conformal cause sets (LAC vs APS) | simulator done (above); real test split open |
+| EXP-5-01 | 5 | Root-cause accuracy on simulator scenarios with known injected faults | done (above) |
 | EXP-6-01 | 6 | Expected cost per 10,000 parts: cost-aware decisions vs fixed threshold, with sensitivity analysis | planned |

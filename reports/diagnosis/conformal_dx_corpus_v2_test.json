@@ -1,0 +1,519 @@
+{
+  "alpha": 0.1,
+  "calibration_run": "cal_dx_corpus_v2_dev_a010",
+  "calibration_score_ties": {
+    "aps": {
+      "distinct": 71,
+      "largest_tie": 158,
+      "n": 230,
+      "share_distinct": 0.30869565217391304
+    },
+    "lac": {
+      "distinct": 72,
+      "largest_tie": 158,
+      "n": 230,
+      "share_distinct": 0.3130434782608696
+    }
+  },
+  "corpus": "dx_corpus_v2",
+  "counts": {
+    "gate2_pool": 684,
+    "known": 454,
+    "new_problems": 128,
+    "single_fault": 349,
+    "test_cases": 582,
+    "two_fault": 105
+  },
+  "delta": 0.1,
+  "gate2_resplits": {
+    "aps": {
+      "lower_rule": 0.8985347869277919,
+      "mean_coverage": 0.9602422907488986,
+      "mean_set_size": 1.5682378854625552,
+      "method": "aps",
+      "n_calibration": 230,
+      "n_pool": 684,
+      "passed": true,
+      "repeats": 100,
+      "sd_coverage": 0.004884043574027189,
+      "se": 0.0004884043574027189
+    },
+    "lac": {
+      "lower_rule": 0.8934389595782868,
+      "mean_coverage": 0.8955947136563878,
+      "mean_set_size": 0.9595814977973567,
+      "method": "lac",
+      "n_calibration": 230,
+      "n_pool": 684,
+      "passed": true,
+      "repeats": 100,
+      "sd_coverage": 0.021870134739044082,
+      "se": 0.002187013473904408
+    }
+  },
+  "n_calibration": 230,
+  "note": "Simulator coverage is not real-world coverage. Gate 1 (real cases) is open.",
+  "scorer": {
+    "alpha": 0.001,
+    "depth": 50,
+    "fitted_on": {
+      "corpus": "dx_corpus_v2",
+      "library": "train",
+      "tuning": "dev/fit-half"
+    },
+    "n_neighbours": 10,
+    "n_novelty_calibration": 219,
+    "novelty_alpha": 0.05,
+    "novelty_threshold": 0.5525147927615597,
+    "rrf_k": 60
+  },
+  "split": "test",
+  "variants": {
+    "aps": {
+      "delta": null,
+      "k": 208,
+      "known": {
+        "all_injected_covered": null,
+        "coverage": {
+          "high": 0.9964146364336961,
+          "k": 449,
+          "low": 0.9744871221229839,
+          "n": 454,
+          "value": 0.9889867841409692
+        },
+        "empty": {
+          "high": 0.008092364236161418,
+          "k": 0,
+          "low": 0.0,
+          "n": 454,
+          "value": 0.0
+        },
+        "mean_size": 1.5638766519823788,
+        "n": 454,
+        "size_histogram": {
+          "1": 305,
+          "2": 80,
+          "3": 38,
+          "4": 25,
+          "5": 5,
+          "6": 1
+        }
+      },
+      "method": "aps",
+      "new_problems_stress_test_no_guarantee": {
+        "all_injected_covered": null,
+        "coverage": {
+          "high": 0.028408053443543902,
+          "k": 0,
+          "low": 0.0,
+          "n": 128,
+          "value": 0.0
+        },
+        "empty": {
+          "high": 0.028408053443543902,
+          "k": 0,
+          "low": 0.0,
+          "n": 128,
+          "value": 0.0
+        },
+        "mean_size": 4.4609375,
+        "n": 128,
+        "size_histogram": {
+          "1": 1,
+          "2": 7,
+          "3": 15,
+          "4": 32,
+          "5": 55,
+          "6": 18
+        }
+      },
+      "qhat": 0.9910891089108912,
+      "single_fault": {
+        "all_injected_covered": null,
+        "coverage": {
+          "high": 0.9999274587688232,
+          "k": 348,
+          "low": 0.9841395764691341,
+          "n": 349,
+          "value": 0.997134670487106
+        },
+        "empty": {
+          "high": 0.010514190545195515,
+          "k": 0,
+          "low": 0.0,
+          "n": 349,
+          "value": 0.0
+        },
+        "mean_size": 1.186246418338109,
+        "n": 349,
+        "size_histogram": {
+          "1": 294,
+          "2": 46,
+          "3": 8,
+          "4": 1
+        }
+      },
+      "two_fault": {
+        "all_injected_covered": {
+          "high": 0.6585698139920215,
+          "k": 59,
+          "low": 0.46165714002092034,
+          "n": 105,
+          "value": 0.5619047619047619
+        },
+        "coverage": {
+          "high": 0.9895244066333944,
+          "k": 101,
+          "low": 0.9053277192973981,
+          "n": 105,
+          "value": 0.9619047619047619
+        },
+        "empty": {
+          "high": 0.03452221412650563,
+          "k": 0,
+          "low": 0.0,
+          "n": 105,
+          "value": 0.0
+        },
+        "mean_size": 2.8190476190476192,
+        "n": 105,
+        "size_histogram": {
+          "1": 11,
+          "2": 34,
+          "3": 30,
+          "4": 24,
+          "5": 5,
+          "6": 1
+        }
+      }
+    },
+    "aps_pac": {
+      "delta": 0.1,
+      "k": 214,
+      "known": {
+        "all_injected_covered": null,
+        "coverage": {
+          "high": 0.9964146364336961,
+          "k": 449,
+          "low": 0.9744871221229839,
+          "n": 454,
+          "value": 0.9889867841409692
+        },
+        "empty": {
+          "high": 0.008092364236161418,
+          "k": 0,
+          "low": 0.0,
+          "n": 454,
+          "value": 0.0
+        },
+        "mean_size": 1.5638766519823788,
+        "n": 454,
+        "size_histogram": {
+          "1": 305,
+          "2": 80,
+          "3": 38,
+          "4": 25,
+          "5": 5,
+          "6": 1
+        }
+      },
+      "method": "aps",
+      "new_problems_stress_test_no_guarantee": {
+        "all_injected_covered": null,
+        "coverage": {
+          "high": 0.028408053443543902,
+          "k": 0,
+          "low": 0.0,
+          "n": 128,
+          "value": 0.0
+        },
+        "empty": {
+          "high": 0.028408053443543902,
+          "k": 0,
+          "low": 0.0,
+          "n": 128,
+          "value": 0.0
+        },
+        "mean_size": 4.4609375,
+        "n": 128,
+        "size_histogram": {
+          "1": 1,
+          "2": 7,
+          "3": 15,
+          "4": 32,
+          "5": 55,
+          "6": 18
+        }
+      },
+      "qhat": 0.9910891089108912,
+      "single_fault": {
+        "all_injected_covered": null,
+        "coverage": {
+          "high": 0.9999274587688232,
+          "k": 348,
+          "low": 0.9841395764691341,
+          "n": 349,
+          "value": 0.997134670487106
+        },
+        "empty": {
+          "high": 0.010514190545195515,
+          "k": 0,
+          "low": 0.0,
+          "n": 349,
+          "value": 0.0
+        },
+        "mean_size": 1.186246418338109,
+        "n": 349,
+        "size_histogram": {
+          "1": 294,
+          "2": 46,
+          "3": 8,
+          "4": 1
+        }
+      },
+      "two_fault": {
+        "all_injected_covered": {
+          "high": 0.6585698139920215,
+          "k": 59,
+          "low": 0.46165714002092034,
+          "n": 105,
+          "value": 0.5619047619047619
+        },
+        "coverage": {
+          "high": 0.9895244066333944,
+          "k": 101,
+          "low": 0.9053277192973981,
+          "n": 105,
+          "value": 0.9619047619047619
+        },
+        "empty": {
+          "high": 0.03452221412650563,
+          "k": 0,
+          "low": 0.0,
+          "n": 105,
+          "value": 0.0
+        },
+        "mean_size": 2.8190476190476192,
+        "n": 105,
+        "size_histogram": {
+          "1": 11,
+          "2": 34,
+          "3": 30,
+          "4": 24,
+          "5": 5,
+          "6": 1
+        }
+      }
+    },
+    "lac": {
+      "delta": null,
+      "k": 208,
+      "known": {
+        "all_injected_covered": null,
+        "coverage": {
+          "high": 0.9210108650961685,
+          "k": 406,
+          "low": 0.8622718166963432,
+          "n": 454,
+          "value": 0.8942731277533039
+        },
+        "empty": {
+          "high": 0.0566014376139118,
+          "k": 16,
+          "low": 0.020275685503565323,
+          "n": 454,
+          "value": 0.03524229074889868
+        },
+        "mean_size": 0.9647577092511013,
+        "n": 454,
+        "size_histogram": {
+          "0": 16,
+          "1": 438
+        }
+      },
+      "method": "lac",
+      "new_problems_stress_test_no_guarantee": {
+        "all_injected_covered": null,
+        "coverage": {
+          "high": 0.028408053443543902,
+          "k": 0,
+          "low": 0.0,
+          "n": 128,
+          "value": 0.0
+        },
+        "empty": {
+          "high": 0.6648563670012748,
+          "k": 74,
+          "low": 0.4876950083548736,
+          "n": 128,
+          "value": 0.578125
+        },
+        "mean_size": 0.421875,
+        "n": 128,
+        "size_histogram": {
+          "0": 74,
+          "1": 54
+        }
+      },
+      "qhat": 0.4991622593672501,
+      "single_fault": {
+        "all_injected_covered": null,
+        "coverage": {
+          "high": 0.9982237802420082,
+          "k": 346,
+          "low": 0.9750856922621228,
+          "n": 349,
+          "value": 0.9914040114613181
+        },
+        "empty": {
+          "high": 0.010514190545195515,
+          "k": 0,
+          "low": 0.0,
+          "n": 349,
+          "value": 0.0
+        },
+        "mean_size": 1.0,
+        "n": 349,
+        "size_histogram": {
+          "1": 349
+        }
+      },
+      "two_fault": {
+        "all_injected_covered": {
+          "high": 0.03452221412650563,
+          "k": 0,
+          "low": 0.0,
+          "n": 105,
+          "value": 0.0
+        },
+        "coverage": {
+          "high": 0.6675784396311772,
+          "k": 60,
+          "low": 0.471144350964607,
+          "n": 105,
+          "value": 0.5714285714285714
+        },
+        "empty": {
+          "high": 0.23563137681218208,
+          "k": 16,
+          "low": 0.0896813390099198,
+          "n": 105,
+          "value": 0.1523809523809524
+        },
+        "mean_size": 0.8476190476190476,
+        "n": 105,
+        "size_histogram": {
+          "0": 16,
+          "1": 89
+        }
+      }
+    },
+    "lac_pac": {
+      "delta": 0.1,
+      "k": 214,
+      "known": {
+        "all_injected_covered": null,
+        "coverage": {
+          "high": 0.9382022238071912,
+          "k": 415,
+          "low": 0.8844384457973143,
+          "n": 454,
+          "value": 0.9140969162995595
+        },
+        "empty": {
+          "high": 0.02240390225775551,
+          "k": 4,
+          "low": 0.0024056529844202514,
+          "n": 454,
+          "value": 0.00881057268722467
+        },
+        "mean_size": 1.0088105726872247,
+        "n": 454,
+        "size_histogram": {
+          "0": 4,
+          "1": 442,
+          "2": 8
+        }
+      },
+      "method": "lac",
+      "new_problems_stress_test_no_guarantee": {
+        "all_injected_covered": null,
+        "coverage": {
+          "high": 0.028408053443543902,
+          "k": 0,
+          "low": 0.0,
+          "n": 128,
+          "value": 0.0
+        },
+        "empty": {
+          "high": 0.0992351236938912,
+          "k": 6,
+          "low": 0.017394056140272496,
+          "n": 128,
+          "value": 0.046875
+        },
+        "mean_size": 0.9609375,
+        "n": 128,
+        "size_histogram": {
+          "0": 6,
+          "1": 121,
+          "2": 1
+        }
+      },
+      "qhat": 0.6025568326311521,
+      "single_fault": {
+        "all_injected_covered": null,
+        "coverage": {
+          "high": 0.9999274587688232,
+          "k": 348,
+          "low": 0.9841395764691341,
+          "n": 349,
+          "value": 0.997134670487106
+        },
+        "empty": {
+          "high": 0.010514190545195515,
+          "k": 0,
+          "low": 0.0,
+          "n": 349,
+          "value": 0.0
+        },
+        "mean_size": 1.0143266475644699,
+        "n": 349,
+        "size_histogram": {
+          "1": 344,
+          "2": 5
+        }
+      },
+      "two_fault": {
+        "all_injected_covered": {
+          "high": 0.0671157603022928,
+          "k": 2,
+          "low": 0.0023151367400750596,
+          "n": 105,
+          "value": 0.01904761904761905
+        },
+        "coverage": {
+          "high": 0.7296350789421491,
+          "k": 67,
+          "low": 0.5385485545295053,
+          "n": 105,
+          "value": 0.638095238095238
+        },
+        "empty": {
+          "high": 0.09467228070260193,
+          "k": 4,
+          "low": 0.01047559336660568,
+          "n": 105,
+          "value": 0.0380952380952381
+        },
+        "mean_size": 0.9904761904761905,
+        "n": 105,
+        "size_histogram": {
+          "0": 4,
+          "1": 98,
+          "2": 3
+        }
+      }
+    }
+  }
+}

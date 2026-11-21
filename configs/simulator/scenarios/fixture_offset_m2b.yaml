@@ -1,0 +1,13 @@
+# Reference single-fault scenario for fixture_offset (taxonomy simulator_fault).
+# Same seed, start and horizon as baseline.yaml, so the two runs differ only by the fault.
+name: fixture_offset_m2b
+description: >-
+  Fixture on M2B shifted by 0.025 mm from hour 24 (M2A unaffected).
+seed: 7
+start: "2026-01-05T06:00:00Z"
+duration_hours: 72
+faults:
+  - type: fixture_offset
+    target: M2B
+    magnitude: 0.025
+    onset_hours: 24

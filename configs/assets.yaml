@@ -17,6 +17,32 @@ datasets:
     target: data/raw/mvtec_ad
     approved: "2026-11-19"
 
+  nhtsa_recalls_post_2010:
+    title: NHTSA ODI recalls flat file, report dates from 2010 (step 3f labelling)
+    source: https://static.nhtsa.gov/odi/ffdd/rcl/FLAT_RCL_POST_2010.zip
+    # NHTSA regenerates this file often: the checksum pins the copy fetched
+    # 2026-11-21T09:38Z (S3 LastModified 2026-11-21T08:03:58Z). A later fetch will differ.
+    # Extracted: FLAT_RCL_POST_2010.txt, 314235584 bytes, 248586 rows,
+    # sha256 c2237f4cc630db490402afd7951b1f21efadeb25aefe766176909d98d4335b56 # pragma: allowlist secret
+    filename: FLAT_RCL_POST_2010.zip
+    size_bytes: 14907455
+    sha256: 7ee746b44009941e3da5fc0ae9a36410ba122bb5c4559482ce1a5c479d9729b1 # pragma: allowlist secret (checksum)
+    licence: U.S. government work, public domain (data.gov accessLevel public; no licence field)
+    target: data/raw/nhtsa
+    approved: "2026-11-21"
+  ai4i_2020:
+    title: AI4I 2020 Predictive Maintenance Dataset (UCI 601)
+    source: https://archive.ics.uci.edu/static/public/601/ai4i+2020+predictive+maintenance+dataset.zip
+    # Extracted: ai4i2020.csv, 522048 bytes, 10000 rows,
+    # sha256 dc6630cd9b1f0f853922fad78a1b6436570d3f1ec863f1dd5c4340ac56bc8a8e # pragma: allowlist secret
+    # Cite: doi:10.24432/C5HS5C and Matzka (2020), doi:10.1109/AI4I49448.2020.00023.
+    filename: ai4i_2020_predictive_maintenance_dataset.zip
+    size_bytes: 522170
+    sha256: f601f14294bcf190f9d720676b7f0aea46a26cde9ab8ebc7b4f8174d9d26b252 # pragma: allowlist secret (checksum)
+    licence: CC BY 4.0 (attribution required)
+    target: data/raw/ai4i
+    approved: "2026-11-21"
+
 models:
   wide_resnet50_2.tv_in1k:
     title: Wide ResNet-50-2, torchvision ImageNet-1k V1 weights (PatchCore backbone, as in the paper)

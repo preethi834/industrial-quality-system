@@ -1,0 +1,102 @@
+{
+  "config_sha256": "a938edc3740964e2aa54c3ef018369da2bb3a3abb71b1c044f3dc15e85f75513",
+  "corpus": "dx_corpus_v2",
+  "novel_faults": [
+    "drive_power_deviation",
+    "handling_error_on_shift"
+  ],
+  "seconds_total": 1132.6,
+  "splits": {
+    "dev": {
+      "cases_by_fault": {
+        "accelerated_tool_wear": 37,
+        "ambient_temperature_excursion": 82,
+        "bad_material_batch": 34,
+        "coolant_flow_loss": 52,
+        "drive_power_deviation": 72,
+        "fixture_offset": 72,
+        "handling_error_on_shift": 61,
+        "parameter_setpoint_change": 71,
+        "sensor_calibration_drift": 69,
+        "spindle_overload": 32
+      },
+      "family": "dx2dev",
+      "family_sha256": "d4b5612baff7c2a6a51d86ded20814e0d8c1db0dbe08768137e4ad131d6c4a61",
+      "labels_sha256": "d0b74c3a55c62ce0af659788f2b8cef4636cc469aed8c84c6bd4c9f92f163bf9",
+      "magnitudes": "near_limit",
+      "n_cases": 582,
+      "n_pair_scenarios": 120,
+      "n_scenarios": 600,
+      "n_two_fault_cases": 120,
+      "pairs_family": "dx2devpair",
+      "pairs_family_sha256": "0688a8489dd80d2f11ef75c46f740e031124439ecf3cb47e251e16f1e11fd2d5",
+      "pairs_magnitudes": "standard",
+      "pairs_seed": 32012,
+      "profiles_sha256": "2396f25d8e91d4934141907bdd36a3be7ae088021bb51e12ab85b62ba3c3325a",
+      "seconds_profiles": 116.9,
+      "seconds_simulate": 304.0,
+      "seed": 32002
+    },
+    "test": {
+      "cases_by_fault": {
+        "accelerated_tool_wear": 40,
+        "ambient_temperature_excursion": 76,
+        "bad_material_batch": 33,
+        "coolant_flow_loss": 63,
+        "drive_power_deviation": 61,
+        "fixture_offset": 66,
+        "handling_error_on_shift": 67,
+        "parameter_setpoint_change": 73,
+        "sensor_calibration_drift": 66,
+        "spindle_overload": 37
+      },
+      "family": "dx2test",
+      "family_sha256": "221427be8222ae2c7e03512e03679c8cb3d6b166dbfb342c187bb22a500046ff",
+      "labels_sha256": "771bae3db076c12282f534aeab1187bcd98bcd9c3caccf4e6641370f541a1c9d",
+      "magnitudes": "near_limit",
+      "n_cases": 582,
+      "n_pair_scenarios": 120,
+      "n_scenarios": 600,
+      "n_two_fault_cases": 120,
+      "pairs_family": "dx2testpair",
+      "pairs_family_sha256": "70092e0061f59ad579a4ac83dc47fb376faa5798faae73e20b0ea3eca94703d4",
+      "pairs_magnitudes": "standard",
+      "pairs_seed": 32013,
+      "profiles_sha256": "7d974795e67d685e52d5029d40847adc2a61a3656e1006515216aeb8f0b74d85",
+      "seconds_profiles": 98.0,
+      "seconds_simulate": 393.9,
+      "seed": 32003
+    },
+    "train": {
+      "cases_by_fault": {
+        "accelerated_tool_wear": 28,
+        "ambient_temperature_excursion": 53,
+        "bad_material_batch": 19,
+        "coolant_flow_loss": 36,
+        "fixture_offset": 49,
+        "parameter_setpoint_change": 55,
+        "sensor_calibration_drift": 46,
+        "spindle_overload": 20
+      },
+      "family": "dx2train",
+      "family_sha256": "56df51f2e7ebc9cc5c50b82ae1152f2a7b9bb76876951e3440a06c2bac34bd67",
+      "labels_sha256": "442c69bf31cfa3ac89b70098d0d8a9ba3564f0946427c12612edd9782e39e149",
+      "magnitudes": "near_limit",
+      "n_cases": 306,
+      "n_pair_scenarios": 80,
+      "n_scenarios": 320,
+      "n_two_fault_cases": 80,
+      "pairs_family": "dx2trainpair",
+      "pairs_family_sha256": "37c8155988a87e6b27a7eb7202a30ac4f1b06a835f5f9f815793ba044f6b7a6e",
+      "pairs_magnitudes": "standard",
+      "pairs_seed": 32011,
+      "profiles_sha256": "28685a2e71dd60aacb24655010b7d320ca2b898983fe2bfb953af39273f164ef",
+      "seconds_profiles": 51.3,
+      "seconds_simulate": 168.4,
+      "seed": 32001
+    }
+  },
+  "vocabulary_sha256": "4856ab6d0ac2711f41ba67bb1fb7de6d21dcbed17c2a49022e0ec31638b9d3a0",
+  "vocabulary_version": "0.1.0",
+  "workers": 2
+}

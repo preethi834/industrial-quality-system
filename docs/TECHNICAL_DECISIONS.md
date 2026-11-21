@@ -217,3 +217,151 @@ calibration images are never seen by the detector; Rev 2 §3.9 forbids implicit 
 **Consequences.** Published-number comparisons use `official` models; the API serves `deploy`
 models, so the two tables differ slightly (20 % fewer fit images). Training all 15 categories
 twice takes most of a day on this CPU; coreset selection dominates (quadratic in train size).
+
+---
+
+## ADR-006 — Diagnosis minimum version: simulator symptom profiles, retrieval votes, novelty threshold (step 3a–3b)
+
+**Status:** accepted · 2026-11-20 (proposed in `docs/notes/step-3.md`; numbered and adopted at the merge into `main`, 2026-11-21)
+
+**Context.** Blueprint §5 Step 3 asks for a working agent with retrieval, novelty and
+top-3 causes, measured on a test split. The real-data path (NHTSA, AI4I, LLM) needs
+downloads, hand labels and an LLM; the simulator (step 5a) already gives labelled cases
+with exact ground truth. Simulator case text is templated and does not say where
+rejects concentrate, so text alone cannot separate the 10 causes.
+
+**Decisions.**
+
+1. **Minimum version without an LLM** (approved 2026-11-20). Probabilities come only
+   from retrieval votes (§2.3 rule). The LLM arrives in 3e via Ollama only; no paid API
+   before step 8 (user rule).
+2. **Symptom extraction may compute descriptive concentration and shift statistics**
+   (approved, answers 5a open question 2): effect sizes only, no p-values or verdicts;
+   statistical tests with BH correction stay in the scientist agent (5b).
+3. **Symptom codes are observations in lower snake case**, separate from cause codes
+   (answers 5a open question 1). Rules live in `configs/diagnosis/symptoms.yaml`.
+4. **Features are machine-agnostic** (max/min over machines, batches, shifts); the
+   location is evidence (`where`). A tool-wear case on M1 and on M3 then look alike.
+5. **Leak guards.** Only `iqs_diagnosis.evaluation` may name the ground-truth directory
+   or be imported for labels (AST test); profiles and labels are separate files joined
+   by `case_id`; run directories are opaque hashes; the process store is the locked
+   DuckDB allow-list from 5a.
+6. **Splits = separate scenario families** with their own names and seeds (train =
+   case library, dev = tuning, test = reported once in 3d). Two causes
+   (`MACHINE.DRIVE_FAULT`, `PERSONNEL.PART_HANDLING_ERROR`) are left out of the
+   library to measure novelty; chosen before any results.
+7. **Generated data outside the repo** (`~/iqs-data/sim/<corpus>`, answers 5a open
+   question 3); only the manifest (family hashes, file hashes, counts, timings) and the
+   fitted ranker parameters are committed.
+8. **Dense embeddings and reranker deferred to 3f** (approved): for numeric simulator
+   profiles a standardised feature vector is the "dense" side of hybrid retrieval.
+
+**Consequences.**
+- Simulator results say nothing about real-world accuracy; they are reported separately
+  from NHTSA results (§6.3, §6.4).
+- The vocabulary thresholds were read off the same reference scenarios the signature
+  test uses; the test is a regression check, not evidence of accuracy.
+- Changing a feature or rule changes every profile; the corpus manifest records the
+  vocabulary hash, so stale profiles are detectable.
+
+---
+
+## ADR-007 — Conformal cause sets: split by case hash, frozen runs, LAC + APS (step 4)
+
+**Status:** accepted · 2026-11-20 (proposed in `docs/notes/step-4.md`; numbered and adopted at the merge into `main`, 2026-11-21)
+
+**Context.** §2.8 requires disjoint fit and calibration data, frozen calibration runs, an
+error instead of a silent threshold when n is too small, and honest reporting of
+marginal coverage and of new problems. The step-3 scorer had its smoothing on the grid
+edge and no errors on v1, so v2 (harder) was built first.
+
+**Decisions.**
+1. Own implementation (no MAPIE; user decision); cross-check against hand-computed sets.
+2. Scorer refit and calibration on two hash-defined halves of v2 dev; library = v2 train.
+3. Calibration runs are JSON artifacts with scorer parameters, case IDs and sorted scores;
+   the service loads the scorer from the run so served scores match calibration; runs are
+   mirrored into `diagnosis.calibration_runs` (one row per variant).
+4. Four variants per run (LAC, APS; marginal and (α, δ = 0.1)); the service chooses one.
+5. Non-randomised APS with a fixed tie order (cause code); LAC empty set = escalate.
+6. Calibration only on known-cause cases (closed label space); new problems are a stress test.
+7. One calibration run per data source (`source` field); real cases will get their own run.
+
+**Consequences.** Coverage claims are simulator-only until gate 1; ties make coverage
+conservative and the Beta law inapplicable; two-fault cases are under-covered by LAC.
+
+---
+
+## ADR-008 — Factory simulator: exact fault isolation, observed/ground-truth split (step 5a)
+
+**Status:** accepted · 2026-11-19 (proposed in `docs/notes/step-5a.md`; numbered and adopted at the merge into `main`, 2026-11-21)
+
+**Context.** Blueprint §2.2/§2.4/§5 Step 5: a SimPy line with injectable faults whose ground
+truth is stored where the agent cannot read it; determinism per seed (identical Parquet
+hashes); each fault must change only its intended signals. The taxonomy (v0.1.0) has 10 leaf
+causes, each with a planned `simulator_fault` name. The scientist agent (5b) needs data in
+which every cause leaves a distinguishable, *observable* trace.
+
+**Decisions.**
+
+1. **One fault type per taxonomy leaf, same names.** `FaultType` values equal the
+   `simulator_fault` names; a test enforces the equality, and ground truth stores the cause
+   code looked up from `causes.yaml` at export time (no second copy of the mapping).
+2. **Exact isolation instead of statistical checks.** Named random streams with fixed draw
+   counts, and timing/routing independent of faults. A fault run and its fault-free twin line
+   up row by row; the test asserts the changed columns equal the fault's declared signal set.
+3. **Line layout with one parallel station** (S2: M2A ‖ M2B), so machine-level causes
+   (fixture) are distinguishable from line-level ones through `station_path`.
+4. **Observable references for measurement faults**: periodic master-part gauge checks in
+   `station_events`; batch certificates show nominal hardness while the true hardness is
+   ground truth only.
+5. **Separate directories, not separate columns.** `observed/` and `ground_truth/` are
+   siblings; schemas of `observed/` are fixed; no scenario name, seed or description in
+   observed files. The agent's DuckDB connection should use
+   `allowed_directories=[<run>/observed/]`, `enable_external_access=false`,
+   `lock_configuration=true` (set in that order; verified by a test).
+6. **Case generator reads only `observed/`** and reports what monitoring would see
+   (alarm time, reject rates, reason mix), not where rejects concentrate.
+7. **Extra observable table `machines`** (master data: nominal setpoints, validated window,
+   tool life, wear limit) and an observable `run.json` (spec limits, table hashes). The
+   blueprint lists five tables; the agent needs the validated window and tolerances to judge
+   "wrong parameters" and "out of spec".
+8. **CLI logic in the package** (`iqs_sim.cli`, typed and tested); `scripts/simulate.py`
+   is a thin wrapper (scripts/ is outside the mypy file list).
+
+**Consequences.**
+- Changing a random-draw order or count changes every downstream number for that seed;
+  reference results must be regenerated (the determinism test catches accidental changes
+  only within one run, not across commits — `docs/notes/step-5a.md`, open question 4).
+- The quality model is a modelling choice; it is documented in this note and in
+  `sensors.py` and must be reported as such.
+- Evaluation families: `simulate.py family` writes a manifest with `family_sha256`, which
+  the 5b gate needs to commit before the first evaluation run.
+
+---
+
+## ADR-009 — Scientist agent: one pre-registered template per cause, BH per case, evidence only (step 5b)
+
+**Status:** accepted · 2026-11-20 (proposed as ADR-008 in `docs/notes/step-5b.md`; numbered and adopted at the merge into `main`, 2026-11-21)
+
+**Context.** Blueprint §2.2 (`scientist`), §2.5 P1-D and §5 Step 5: test the agent's candidate
+causes against the simulator's process data with valid error control, without voiding the
+step-4 calibration (ADR-007). Store: the locked DuckDB allow-list over `observed/` (ADR-008).
+
+**Decisions.**
+
+1. One template per taxonomy cause, fixed SQL on the locked DuckDB store, pre-registered
+   one-sided test; Bonferroni over targets inside a template; BH (q = 0.05) over the
+   hypotheses of one case.
+2. Verdicts supported / rejected / inconclusive; "rejected" means no evidence, not absence.
+3. The scientist does not change probabilities or conformal sets (calibration stays valid);
+   it adds evidence and a data-supported cause.
+4. Evidence figures are plotly-compatible JSON; no plotting dependency in diagnosis.
+5. Evidence is stored in `diagnosis.hypothesis_tests` (migration 0004) and summarised in
+   the 8D report content.
+6. Cases flagged novel test every cause and pick by smallest adjusted p (post-evaluation
+   change; unmeasured until a new family is evaluated).
+
+**Consequences.** "Supported" means "the data show this pattern", not "this is the cause":
+faults have physical side effects, so wrong causes are supported in 14 % of tests on
+`sci_eval_v1` (`docs/notes/step-5b.md`). The null check is vacuous for four templates
+(KNOWN_ISSUES #23). Decision 6 is unmeasured until a new family is evaluated.
