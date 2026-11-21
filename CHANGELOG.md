@@ -3,7 +3,7 @@
 All notable changes to this project. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versions follow the roadmap tags (`v0.1-step0`, `v0.1-step1`, ...).
 
-## [Unreleased] — step 1 (P2 Layer 1: defect detector + demo, in progress)
+## [Unreleased] — step 1 (P2 Layer 1: defect detector + demo, done locally; tag `v0.1-step1` pending)
 
 ### Added
 - **1a** Blueprint Revision 2; GitHub Actions pinned by SHA on Node.js 24 (checkout v7.0.1,
@@ -18,6 +18,10 @@ versions follow the roadmap tags (`v0.1-step0`, `v0.1-step1`, ...).
 - **1e** Supervised ResNet-18 baseline on a stratified re-split of the test set.
 - **1f** Dashboard (home + defect inspection page), dashboard image, extended smoke test.
 - **1g** EfficientAD Colab notebook, run bundles with verified import and CPU re-evaluation.
+- **1h** Results: PatchCore on all 15 MVTec AD categories (official mean image / pixel AUROC
+  0.984 / 0.982; deploy 0.981 / 0.982), supervised baseline (mean 0.849 vs PatchCore 0.977 on
+  sup_test), same-seed rerun and reload checks, inspection latency p50 529 ms / p95 560 ms;
+  reports `reports/patchcore_mvtec_ad_{official,deploy}.md`; grid / pill investigation (#11, #14).
 
 ### Fixed
 - Smoke test no longer echoes the API key.

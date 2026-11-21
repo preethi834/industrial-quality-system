@@ -1,0 +1,1 @@
+{"timestamp": "2026-11-21T10:32:51+00:00", "category": "bottle", "requests": 100, "warmup": 5, "client_p50_ms": 529.4, "client_p95_ms": 559.7, "client_mean_ms": 531.2, "server_p50_ms": 522.2, "server_p95_ms": 550.2, "note": "sequential requests, docker vision container (2 GB limit), host CPU shared"}

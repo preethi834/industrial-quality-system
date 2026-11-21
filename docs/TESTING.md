@@ -32,7 +32,12 @@ Coverage: `uv run pytest --cov` measures the `iqs_*` packages with branch covera
 
 ## What exists today
 
-Measured on 2026-11-17: **121 unit/API tests** and **15 integration tests**, all passing;
+Latest run (2026-11-21, end of step 1): **199 unit/API tests** pass in `make check` (ruff,
+mypy and hooks clean); the 15 integration tests are deselected there and were last run in step 0.
+Real-data checks at the end of step 1: same-seed rerun (toothbrush, Δ = 0.0000, tolerance
+±0.005) and reload check (30 models, `max_abs_diff = 0.0`), see EXPERIMENTS EXP-1-01.
+
+Step 0 baseline, measured on 2026-11-17: **121 unit/API tests** and **15 integration tests**, all passing;
 branch coverage of `iqs_*` from unit/API tests alone: **99 %** (437 statements, 2 missed).
 
 | File | Tests | Covers |
