@@ -175,6 +175,9 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
         run = pred.run
         run_key = f"{run.run_id}:{pred.variant}"
         deps.repository.save_cause_set(state["case"]["case_id"], causes_in, run_key)
+        # Step 7: the guarantee covers cases exchangeable with the calibration cases. A case
+        # from another source (e.g. a vision cluster vs simulator alarm cases) is not.
+        covered = state["case"].get("source") == run.source
         return {
             "cause_set": {
                 "causes": causes_in,
@@ -193,6 +196,19 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
                     f"marginally over {run.source} cases exchangeable with the "
                     f"{run.n_calibration} calibration cases; causes outside the taxonomy "
                     "and new problems are not covered."
+                ),
+                "guarantee_applies": covered,
+                **(
+                    {}
+                    if covered
+                    else {
+                        "coverage_note": (
+                            f"This case comes from source {state['case'].get('source')!r}, "
+                            f"not from the calibration source {run.source!r}: the set is "
+                            "computed with the same threshold, but the guarantee does not "
+                            "apply to it."
+                        )
+                    }
                 ),
             }
         }

@@ -28,6 +28,11 @@ class DiagnosisCase(BaseModel):
     # Observable process data for this case (read-only); None for text-only cases.
     observed_dir: Path | None = None
     reported_symptoms: tuple[dict[str, Any], ...] = ()
+    # Step 7: vision-originated cases (source="vision") point back to their cluster.
+    # linkage="synthetic_simulator": the parts behind the images are simulated parts linked
+    # to images by iqs_sim.linker, not plant data.
+    source_cluster_id: str | None = None
+    linkage: str | None = None
 
 
 class SymptomObservation(BaseModel):

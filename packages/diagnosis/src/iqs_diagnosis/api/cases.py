@@ -10,14 +10,14 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Annotated, Any
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Query, status
 from pydantic import BaseModel, Field
 
 from iqs_diagnosis.agent.graph import DiagnosisAgent
 from iqs_diagnosis.ingestion.simulator import load_case
-from iqs_diagnosis.persistence.repository import CaseRepository
+from iqs_diagnosis.persistence.repository import CaseRepository, CaseStatus
 
 RUN_ID = re.compile(r"^run-[0-9a-f]{12}$")
 
@@ -72,16 +72,37 @@ def build_cases_router(service: CaseService) -> APIRouter:
         service.repository.add(case)
         return {"case_id": case.case_id, "title": case.title, "status": "registered"}
 
+    @router.get("")
+    def list_cases(
+        source: str | None = None,
+        case_status: Annotated[CaseStatus | None, Query(alias="status")] = None,
+        cluster_id: str | None = None,
+    ) -> list[dict[str, Any]]:
+        """Cases, optionally filtered (step 7: ``?source=vision`` for cluster cases)."""
+        return [
+            _summary(case, st)
+            for case, st in service.repository.list_cases(source, case_status, cluster_id)
+        ]
+
+    def _summary(case: Any, st: CaseStatus | None) -> dict[str, Any]:
+        return {
+            "case_id": case.case_id,
+            "source": case.source,
+            "status": None if st is None else st.value,
+            "title": case.title,
+            "source_cluster_id": case.source_cluster_id,
+            "linkage": case.linkage,
+            "phase": service.agent.phase(case.case_id),
+        }
+
     @router.get("/{case_id}")
     def get_case(case_id: str) -> dict[str, Any]:
         _require(case_id)
         case = service.repository.get(case_id)
         assert case is not None
         return {
-            "case_id": case_id,
-            "title": case.title,
+            **_summary(case, service.repository.status(case_id)),
             "description": case.description,
-            "phase": service.agent.phase(case_id),
         }
 
     @router.post("/{case_id}/run")
