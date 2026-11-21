@@ -7,7 +7,6 @@ Status at the end of step 0 (2026-11-17), updated at the end of step 1 (2026-11-
 
 | # | Issue | Impact | Next action |
 | --- | --- | --- | --- |
-| 1 | **CI on `main` not yet confirmed.** PR #1 checks were 5/5 green on GitHub (owner, 2026-11-19); the run on `main` after the merge has not been checked. | Step 0 gate "green CI on main" is likely met but unverified. | Check the `main` run on GitHub; close this entry if green. |
 | 3 | **One unexplained integration-test failure** (1 of 6 runs of `make test-integration`, 2026-11-17, right after `make down`); the output was not captured; 5 later runs, including the same sequence, passed. | Possible flakiness in container start-up. | If it recurs, keep the full log (`pytest -m integration -rA`); CI logs will capture it. |
 | 4 | **Windows PostgreSQL 17 on port 5432** on the development machine. Compose publishes Postgres on **5433**. | Tools that assume 5432 from WSL reach the Windows server, not the container. | Keep `IQS_DATABASE__PORT=5433`. |
 | 5 | **`uv sync` without `--all-packages` uninstalls the workspace packages** (root project is `package = false`). | Imports of `iqs_vision`, `torch`, ... break after a plain `uv sync`. | Always use `make setup` (`uv sync --all-packages --frozen`). |
@@ -27,3 +26,4 @@ Status at the end of step 0 (2026-11-17), updated at the end of step 1 (2026-11-
 | --- | --- | --- |
 | 12 | Step 1 training incomplete (stopped 2026-11-19 13:31). | Queue restarted 2026-11-20 18:38; all 28 jobs ended rc = 0 at 2026-11-21 01:05. Supervised baseline, same-seed rerun, reload check, reports, Docker demo with deploy models and the latency benchmark ran on 2026-11-21 (EXPERIMENTS EXP-1-01…03). |
 | 16 | Docker images `iqs-vision:dev` / `iqs-dashboard:dev` predated the last step-1 code commits (built 2026-11-19 12:50, before `34b7d3e`); an offline rebuild failed (the build backend comes from the package index). | Rebuilt with network access on 2026-11-21 (`make build`, owner approval; no wheel downloads in the log, dependency layers from cache). Smoke test passed again with the 15 deploy models; the screw defect gives the same score (1.753 → anomalous) as on the old image. |
+| 1 | CI on `main` not yet confirmed after the step-0 merge. | Confirmed green by the owner on 2026-11-21: `ci` #9 and `docker` #5 on `main` at `f459752` (PR #2 merge); tag `v0.1-step1` points there. |

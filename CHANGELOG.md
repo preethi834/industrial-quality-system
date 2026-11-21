@@ -3,7 +3,7 @@
 All notable changes to this project. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versions follow the roadmap tags (`v0.1-step0`, `v0.1-step1`, ...).
 
-## [Unreleased] — step 1 (P2 Layer 1: defect detector + demo, done locally; tag `v0.1-step1` pending)
+## [v0.1-step1] — step 1 (P2 Layer 1: defect detector + demo)
 
 ### Added
 - **1a** Blueprint Revision 2; GitHub Actions pinned by SHA on Node.js 24 (checkout v7.0.1,

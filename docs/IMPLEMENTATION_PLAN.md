@@ -9,8 +9,8 @@ Status labels (blueprint §7.1): **planned** · **in progress** · **working (te
 
 | Step | Scope (blueprint §5) | Status |
 | --- | --- | --- |
-| 0 | Foundation: repo, settings, logging, databases, service skeletons, CI, docs | **working (tested) locally**; known issue: CI not yet run on GitHub |
-| 1 | P2 L1: defect detector (PatchCore / EfficientAD + supervised baseline) + demo | **working (tested) locally**: 15/15 categories, both protocols; EfficientAD deferred (KNOWN_ISSUES #15); not pushed, no tag yet |
+| 0 | Foundation: repo, settings, logging, databases, service skeletons, CI, docs | **done** (`v0.1-step0`); CI green on `main` |
+| 1 | P2 L1: defect detector (PatchCore / EfficientAD + supervised baseline) + demo | **done** (`v0.1-step1`, merged in PR #2): 15/15 categories, both protocols; EfficientAD deferred (KNOWN_ISSUES #15) |
 | 2 | P2 L2–3: MVTec AD 2 / VisA + conformal threshold | planned |
 | 3 | P1 L1–2: diagnosis agent (hybrid RAG + KG, MCP, 8D) + evaluation | planned |
 | 4 | P1 L3: conformal cause sets | planned |
@@ -37,7 +37,7 @@ Blueprint "done when" for step 0:
 - [x] `make setup && make test` works; `make up` starts the stack on a clean checkout (+ `.env`)
 - [x] both services answer `/health` (and `/ready`) in Docker — verified 2026-11-17
 - [x] docs exist with real content
-- [ ] green CI on `main` — needs a push (KNOWN_ISSUES #1, #2)
+- [x] green CI on `main` — confirmed 2026-11-21 (`ci` #9, `docker` #5 on `f459752`; KNOWN_ISSUES #1 closed)
 
 ## Step 1 — Project 2 Layer 1
 
@@ -50,7 +50,7 @@ Blueprint "done when" for step 0:
 | 1e | Supervised ResNet-18 baseline | `32452e3` | working (tested): run on all 15 (EXP-1-02) |
 | 1f | Dashboard + image + smoke test | `b5244dc`, `a5aca26` | working: Docker smoke + dashboard client with the 15 deploy models (images rebuilt 2026-11-21, smoke passed again) |
 | 1g | EfficientAD notebook, run bundles, import | `34b7d3e` | code working (tested); not run, deferred (KNOWN_ISSUES #15) |
-| 1h | Docs, results, tag `v0.1-step1` | `e2a181f`, this commit | docs done; tag waits for the owner |
+| 1h | Docs, results, tag `v0.1-step1` | `e2a181f`, `a8f743a`, `cdab144`, `5e644ad` | done; tag on `f459752` |
 
 Step 1 gates (blueprint Rev 2 §5):
 
@@ -60,7 +60,7 @@ Step 1 gates (blueprint Rev 2 §5):
 - [x] (4) API 200 / 415 / 401 — tests + Docker smoke
 - [x] (5) dashboard against Docker with the **deploy** models — smoke test + dashboard client in the container (screw defect → anomalous); images rebuilt 2026-11-21 and re-checked (#16 resolved)
 - [x] (6) EfficientAD deferred in KNOWN_ISSUES #15 (confirmed by the owner 2026-11-21)
-- [ ] universal gate: CI green on `main`, tag `v0.1-step1` — after the owner's push
+- [x] universal gate: CI green on `main` (`ci` #9, `docker` #5 on `f459752`), tag `v0.1-step1` pushed
 
 ## Hand-off notes
 
