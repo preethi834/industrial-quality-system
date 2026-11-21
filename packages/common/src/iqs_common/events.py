@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 from enum import StrEnum
-from typing import Annotated, Literal
+from typing import Annotated, Final, Literal
 from uuid import UUID
 
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, TypeAdapter, model_validator
@@ -28,7 +28,18 @@ class _Strict(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
 
+SIMULATOR_RUN_PATTERN: Final = r"^run-[0-9a-f]{12}$"
+
+
 class NewDefectClusterPayload(_Strict):
+    """A new cluster of unknown anomalies (vision discovery trigger, step 7).
+
+    The step-7 fields (``line_id`` ... ``score_median``) are optional additions to schema
+    version 1: no producer or consumer existed before step 7 (ADR-015). ``linkage`` says
+    whether ``part_ids`` / ``simulator_run_id`` come from the synthetic image-to-part
+    linker; real process linkage does not exist in this project.
+    """
+
     cluster_id: UUID
     category: str = Field(min_length=1)  # product category, e.g. an MVTec class
     size: int = Field(ge=1)
@@ -37,6 +48,12 @@ class NewDefectClusterPayload(_Strict):
     inspection_ids: tuple[UUID, ...] = Field(min_length=1, max_length=1000)
     part_ids: tuple[str, ...] = ()  # synthetic simulator part IDs (labelled as such)
     model_version: str = Field(min_length=1)
+    line_id: str | None = Field(default=None, min_length=1, max_length=64)
+    simulator_run_id: str | None = Field(default=None, pattern=SIMULATOR_RUN_PATTERN)
+    linkage: Literal["synthetic_simulator", "none"] = "none"
+    representative_inspection_id: UUID | None = None
+    score_max: float | None = None
+    score_median: float | None = None
 
     @model_validator(mode="after")
     def _check(self) -> NewDefectClusterPayload:
@@ -44,6 +61,20 @@ class NewDefectClusterPayload(_Strict):
             raise ValueError("last_seen must not be earlier than first_seen")
         if len(self.inspection_ids) > self.size:
             raise ValueError("more inspection_ids than the cluster size")
+        linked = bool(self.part_ids) or self.simulator_run_id is not None
+        if linked and self.linkage != "synthetic_simulator":
+            raise ValueError("part_ids / simulator_run_id require linkage='synthetic_simulator'")
+        if (
+            self.representative_inspection_id is not None
+            and self.representative_inspection_id not in self.inspection_ids
+        ):
+            raise ValueError("representative_inspection_id must be one of inspection_ids")
+        if (
+            self.score_max is not None
+            and self.score_median is not None
+            and self.score_median > self.score_max
+        ):
+            raise ValueError("score_median must not exceed score_max")
         return self
 
 

@@ -1,0 +1,108 @@
+{
+  "$defs": {
+    "CaseConfirmedPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "format": "uuid",
+          "title": "Case Id",
+          "type": "string"
+        },
+        "cause_code": {
+          "maxLength": 64,
+          "pattern": "^[A-Z][A-Z0-9_]*(\\.[A-Z][A-Z0-9_]*)*$",
+          "title": "Cause Code",
+          "type": "string"
+        },
+        "confirmed_at": {
+          "format": "date-time",
+          "title": "Confirmed At",
+          "type": "string"
+        },
+        "confirmed_by": {
+          "minLength": 1,
+          "title": "Confirmed By",
+          "type": "string"
+        },
+        "defect_class_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Defect Class Name"
+        },
+        "source_cluster_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Cluster Id"
+        },
+        "taxonomy_version": {
+          "minLength": 1,
+          "title": "Taxonomy Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "case_id",
+        "cause_code",
+        "taxonomy_version",
+        "confirmed_by",
+        "confirmed_at"
+      ],
+      "title": "CaseConfirmedPayload",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "event_id": {
+      "format": "uuid",
+      "title": "Event Id",
+      "type": "string"
+    },
+    "occurred_at": {
+      "format": "date-time",
+      "title": "Occurred At",
+      "type": "string"
+    },
+    "payload": {
+      "$ref": "#/$defs/CaseConfirmedPayload"
+    },
+    "producer": {
+      "const": "diagnosis",
+      "default": "diagnosis",
+      "title": "Producer",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "type": {
+      "const": "case_confirmed",
+      "default": "case_confirmed",
+      "title": "Type",
+      "type": "string"
+    }
+  },
+  "required": [
+    "payload"
+  ],
+  "title": "CaseConfirmedEvent",
+  "type": "object"
+}

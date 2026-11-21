@@ -170,3 +170,46 @@ def test_defect_class_name_requires_source_cluster() -> None:
         **_confirmed_payload(source_cluster_id=None, defect_class_name=None)
     )
     assert manual_case.source_cluster_id is None
+
+
+# --- step 7: optional linkage / score fields ---------------------------------------------
+
+
+def test_step7_fields_default_to_unlinked() -> None:
+    p = NewDefectClusterPayload(**_cluster_payload())
+    assert p.linkage == "none"
+    assert p.simulator_run_id is None and p.line_id is None
+    assert p.representative_inspection_id is None
+
+
+def test_linked_payload_round_trip() -> None:
+    ids = [uuid7() for _ in range(3)]
+    p = NewDefectClusterPayload(
+        **_cluster_payload(
+            inspection_ids=ids,
+            part_ids=["P1", "P2"],
+            simulator_run_id="run-0123456789ab",
+            linkage="synthetic_simulator",
+            line_id="L1",
+            representative_inspection_id=ids[1],
+            score_max=3.0,
+            score_median=2.0,
+        )
+    )
+    ev = NewDefectClusterEvent(payload=p)
+    assert parse_event(ev.model_dump_json()) == ev
+
+
+@pytest.mark.parametrize(
+    "overrides",
+    [
+        {"part_ids": ["P1"]},  # linked data without the synthetic flag
+        {"simulator_run_id": "run-0123456789ab"},
+        {"simulator_run_id": "run-XYZ", "linkage": "synthetic_simulator"},
+        {"representative_inspection_id": uuid7()},  # not a member
+        {"score_max": 1.0, "score_median": 2.0},
+    ],
+)
+def test_invalid_step7_fields_rejected(overrides: dict[str, Any]) -> None:
+    with pytest.raises(ValidationError):
+        NewDefectClusterPayload(**_cluster_payload(**overrides))
