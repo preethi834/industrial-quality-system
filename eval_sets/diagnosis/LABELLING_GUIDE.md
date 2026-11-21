@@ -73,7 +73,7 @@ Simulator labels are never assigned by hand: they come from the run's ground tru
 - Results on two-fault cases are reported separately: top-1 against the primary cause,
   top-3 containing the primary cause, and top-3 containing every injected cause.
 
-## NHTSA recalls (step 3f, draft for review)
+## NHTSA recalls (step 3f)
 
 **Source.** NHTSA ODI recalls flat file, `FLAT_RCL_POST_2010.zip` (records with a
 report date from 2010 on), tab-delimited, 29 fields (`RCL.txt`). One sheet row is one
@@ -132,11 +132,29 @@ script rejects the sheet if they change.
 |  | a supplier lot of components was defective, mechanism not stated (**documented interpretation**: seen from the receiving plant, an incoming bad batch) | medium |
 | `METHOD.WRONG_PROCESS_PARAMETERS` | incorrect weld, cure, heat-treatment, press or torque **settings / program / process parameters** of production equipment | high |
 |  | "improperly torqued / welded / crimped" without saying whether a setting or a person caused it | medium |
-| `PERSONNEL.PART_HANDLING_ERROR` | operator / assembly error: part missing, installed in the wrong position or orientation, mis-routed, damaged during handling | high if "operator" or "assembly error" is stated, else medium |
+|  | "improperly heat-treated" without naming the setting (**decision 2026-11-21**: heat treatment is a process step, so a bad result is read as a parameter problem) | medium |
+| `PERSONNEL.PART_HANDLING_ERROR` | only an **intermittent, operator- or shift-linked handling mistake** the text states as such (the taxonomy cause is "intermittent loading or handling mistakes, associated with a shift"), e.g. parts damaged during handling by operators on one shift | high |
+| none → `outside_taxonomy` | **assembly errors** (**decision 2026-11-21**): a part missing, the wrong part installed, a part not fully inserted / seated, mis-routed hoses or wires, wrong position or orientation. Recalls do not say these are shift-linked handling mistakes, so they are not mapped to `PERSONNEL.PART_HANDLING_ERROR` | – |
 | `MACHINE.FIXTURE_MISALIGNMENT` | misaligned fixture, jig, die or tooling **position** producing a consistent dimensional offset | high |
 | `MACHINE.TOOL_WEAR` | worn tooling, die or cutting tool | high |
 | `MEASUREMENT.SENSOR_DRIFT` | plant inspection or test equipment out of calibration / malfunctioning, so defective parts passed (**documented interpretation**: the taxonomy cause covers decisions based on a drifted reading) | medium |
 | `MACHINE.INSUFFICIENT_COOLING`, `MACHINE.SPINDLE_OVERLOAD`, `MACHINE.DRIVE_FAULT`, `ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION` | only if the text states it for **production equipment or the plant** (e.g. "coolant system failure on the machining line", "plant humidity"). "Insufficient cooling **time**" is a parameter → `METHOD.WRONG_PROCESS_PARAMETERS`. | high |
+
+### Who labelled the pilot (provenance)
+
+The pilot sheet `recalls_pilot_v1.csv` (50 rows) was labelled on 2026-11-21 by an **AI
+assistant (LLM)** following this guide, with a verbatim evidence quote on
+every `labelled` and `outside_taxonomy` row, and then **reviewed by the project
+author**. Every row's `notes` column starts with "AI label (LLM)", and the sheet
+manifest records the same (`labelling`). Consequences:
+
+- These are AI-assisted labels with human review, not independent expert labels.
+  Every result on them says so.
+- A component that itself uses the same LLM must not be scored against these labels
+  without stating the shared-model bias risk (the agent's LLM path is Ollama only, so
+  this does not apply today).
+- The optional consistency check (working order, step 4) is best done by the human
+  reviewer, blind, on 20 rows.
 
 ### Expected coverage (reported with every result)
 

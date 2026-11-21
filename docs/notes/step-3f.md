@@ -1,8 +1,10 @@
 # Step 3f — real data (NHTSA recalls, AI4I 2020): preparation
 
-Status (2026-11-21): **prepared, nothing downloaded.** Parser, sheet builder, label
-checker and the NHTSA section of `eval_sets/diagnosis/LABELLING_GUIDE.md` are done and
-tested on synthetic files. The downloads wait for approval.
+Status (2026-11-21, evening): **data downloaded, pilot labelled.** Recalls and AI4I are
+downloaded and pinned by SHA-256 (`configs/assets.yaml`, `docs/APPROVALS.md`). The
+50-row pilot `eval_sets/diagnosis/nhtsa/recalls_pilot_v1.csv` is fully labelled and
+passes the checker. The sections below "Pilot result" are the preparation notes from the
+morning, kept as written.
 
 ## Sources checked (no data downloaded)
 
@@ -82,3 +84,68 @@ entry and the UCI page. The nhtsa.gov datasets page refused automated access (HT
   profiles. To run labelled NHTSA cases it needs a text path: symptom extraction from
   text through the LLM gateway (3e, Ollama only, not approved yet), or at least a
   text-only BM25 baseline. Labelling can go ahead in parallel.
+
+## Pilot result (2026-11-21)
+
+**Provenance.** The pilot was labelled by an AI assistant (LLM) following
+`LABELLING_GUIDE.md`, with verbatim evidence quotes, and then reviewed by the project
+author. Every row's `notes` says "AI label (LLM)"; the manifest's `labelling` block
+records the same. The labels are AI-assisted with human review, not independent
+expert labels, and every result based on them must say so.
+
+**Interpretation decisions** (approved, now in the guide's mapping table):
+- Assembly errors (missing, wrong, unseated or mis-routed parts) → `outside_taxonomy`.
+  The taxonomy's `PERSONNEL.PART_HANDLING_ERROR` is an intermittent, shift-linked
+  mistake, which recall texts never state.
+- Improper heat treatment → `METHOD.WRONG_PROCESS_PARAMETERS` (medium).
+
+**Checker** (`scripts/check_nhtsa_labels.py`): 50/50 done, 0 errors. The text columns
+are byte-for-byte equal to the committed sheet (checked separately).
+
+| | term (n = 40) | control (n = 10) | all (n = 50) |
+| --- | --- | --- | --- |
+| `labelled` | 7 (17.5 %, 95 % CI 7–33 %) | 1 (10 %, CI 0.3–45 %) | 8 (16 %, CI 7–29 %) |
+| `outside_taxonomy` | | | 23 (46 %) |
+| `not_determinable` | | | 19 (38 %) |
+
+Intervals are Clopper–Pearson.
+- **Causes:** `METHOD.WRONG_PROCESS_PARAMETERS` 7 (4 under-torque, 2 heat treatment,
+  1 tightening implied by the remedy), `MATERIAL.BAD_BATCH` 1 (casting lot). No other
+  cause appears.
+- **Most `outside_taxonomy` rows** are assembly omissions or errors (12), then design (6),
+  vehicle software (3), vehicle sensor calibration (1) and dealer repair (1).
+- **The term filter barely helps on this evidence.** The yields of 17.5 % and 10 % have
+  overlapping intervals. The single control hit ("insufficiently tightened") is a word
+  the filter lacks.
+- **Rows to look at again:**
+  - r0028 is labelled from the remedy ("inspect and tighten") while the defect text
+    says "improperly assembled". Under the new assembly-error rule it could be
+    `outside_taxonomy`.
+
+### What this means for the full sheet
+
+- **Expected yield** is about 16 % labelled per row, plausibly 7–30 %.
+- **More rows add more cases of the same cause, not more causes.** On this evidence,
+  real NHTSA data supports one cause well (wrong process parameters), one rarely (bad
+  batch) and the other eight not at all.
+- **Gate-1 coverage on real data** can therefore be measured on very few causes, with
+  wide intervals. It is reported as such.
+- **`outside_taxonomy` is plentiful** (about 46 %), so NHTSA is mainly a source of real
+  new-problem cases for the novelty evaluation.
+- **Options:**
+
+  | Total rows (incl. pilot) | Expected `labelled` | Expected `outside_taxonomy` |
+  | --- | --- | --- |
+  | 190 (recommended) | about 30 (range about 14–55) | about 85 |
+  | 375 | about 60 | about 170 |
+
+  With 190 rows, a one-third test split holds about 10 labelled cases. With 375 rows it
+  holds about 20, still for essentially one cause.
+- **Before building the full sheet** (needs a decision):
+  1. Exclude the pilot campaigns when sampling, so the pilot's labels are reused and no
+     campaign is labelled twice. This is a small code change.
+  2. Optionally add `tighten\w*` to the term list (`heat[- ]treat\w*` is already
+     there). This changes the sampling protocol, so it would be recorded in the new
+     manifest.
+  3. Label time per row is not measured: the pilot was AI-labelled. Your review time
+     is the relevant figure.

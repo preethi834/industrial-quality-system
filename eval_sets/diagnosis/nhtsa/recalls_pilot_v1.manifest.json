@@ -309,5 +309,16 @@
       "group": "POWER TRAIN",
       "stratum": "control"
     }
+  },
+  "labelling": {
+    "status": "complete (50/50 rows), checker: 0 errors (2026-11-21)",
+    "labeller": "AI assistant (LLM), following eval_sets/diagnosis/LABELLING_GUIDE.md (NHTSA section); every labelled/outside_taxonomy row has a verbatim evidence quote",
+    "review": "reviewed by the project author (human); not independent expert labels",
+    "row_notes": "every row's notes column starts with 'AI label (LLM)'",
+    "interpretation_decisions": [
+      "assembly errors (missing, wrong, unseated or mis-routed parts) -> outside_taxonomy",
+      "improper heat treatment -> METHOD.WRONG_PROCESS_PARAMETERS (medium)"
+    ],
+    "caveat": "AI-assisted labels: report them as such with every result; do not evaluate a component based on the same LLM against them without stating the shared-model bias risk"
   }
 }
