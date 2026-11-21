@@ -1,0 +1,30 @@
+# Image-to-part linkage for the integration demo (step 7, iqs_sim.linker).
+# SYNTHETIC LINKAGE: the images carry no process data; this file decides which kind of
+# image a simulated part "shows" at inspection. It is a modelling choice, not plant data.
+#
+# fault_to_defect: surface-defect fault -> defect folder under <pool>/<category>/<defect_dir>.
+#   Dimension-only faults (fixture_offset, handling_error_on_shift,
+#   sensor_calibration_drift) cause no visible defect and are rejected.
+# background_defect: defect type shown for surface defects with no mapped fault (the line's
+#   base defect rate). null = such parts are shown as good images (manifest: shown_as=good).
+version: 1
+seed: 0
+categories:
+  # iqs_vision.testing.make_mvtec_like (stripe texture; "spot" and "scratch" defects).
+  # Used by the unit and e2e tests.
+  toy:
+    good_dir: test/good
+    defect_dir: test/{defect_type}
+    fault_to_defect:
+      accelerated_tool_wear: scratch
+    background_defect: spot
+  # MVTec AD metal_nut (defects: bent, color, flip, scratch). Used by scripts/demo_loop.py
+  # with real images (read-only data/ symlink, owner approval).
+  metal_nut:
+    good_dir: test/good
+    defect_dir: test/{defect_type}
+    fault_to_defect:
+      accelerated_tool_wear: scratch
+      spindle_overload: bent
+      coolant_flow_loss: color
+    background_defect: null
