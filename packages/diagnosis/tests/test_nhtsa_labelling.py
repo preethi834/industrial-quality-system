@@ -195,3 +195,20 @@ def test_edited_campno_or_header_is_caught(tmp_path: Path) -> None:
     assert any("missing from the CSV" in e for e in res.errors)
     out.write_text(out.read_text(encoding="utf-8-sig").replace("notes", "comments", 1))
     assert "header" in check_sheet(out, man, load_taxonomy(TAXONOMY_PATH)).errors[0]
+
+
+def test_sheet_saved_by_excel_with_semicolons_and_cp1252(tmp_path: Path) -> None:
+    out, man = _sheet(tmp_path)
+    rows = _rows(out)
+    rows[0].update(
+        {
+            "label_status": "not_determinable",
+            "notes": "Prüfung: no cause given",  # non-ASCII survives cp1252
+        }
+    )
+    with out.open("w", encoding="cp1252", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=COLUMNS, delimiter=";")
+        w.writeheader()
+        w.writerows(rows)
+    res = check_sheet(out, man, load_taxonomy(TAXONOMY_PATH))
+    assert res.errors == [] and len(res.labels) == 1 and len(res.todo) == len(rows) - 1

@@ -15,6 +15,7 @@ These labels are ground truth for the real-data evaluation, so the module lives 
 from __future__ import annotations
 
 import csv
+import io
 import json
 import re
 from collections import Counter
@@ -228,6 +229,20 @@ class SheetCheck(BaseModel):
         }
 
 
+def read_sheet_text(path: Path) -> tuple[str, str]:
+    """The sheet as text and its delimiter, tolerant of how spreadsheets save CSV:
+    UTF-8 with or without BOM, else Windows-1252 ("CSV (comma delimited)" in Excel);
+    ``,`` or ``;`` (Excel with a German or other comma-decimal locale)."""
+    raw = path.read_bytes()
+    try:
+        text = raw.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        text = raw.decode("cp1252")
+    header = text.split("\n", 1)[0]
+    delimiter = ";" if header.count(";") > header.count(",") else ","
+    return text, delimiter
+
+
 def _norm(s: str) -> str:
     return " ".join(s.lower().split())
 
@@ -240,8 +255,9 @@ def check_sheet(csv_path: Path, manifest_path: Path, taxonomy: Taxonomy) -> Shee
     labels: list[NhtsaLabel] = []
     todo: list[str] = []
     errors: list[str] = []
-    with csv_path.open(encoding="utf-8-sig", newline="") as fh:
-        reader = csv.DictReader(fh)
+    text_in, delimiter = read_sheet_text(csv_path)
+    with io.StringIO(text_in, newline="") as fh:
+        reader = csv.DictReader(fh, delimiter=delimiter)
         if tuple(reader.fieldnames or ()) != COLUMNS:
             return SheetCheck(
                 n_rows=len(strata),

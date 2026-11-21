@@ -55,7 +55,7 @@ repos:
         language: system
         # Generated corpus manifests hold SHA-256 hashes (no inline pragma in JSON);
         # packages/diagnosis/tests/test_corpus_manifest.py validates their schema instead.
-        exclude: ^(uv\.lock|\.secrets\.baseline|eval_sets/diagnosis/sim/[a-z0-9_]+\.json)$
+        exclude: ^(uv\.lock|\.secrets\.baseline|eval_sets/diagnosis/sim/[a-z0-9_]+\.json|eval_sets/diagnosis/nhtsa/[a-z0-9_]+\.manifest\.json)$
 
       # --- lockfile ---
       - id: uv-lock-check
