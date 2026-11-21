@@ -42,6 +42,55 @@ Not yet run: the other 13 categories (screw was stopped mid-run), the `deploy` p
 same-seed rerun and the reload check. Grid exceeds the 0.02 tolerance **upwards**; see
 KNOWN_ISSUES #11. Full table: `reports/patchcore_mvtec_ad_official.md`.
 
+#### Investigation: grid image AUROC above anomalib's published value (KNOWN_ISSUES #11)
+
+Our official-protocol grid model (MLflow `8dc9ff1b`) scores image AUROC 0.987 and pixel AUROC
+0.979. Anomalib's PatchCore README reports 0.959 and 0.968 for Wide ResNet-50, so the deviation
+is +0.028 image (above the step 1 tolerance of ±0.02) and +0.011 pixel.
+
+**Comparison with the original paper.** Roth et al. (CVPR 2022, arXiv 2106.08265v2, supplementary
+Tables S1–S2) report grid image AUROC 0.979 for PatchCore-10 %, the variant matching our 10 %
+coreset (0.982 for 25 %, 0.986 for 1 %), and grid pixel AUROC 0.987 for 25 % and 10 % and 0.986
+for 1 %. Against the paper our result is **+0.008 image / −0.008 pixel**: inside the tolerance and
+inside the paper's own spread across coreset ratios (0.979–0.986). Anomalib's 0.959 is 0.020 below
+the paper's matching variant. Our number agrees with the original method; the anomalib figure is
+the outlier.
+
+**Known setup differences.** Paper: resize to 256 px, centre crop to 224 px, WideResNet-50 ImageNet
+weights from torchvision / timm, layers 2+3, p = 3. Ours: anomalib 2.7 defaults (256 px, no centre
+crop, layers 2+3, 10 % coreset, k = 9) with torchvision V1 weights (`wide_resnet50_2.tv_in1k`).
+Anomalib's README states only "seed 42" and the backbone name; it does not give the weights tag,
+anomalib version, image size or crop used for the benchmark. Grid is a texture, so the missing
+centre crop only adds border texture; we do not expect it to explain a 0.02–0.03 gap, but this is
+untested.
+
+**Size of the effect.** The grid test set has 21 good and 57 defective images (1,197 good/defect
+pairs). One misordered pair moves image AUROC by 0.0008, so +0.028 corresponds to about 33 pairs,
+e.g. two good images moving across about 17 defects each. The Hanley–McNeil standard error of a
+single AUROC near 0.97 on this test set is about 0.016, so grid AUROC is fragile on this test set
+and small changes in how a few good images rank produce gaps of this size. Both runs use the same
+test images, so the gap reflects a model or pipeline difference, not test-set sampling.
+
+**Most likely cause (unconfirmed).** Backbone weights: anomalib loads timm's default
+`wide_resnet50_2` weights (`racm_in1k` in current timm; step 1 decision record), not the
+torchvision V1 weights the paper and we use. An undocumented difference in anomalib's version or
+settings at benchmark time is also possible.
+
+**Conclusion.** The deviation is in our favour and matches the original paper within tolerance. We
+record it as investigated and keep the paper-matched weights. Optional confirmation (skipped on
+2026-11-21, owner decision A4): retrain grid with `racm_in1k` (276 MB, one ~25 min CPU run); if
+image AUROC drops to about 0.96, the weights explain the gap.
+
+#### Note: pill image AUROC at the tolerance edge (KNOWN_ISSUES #14)
+
+Pill (MLflow `472685fe`) scores image AUROC 0.944 vs anomalib's 0.924 (+0.020, at the edge of the
+±0.02 tolerance, in our favour); pixel AUROC 0.982 vs 0.980. The PatchCore paper reports 0.960 for
+PatchCore-10 % (Table S1, value supplied by the owner from the CVPR 2022 supplementary), so ours is
+**−0.016 vs the paper**, inside the tolerance. The pattern matches grid: anomalib's published value
+sits below the paper's (by 0.036 here) and ours lies between the two. The pill test set has 26
+good and 141 defective images (3,666 pairs; one pair = 0.0003 AUROC, so +0.020 ≈ 73 pairs;
+Hanley–McNeil SE ≈ 0.017). The same untested weights hypothesis as #11 applies; no extra run.
+
 ## Planned
 
 | ID | Step | Question | Status |
