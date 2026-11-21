@@ -1,0 +1,157 @@
+# Step 3f — real data (NHTSA recalls, AI4I 2020): preparation
+
+Status (2026-11-21, evening): **data downloaded, pilot labelled and reviewed.** Recalls and AI4I are
+downloaded and pinned by SHA-256 (`configs/assets.yaml`, `docs/APPROVALS.md`). The
+50-row pilot `eval_sets/diagnosis/nhtsa/recalls_pilot_v1.csv` is fully labelled and
+passes the checker. The sections below "Pilot result" are the preparation notes from the
+morning, kept as written.
+
+## Sources checked (no data downloaded)
+
+Sizes come from the NHTSA S3 bucket listing (exact bytes) and from the UCI dataset page
+(rounded; UCI sends no `Content-Length`). Licences come from the data.gov catalogue
+entry and the UCI page. The nhtsa.gov datasets page refused automated access (HTTP
+403), so it was not read.
+
+| File | URL | Size | Last modified | Licence |
+| --- | --- | --- | --- | --- |
+| Recalls since 2010 (**needed**) | `https://static.nhtsa.gov/odi/ffdd/rcl/FLAT_RCL_POST_2010.zip` | 15,075,999 B (15.1 MB zip) | 2026-11-20 (updated often: the SHA-256 is recorded at download) | U.S. government work; data.gov "accessLevel: public", no licence field → treated as public domain (17 U.S.C. § 105, an interpretation) |
+| Recalls before 2010 (not needed) | `.../rcl/FLAT_RCL_PRE_2010.zip` | 7,447,141 B | 2026-11-20 | as above |
+| Recalls field description | `.../rcl/RCL.txt` | 3,053 B | 2026-11-20 | read for the parser, not saved |
+| Complaints, all years (not needed now) | `.../cmpl/FLAT_CMPL.zip` | 377,184,005 B (377 MB zip) | 2026-11-20 | as above |
+| Complaints 2025–2026 only (optional) | `.../cmpl/COMPLAINTS_RECEIVED_2025-2026.zip` | 44,679,686 B | 2026-11-20 | as above |
+| AI4I 2020 (**needed**) | `https://archive.ics.uci.edu/static/public/601/ai4i+2020+predictive+maintenance+dataset.zip` | about 510 KB (page: "509.9 KB"; `ai4i2020.csv` 509.8 KB; 10,000 rows) | page: last updated 2024-02-14 | **CC BY 4.0**. Cite the dataset DOI 10.24432/C5HS5C and S. Matzka, "Explainable Artificial Intelligence for Predictive Maintenance Applications", AI4I 2020, DOI 10.1109/AI4I49448.2020.00023 |
+
+- The old data.gov link `.../FLAT_RCL.zip` returns 404. NHTSA now splits the recalls
+  file into PRE_2010 and POST_2010 parts.
+- The unzipped recalls size is not known yet; it will be measured after unzipping.
+
+## What was built
+
+- `iqs_diagnosis/ingestion/nhtsa.py`
+  - Reads the 29 tab-separated fields of `RCL.txt` and merges rows into one record per
+    campaign.
+  - Short (older) rows are padded. Rows with more than 29 fields are counted and
+    skipped, and undecodable bytes are counted.
+- `iqs_diagnosis/evaluation/nhtsa_labels.py`
+  - Draws a stratified, seeded sample per component group: a "term" stratum matching a
+    manufacturing word list, plus a random "control" stratum.
+  - Writes the CSV with shuffled rows and the stratum hidden. The manifest records the
+    source file's SHA-256 and the strata. An existing sheet is never overwritten.
+  - The checker enforces the guide's rules:
+    - valid code;
+    - evidence must be a verbatim quote;
+    - confidence must be high or medium;
+    - status and cause columns must be consistent;
+    - text, ids and the header must be unchanged.
+- `scripts/prepare_nhtsa_labelling.py` (`--list-groups`, then `--groups ...`) and
+  `scripts/check_nhtsa_labels.py` (progress, yield by stratum, errors).
+- `packages/diagnosis/tests/test_nhtsa_labelling.py` (synthetic flat file).
+
+## Needs your approval / decision
+
+1. **Download** `FLAT_RCL_POST_2010.zip` (15.1 MB) to `data/raw/nhtsa/` and unzip it.
+2. **Download** AI4I 2020 (about 0.5 MB) to `data/raw/ai4i/`.
+3. **Complaints: recommend not now.** They carry no cause, so they are not needed for
+   labelling or for Step 4 gate 1. If you want them later, use the 2025–2026 file
+   (44.7 MB) rather than the full 377 MB.
+4. **Component groups (3–5).** Run `--list-groups` after the download and pick from the
+   real names and counts. My prior is the mechanical, production-heavy groups: service
+   brakes, steering, suspension, power train and structure.
+5. **Sheet size.** The default of 60 term + 15 control per group gives 375 rows for 5
+   groups. At roughly 1–1.5 min per row that is 6–9 h, well above the 2–3 h estimated
+   earlier.
+   - I recommend 30 term + 8 control per group (about 190 rows, 3–5 h).
+   - Label the 50-row pilot first, then decide.
+6. **Committing the sheet.** The CSV holds NHTSA recall text, which is public domain.
+   The manifest holds a SHA-256, which the secret scan will flag. This needs an exclude
+   for `eval_sets/diagnosis/nhtsa/[a-z0-9_]+\.manifest\.json`, the same kind of exclude
+   as the approved `sim/` one. Recall text containing part numbers may also trigger the
+   scan; I'll check that at the first commit and ask.
+7. **Mapping interpretations to review in the guide:**
+   - a supplier lot with no stated mechanism → `MATERIAL.BAD_BATCH` (medium);
+   - "improperly torqued/welded" → `METHOD.WRONG_PROCESS_PARAMETERS` (medium);
+   - plant inspection equipment out of calibration → `MEASUREMENT.SENSOR_DRIFT`
+     (medium).
+
+## Risks to know before labelling
+
+- **Few causes and small counts.** Recall texts can support only about 5 of the 10
+  causes, and most rows will be `not_determinable`. Step 4 gate 1 (coverage on a real
+  test split) may therefore end up with a small test split and wide Clopper–Pearson
+  intervals. The pilot will show the yield.
+- **The agent cannot read text cases yet.** Today's agent works on simulator symptom
+  profiles. To run labelled NHTSA cases it needs a text path: symptom extraction from
+  text through the LLM gateway (3e, Ollama only, not approved yet), or at least a
+  text-only BM25 baseline. Labelling can go ahead in parallel.
+
+## Pilot result (2026-11-21)
+
+**Provenance.** The pilot was labelled by an AI assistant (LLM) following
+`LABELLING_GUIDE.md`, with verbatim evidence quotes, and then reviewed by the project
+author on 2026-11-21. Every row's `notes` says "AI label (LLM), reviewed by author
+2026-11-21"; the manifest's `labelling` block records the same.
+
+**Review corrections (3 of 50 rows):**
+- r0008: `not_determinable` → `labelled` `METHOD.WRONG_PROCESS_PARAMETERS` (medium),
+  under the "improperly welded" rule (the weld seam "may not have been manufactured
+  properly").
+- r0028: `labelled` → `outside_taxonomy` under the assembly-error rule ("may have been
+  improperly assembled during manufacturing").
+- r0033: `outside_taxonomy` → `not_determinable` (no cause stated).
+
+The counts below are after review. The labels are AI-assisted with human review, not independent
+expert labels, and every result based on them must say so.
+
+**Interpretation decisions** (approved, now in the guide's mapping table):
+- Assembly errors (missing, wrong, unseated or mis-routed parts) → `outside_taxonomy`.
+  The taxonomy's `PERSONNEL.PART_HANDLING_ERROR` is an intermittent, shift-linked
+  mistake, which recall texts never state.
+- Improper heat treatment → `METHOD.WRONG_PROCESS_PARAMETERS` (medium).
+
+**Checker** (`scripts/check_nhtsa_labels.py`): 50/50 done, 0 errors. The text columns
+are byte-for-byte equal to the committed sheet (checked separately).
+
+| | term (n = 40) | control (n = 10) | all (n = 50) |
+| --- | --- | --- | --- |
+| `labelled` | 7 (17.5 %, 95 % CI 7–33 %) | 1 (10 %, CI 0.3–45 %) | 8 (16 %, CI 7–29 %) |
+| `outside_taxonomy` | | | 23 (46 %) |
+| `not_determinable` | | | 19 (38 %) |
+
+Intervals are Clopper–Pearson.
+- **Causes:** `METHOD.WRONG_PROCESS_PARAMETERS` 7 (4 under-torque, 2 heat treatment,
+  1 weld), `MATERIAL.BAD_BATCH` 1 (casting lot). No other
+  cause appears.
+- **Most `outside_taxonomy` rows** are assembly omissions or errors (13), then design (5),
+  vehicle software (3), vehicle sensor calibration (1) and dealer repair (1).
+- **The term filter barely helps on this evidence.** The yields of 17.5 % and 10 % have
+  overlapping intervals. The single control hit ("insufficiently tightened") is a word
+  the filter lacks.
+- r0028, flagged before review because its label came from the remedy, is now
+  `outside_taxonomy` (see the corrections above).
+
+### What this means for the full sheet
+
+- **Expected yield** is about 16 % labelled per row, plausibly 7–30 %.
+- **More rows add more cases of the same cause, not more causes.** On this evidence,
+  real NHTSA data supports one cause well (wrong process parameters), one rarely (bad
+  batch) and the other eight not at all.
+- **Gate-1 coverage on real data** can therefore be measured on very few causes, with
+  wide intervals. It is reported as such.
+- **`outside_taxonomy` is plentiful** (about 46 %), so NHTSA is mainly a source of real
+  new-problem cases for the novelty evaluation.
+- **Options:**
+
+  | Total rows (incl. pilot) | Expected `labelled` | Expected `outside_taxonomy` |
+  | --- | --- | --- |
+  | 190 (recommended) | about 30 (range about 14–55) | about 85 |
+  | 375 | about 60 | about 170 |
+
+  With 190 rows, a one-third test split holds about 10 labelled cases. With 375 rows it
+  holds about 20, still for essentially one cause.
+- **Decided, planned later:** the full sheet will have about 190 rows including the
+  pilot. Pilot campaigns are excluded from the new sample, so no campaign is labelled
+  twice; this needs a small code change. `tighten\w*` is added to the term list. That
+  changes the sampling protocol and is recorded in the new manifest.
+- Label time per row is not measured, because the pilot was AI-labelled. The author's
+  review time is the relevant figure.

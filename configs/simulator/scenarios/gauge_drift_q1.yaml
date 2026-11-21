@@ -1,0 +1,13 @@
+# Reference single-fault scenario for sensor_calibration_drift (taxonomy simulator_fault).
+# Same seed, start and horizon as baseline.yaml, so the two runs differ only by the fault.
+name: gauge_drift_q1
+description: >-
+  The Q1 dimension gauge drifts by +0.0008 mm per hour from hour 24.
+seed: 7
+start: "2026-01-05T06:00:00Z"
+duration_hours: 72
+faults:
+  - type: sensor_calibration_drift
+    target: Q1
+    magnitude: 0.0008
+    onset_hours: 24

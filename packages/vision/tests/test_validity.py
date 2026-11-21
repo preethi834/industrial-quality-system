@@ -1,4 +1,4 @@
-"""Repeated-split validity check (step 2 gate 3) and the evaluate_conformal report."""
+"""Repeated-split validity check (step 2 gate 3) and the evaluate_vision_conformal report."""
 
 from __future__ import annotations
 
@@ -53,7 +53,7 @@ def test_too_small_calibration_set_is_refused() -> None:
         resplit_check(np.zeros(40), np.zeros(10), np.zeros(3), 0.02)
 
 
-def test_evaluate_conformal_writes_report_and_plot(tmp_path: Path) -> None:
+def test_evaluate_vision_conformal_writes_report_and_plot(tmp_path: Path) -> None:
     rng = np.random.default_rng(2)
     recs = [ScoreRecord(f"c{i}", "0", "calib", 0, "good", float(rng.normal())) for i in range(53)]
     recs += [ScoreRecord(f"g{i}", "0", "test", 0, "good", float(rng.normal())) for i in range(21)]
@@ -68,7 +68,9 @@ def test_evaluate_conformal_writes_report_and_plot(tmp_path: Path) -> None:
     d.mkdir(parents=True)
     save_scores(d / "scores.json", meta, recs)
     (d / "calibration.json").write_text(json.dumps(build_calibration(recs, meta)))
-    spec = importlib.util.spec_from_file_location("ec", REPO / "scripts/evaluate_conformal.py")
+    spec = importlib.util.spec_from_file_location(
+        "ec", REPO / "scripts/evaluate_vision_conformal.py"
+    )
     assert spec and spec.loader
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)

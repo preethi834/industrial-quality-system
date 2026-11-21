@@ -12,10 +12,10 @@ Status labels (blueprint §7.1): **planned** · **in progress** · **working (te
 | 0 | Foundation: repo, settings, logging, databases, service skeletons, CI, docs | **done** (`v0.1-step0`); CI green on `main` |
 | 1 | P2 L1: defect detector (PatchCore / EfficientAD + supervised baseline) + demo | **done** (`v0.1-step1`, merged in PR #2): 15/15 categories, both protocols; EfficientAD deferred (KNOWN_ISSUES #15) |
 | 2 | P2 L2–3: MVTec AD 2 / VisA + conformal threshold | **working locally** (branch `step-2`, not pushed): gates 1–4 met |
-| 3 | P1 L1–2: diagnosis agent (hybrid RAG + KG, MCP, 8D) + evaluation | planned |
-| 4 | P1 L3: conformal cause sets | planned |
-| 5 | Factory simulator + scientist agent | planned |
-| 6 | Cost-aware accept / reject / review | planned |
+| 3 | P1 L1–2: diagnosis agent (hybrid RAG + KG, MCP, 8D) + evaluation | **in progress**: minimum version 3a–3d working (tested) on simulator cases; 3f NHTSA pilot labelled; 3e LLM gateway, dense retrieval, Neo4j graph (3g) planned (`docs/notes/step-3.md`, `step-3f.md`) |
+| 4 | P1 L3: conformal cause sets | **working (tested) on simulator cases**; gate 1 (real test split) open, KNOWN_ISSUES #19 (`docs/notes/step-4.md`) |
+| 5 | Factory simulator + scientist agent | **working (tested)**: gates 1–3 passed; universal gate after merge (`docs/notes/step-5a.md`, `step-5b.md`) |
+| 6 | Cost-aware accept / reject / review | planned (`docs/notes/step-6.md`, decisions pending) |
 | 7 | Integrated quality loop (vision event → diagnosis case) | planned |
 | 8 | Advanced features (8a–8g), one at a time | planned |
 | 9 | Public proof of work (benchmark release, report, video) | planned |
@@ -82,6 +82,27 @@ Step 2 gates (blueprint Rev 2 §5):
 - [x] (4) shift experiment executed and reported (`reports/shift_experiment.md`)
 - [ ] universal gate: CI green on `main` after merge, tag `v0.1-step2`
 
+## Steps 3–5 — diagnosis agent, conformal cause sets, simulator + scientist
+
+Built on branches `step-5` → `step-3` → `step-4` → `step-5b` while step 1 was in progress;
+merged with `main` (after `v0.1-step1`) on 2026-11-21. Details, gate tables and results are in
+`docs/notes/step-{3,3f,4,5a,5b}.md`; decisions in ADR-006 to ADR-009.
+
+| Sub-step | Content | Commit | Status |
+| --- | --- | --- | --- |
+| 5a | Simulator, faults, export with separate ground truth, case generator, CLI | `ebe1d9b`…`af222ab` | working (tested) |
+| 3a–3d | Case corpus, hybrid retrieval, novelty, agent + 8D + MCP tickets, evaluation | `1523106`…`1946b38` | working (tested), simulator only |
+| 3e* | `dx_corpus_v2` (harder corpus for step 4; committed as "3e", see step-3 notes) | `a55bb36` | done |
+| 4a–4d | Conformal thresholds, calibration run, agent/API sets, evaluation, APS default | `18a72aa`…`8925dc5` | working (tested), simulator only |
+| 5b | Scientist templates, runner + BH, null check, `sci_eval_v1`, all-causes for novel cases, migration 0004 | `9490ece`…`393a091` | working (tested) |
+| 3f | NHTSA reader, labelling sheet, downloads, 50-row pilot labelled | `5ec161f`…`0696546` | in progress (full sheet planned) |
+| 3e / 3g | LLM gateway (Ollama only), dense retrieval + reranker, Neo4j graph | — | planned |
+
+- [x] Step 5 gates 1–3 (determinism and access, 1,000-run null check, evaluation family committed first)
+- [x] Step 4 gates 2 and 3 (resplit validity, new-problem stress test)
+- [ ] Step 4 gate 1: coverage on the real (NHTSA) test split — KNOWN_ISSUES #19
+- [ ] universal gate for steps 3–5: CI green on `main`, tags — after the PR is merged
+
 ## Hand-off notes
 
 ### 2026-11-21 — step 2 done locally (2a–2f), branch `step-2`, not pushed
@@ -90,9 +111,21 @@ Step 2 gates (blueprint Rev 2 §5):
   and trained (deploy); 19 categories calibrated; gate 3 passes 19/19; shift experiment run.
   Results: EXPERIMENTS EXP-2-01…03; reports `reports/conformal_*.md`, `reports/shift_experiment.md`.
 - **Read first:** KNOWN_ISSUES #17 (leather / carpet fixed split fails: non-exchangeable), #28–#32.
+- **Merged `origin/main` (`c89c9af`, steps 3–5) into `step-2`** on 2026-11-21; the vision
+  validity script is now `scripts/evaluate_vision_conformal.py` (name clash with step 4).
 - **Numbering:** new known issues from #28, ADRs from ADR-010 (step-5b, PR #3, adds #18–#27 and
-  ADR-006…009). **Next:** merge `main` (with PR #3) into `step-2` when the owner asks; Docker
+  ADR-006…009). **Next:** Docker
   check of `/v1/calibrations` and the model-evaluation page; push / PR only with permission.
+
+### 2026-11-21 — steps 3–5 merged with main (branch `step-5b`)
+
+- `origin/main` (step 1, `v0.1-step1`) merged into `step-5b`; conflicts in
+  `.pre-commit-config.yaml` (both detect-secrets excludes kept), `configs/assets.yaml` and
+  `docs/APPROVALS.md` (all entries kept). The proposed ADRs from the step notes are now
+  ADR-006 (step 3), ADR-007 (step 4), ADR-008 (step 5a) and ADR-009 (step 5b).
+- `make check`: 421 passed, 2 skipped; `make test-integration`: 20 passed (Docker, `nice -n 19`).
+- **Next:** PR `step-5b` → `main`; then the NHTSA full sheet (~190 rows), the step 3e LLM
+  gateway (needs approval) and step 6 decisions (`docs/notes/step-6.md`).
 
 ### 2026-11-21 — step 1 done locally (1h)
 

@@ -1,0 +1,13 @@
+# Reference single-fault scenario for parameter_setpoint_change (taxonomy simulator_fault).
+# Same seed, start and horizon as baseline.yaml, so the two runs differ only by the fault.
+name: wrong_parameters_m3
+description: >-
+  A parameter set with spindle speed +25 % (outside the validated window) is loaded on M3 at hour 24.
+seed: 7
+start: "2026-01-05T06:00:00Z"
+duration_hours: 72
+faults:
+  - type: parameter_setpoint_change
+    target: M3
+    magnitude: 0.25
+    onset_hours: 24

@@ -1,0 +1,13 @@
+# Reference single-fault scenario for accelerated_tool_wear (taxonomy simulator_fault).
+# Same seed, start and horizon as baseline.yaml, so the two runs differ only by the fault.
+name: tool_wear_m1
+description: >-
+  M1 tools wear 2.5 times faster from hour 24 and exceed the wear limit before the scheduled change.
+seed: 7
+start: "2026-01-05T06:00:00Z"
+duration_hours: 72
+faults:
+  - type: accelerated_tool_wear
+    target: M1
+    magnitude: 2.5
+    onset_hours: 24

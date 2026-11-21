@@ -1,0 +1,13 @@
+# Reference single-fault scenario for ambient_temperature_excursion (taxonomy simulator_fault).
+# Same seed, start and horizon as baseline.yaml, so the two runs differ only by the fault.
+name: ambient_excursion
+description: >-
+  Hall temperature 7 degC above normal from hour 24 (cooling still works).
+seed: 7
+start: "2026-01-05T06:00:00Z"
+duration_hours: 72
+faults:
+  - type: ambient_temperature_excursion
+    target: HALL
+    magnitude: 7.0
+    onset_hours: 24

@@ -1,0 +1,329 @@
+{
+  "sheet_version": 1,
+  "csv": "recalls_pilot_v1.csv",
+  "source": {
+    "file": "FLAT_RCL_POST_2010.txt",
+    "url": "https://static.nhtsa.gov/odi/ffdd/rcl/FLAT_RCL_POST_2010.zip",
+    "bytes": 314235584,
+    "sha256": "c2237f4cc630db490402afd7951b1f21efadeb25aefe766176909d98d4335b56"
+  },
+  "read_stats": {
+    "lines": 248586,
+    "rows": 248586,
+    "short_rows": 0,
+    "malformed": 0,
+    "decode_replacements": 0
+  },
+  "n_campaigns_in_file": 15424,
+  "sample": {
+    "groups": [
+      "SERVICE BRAKES, HYDRAULIC",
+      "STEERING",
+      "SUSPENSION",
+      "POWER TRAIN",
+      "STRUCTURE"
+    ],
+    "since": "20150101",
+    "recall_type": "V",
+    "per_group_term": 8,
+    "per_group_control": 2,
+    "seed": 20261121
+  },
+  "manufacturing_terms": [
+    "manufactur\\w*",
+    "assembl\\w*",
+    "weld\\w*",
+    "supplier",
+    "torqu\\w*",
+    "contaminat\\w*",
+    "improperly",
+    "out of specification|out-of-specification|out of spec\\b",
+    "machin\\w*",
+    "heat[- ]treat\\w*",
+    "porosity",
+    "tolerance",
+    "fixture",
+    "calibrat\\w*",
+    "production (?:line|process)"
+  ],
+  "counts": {
+    "POWER TRAIN|control": 2,
+    "POWER TRAIN|term": 8,
+    "SERVICE BRAKES, HYDRAULIC|control": 2,
+    "SERVICE BRAKES, HYDRAULIC|term": 8,
+    "STEERING|control": 2,
+    "STEERING|term": 8,
+    "STRUCTURE|control": 2,
+    "STRUCTURE|term": 8,
+    "SUSPENSION|control": 2,
+    "SUSPENSION|term": 8
+  },
+  "rows": {
+    "r0001": {
+      "campno": "16V826000",
+      "group": "STEERING",
+      "stratum": "term"
+    },
+    "r0002": {
+      "campno": "23V085000",
+      "group": "STEERING",
+      "stratum": "control"
+    },
+    "r0003": {
+      "campno": "16V922000",
+      "group": "SERVICE BRAKES, HYDRAULIC",
+      "stratum": "term"
+    },
+    "r0004": {
+      "campno": "16V351000",
+      "group": "STRUCTURE",
+      "stratum": "term"
+    },
+    "r0005": {
+      "campno": "18V505000",
+      "group": "SERVICE BRAKES, HYDRAULIC",
+      "stratum": "control"
+    },
+    "r0006": {
+      "campno": "15V845000",
+      "group": "STEERING",
+      "stratum": "term"
+    },
+    "r0007": {
+      "campno": "15V865000",
+      "group": "POWER TRAIN",
+      "stratum": "term"
+    },
+    "r0008": {
+      "campno": "23V821000",
+      "group": "POWER TRAIN",
+      "stratum": "term"
+    },
+    "r0009": {
+      "campno": "16V715000",
+      "group": "STEERING",
+      "stratum": "term"
+    },
+    "r0010": {
+      "campno": "16V421000",
+      "group": "SUSPENSION",
+      "stratum": "term"
+    },
+    "r0011": {
+      "campno": "16V858000",
+      "group": "STRUCTURE",
+      "stratum": "term"
+    },
+    "r0012": {
+      "campno": "26V723000",
+      "group": "STRUCTURE",
+      "stratum": "control"
+    },
+    "r0013": {
+      "campno": "24V949000",
+      "group": "SUSPENSION",
+      "stratum": "term"
+    },
+    "r0014": {
+      "campno": "25V058000",
+      "group": "SERVICE BRAKES, HYDRAULIC",
+      "stratum": "term"
+    },
+    "r0015": {
+      "campno": "18V213000",
+      "group": "POWER TRAIN",
+      "stratum": "control"
+    },
+    "r0016": {
+      "campno": "16V584000",
+      "group": "STEERING",
+      "stratum": "term"
+    },
+    "r0017": {
+      "campno": "24V121000",
+      "group": "STEERING",
+      "stratum": "term"
+    },
+    "r0018": {
+      "campno": "25V502000",
+      "group": "SERVICE BRAKES, HYDRAULIC",
+      "stratum": "term"
+    },
+    "r0019": {
+      "campno": "16V043000",
+      "group": "STRUCTURE",
+      "stratum": "term"
+    },
+    "r0020": {
+      "campno": "23V642000",
+      "group": "SUSPENSION",
+      "stratum": "term"
+    },
+    "r0021": {
+      "campno": "15V049000",
+      "group": "SUSPENSION",
+      "stratum": "term"
+    },
+    "r0022": {
+      "campno": "22V897000",
+      "group": "STRUCTURE",
+      "stratum": "term"
+    },
+    "r0023": {
+      "campno": "18V710000",
+      "group": "POWER TRAIN",
+      "stratum": "term"
+    },
+    "r0024": {
+      "campno": "24V723000",
+      "group": "SERVICE BRAKES, HYDRAULIC",
+      "stratum": "term"
+    },
+    "r0025": {
+      "campno": "26V702000",
+      "group": "STRUCTURE",
+      "stratum": "term"
+    },
+    "r0026": {
+      "campno": "22V140000",
+      "group": "SERVICE BRAKES, HYDRAULIC",
+      "stratum": "control"
+    },
+    "r0027": {
+      "campno": "17V703000",
+      "group": "SUSPENSION",
+      "stratum": "control"
+    },
+    "r0028": {
+      "campno": "26V240000",
+      "group": "SERVICE BRAKES, HYDRAULIC",
+      "stratum": "term"
+    },
+    "r0029": {
+      "campno": "25V234000",
+      "group": "SUSPENSION",
+      "stratum": "term"
+    },
+    "r0030": {
+      "campno": "16V302000",
+      "group": "POWER TRAIN",
+      "stratum": "term"
+    },
+    "r0031": {
+      "campno": "21V213000",
+      "group": "STEERING",
+      "stratum": "term"
+    },
+    "r0032": {
+      "campno": "21V307000",
+      "group": "STEERING",
+      "stratum": "term"
+    },
+    "r0033": {
+      "campno": "24V400000",
+      "group": "STRUCTURE",
+      "stratum": "control"
+    },
+    "r0034": {
+      "campno": "22V549000",
+      "group": "SERVICE BRAKES, HYDRAULIC",
+      "stratum": "term"
+    },
+    "r0035": {
+      "campno": "21V027000",
+      "group": "STEERING",
+      "stratum": "control"
+    },
+    "r0036": {
+      "campno": "17V263000",
+      "group": "SUSPENSION",
+      "stratum": "term"
+    },
+    "r0037": {
+      "campno": "15V236000",
+      "group": "STRUCTURE",
+      "stratum": "term"
+    },
+    "r0038": {
+      "campno": "23V754000",
+      "group": "POWER TRAIN",
+      "stratum": "term"
+    },
+    "r0039": {
+      "campno": "16V454000",
+      "group": "STRUCTURE",
+      "stratum": "term"
+    },
+    "r0040": {
+      "campno": "15V502000",
+      "group": "POWER TRAIN",
+      "stratum": "term"
+    },
+    "r0041": {
+      "campno": "15V222000",
+      "group": "POWER TRAIN",
+      "stratum": "term"
+    },
+    "r0042": {
+      "campno": "17V473000",
+      "group": "STRUCTURE",
+      "stratum": "term"
+    },
+    "r0043": {
+      "campno": "18V931000",
+      "group": "POWER TRAIN",
+      "stratum": "term"
+    },
+    "r0044": {
+      "campno": "20V808000",
+      "group": "SERVICE BRAKES, HYDRAULIC",
+      "stratum": "term"
+    },
+    "r0045": {
+      "campno": "23V439000",
+      "group": "SUSPENSION",
+      "stratum": "term"
+    },
+    "r0046": {
+      "campno": "18V618000",
+      "group": "SUSPENSION",
+      "stratum": "control"
+    },
+    "r0047": {
+      "campno": "22V217000",
+      "group": "SERVICE BRAKES, HYDRAULIC",
+      "stratum": "term"
+    },
+    "r0048": {
+      "campno": "25V309000",
+      "group": "STEERING",
+      "stratum": "term"
+    },
+    "r0049": {
+      "campno": "16V015000",
+      "group": "SUSPENSION",
+      "stratum": "term"
+    },
+    "r0050": {
+      "campno": "26V378000",
+      "group": "POWER TRAIN",
+      "stratum": "control"
+    }
+  },
+  "labelling": {
+    "status": "complete (50/50 rows), reviewed; checker: 0 errors (2026-11-21)",
+    "labeller": "AI assistant (LLM), following eval_sets/diagnosis/LABELLING_GUIDE.md (NHTSA section); every labelled/outside_taxonomy row has a verbatim evidence quote",
+    "review": "reviewed by the project author (human) on 2026-11-21, 3 corrections; not independent expert labels",
+    "row_notes": "every row's notes column starts with 'AI label (LLM), reviewed by author 2026-11-21'",
+    "interpretation_decisions": [
+      "assembly errors (missing, wrong, unseated or mis-routed parts) -> outside_taxonomy",
+      "improper heat treatment -> METHOD.WRONG_PROCESS_PARAMETERS (medium)"
+    ],
+    "caveat": "AI-assisted labels: report them as such with every result; do not evaluate a component based on the same LLM against them without stating the shared-model bias risk",
+    "review_corrections": [
+      "r0008: not_determinable -> labelled METHOD.WRONG_PROCESS_PARAMETERS (medium), 'improperly welded' rule",
+      "r0028: labelled METHOD.WRONG_PROCESS_PARAMETERS -> outside_taxonomy, assembly-error rule",
+      "r0033: outside_taxonomy -> not_determinable, no cause stated"
+    ]
+  }
+}

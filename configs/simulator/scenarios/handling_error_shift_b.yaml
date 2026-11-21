@@ -1,0 +1,13 @@
+# Reference single-fault scenario for handling_error_on_shift (taxonomy simulator_fault).
+# Same seed, start and horizon as baseline.yaml, so the two runs differ only by the fault.
+name: handling_error_shift_b
+description: >-
+  From hour 24, 25 % of parts loaded on shift B are mis-loaded at S1.
+seed: 7
+start: "2026-01-05T06:00:00Z"
+duration_hours: 72
+faults:
+  - type: handling_error_on_shift
+    target: B
+    magnitude: 0.25
+    onset_hours: 24

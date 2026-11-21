@@ -53,9 +53,11 @@ repos:
         name: secret scan (detect-secrets, baseline .secrets.baseline)
         entry: uv run --frozen detect-secrets-hook --baseline .secrets.baseline
         language: system
-        # Split manifests are generated and hold one SHA-256 per image (no inline pragma in
-        # JSON); tests/test_data.py validates their schema instead.
-        exclude: ^(uv\.lock|\.secrets\.baseline|eval_sets/vision/[a-z0-9_]+/[a-z0-9_]+\.json)$
+        # Generated manifests hold SHA-256 hashes (no inline pragma in JSON); their schemas
+        # are validated instead: vision split manifests by tests/test_data.py, diagnosis
+        # corpus manifests by packages/diagnosis/tests/test_corpus_manifest.py, NHTSA sheet
+        # manifests are read and cross-checked by scripts/check_nhtsa_labels.py.
+        exclude: ^(uv\.lock|\.secrets\.baseline|eval_sets/vision/[a-z0-9_]+/[a-z0-9_]+\.json|eval_sets/diagnosis/sim/[a-z0-9_]+\.json|eval_sets/diagnosis/nhtsa/[a-z0-9_]+\.manifest\.json)$
 
       # --- lockfile ---
       - id: uv-lock-check

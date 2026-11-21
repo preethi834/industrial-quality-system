@@ -1,0 +1,21 @@
+# Simulator case corpus for the diagnosis agent (step 3a), built by
+# scripts/build_sim_corpus.py into <data root>/<name>/ (default ~/iqs-data/sim).
+#
+# Splits are separate scenario families (different family names and seeds), so no
+# scenario, seed or run appears in two splits:
+#   train -> the case library ("past cases with confirmed causes") for retrieval
+#   dev   -> tuning (vote smoothing, neighbours, novelty threshold)
+#   test  -> reported once in step 3d; not looked at before then
+#
+# novel_faults are left out of the train family entirely: their cases in dev/test
+# have no close past case and measure novelty detection ("no close match").
+# They were chosen before any results: MACHINE.DRIVE_FAULT has no AI4I analogue
+# (simulator only) and PERSONNEL.PART_HANDLING_ERROR is the only personnel cause.
+name: dx_corpus_v1
+start: "2026-01-05T06:00:00Z"
+duration_hours: 72
+novel_faults: [drive_power_deviation, handling_error_on_shift]
+splits:
+  train: {family: dxtrain_v1, seed: 31001, n_per_fault: 30}
+  dev: {family: dxdev_v1, seed: 31002, n_per_fault: 10}
+  test: {family: dxtest_v1, seed: 31003, n_per_fault: 20}

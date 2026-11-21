@@ -1,0 +1,30 @@
+# Harder simulator corpus for the diagnosis agent (built before step 4), by
+# scripts/build_sim_corpus.py --config configs/diagnosis/sim_corpus_v2.yaml.
+#
+# What makes it harder than dx_corpus_v1:
+# - single-fault scenarios use near-limit magnitudes
+#   (iqs_sim.scenarios.near_limit_range: halfway between each fault's validity floor
+#   and its standard range, up to the bottom quarter of the standard range), so many
+#   faults barely alarm and their signatures overlap with noise;
+# - two-fault scenarios (standard magnitudes), labelled with a primary cause by the
+#   excess-defects rule (iqs_diagnosis.evaluation.labels, labelling guide);
+# - a larger dev split for calibration (novelty now, conformal in step 4).
+#
+# Only alarmed runs become cases, so cases per cause depend on each fault's alarm rate
+# in the band; n_per_fault was set from a 160-run detection-curve measurement
+# (step-3 notes), not from diagnosis results.
+# Same held-out causes as v1. Splits use new families and seeds.
+name: dx_corpus_v2
+start: "2026-01-05T06:00:00Z"
+duration_hours: 72
+novel_faults: [drive_power_deviation, handling_error_on_shift]
+splits:
+  train:
+    {family: dx2train, seed: 32001, n_per_fault: 40, magnitudes: near_limit,
+     pairs: {family: dx2trainpair, seed: 32011, n: 80}}
+  dev:
+    {family: dx2dev, seed: 32002, n_per_fault: 60, magnitudes: near_limit,
+     pairs: {family: dx2devpair, seed: 32012, n: 120}}
+  test:
+    {family: dx2test, seed: 32003, n_per_fault: 60, magnitudes: near_limit,
+     pairs: {family: dx2testpair, seed: 32013, n: 120}}

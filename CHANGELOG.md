@@ -15,7 +15,7 @@ versions follow the roadmap tags (`v0.1-step0`, `v0.1-step1`, ...).
   prediction of the realised false-alarm rate; `scipy` as a direct dependency.
 - **2b** `scripts/calibrate.py`: per-image `scores.json` + `calibration.json` per model, α by
   policy D1, leakage refusal, validation-only check for MVTec AD 2.
-- **2c** Repeated-split validity check, `scripts/evaluate_conformal.py`, reports
+- **2c** Repeated-split validity check, `scripts/evaluate_vision_conformal.py`, reports
   `reports/conformal_<dataset>.{md,json}` and guarantee plots (EXP-2-02).
 - **2d** `scripts/shift_experiment.py`: real MVTec AD 2 lighting conditions + six synthetic
   photometric shifts (EXP-2-03).
@@ -24,6 +24,42 @@ versions follow the roadmap tags (`v0.1-step0`, `v0.1-step1`, ...).
 
 ### Changed
 - Masks: any nonzero pixel is a defect (VisA region-id masks); MVTec AD results unchanged.
+
+## [Unreleased] — steps 3–5 (diagnosis agent, conformal cause sets, simulator + scientist)
+
+All diagnosis numbers are **simulator results, not real-world results** (KNOWN_ISSUES #18).
+
+### Added
+- **5a** Factory simulator `iqs_sim`: SimPy line L1 (4 stations, 5 machines), batches,
+  shifts, sensors (temperature, ambient, spindle load, vibration, tool wear, commanded vs
+  actual power); 10 injectable faults named as the taxonomy `simulator_fault`s; scenario
+  YAMLs in `configs/simulator/scenarios/`; Parquet export with a separate `ground_truth/`;
+  case generator; `scripts/simulate.py` (run / validate / family). ADR-008.
+- **3a–3d** Diagnosis agent, minimum version (no LLM): simulator case corpus `dx_corpus_v1`
+  and symptom vocabulary; hybrid retrieval (BM25 + feature vector), vote scoring and a
+  novelty threshold; LangGraph agent with 8D draft, MCP ticket tools (`iqs_mcp`) and case
+  API; migration 0002 (diagnosis cases, causes, 8D reports; QMS tickets); evaluation
+  harness (test split: top-1 1.000, false novelty 0.061 on known causes). ADR-006.
+- Harder corpus `dx_corpus_v2` (near-limit magnitudes, two-fault cases, larger dev split).
+- **4a–4d** Split-conformal cause sets (LAC, APS, (α, δ) bound), frozen calibration runs
+  (migration 0003), cause sets in agent, 8D and API (APS by default, LAC-empty flag);
+  evaluation on v2 test (LAC 0.894, APS 0.989 coverage at α = 0.1). ADR-007.
+- **5b** Scientist agent: one pre-registered SQL template per cause on the locked DuckDB
+  store, BH per case, evidence figures; null check over 1,000 fault-free runs passed for
+  every template; evaluation on `sci_eval_v1` (correct cause supported 0.957). Novel cases
+  test all 10 causes (post-evaluation change, unmeasured); results stored in
+  `diagnosis.hypothesis_tests` (migration 0004). ADR-009.
+- **3f (preparation)** NHTSA recalls reader, labelling sheet and checker; NHTSA recalls and
+  AI4I 2020 downloaded (approved, SHA-256 in `configs/assets.yaml`); 50-row NHTSA pilot
+  labelled (AI-assisted, author-reviewed). Step 6 plan (`docs/notes/step-6.md`).
+
+### Fixed
+- The Postgres checkpointer raised `NotImplementedError` under the async agent; it now runs
+  the sync saver's methods in a thread (`agent/checkpoint.py`).
+- Integration tests: checkpoint tables are cleaned up between tests; the migrations test
+  compares with the Alembic head instead of a fixed revision.
+- `scripts/check_scientist_null.py`: a loop variable reused with another type (found by
+  mypy now that `scripts/` is checked).
 
 ## [v0.1-step1] — step 1 (P2 Layer 1: defect detector + demo)
 

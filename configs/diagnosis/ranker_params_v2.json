@@ -1,0 +1,14 @@
+{
+  "alpha": 0.001,
+  "depth": 50,
+  "fitted_on": {
+    "corpus": "dx_corpus_v2",
+    "library": "train",
+    "tuning": "dev/fit-half"
+  },
+  "n_neighbours": 10,
+  "n_novelty_calibration": 219,
+  "novelty_alpha": 0.05,
+  "novelty_threshold": 0.5525147927615597,
+  "rrf_k": 60
+}

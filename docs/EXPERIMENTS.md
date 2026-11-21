@@ -199,7 +199,7 @@ full train set). MVTec AD 2 regular-condition AUROC rests on 5 good + 15 defecti
 | --- | --- |
 | Date | 2026-11-21 |
 | Question | Is the realised false-alarm rate of the split-conformal threshold ≤ α, as §2.8 predicts? |
-| Command | `scripts/calibrate.py --dataset <ds> --categories all` then `scripts/evaluate_conformal.py --dataset <ds>` for mvtec_ad, visa, mvtec_ad2 |
+| Command | `scripts/calibrate.py --dataset <ds> --categories all` then `scripts/evaluate_vision_conformal.py --dataset <ds>` for mvtec_ad, visa, mvtec_ad2 |
 | Data | deploy models of all 19 categories; per-image scores in `models/patchcore/<cat>/deploy/scores.json` |
 | Seed(s) | resplits seed 42, R = 100 |
 | MLflow run ID | experiments `conformal-mvtec_ad` (15 runs), `conformal-visa` (cashew `dbd38ad9`, pipe_fryum `e475d236`), `conformal-mvtec_ad2` (vial `a22cc7ca`, fruit_jelly `be176118`) |
@@ -220,6 +220,36 @@ full train set). MVTec AD 2 regular-condition AUROC rests on 5 good + 15 defecti
 | Result | `reports/shift_experiment.md`. **Real:** 0/5 good false alarms in every condition (CI up to 52 %); the shift hurts ranking instead: vial underexposed image AUROC 0.720 vs 0.960 regular, fruit_jelly overexposed 0.827 vs 0.920. **Synthetic:** FA rises far above α = 0.02 in 6 of 7 categories: screw 2.4 % → 87.8 % (cool), 51.2 % (contrast ×1.3, warm); leather 62.5 % → 100 % (brightness ×1.3, contrast ×1.3); grid 4.8 % → 42.9 % (cool); pill 0 → 26.9 %; wood 0 → 15.8 %; hazelnut 0 % under all six |
 | Notes | A measurement, not a target. The conformal guarantee does not survive a capture change; recalibrate after any lighting or camera change. MVTec AD 2 shifts are too small-sample (5 goods) to measure FA |
 
+### EXP-3-02 — Diagnosis agent on simulator cases, `dx_corpus_v1` test split (done, simulator only)
+
+| Field | Content |
+| --- | --- |
+| Date | 2026-11-20 (test split evaluated once) |
+| Command | `scripts/evaluate_diagnosis.py` (full agent per case, `nice -n 19`) |
+| Data | `eval_sets/diagnosis/sim/dx_corpus_v1.json` (library = train, 225 cases, 8 causes; parameters frozen on dev) |
+| Result | 188 test cases (148 known cause, 40 held-out). Top-1 known **1.000** [0.975, 1.000]; novelty detected 1.000 [0.912, 1.000]; false novelty **0.061** [0.032, 0.112] (target 0.05); tool-call accuracy 1.000; latency p50 317 ms. Baselines: BM25 0.973, vector 1.000, majority 0.135. Report `reports/diagnosis/dx_corpus_v1_test.json` |
+| Notes | **Simulator accuracy is not real-world accuracy.** The task is easy by design; no LLM yet, so LLM-as-judge agreement is not measured. Full tables: `docs/notes/step-3.md` §3d |
+
+### EXP-4-01 — Conformal cause sets on `dx_corpus_v2` (done, simulator only)
+
+| Field | Content |
+| --- | --- |
+| Date | 2026-11-20 |
+| Command | `scripts/calibrate_causes.py`, then `scripts/evaluate_conformal.py` |
+| Data | v2 dev halves by case hash (fit 289, calibration 230 known-cause cases); v2 test 582 cases, evaluated once |
+| Result | α = 0.1, known causes (n = 454): LAC coverage **0.894** [0.862, 0.921], size 0.96; APS **0.989** [0.974, 0.996], size 1.56. Two-fault primary covered: LAC 0.571, APS 0.962. Gate 2 (R = 100 resplits): LAC 0.8956 ≥ 0.8934, APS 0.9602. New problems: coverage 0 (stress test), LAC empty for 57.8 %. Report `reports/diagnosis/conformal_dx_corpus_v2_test.json` |
+| Notes | Marginal, simulator-only coverage; LAC margin 0.002 (KNOWN_ISSUES #22). Real-data gate 1 open (#19). Full tables: `docs/notes/step-4.md` |
+
+### EXP-5-01 — Scientist agent: null check, power and `sci_eval_v1` (done, simulator only)
+
+| Field | Content |
+| --- | --- |
+| Date | 2026-11-20 |
+| Command | `scripts/check_scientist_null.py` (1,000 fault-free runs + power grid), `scripts/evaluate_scientist.py` (family manifest committed first, `aa6152c`) |
+| Data | seeds 900000–900999 (null); `sci_eval_v1`, 600 scenarios → 577 cases |
+| Result | Null FP rate ≤ 0.0707 for all 10 templates (max 0.053; vacuous for 4, KNOWN_ISSUES #23). All-causes mode: correct cause supported **0.957** [0.937, 0.970], wrong causes rejected 0.459, wrong supported 0.137. Agent top-1 0.787 overall (new problems 0); scientist pick correct 0.922 of 474 picks; templates alone 0.672. Reports `reports/diagnosis/scientist_null_power.json`, `scientist_sci_eval_v1.json` |
+| Notes | Simulator results, not real-plant results. Novel-case all-causes mode was added after this run and is unmeasured (#24). Full tables: `docs/notes/step-5b.md` |
+
 ## Planned
 
 | ID | Step | Question | Status |
@@ -231,7 +261,7 @@ full train set). MVTec AD 2 regular-condition AUROC rests on 5 good + 15 defecti
 | EXP-2-02 | 2 | Realised false-alarm rate of the conformal threshold vs target α over repeated splits | done (19 categories) |
 | EXP-2-03 | 2 | False-alarm rate of the in-distribution threshold under real and synthetic lighting shift | done |
 | EXP-3-01 | 3 | Embedding model choice by recall@k on the retrieval set | planned |
-| EXP-3-02 | 3 | Diagnosis top-3 accuracy and LLM-as-judge agreement (Cohen's κ) with hand labels | planned |
-| EXP-4-01 | 4 | Empirical coverage and average size of conformal cause sets (LAC vs APS) | planned |
-| EXP-5-01 | 5 | Root-cause accuracy on simulator scenarios with known injected faults | planned |
+| EXP-3-02 | 3 | Diagnosis top-3 accuracy and LLM-as-judge agreement (Cohen's κ) with hand labels | simulator part done (above); NHTSA and LLM-as-judge planned |
+| EXP-4-01 | 4 | Empirical coverage and average size of conformal cause sets (LAC vs APS) | simulator done (above); real test split open |
+| EXP-5-01 | 5 | Root-cause accuracy on simulator scenarios with known injected faults | done (above) |
 | EXP-6-01 | 6 | Expected cost per 10,000 parts: cost-aware decisions vs fixed threshold, with sensitivity analysis | planned |

@@ -26,13 +26,17 @@ Coverage: `uv run pytest --cov` measures the `iqs_*` packages with branch covera
 | API | FastAPI `TestClient` | `packages/<svc>/tests/test_api.py`, `packages/common/tests/test_api.py` | every push |
 | Integration | testcontainers (images read from `deploy/compose/docker-compose.yml`) | `tests/integration/` | every push (`ci.yml`, job `integration`) |
 | Compose smoke | `make build`, `make up PROFILES=apps`, `scripts/smoke_test.sh` | `.github/workflows/docker.yml` | push / PR to `main`, manual |
-| Agent behaviour (recorded LLM responses) | — | — | planned (step 3, `eval.yml`) |
+| Agent behaviour (deterministic, no LLM yet) | pytest | `packages/diagnosis/tests/test_eval_harness.py` (10 reference cases through the full agent) | every push |
+| Agent behaviour (recorded LLM responses) | — | — | planned (step 3e, `eval.yml`) |
 | ML evaluation (full) | `scripts/evaluate_*` + MLflow | — | planned (manual, before releases) |
 | End-to-end | compose + `tests/e2e/` | — | planned (step 7) |
 
 ## What exists today
 
-Latest run (2026-11-21, end of step 1): **199 unit/API tests** pass in `make check` (ruff,
+Latest run (2026-11-21, merge of steps 3–5 into `main`): **421 unit/API tests pass, 2 skipped**
+in `make check`, and **20 integration tests pass** in `make test-integration` (Docker, `nice -n 19`).
+
+End of step 1 (2026-11-21): **199 unit/API tests** pass in `make check` (ruff,
 mypy and hooks clean); the 15 integration tests are deselected there and were last run in step 0.
 Real-data checks at the end of step 1: same-seed rerun (toothbrush, Δ = 0.0000, tolerance
 ±0.005) and reload check (30 models, `max_abs_diff = 0.0`), see EXPERIMENTS EXP-1-01.
@@ -55,6 +59,22 @@ branch coverage of `iqs_*` from unit/API tests alone: **99 %** (437 statements, 
 | `tests/integration/test_migrations.py` | 11 | upgrade/downgrade, `alembic check` drift (and a probe that it fails on drift), objects outside our schemas ignored, outbox defaults/constraints/duplicates, pgvector round trip |
 | `tests/integration/test_neo4j_smoke.py` | 1 | pinned Neo4j image answers Cypher |
 | `tests/integration/test_service_ready.py` | 3 | both services `/ready` against real databases; wrong Neo4j password → 503 |
+
+### Diagnosis and simulator (steps 3–5)
+
+| Where | Covers |
+| --- | --- |
+| `packages/simulator/tests` | determinism (same scenario ⇒ identical SHA-256 of every file), fault isolation (each fault vs its fault-free twin changes exactly its declared columns, at its target, after its onset, and raises the exposed reject rate), schemas, no ground-truth tokens in `observed/` or in cases, DuckDB allow-list cannot read `ground_truth/`, case generator works with `ground_truth/` deleted, CLI, v2 families |
+| `packages/diagnosis/tests` (symptoms, retrieval, scoring) | vocabulary rules, reference-scenario signatures (regression check, not accuracy), hybrid retrieval, vote scoring, novelty threshold |
+| `packages/diagnosis/tests` (agent, API, 8D) | agent graph incl. conformal and scientist nodes, MCP ticket round trip, case API, 8D completeness, AST leak guard (only `evaluation` may read ground truth) |
+| `test_conformal.py`, `test_calibration_run.py`, `test_conformal_eval.py` | index rule, 10,000-trial coverage band + KS test, (α, δ) bound, ties, hand-computed LAC/APS sets, hash split and disjointness, committed run consistent and leak-free |
+| `test_scientist_*.py` | templates on synthetic data, synthetic null tests (FP ≤ α + 3 SE), BH runner, top-3 vs all-causes mode and persistence rows, evaluation arithmetic |
+| `test_nhtsa_labelling.py` | flat-file reader (short and malformed rows), seeded stratified sample, sheet never overwritten, label rules, Excel `;`/cp1252 files |
+| `tests/integration/test_diagnosis_persistence.py` | migrations 0002–0004 tables, SQL ticket store, case survives a restart with the Postgres checkpointer, calibration-run rows and cause sets, `hypothesis_tests` rows replaced per case |
+
+The 1,000-run null check and the evaluations (`scripts/check_scientist_null.py`,
+`evaluate_diagnosis.py`, `evaluate_conformal.py`, `evaluate_scientist.py`) are manual runs,
+not part of `make test`; their results are in EXPERIMENTS EXP-3-02, EXP-4-01, EXP-5-01.
 
 ## Rules
 

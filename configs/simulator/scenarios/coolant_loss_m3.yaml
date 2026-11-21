@@ -1,0 +1,13 @@
+# Reference single-fault scenario for coolant_flow_loss (taxonomy simulator_fault).
+# Same seed, start and horizon as baseline.yaml, so the two runs differ only by the fault.
+name: coolant_loss_m3
+description: >-
+  M3 loses 35 % of its coolant flow from hour 24.
+seed: 7
+start: "2026-01-05T06:00:00Z"
+duration_hours: 72
+faults:
+  - type: coolant_flow_loss
+    target: M3
+    magnitude: 0.35
+    onset_hours: 24

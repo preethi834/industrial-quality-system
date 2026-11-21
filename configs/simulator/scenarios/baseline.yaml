@@ -1,0 +1,8 @@
+# Fault-free reference run: three days, three shifts, line L1 with its normal noise.
+name: baseline
+description: >-
+  No injected fault. The reject rate (about 2 %) comes from normal process variation.
+seed: 7
+start: "2026-01-05T06:00:00Z"
+duration_hours: 72
+faults: []
