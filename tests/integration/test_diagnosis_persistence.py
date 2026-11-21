@@ -9,6 +9,7 @@
 from __future__ import annotations
 
 import asyncio
+from collections.abc import Iterator
 from pathlib import Path
 
 import pytest
@@ -63,8 +64,24 @@ def test_sql_ticket_store(migrated: Config, pg_settings: DatabaseSettings) -> No
     assert store.get(t.ticket_id).candidate_causes == ("MACHINE.TOOL_WEAR",)
 
 
+@pytest.fixture
+def checkpoint_cleanup(pg_settings: DatabaseSettings) -> Iterator[None]:
+    """Drop the checkpointer's tables afterwards: they live outside Alembic, so the
+    ``migrated`` downgrade does not remove them and later tests would see them."""
+    from sqlalchemy import text
+
+    from iqs_diagnosis.agent.checkpoint import CHECKPOINT_TABLES
+
+    yield
+    engine = create_db_engine(pg_settings)
+    with engine.begin() as conn:
+        for t in CHECKPOINT_TABLES:
+            conn.execute(text(f'DROP TABLE IF EXISTS public."{t}"'))
+    engine.dispose()
+
+
 def test_case_survives_restart_with_postgres_checkpointer(
-    migrated: Config, pg_settings: DatabaseSettings, tmp_path: Path
+    migrated: Config, pg_settings: DatabaseSettings, tmp_path: Path, checkpoint_cleanup: None
 ) -> None:
     from iqs_diagnosis.agent.checkpoint import postgres_checkpointer
     from iqs_diagnosis.agent.graph import AgentDeps, DiagnosisAgent
