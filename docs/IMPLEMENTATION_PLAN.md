@@ -48,7 +48,7 @@ Blueprint "done when" for step 0:
 | 1c | CPU PatchCore, metrics, MLflow, train/evaluate/report scripts, queue | `903d949` | working (tested): 30 models trained, reload check exact |
 | 1d | Inspection API, heatmaps, registry, VLM interface, latency benchmark | `3ed8bfe`, `2ddd22e` | working (tested); latency p50 529 ms / p95 560 ms (EXP-1-03) |
 | 1e | Supervised ResNet-18 baseline | `32452e3` | working (tested): run on all 15 (EXP-1-02) |
-| 1f | Dashboard + image + smoke test | `b5244dc`, `a5aca26` | working: Docker smoke + dashboard client with the 15 deploy models (image rebuild pending, #16) |
+| 1f | Dashboard + image + smoke test | `b5244dc`, `a5aca26` | working: Docker smoke + dashboard client with the 15 deploy models (images rebuilt 2026-11-21, smoke passed again) |
 | 1g | EfficientAD notebook, run bundles, import | `34b7d3e` | code working (tested); not run, deferred (KNOWN_ISSUES #15) |
 | 1h | Docs, results, tag `v0.1-step1` | `e2a181f`, this commit | docs done; tag waits for the owner |
 
@@ -58,8 +58,8 @@ Step 1 gates (blueprint Rev 2 §5):
 - [x] (2) same-seed rerun within ±0.005 — toothbrush Δ = 0.0000
 - [x] (3) deviations vs anomalib — 14/15 within ±0.02; grid +0.028 investigated (#11), pill +0.020 noted (#14)
 - [x] (4) API 200 / 415 / 401 — tests + Docker smoke
-- [x] (5) dashboard against Docker with the **deploy** models — smoke test + dashboard client in the container (screw defect → anomalous); image predates `34b7d3e`, PatchCore path unchanged (#16)
-- [x] (6) EfficientAD deferred in KNOWN_ISSUES #15 (owner to confirm)
+- [x] (5) dashboard against Docker with the **deploy** models — smoke test + dashboard client in the container (screw defect → anomalous); images rebuilt 2026-11-21 and re-checked (#16 resolved)
+- [x] (6) EfficientAD deferred in KNOWN_ISSUES #15 (confirmed by the owner 2026-11-21)
 - [ ] universal gate: CI green on `main`, tag `v0.1-step1` — after the owner's push
 
 ## Hand-off notes
@@ -70,8 +70,9 @@ Step 1 gates (blueprint Rev 2 §5):
   categories, 22 min), same-seed rerun (toothbrush, Δ = 0), reload check (30 models, exact),
   reports for both protocols, Docker demo with the deploy models, latency benchmark. `make check`:
   199 tests, ruff, mypy, hooks pass. Results: EXPERIMENTS EXP-1-01…03.
-- **Open for the owner:** push + CI on `main`, tag `v0.1-step1`, confirm the EfficientAD deferral
-  (#15), approve an image rebuild with network access (#16).
+- **Owner decisions 2026-11-21:** EfficientAD deferral confirmed (#15); images rebuilt with network
+  access and smoke-tested (#16); branch `step-1` pushed for a PR; tag `v0.1-step1` only after CI is
+  green on `main`.
 - **Next:** step 2 with the decisions of 2026-11-20 (A1 VisA cashew + pipe_fryum, archive
   1,929,840,640 bytes; A2 MVTec AD 2 vial + fruit_jelly, archives in Windows Downloads, not yet
   imported; A3 `scipy` direct dependency; A4 skipped; D1 α = 0.02 only where n ≥ 49, else 0.05,

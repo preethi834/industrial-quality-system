@@ -167,7 +167,7 @@ labelled defects, and the reason PatchCore is the primary model.
 | --- | --- |
 | Date | 2026-11-21 |
 | Command | `make up PROFILES=vision` → `scripts/benchmark_inspections.py --category bottle --requests 100` (5 warm-up requests) |
-| Model | bottle `deploy` PatchCore (`25b9a42e`), vision container with a 2 GB memory limit, image `iqs-vision:dev` built 2026-11-19 (KNOWN_ISSUES #16) |
+| Model | bottle `deploy` PatchCore (`25b9a42e`), vision container with a 2 GB memory limit, image `iqs-vision:dev` built 2026-11-19; PatchCore inference unchanged in the 2026-11-21 rebuild (KNOWN_ISSUES #16) |
 | Result | client **p50 529 ms, p95 560 ms**, mean 531 ms; server-reported p50 522 ms, p95 550 ms; sequential requests, CPU only (`reports/inspection_latency.jsonl`) |
 | Note | The first request for a category also loads its model: 18.8 s for bottle on a cold container, 3.7 s for screw later |
 
