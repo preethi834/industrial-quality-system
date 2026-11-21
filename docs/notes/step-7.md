@@ -1,8 +1,10 @@
 # Step 7 — connect the projects: the integrated quality loop (plan)
 
-Status: **plan only** (2026-11-21, branch `step-7`
-from `main` at `c89c9af`). No code yet. Waiting for the owner's approval of this plan and of
-the decisions in §10.
+Status: **7a–7f working (tested) with unit tests, locally, not pushed** (2026-11-21,
+branch `step-7` from `main` at `c89c9af`). Plan approved by the
+owner on 2026-11-21 with decisions D1–D8 as recommended (§10). 7g (Docker, integration, e2e)
+and 7h (real-image demo, docs) wait until the `step-2` training chain has finished.
+Implementation log and deviations from this plan: §12.
 
 Sources read: blueprint Rev 2 §1.4, §2.1–2.3, §2.6–2.9, §5 (step 7, step 8 table, sequencing
 note); `docs/IMPLEMENTATION_PLAN.md`; `docs/ARCHITECTURE.md`; `docs/KNOWN_ISSUES.md`;
@@ -508,3 +510,87 @@ pool, frozen calibration, graph subset). KNOWN_ISSUES #40–#45 as referenced ab
 
 Until you say A's chain is done: only unit tests, `nice -n 19`, changed files only; no Docker,
 no testcontainers, no training, no image builds.
+
+---
+
+## 12. Implementation log (7a–7f) and deviations from the plan
+
+| Sub-step | Commit | What |
+| --- | --- | --- |
+| 7a | `7a63f1a` | event v1 optional fields, pinned contracts in `tests/contracts/` checked by common, vision and diagnosis suites, `iqs_common.outbox_worker` (in-memory + SQL `SKIP LOCKED`) |
+| 7b | `aa410a9` | `iqs_sim.linker` + `configs/simulator/image_linkage.yaml` |
+| 7c | `2c871ad` | vision discovery: embedding, trigger, store, service, consumer, worker, routes |
+| 7d | `552bf91` | diagnosis: vision case builder, consumer + worker, `GET /v1/cases`, guarantee flag |
+| 7e | `b87cdfc` | feedback service + store, graph writer, `feedback_update` node, in-process loop test |
+| 7f | this commit | migration 0005, capability status, dashboard page 5, these notes |
+
+Deviations, each for a reason found while building:
+
+1. **Trigger needed two extra rules** (`iqs_vision/discovery/trigger.py`). (a) A compactness
+   gate `max_radius = 0.5`: with `allow_single_cluster=True` (needed so the *first* new defect
+   type can form a cluster on its own), HDBSCAN turned 5 random unit vectors into one
+   "cluster" in 64-d and 512-d (checked). (b) Merge of close compact parts + absorption of
+   buffer points within `known_radius_factor` × radius: HDBSCAN labelled 9 of 15 points of one
+   homogeneous blob as noise and split growing blobs, which would have raised a second alert
+   for the same defect. Regression test: one blob fed point by point alerts exactly once
+   (10 seeds).
+2. **`known_radius_factor` 1.5, not 1.0**: with the radius a 95 % quantile of few points,
+   fresh members of a named class fell outside it.
+3. **Toy linkage uses the detector's training goods and no background defect** (config
+   comment). With the provisional threshold, false alarms on a small repeated good-image
+   pool would themselves form a cluster and open a bogus case; background spots would form a
+   cluster before the fault. Both are real risks for the real demo (KNOWN_ISSUES #46) but
+   would confound the plumbing test.
+4. **No symptom-vocabulary change.** `new_visual_defect_cluster` is reported context only;
+   adding it to `symptoms.yaml` would change the vocabulary version recorded by the frozen
+   calibration run.
+5. **Capability status is derived in `iqs_common.capabilities`** from the existing boolean
+   flags and one table of reasons, so `iqs_vision/api/main.py` needed no change beyond the
+   approved router lines (plus one flag line).
+6. **`POST /v1/discovery/inspect` takes `inspected_at`** (part inspection time, simulated
+   time for simulator parts), so cluster windows are in process time, not wall-clock time.
+7. **Dashboard quality-loop client is a new module** (`loop_client.py`), not added to
+   `client.py`, which the `step-2` branch may extend.
+8. **Graph writes are configurable** (`IQS_DIAGNOSIS__GRAPH_WRITES=none|neo4j`, default
+   none); with none the feedback reports `graph: disabled` instead of pretending.
+
+### Measured so far (in-process unit test, not a quality result)
+
+`packages/diagnosis/tests/test_quality_loop_inprocess.py`, 2026-11-21, this laptop, under
+`nice -n 19` while the `step-2` training ran. **Simulator data (tool_wear_m1, 72 h, seed 7),
+synthetic image-to-part linkage, synthetic stripe images, random-init tiny PatchCore.**
+
+| Quantity | Value |
+| --- | --- |
+| parts inspected after fault onset until the alert | 150 |
+| anomalous images in the buffer at the alert | 5 (= `min_cluster_size`) |
+| wall-clock, first anomalous image → case opened (incl. agent run) | 2.7–2.9 s (2 runs) |
+| cases opened / alerts / confirmations | 1 / 1 / 1 |
+| later scratch images routed to the named class | ≥ 90 % of ≥ 20 (assertion) |
+
+The gate numbers for step 7 come from the compose e2e (7g) and the real-image demo (7h).
+
+### Proposed KNOWN_ISSUES (to copy at merge; numbers #40+)
+
+| # | Issue | Impact | Next action |
+| --- | --- | --- | --- |
+| 40 | Image ↔ part linkage is synthetic (`iqs_sim.linker`). | Vision-originated diagnoses show the loop works, not that images relate to process data. | Labelled in events, case text and dashboard. |
+| 41 | Vision-triggered cases are not exchangeable with the simulator alarm cases of the calibration run. | Cause sets for them carry `guarantee_applies: false`. | A vision-source calibration run (needs ≥ 9 cases from a frozen scenario family). |
+| 42 | Step 7 was built before steps 2 (conformal threshold) and 6 (cost decisions) merged. | Trigger uses the provisional max-of-calibration threshold. | Re-run the 7g gate after both merge. |
+| 43 | Trigger parameters are untuned starting values (`configs/vision/discovery.yaml`). | No claim about detection delay or purity. | Step 8c evaluation. |
+| 44 | Dirichlet counts are recorded, not used by the scorer. | "Probabilities update" holds only once 8a consumes them. | Step 8a. |
+| 45 | Migration 0005 may collide with a 0005 on `step-2`. | Alembic chain breaks at merge. | Second branch to merge renumbers and fixes `down_revision`. |
+| 46 | False alarms on good parts can form a cluster (repeated images, provisional threshold). | Bogus cases in the real demo. | Measure in 7h; then step 2 threshold or a minimum score margin. |
+| 47 | The agent reads the whole run's observed data, also after the alert (replay, not live). | Same as for simulator alarm cases in steps 3–5. | Cut observed data at `alarm_ts` if live behaviour is to be shown. |
+
+### Proposed ADRs (to copy at merge; numbers 015+)
+
+- **ADR-015 — Quality-loop delivery:** transactional outbox in `platform.events`, one
+  consumer per event type, at-least-once with idempotent handlers (`processed_events`,
+  case ID = UUIDv5(cluster), unique `source_cluster_id`, feedback once per case); event
+  schema v1 extended with optional fields; pinned contract files; PatchCore patch features
+  instead of DINOv2 (D1); blueprint "core" profile = our `apps` profile.
+- **ADR-016 — Feedback policy:** counts per (defect type | source, cause), candidate pool
+  only, frozen calibration and library (D3); Neo4j subset Case/Cause/DefectType with MERGE
+  and Postgres as the source of truth for counts; no-listed-cause confirmations record
+  nothing.

@@ -145,6 +145,8 @@ def test_any_configured_key_is_accepted(client: TestClient, key: str) -> None:
         "version": "1.2.3",
         "api_version": "v1",
         "features": {"thing": True, "other": False},
+        "status": {"thing": "enabled", "other": "disabled"},
+        "reason": {"other": "disabled in this configuration"},
     }
 
 

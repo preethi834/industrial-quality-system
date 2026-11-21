@@ -27,6 +27,7 @@ from fastapi.responses import JSONResponse
 from fastapi.security import APIKeyHeader
 from pydantic import BaseModel
 
+from iqs_common.capabilities import feature_status
 from iqs_common.ids import uuid7
 from iqs_common.log import bind_context, clear_context, get_logger
 from iqs_common.settings import ApiSettings
@@ -60,6 +61,10 @@ class CapabilitiesResponse(BaseModel):
     version: str
     api_version: str = API_VERSION
     features: dict[str, bool]
+    # Step 7 (blueprint §2.9): enabled | disabled | not_installed | missing_artifact,
+    # and why a feature is not enabled.
+    status: dict[str, str] = {}
+    reason: dict[str, str] = {}
 
 
 def api_key_dependency(settings: ApiSettings) -> Callable[[str | None], None]:
@@ -185,7 +190,10 @@ def create_service_app(
 
     @v1.get("/capabilities", response_model=CapabilitiesResponse, tags=["meta"])
     def capabilities() -> CapabilitiesResponse:
-        return CapabilitiesResponse(service=service, version=version, features=feature_flags)
+        st, why = feature_status(feature_flags)
+        return CapabilitiesResponse(
+            service=service, version=version, features=feature_flags, status=st, reason=why
+        )
 
     for router in routers:
         v1.include_router(router)
