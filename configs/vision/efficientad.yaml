@@ -1,0 +1,10 @@
+# EfficientAD-S (step 1g), trained on a free cloud GPU (finetune/efficientad). anomalib 2.7
+# defaults: small model, 384 teacher channels, 256 px, batch size 1, 70 000 steps (paper).
+model_size: small
+teacher_out_channels: 384
+padding: false
+pad_maps: true
+image_size: 256
+max_steps: 70000
+batch_size: 1
+seed: 42

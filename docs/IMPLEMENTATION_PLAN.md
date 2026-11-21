@@ -10,12 +10,12 @@ Status labels (blueprint §7.1): **planned** · **in progress** · **working (te
 | Step | Scope (blueprint §5) | Status |
 | --- | --- | --- |
 | 0 | Foundation: repo, settings, logging, databases, service skeletons, CI, docs | **working (tested) locally**; known issue: CI not yet run on GitHub |
-| 1 | P2 L1: defect detector (PatchCore / EfficientAD + supervised baseline) + demo | planned |
+| 1 | P2 L1: defect detector (PatchCore / EfficientAD + supervised baseline) + demo | **working (tested) locally**: 15/15 categories, both protocols; EfficientAD deferred (KNOWN_ISSUES #15); not pushed, no tag yet |
 | 2 | P2 L2–3: MVTec AD 2 / VisA + conformal threshold | planned |
-| 3 | P1 L1–2: diagnosis agent (hybrid RAG + KG, MCP, 8D) + evaluation | planned |
-| 4 | P1 L3: conformal cause sets | planned |
-| 5 | Factory simulator + scientist agent | planned |
-| 6 | Cost-aware accept / reject / review | planned |
+| 3 | P1 L1–2: diagnosis agent (hybrid RAG + KG, MCP, 8D) + evaluation | **in progress**: minimum version 3a–3d working (tested) on simulator cases; 3f NHTSA pilot labelled; 3e LLM gateway, dense retrieval, Neo4j graph (3g) planned (`docs/notes/step-3.md`, `step-3f.md`) |
+| 4 | P1 L3: conformal cause sets | **working (tested) on simulator cases**; gate 1 (real test split) open, KNOWN_ISSUES #19 (`docs/notes/step-4.md`) |
+| 5 | Factory simulator + scientist agent | **working (tested)**: gates 1–3 passed; universal gate after merge (`docs/notes/step-5a.md`, `step-5b.md`) |
+| 6 | Cost-aware accept / reject / review | planned (`docs/notes/step-6.md`, decisions pending) |
 | 7 | Integrated quality loop (vision event → diagnosis case) | planned |
 | 8 | Advanced features (8a–8g), one at a time | planned |
 | 9 | Public proof of work (benchmark release, report, video) | planned |
@@ -39,7 +39,104 @@ Blueprint "done when" for step 0:
 - [x] docs exist with real content
 - [ ] green CI on `main` — needs a push (KNOWN_ISSUES #1, #2)
 
+## Step 1 — Project 2 Layer 1
+
+| Sub-step | Content | Commit | Status |
+| --- | --- | --- | --- |
+| 1a | Blueprint Rev 2, actions on Node 24 (SHA-pinned), asset allowlist + approval scripts, vision profile, KNOWN_ISSUES renumbered | `76debd5`, `a6d3876` | working (tested) |
+| 1b | MVTec adapter, manifests (15 categories), preprocessing, synthetic fixtures | `ad7bb04` | working (tested) |
+| 1c | CPU PatchCore, metrics, MLflow, train/evaluate/report scripts, queue | `903d949` | working (tested): 30 models trained, reload check exact |
+| 1d | Inspection API, heatmaps, registry, VLM interface, latency benchmark | `3ed8bfe`, `2ddd22e` | working (tested); latency p50 529 ms / p95 560 ms (EXP-1-03) |
+| 1e | Supervised ResNet-18 baseline | `32452e3` | working (tested): run on all 15 (EXP-1-02) |
+| 1f | Dashboard + image + smoke test | `b5244dc`, `a5aca26` | working: Docker smoke + dashboard client with the 15 deploy models (images rebuilt 2026-11-21, smoke passed again) |
+| 1g | EfficientAD notebook, run bundles, import | `34b7d3e` | code working (tested); not run, deferred (KNOWN_ISSUES #15) |
+| 1h | Docs, results, tag `v0.1-step1` | `e2a181f`, this commit | docs done; tag waits for the owner |
+
+Step 1 gates (blueprint Rev 2 §5):
+
+- [x] (1) AUROC for all 15 categories, official and deploy (EXP-1-01)
+- [x] (2) same-seed rerun within ±0.005 — toothbrush Δ = 0.0000
+- [x] (3) deviations vs anomalib — 14/15 within ±0.02; grid +0.028 investigated (#11), pill +0.020 noted (#14)
+- [x] (4) API 200 / 415 / 401 — tests + Docker smoke
+- [x] (5) dashboard against Docker with the **deploy** models — smoke test + dashboard client in the container (screw defect → anomalous); images rebuilt 2026-11-21 and re-checked (#16 resolved)
+- [x] (6) EfficientAD deferred in KNOWN_ISSUES #15 (confirmed by the owner 2026-11-21)
+- [ ] universal gate: CI green on `main`, tag `v0.1-step1` — after the owner's push
+
+## Steps 3–5 — diagnosis agent, conformal cause sets, simulator + scientist
+
+Built on branches `step-5` → `step-3` → `step-4` → `step-5b` while step 1 was in progress;
+merged with `main` (after `v0.1-step1`) on 2026-11-21. Details, gate tables and results are in
+`docs/notes/step-{3,3f,4,5a,5b}.md`; decisions in ADR-006 to ADR-009.
+
+| Sub-step | Content | Commit | Status |
+| --- | --- | --- | --- |
+| 5a | Simulator, faults, export with separate ground truth, case generator, CLI | `ebe1d9b`…`af222ab` | working (tested) |
+| 3a–3d | Case corpus, hybrid retrieval, novelty, agent + 8D + MCP tickets, evaluation | `1523106`…`1946b38` | working (tested), simulator only |
+| 3e* | `dx_corpus_v2` (harder corpus for step 4; committed as "3e", see step-3 notes) | `a55bb36` | done |
+| 4a–4d | Conformal thresholds, calibration run, agent/API sets, evaluation, APS default | `18a72aa`…`8925dc5` | working (tested), simulator only |
+| 5b | Scientist templates, runner + BH, null check, `sci_eval_v1`, all-causes for novel cases, migration 0004 | `9490ece`…`393a091` | working (tested) |
+| 3f | NHTSA reader, labelling sheet, downloads, 50-row pilot labelled | `5ec161f`…`0696546` | in progress (full sheet planned) |
+| 3e / 3g | LLM gateway (Ollama only), dense retrieval + reranker, Neo4j graph | — | planned |
+
+- [x] Step 5 gates 1–3 (determinism and access, 1,000-run null check, evaluation family committed first)
+- [x] Step 4 gates 2 and 3 (resplit validity, new-problem stress test)
+- [ ] Step 4 gate 1: coverage on the real (NHTSA) test split — KNOWN_ISSUES #19
+- [ ] universal gate for steps 3–5: CI green on `main`, tags — after the PR is merged
+
 ## Hand-off notes
+
+### 2026-11-21 — steps 3–5 merged with main (branch `step-5b`)
+
+- `origin/main` (step 1, `v0.1-step1`) merged into `step-5b`; conflicts in
+  `.pre-commit-config.yaml` (both detect-secrets excludes kept), `configs/assets.yaml` and
+  `docs/APPROVALS.md` (all entries kept). The proposed ADRs from the step notes are now
+  ADR-006 (step 3), ADR-007 (step 4), ADR-008 (step 5a) and ADR-009 (step 5b).
+- `make check`: 421 passed, 2 skipped; `make test-integration`: 20 passed (Docker, `nice -n 19`).
+- **Next:** PR `step-5b` → `main`; then the NHTSA full sheet (~190 rows), the step 3e LLM
+  gateway (needs approval) and step 6 decisions (`docs/notes/step-6.md`).
+
+### 2026-11-21 — step 1 done locally (1h)
+
+- **Done:** queue 28/28 rc = 0 (2026-11-20 18:38 → 2026-11-21 01:05). Supervised baseline (15
+  categories, 22 min), same-seed rerun (toothbrush, Δ = 0), reload check (30 models, exact),
+  reports for both protocols, Docker demo with the deploy models, latency benchmark. `make check`:
+  199 tests, ruff, mypy, hooks pass. Results: EXPERIMENTS EXP-1-01…03.
+- **Owner decisions 2026-11-21:** EfficientAD deferral confirmed (#15); images rebuilt with network
+  access and smoke-tested (#16); branch `step-1` pushed for a PR; tag `v0.1-step1` only after CI is
+  green on `main`.
+- **Next:** step 2 with the decisions of 2026-11-20 (A1 VisA cashew + pipe_fryum, archive
+  1,929,840,640 bytes; A2 MVTec AD 2 vial + fruit_jelly, archives in Windows Downloads, not yet
+  imported; A3 `scipy` direct dependency; A4 skipped; D1 α = 0.02 only where n ≥ 49, else 0.05,
+  toothbrush 0.10; D2 δ = 0.1; D3 deploy-only for new datasets; D4 cap fit at 400). Read #17
+  (non-exchangeable train/test goods) before the conformal work.
+
+### 2026-11-19 — step 1 stopped for the day (13:31)
+
+- **Done:** 1a–1g code committed locally (not pushed), 199 unit/API tests pass, hooks + mypy
+  clean. MVTec AD imported (SHA-256 verified) into `data/raw/mvtec_ad`; archive copy kept in
+  `data/raw/archives/` (5.3 GB, can be deleted). Weights fetched and verified. Official PatchCore
+  models: **bottle, grid** (`models/patchcore/<cat>/official/`, MLflow `mlruns/mlflow.db`).
+- **Stopped:** screw official was 7 of ~38 min in; no files written; MLflow run marked KILLED.
+- **Restart the queue** (compose stack stopped first; completed jobs are skipped):
+
+  ```bash
+  make down
+  Q="official:screw deploy:bottle deploy:grid deploy:screw"
+  for c in toothbrush metal_nut transistor zipper capsule cable tile wood leather pill carpet hazelnut; do Q="$Q official:$c"; done
+  for c in toothbrush metal_nut transistor zipper capsule cable tile wood leather pill carpet hazelnut; do Q="$Q deploy:$c"; done
+  nohup scripts/run_patchcore_queue.sh "$Q" > reports/logs/queue.log 2>&1 &
+  tail -f reports/logs/queue.log
+  ```
+
+  Then (after the queue): `uv run python scripts/train_supervised.py --categories <all 15>`;
+  same-seed rerun `uv run python scripts/train_detector.py --categories toothbrush --protocol official --models-dir models/patchcore_repro`;
+  reload check `uv run python scripts/evaluate_detector.py --protocol official --categories <done>`;
+  `uv run python scripts/report_patchcore.py --protocol official` (and `--protocol deploy`);
+  Docker demo `make up PROFILES=vision && SMOKE_PORTS=8001 make smoke`;
+  latency `uv run python scripts/benchmark_inspections.py --category bottle --requests 100`.
+- **Estimate:** ~8–10 h for the remaining 28 queue jobs with nothing else on the CPU.
+
+
 
 ### 2026-11-17 — end of step 0 (0d–0g)
 

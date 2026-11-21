@@ -4,6 +4,10 @@ Branch `step-3` (from `step-5`, worktree `~/code/iqs-step5`), started 2026-11-20
 `docs/notes/step-5a.md`, shared docs are not edited on this branch; this file collects
 what goes into them at merge. `step-1` is not merged here (it lands on `main` by PR first).
 
+> **Merged 2026-11-21.** The text meant for the shared docs is now in CHANGELOG, KNOWN_ISSUES,
+> TECHNICAL_DECISIONS (ADR-006), TESTING, EXPERIMENTS, ARCHITECTURE and IMPLEMENTATION_PLAN.
+> This file stays as the detailed record.
+
 Minimum version = 3a–3d on simulator cases only: no LLM, no model downloads, no new
 dependencies, no paid calls. LLM gateway (Ollama only, no paid API before step 8),
 NHTSA/AI4I, dense retrieval + reranker, Neo4j and the dashboard follow in 3e–3g.
@@ -286,48 +290,6 @@ Reading:
 
 ---
 
-## Proposed ADR-006 (number may need renumbering at merge: step 1 holds ADR-004/005, step 5a has an unnumbered proposal)
+## ADR
 
-### ADR-006 — Diagnosis minimum version: simulator symptom profiles, retrieval votes, novelty threshold (step 3a–3b)
-
-**Status:** proposed · 2026-11-20
-
-**Context.** Blueprint §5 Step 3 asks for a working agent with retrieval, novelty and
-top-3 causes, measured on a test split. The real-data path (NHTSA, AI4I, LLM) needs
-downloads, hand labels and an LLM; the simulator (step 5a) already gives labelled cases
-with exact ground truth. Simulator case text is templated and does not say where
-rejects concentrate, so text alone cannot separate the 10 causes.
-
-**Decisions.**
-
-1. **Minimum version without an LLM** (approved 2026-11-20). Probabilities come only
-   from retrieval votes (§2.3 rule). The LLM arrives in 3e via Ollama only; no paid API
-   before step 8 (user rule).
-2. **Symptom extraction may compute descriptive concentration and shift statistics**
-   (approved, answers 5a open question 2): effect sizes only, no p-values or verdicts;
-   statistical tests with BH correction stay in the scientist agent (5b).
-3. **Symptom codes are observations in lower snake case**, separate from cause codes
-   (answers 5a open question 1). Rules live in `configs/diagnosis/symptoms.yaml`.
-4. **Features are machine-agnostic** (max/min over machines, batches, shifts); the
-   location is evidence (`where`). A tool-wear case on M1 and on M3 then look alike.
-5. **Leak guards.** Only `iqs_diagnosis.evaluation` may name the ground-truth directory
-   or be imported for labels (AST test); profiles and labels are separate files joined
-   by `case_id`; run directories are opaque hashes; the process store is the locked
-   DuckDB allow-list from 5a.
-6. **Splits = separate scenario families** with their own names and seeds (train =
-   case library, dev = tuning, test = reported once in 3d). Two causes
-   (`MACHINE.DRIVE_FAULT`, `PERSONNEL.PART_HANDLING_ERROR`) are left out of the
-   library to measure novelty; chosen before any results.
-7. **Generated data outside the repo** (`~/iqs-data/sim/<corpus>`, answers 5a open
-   question 3); only the manifest (family hashes, file hashes, counts, timings) and the
-   fitted ranker parameters are committed.
-8. **Dense embeddings and reranker deferred to 3f** (approved): for numeric simulator
-   profiles a standardised feature vector is the "dense" side of hybrid retrieval.
-
-**Consequences.**
-- Simulator results say nothing about real-world accuracy; they are reported separately
-  from NHTSA results (§6.3, §6.4).
-- The vocabulary thresholds were read off the same reference scenarios the signature
-  test uses; the test is a regression check, not evidence of accuracy.
-- Changing a feature or rule changes every profile; the corpus manifest records the
-  vocabulary hash, so stale profiles are detectable.
+Moved to `docs/TECHNICAL_DECISIONS.md` as **ADR-006** at the merge into `main` (2026-11-21).

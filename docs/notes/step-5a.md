@@ -6,6 +6,10 @@ KNOWN_ISSUES, TECHNICAL_DECISIONS, TESTING, ARCHITECTURE) were **not** edited he
 merge conflicts. This file collects everything that should go into them; §8 lists the exact
 pieces to copy.
 
+> **Merged 2026-11-21.** The text meant for the shared docs is now in CHANGELOG, KNOWN_ISSUES,
+> TECHNICAL_DECISIONS (ADR-008), TESTING, EXPERIMENTS, ARCHITECTURE and IMPLEMENTATION_PLAN.
+> This file stays as the detailed record.
+
 Scope: Step 5a only (simulator, scenarios, export, ground truth, case generator, CLI, tests).
 The scientist agent (`diagnosis/scientist`, templates, BH correction, evidence plots) is
 Step 5b and needs the Step 3 agent.
@@ -186,53 +190,9 @@ rates of exposed parts after onset vs the fault-free twin.
 
 ---
 
-## 6. Proposed ADR (number to be assigned at merge; Step 1 may add ADR-005+)
+## 6. ADR
 
-### ADR-00X — Factory simulator: exact fault isolation, observed/ground-truth split (step 5a)
-
-**Status:** proposed · 2026-11-19
-
-**Context.** Blueprint §2.2/§2.4/§5 Step 5: a SimPy line with injectable faults whose ground
-truth is stored where the agent cannot read it; determinism per seed (identical Parquet
-hashes); each fault must change only its intended signals. The taxonomy (v0.1.0) has 10 leaf
-causes, each with a planned `simulator_fault` name. The scientist agent (5b) needs data in
-which every cause leaves a distinguishable, *observable* trace.
-
-**Decisions.**
-
-1. **One fault type per taxonomy leaf, same names.** `FaultType` values equal the
-   `simulator_fault` names; a test enforces the equality, and ground truth stores the cause
-   code looked up from `causes.yaml` at export time (no second copy of the mapping).
-2. **Exact isolation instead of statistical checks.** Named random streams with fixed draw
-   counts, and timing/routing independent of faults. A fault run and its fault-free twin line
-   up row by row; the test asserts the changed columns equal the fault's declared signal set.
-3. **Line layout with one parallel station** (S2: M2A ‖ M2B), so machine-level causes
-   (fixture) are distinguishable from line-level ones through `station_path`.
-4. **Observable references for measurement faults**: periodic master-part gauge checks in
-   `station_events`; batch certificates show nominal hardness while the true hardness is
-   ground truth only.
-5. **Separate directories, not separate columns.** `observed/` and `ground_truth/` are
-   siblings; schemas of `observed/` are fixed; no scenario name, seed or description in
-   observed files. The agent's DuckDB connection should use
-   `allowed_directories=[<run>/observed/]`, `enable_external_access=false`,
-   `lock_configuration=true` (set in that order; verified by a test).
-6. **Case generator reads only `observed/`** and reports what monitoring would see
-   (alarm time, reject rates, reason mix), not where rejects concentrate.
-7. **Extra observable table `machines`** (master data: nominal setpoints, validated window,
-   tool life, wear limit) and an observable `run.json` (spec limits, table hashes). The
-   blueprint lists five tables; the agent needs the validated window and tolerances to judge
-   "wrong parameters" and "out of spec".
-8. **CLI logic in the package** (`iqs_sim.cli`, typed and tested); `scripts/simulate.py`
-   is a thin wrapper (scripts/ is outside the mypy file list).
-
-**Consequences.**
-- Changing a random-draw order or count changes every downstream number for that seed;
-  reference results must be regenerated (the determinism test catches accidental changes
-  only within one run, not across commits — see open question 4).
-- The quality model is a modelling choice; it is documented in this note and in
-  `sensors.py` and must be reported as such.
-- Evaluation families: `simulate.py family` writes a manifest with `family_sha256`, which
-  the 5b gate needs to commit before the first evaluation run.
+Moved to `docs/TECHNICAL_DECISIONS.md` as **ADR-008** at the merge into `main` (2026-11-21).
 
 ---
 
@@ -258,6 +218,9 @@ which every cause leaves a distinguishable, *observable* trace.
 ---
 
 ## 8. Text to merge into shared docs
+
+*Merged on 2026-11-21* (CHANGELOG, TESTING, KNOWN_ISSUES #25–26, IMPLEMENTATION_PLAN,
+ARCHITECTURE). Kept below as written.
 
 **CHANGELOG.md** (under Step 5):
 

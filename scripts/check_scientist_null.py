@@ -137,13 +137,13 @@ def main() -> int:
             )
         power[ft.value] = levels
     print(f"power: {len(jobs)} runs in {t_power:.0f}s")
-    for ft, levels in power.items():
+    for fault_name, levels in power.items():
         cells = "  ".join(
             f"{lv['magnitude']:.4g}: alarm {lv['alarm_rate']:.2f}, power "
             + ("n/a" if lv["power_given_case"] is None else f"{lv['power_given_case']:.2f}")
             for lv in levels
         )
-        print(f"  {ft:30s} {cells}")
+        print(f"  {fault_name:30s} {cells}")
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(

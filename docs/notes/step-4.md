@@ -4,6 +4,10 @@ Branch `step-4` (from `step-3`, worktree `~/code/iqs-step5`), 2026-11-20. Shared
 edited on this branch; this file and `docs/notes/step-3.md` collect what goes into them.
 Reference: blueprint Revision 2, §2.8 (conformal maths), §5 Step 4 (gate).
 
+> **Merged 2026-11-21.** The text meant for the shared docs is now in CHANGELOG, KNOWN_ISSUES,
+> TECHNICAL_DECISIONS (ADR-007), TESTING, EXPERIMENTS, ARCHITECTURE and IMPLEMENTATION_PLAN.
+> This file stays as the detailed record.
+
 > **Simulator coverage is not real-world coverage.** All numbers below are on
 > `dx_corpus_v2` (simulated line, injected faults). The guarantee is marginal, under
 > exchangeability with simulator calibration cases; it does not transfer to NHTSA or
@@ -123,27 +127,6 @@ Reading the results:
 - Integration (written, **not run**): calibration-run rows and cause-set persistence in
   `tests/integration/test_diagnosis_persistence.py`; run with `make test-integration`.
 
-## Proposed ADR-007 (number may need renumbering at merge)
+## ADR
 
-### ADR-007 — Conformal cause sets: split by case hash, frozen runs, LAC + APS (step 4)
-
-**Status:** proposed · 2026-11-20
-
-**Context.** §2.8 requires disjoint fit and calibration data, frozen calibration runs, an
-error instead of a silent threshold when n is too small, and honest reporting of
-marginal coverage and of new problems. The step-3 scorer had its smoothing on the grid
-edge and no errors on v1, so v2 (harder) was built first.
-
-**Decisions.**
-1. Own implementation (no MAPIE; user decision); cross-check against hand-computed sets.
-2. Scorer refit and calibration on two hash-defined halves of v2 dev; library = v2 train.
-3. Calibration runs are JSON artifacts with scorer parameters, case IDs and sorted scores;
-   the service loads the scorer from the run so served scores match calibration; runs are
-   mirrored into `diagnosis.calibration_runs` (one row per variant).
-4. Four variants per run (LAC, APS; marginal and (α, δ = 0.1)); the service chooses one.
-5. Non-randomised APS with a fixed tie order (cause code); LAC empty set = escalate.
-6. Calibration only on known-cause cases (closed label space); new problems are a stress test.
-7. One calibration run per data source (`source` field); real cases will get their own run.
-
-**Consequences.** Coverage claims are simulator-only until gate 1; ties make coverage
-conservative and the Beta law inapplicable; two-fault cases are under-covered by LAC.
+Moved to `docs/TECHNICAL_DECISIONS.md` as **ADR-007** at the merge into `main` (2026-11-21).

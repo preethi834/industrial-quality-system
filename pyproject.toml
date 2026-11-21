@@ -41,13 +41,17 @@ src = ["packages/*/src"]
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
 
+[tool.ruff.lint.per-file-ignores]
+# Notebooks: shell (!) lines and Colab-only imports inside cells.
+"*.ipynb" = ["E402", "E501"]
+
 [tool.mypy]
 python_version = "3.11"
 # One command checks every tree: `uv run mypy`.
 # Each package's src/ is a module root, so packages/common/src/iqs_common/db.py is the
 # module "iqs_common.db" (not "packages.common.src.iqs_common.db", which made mypy report
 # "Source file found twice"). Tests, migrations and other dirs keep path-based names.
-files = ["packages", "tests", "infrastructure"]
+files = ["packages", "tests", "infrastructure", "scripts"]
 mypy_path = [
     "packages/common/src",
     "packages/vision/src",

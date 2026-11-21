@@ -2,6 +2,10 @@
 
 Nov 15, 2026 · Preethi Mannaru
 
+> **Revision 2 — 15 Nov 2026, after external review.** Corrections: independent uv projects with path dependencies instead of one workspace (§2.10, §4); full conformal mathematics, assumptions and shift limits (§2.8); decision layer constrained so the false-alarm guarantee survives (§2.5 P2-C); feature modularity so the integrated system runs without advanced features installed (§2.9); Windows/WSL2 + cloud-GPU workflow (§3.8); approval gates for downloads, paid APIs and GPU jobs (§3.9); measurable completion gates for every milestone (§5); updated checklist (§8).
+
+> **Implementation note (19 Nov 2026, after Step 0).** Where this blueprint and the repository differ, the repository's ADRs in `docs/TECHNICAL_DECISIONS.md` win. In particular: the repo keeps **one uv workspace** (decided in Step 0a; isolation is achieved with `uv sync --package`, per-service Docker images and optional extras), so §2.10 and the per-project lockfiles in §3.3/§4 are **superseded**; compose profiles are `core` and `apps` (ADR-002); Postgres is on host port 5433 (ADR-001). §2.8 (conformal maths), §2.9 (modularity), §3.9 (approval gates) and the §5 step gates remain in force.
+
 ## 0. Executive summary
 
 **What we are building:** one monorepo containing two connected systems plus a factory simulator that ties them together:
@@ -24,7 +28,7 @@ Nov 15, 2026 · Preethi Mannaru
 
 **Three key design decisions up front** (justified in later sections):
 
-1. **Two backend services, not one** — the vision stack (PyTorch, Anomalib, OpenVINO) and the agent stack (LangGraph, LLM SDKs, pgmpy) have conflicting, heavy dependency trees. Separate services with separate Docker images isolate them; a shared `common` package holds the contracts.
+1. **Independently installable services** — the vision stack (PyTorch, Anomalib, OpenVINO) and the agent stack (LangGraph, LLM SDKs, pgmpy) are heavy and may conflict. Each deployable component is its own uv project with its own lockfile and virtual environment; a small `common` package is shared as a path dependency. *(Revision 2: corrected from a single uv workspace, which would force one shared resolution — see §2.10.)*
 2. **PostgreSQL + pgvector as the single relational and vector store** (the spec allows Qdrant or pgvector). We need Postgres anyway for cases, inspections, FMEA proposals and the mock QMS/MES, so pgvector removes one service. Neo4j stays for the knowledge graph (spec requirement); DuckDB reads simulator Parquet files for analytics.
 3. **A fixed root-cause taxonomy** — conformal prediction and Bayesian networks need a finite label space. Every cause the agent can name maps to a taxonomy ID; free text is used for explanation, never as the label.
 
@@ -169,7 +173,7 @@ The dashboard talks only to the two service APIs, never to databases directly. T
 | `scientist` | Hypothesis → parameterised SQL on DuckDB → statistical test → verdict + evidence | SciPy, statsmodels, Benjamini–Hochberg correction |
 | `reporting` | 8D report (D0–D8) drafting and completeness check | LLM + Pydantic schema validation |
 | `fmea` | Compare confirmed cause with FMEA; propose new entries; approval workflow | Graph lookups + LLM drafting + human approval |
-| `feedback` | Update graph, BN counts and calibration data after confirmation | Dirichlet count updates, graph upserts |
+| `feedback` | Update graph and BN counts after confirmation; add the case to the candidate pool for the next versioned calibration set | Dirichlet count updates, graph upserts |
 | `llm` | One gateway for API and local models: retries, caching, budget limit, tracing | Provider SDKs, Ollama HTTP, Langfuse |
 | `agent` | Orchestration as a LangGraph state machine with human-in-the-loop interrupts | LangGraph + Postgres checkpointer |
 | `mcp_server` | Mock QMS/MES exposed as MCP tools | Official MCP Python SDK |
@@ -244,9 +248,9 @@ FMEA columns follow the AIAG–VDA structure (severity, occurrence, detection an
 
 **P2-A Detector training and evaluation:** dataset + category → preprocessing (resize, normalise) → fit detector (PatchCore builds a coreset memory bank from good images; EfficientAD trains a student–teacher pair) → score the good-only validation split → conformal threshold → evaluate on test (image AUROC, pixel AUROC, realised false-alarm rate, miss rate) → log to MLflow → register model version.
 
-**P2-B Conformal threshold:** with n good calibration images and target false-alarm rate α, the threshold is the ⌈(n+1)(1−α)⌉-th smallest calibration score. Under exchangeability, a new good part exceeds it with probability at most α. Checked by repeating random calibration/test splits and reporting the spread. MVTec AD 2’s lighting-shift test set is a deliberate stress test: the guarantee should weaken under shift, which motivates drift monitoring.
+**P2-B Conformal threshold:** split-conformal threshold per category on good-only calibration images that were **not** used to fit the detector (PatchCore’s memory bank, EfficientAD’s training set). Full mathematics, assumptions and limits are in §2.8.
 
-**P2-C Cost-aware decisions:** calibrate scores to a defect probability p (Platt or isotonic, on a labelled split kept apart from the test set) → for each part choose the action with lowest expected cost: accept = p·C\_escape, reject = (1−p)·C\_false\_reject, review = C\_review (+ residual human error) → report expected cost per 10,000 parts vs a fixed threshold, the review share, and a sensitivity analysis over cost ratios. Euro values are stated assumptions, never presented as measured.
+**P2-C Cost-aware decisions:** calibrate scores to a defect probability p (Platt or isotonic, on a labelled split kept apart from both the conformal calibration set and the test set). Expected cost of each action: accept = p·C\_escape, reject = (1−p)·C\_false\_reject, review = C\_review (+ residual human error). **Revision 2 constraint:** in the guaranteed mode, a part may only be *flagged* (rejected or sent to review) if its score exceeds the conformal threshold q̂; the cost rule chooses between reject and review inside that region, and below q̂ the part is accepted. This keeps “at most α of good parts flagged” true by construction. An unconstrained cost-optimal policy is also evaluated, but reported as having **no** false-alarm guarantee. Results: expected cost per 10,000 parts (guaranteed policy, unconstrained policy, fixed threshold), review share, and sensitivity over cost ratios. Euro values are stated assumptions, never presented as measured.
 
 **P2-D Discovery:** anomalous inspection → mask from anomaly map → crop → DINOv2 embedding → distance to known defect prototypes; above a threshold the sample goes to the unknown buffer → periodic UMAP (fixed random seed) + HDBSCAN → a cluster that reaches the minimum size and stays stable across runs raises an alert and enters the labelling queue. Evaluation streams test images in time order with one held-out defect type injected from a known point, measuring detection delay (samples until alert) and purity / adjusted Rand index.
 
@@ -260,7 +264,7 @@ FMEA columns follow the AIAG–VDA structure (severity, occurrence, detection an
 
 **P1-B Bayesian network:** structure defined from the taxonomy (causes → failure modes → observable symptoms); conditional probabilities estimated from AI4I 2020 (its failure types and discretised air/process temperature, speed, torque, tool wear) and simulator data with a Bayesian estimator (Dirichlet prior). Question selection: for each unasked question Q, EIG(Q) = H(C | e) − Σ\_q P(q | e) · H(C | e, q); ask the maximum.
 
-**P1-C Scoring + conformal:** evidence → probability vector over causes → nonconformity score (LAC: 1 − p̂(true cause); APS for adaptive sets) → threshold from calibration cases → cause set. With only \~30–40 human-labelled calibration cases the empirical coverage will vary a lot, so results are reported separately for the small real labelled set and the large simulator-generated set.
+**P1-C Scoring + conformal:** evidence → probability vector over taxonomy causes → nonconformity score (LAC or APS) → threshold from calibration cases → cause set. The scorer must be fitted on data disjoint from the calibration cases; mathematics, assumptions and the reasons held-out new problems carry no guarantee are in §2.8.
 
 **P1-D Scientist agent:** each taxonomy cause has a test template. Examples: tool wear → defect rate above vs below a wear level (Fisher exact / chi-square); material batch → defect rate by batch (chi-square); temperature drift → temperature of defective vs good parts in the window (Mann–Whitney U); onset in time → before/after comparison. p-values are corrected across hypotheses (Benjamini–Hochberg); verdict = supported / rejected / inconclusive (too little data), always with the query, the statistic and a plot.
 
@@ -292,9 +296,77 @@ FMEA columns follow the AIAG–VDA structure (severity, occurrence, detection an
 
 **Diagnosis flow:** case text (or vision event) → structured symptoms → hybrid retrieval + graph expansion → novelty check (if novel, say so and rely on BN + data tests) → cause scores → question loop → hypothesis tests on DuckDB → conformal cause set → 8D draft + FMEA comparison → ticket via MCP → wait for confirmation.
 
-**Confirmation flow:** confirmed cause → graph edge `CONFIRMED_CAUSE` → BN count update → case added to the retrieval index and (if labelled) the calibration pool → FMEA proposal if the failure mode is undocumented → for vision-originated cases the cluster becomes a named defect class (few-shot prototype).
+**Confirmation flow:** confirmed cause → graph edge `CONFIRMED_CAUSE` → BN count update → case added to the retrieval index and to a candidate pool for the next versioned calibration set (never directly to the active one, §2.8) → FMEA proposal if the failure mode is undocumented → for vision-originated cases the cluster becomes a named defect class (few-shot prototype).
 
 **Simulator flow:** scenario YAML (seed, line config, fault list) → SimPy run → Parquet tables + separate ground-truth ledger → cases generated from observed symptoms → used for evaluation and for the scientist agent’s tests.
+
+### 2.8 Conformal prediction — mathematics, assumptions and limits
+
+Both projects use **split conformal prediction**. This subsection is the reference for the implementation, the tests and the claims we are allowed to make.
+
+**Setup.** A score function s is fixed in advance (trained on separate data). We compute calibration scores S₁, …, Sₙ on n calibration examples and Sₙ₊₁ on a new example.
+
+**Assumption A1 — exchangeability.** The joint distribution of (S₁, …, Sₙ₊₁) is unchanged by any permutation. It holds when calibration and test examples are i.i.d. draws from the same distribution and s does not depend on them. Every guarantee below depends on A1; nothing else about the model needs to be correct.
+
+**Finite-sample threshold.** Let k = ⌈(n+1)(1−α)⌉ and q̂ = S₍ₖ₎, the k-th smallest calibration score. If k > n, no finite threshold exists (q̂ = +∞), so we need n ≥ ⌈1/α⌉ − 1: at least **49** calibration images for α = 0.02 and **9** calibration cases for α = 0.10. The code raises an error instead of silently returning a threshold when n is too small.
+
+**Marginal guarantee.** Under A1, P(Sₙ₊₁ ≤ q̂) ≥ 1 − α. If scores are almost surely distinct (no ties), also P(Sₙ₊₁ ≤ q̂) ≤ 1 − α + 1/(n+1). The probability is taken over *both* the random calibration set and the new example. That is what “marginal” means.
+
+**What marginal does not give.**
+
+- *Calibration-conditional coverage:* for one fixed calibration set the realised coverage is itself random. With continuous scores it follows Beta(k, n+1−k). With small n a particular deployed threshold can be noticeably worse than 1−α. We therefore also implement a conservative **(α, δ) threshold** that chooses k so that P(realised coverage ≥ 1−α) ≥ 1−δ under that Beta distribution, and report both.
+- *Conditional coverage:* there is no guarantee for a particular product variant, defect type or case type. We calibrate separately per vision category and per data source (Mondrian / group-wise conformal), which guarantees coverage within each group but needs enough data per group.
+- *Ties:* discrete scores make coverage conservative (≥ 1−α still holds). The upper bound no longer holds.
+
+**Project 2 application (false-alarm guarantee).** Score = anomaly score; calibration set = good images only, disjoint from the images used to fit the detector. *Why disjoint matters:* PatchCore’s memory bank contains its training images, so their scores are near zero; calibrating on them would set q̂ too low and the realised false-alarm rate would exceed α. Statement we can make: **P(a new good part scores above q̂) ≤ α**, per category, under A1. There is **no** guarantee on the miss rate (defects below q̂); it is measured and reported. With the constrained decision policy (§2.5 P2-C) the same bound holds for “good part flagged”.
+
+**Project 1 application (cause sets).** For case x and cause y in the taxonomy, LAC score s(x, y) = 1 − p̂(y | x); set C(x) = {y : s(x, y) ≤ q̂}, with q̂ computed from the true causes of the calibration cases. Guarantee: P(true cause ∈ C(X)) ≥ 1 − α, marginally. LAC gives the smallest average sets but may return an empty set (shown to the engineer as “no cause reaches the threshold → treat as novel / escalate”). APS sorts causes by probability and adds them until the cumulative mass passes the threshold, so sets adapt to case difficulty. We use the non-randomised version (slightly conservative, easier to explain).
+
+**Project 1 assumptions that need explicit engineering:**
+
+1. *Disjointness:* BN parameters, retrieval index contents used for scoring, fusion weights and probability calibration are fitted without the calibration cases. When scoring a calibration case, retrieval excludes that case itself.
+2. *Closed label space:* the guarantee covers cases whose true cause is in the taxonomy. Cases with out-of-taxonomy causes are counted separately as a novelty-detection problem.
+3. *Held-out “new problems” are not exchangeable with the calibration set by construction.* Coverage on them is reported as a stress test, **never as a guaranteed number**. *(Revision 2 correction to step 4.)*
+4. *Real vs simulated cases* come from different distributions and are calibrated and reported separately.
+5. *Feedback loop:* engineer-confirmed cases are not a random sample, and confirmation can be influenced by the agent’s own suggestion. They are **not** appended to the calibration set automatically. Calibration sets are versioned and frozen; after the scorer is updated (e.g. BN counts), recalibration uses fresh cases that were not used for that update.
+6. *Small n:* with \~30–40 real calibration cases, realised coverage varies widely. We report Clopper–Pearson intervals and the Beta(k, n+1−k) spread, and make headline coverage claims only on the large simulator set.
+
+**Limits under distribution shift.** If the test distribution changes (new lighting, new supplier, tool change), A1 fails and the guarantee can silently break. Options, in order of cost:
+
+- *Monitor + recalibrate (Tier A):* track the realised false-alarm rate on parts that humans reviewed and the score distribution (Evidently when added). Trigger recalibration when the Clopper–Pearson interval of the realised rate excludes α.
+- *Weighted conformal (Tier C):* restores validity under covariate shift if the likelihood ratio between test and calibration inputs is known or can be estimated well. It is not planned for Tier A.
+- *Adaptive conformal inference (Tier C):* updates αₜ online (αₜ₊₁ = αₜ + γ(α − errₜ)) and guarantees the *long-run average* error rate, not a per-part probability. It needs label feedback (from human review).
+
+**Planned shift experiment (step 2):** apply the in-distribution threshold to shifted test data. We use MVTec AD 2 lighting variants where the condition can be identified in test\_public. Otherwise we apply controlled synthetic photometric shifts (brightness, contrast, colour temperature). We report how far the realised false-alarm rate moves from α. This is a planned measurement, not a predicted result.
+
+**How the implementation is tested:** unit tests for the index rule (k > n ⇒ error; n = 49, α = 0.02 ⇒ k = 49); property tests on simulated exchangeable scores (over 10,000 trials, mean coverage lies in \[1−α, 1−α+1/(n+1)\] within Monte-Carlo error, and the realised-coverage distribution matches Beta(k, n+1−k) by a KS test); a leakage test asserting calibration IDs ∩ fit IDs = ∅.
+
+### 2.9 Feature modularity — running without advanced features
+
+The integrated loop (Tier A) must run with a **core install only**. Advanced features are optional extras that can be absent without breaking anything.
+
+- **Optional dependency extras.** Vision: `discovery` (umap-learn), `edge` (onnx, onnxruntime), `openvino` (openvino, nncf), `monitoring` (evidently), `explain` (pytorch-grad-cam), `vlm-local` (transformers, accelerate), `experiments` (mlflow). Diagnosis: `anthropic` / `openai` (provider SDKs), `eval` (ragas or deepeval), `tracing` (langfuse), `experiments` (mlflow). Diffusion inpainting lives only in the GPU notebooks; the service serves precomputed results plus an OpenCV baseline (OpenCV is already core).
+- **Core needs no extras for the minimal loop.** HDBSCAN has been part of scikit-learn since version 1.3 ([scikit-learn docs](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.HDBSCAN.html)), and DINOv2 backbones are loaded through timm, which is already core. So the step-7 discovery trigger needs neither umap-learn nor transformers.
+- **Capability registry.** At startup each feature checks that (a) it is enabled in settings, (b) its extra imports successfully, and (c) its required artifact exists (e.g. an INT8 ONNX file). `GET /v1/capabilities` reports each feature as `enabled`, `disabled`, `not_installed` or `missing_artifact`. Endpoints of unavailable features return **501** with the reason. The dashboard reads capabilities and shows those pages as “not installed” with the install command, so no button ever produces fake output.
+- **Import rule.** Tier A code never imports Tier B/C modules directly; it calls them through registry interfaces. A CI lint rule blocks direct imports.
+- **Containers.** Docker images take an `EXTRAS` build argument (default: core). Compose profiles: `core` (Postgres, Neo4j, vision, diagnosis, MCP server, dashboard), `llm-local` (Ollama), `mlflow-ui`, `tracing`. The minimal integrated system is `core` + one LLM backend (local Ollama or an approved API key).
+- **Proof in CI.** A *core-only* job installs each service without extras and runs its tests plus the step-7 end-to-end test. A *full* job installs all extras. Both must pass.
+
+### 2.10 Dependency isolation and locking (Revision 2 correction)
+
+**Problem found in review.** Revision 1 proposed one uv workspace. A workspace shares one lockfile so all members operate with a consistent set of dependencies ([uv docs](https://docs.astral.sh/uv/concepts/workspaces)). The uv documentation says workspaces are not suited when members have conflicting requirements or need separate virtual environments, and recommends path dependencies in that case ([uv docs mirror](https://git.joshthomas.dev/mirrors/uv/raw/branch/main/docs/concepts/projects/workspaces.md)). Workspaces also enforce a single requires-python, the intersection of all members’ values ([uv docs](https://docs.astral.sh/uv/concepts/projects/workspaces)). That contradicts our requirement that vision and diagnosis install and build independently.
+
+**Decision.** Each component is an **independent uv project** with its own `pyproject.toml`, `uv.lock` and `.venv`: `common`, `vision`, `diagnosis`, `mcp_server`, `simulator`, `dashboard`, and `tests/e2e`. Services depend on `common` through an editable path dependency (`iqs-common = { path = "../common", editable = true }` under `[tool.uv.sources]`).
+
+**Rules that keep this conflict-free:**
+
+- `common` depends only on pydantic, pydantic-settings, SQLAlchemy, psycopg and structlog, with broad compatible ranges. It never depends on ML libraries, so it cannot cause conflicts in either service.
+- No service imports another service’s package. Services communicate over HTTP, the outbox table and MCP. The simulator is imported by nobody; the agent reads its Parquet output.
+- PyTorch comes from the CPU wheel index in both `vision` and `diagnosis` (sentence-transformers also pulls in torch), declared as an explicit index in each `pyproject.toml`. GPU wheels are used only in the cloud notebooks, which use the notebook runtime’s own torch.
+- `uv lock --check` runs per project in CI, so a stale lockfile fails the build.
+- Docker builds use the repository root as context, copy only `packages/common` and the one service, and run `uv sync --frozen --no-dev` (plus `--extra` from `EXTRAS`) in a multi-stage build. The final image contains only that service’s `.venv`.
+
+**Trade-off accepted.** Shared libraries (e.g. pydantic) may resolve to different versions in different services. This is controlled by contract tests: event and API schemas in `common` are serialised to JSON and validated in both services’ test suites, and the e2e suite tests the real HTTP boundaries.
 
 ## 3. Development environment (Task 3)
 
@@ -307,7 +379,7 @@ Your machine runs Windows, so the recommended setup is **WSL2 (Ubuntu) + Docker 
 | WSL2 + Ubuntu LTS | Essential | Linux environment matching Docker and CI |
 | Docker Desktop (WSL2 backend) + docker compose | Essential | Postgres, Neo4j, services, reproducible runs |
 | Git + GitHub account | Essential | Version control, Actions CI |
-| `uv` | Essential | Python versions, workspace, lockfile, fast installs |
+| `uv` | Essential | Python versions, per-project lockfiles and environments, fast installs |
 | VS Code + WSL and Python extensions | Recommended | Editing and debugging inside WSL |
 | Ollama | Essential from step 3 | Local LLM (on-prem option), also for cost-free development |
 | NVIDIA driver + CUDA in WSL | Only if you have an NVIDIA GPU | GPU training locally |
@@ -315,20 +387,23 @@ Your machine runs Windows, so the recommended setup is **WSL2 (Ubuntu) + Docker 
 
 ### 3.2 Python version
 
-**Python 3.11**, pinned in `.python-version` and in the Docker base images. Reason: it is the version with the least friction across the heaviest dependencies (PyTorch, Anomalib, OpenVINO, pgmpy, LangGraph) at the same time. Moving to 3.12 is a later, low-risk change once the lockfile resolves cleanly; it is not worth risk at the start. Exact package versions are not chosen in this blueprint: they are resolved and frozen in `uv.lock` in step 0, and recorded in TECHNICAL\_DECISIONS.md.
+**Python 3.11**, pinned in `.python-version`, in every project’s `requires-python` (`>=3.11,<3.12` initially) and in the Docker base images. Reason: it has the least friction across the heaviest dependencies (PyTorch, Anomalib, OpenVINO, pgmpy, LangGraph) at the same time. Because each project now has its own lockfile (§2.10), a later move to 3.12 can happen one service at a time. Exact package versions are not chosen in this blueprint: they are resolved and frozen in each project’s `uv.lock` in step 0 and recorded in TECHNICAL\_DECISIONS.md.
 
 ### 3.3 Dependencies by package
 
-| Package | Essential | Optional / later |
+| Project (own lockfile) | Core (always installed) | Optional extras (installed only when that feature is used) |
 | --- | --- | --- |
-| `common` | pydantic, pydantic-settings, SQLAlchemy 2 + psycopg, pgvector (Python), structlog | — |
-| `vision` | torch + torchvision (CPU wheel by default), timm, anomalib, scikit-learn, numpy, opencv-python-headless, fastapi, uvicorn, python-multipart, mlflow | umap-learn, hdbscan (step 8c) · onnx, onnxruntime (8e) · openvino, nncf (8e, optional) · pytorch-grad-cam · diffusers, accelerate (8g) · evidently · transformers (DINOv2 via HF or torch.hub) |
-| `diagnosis` | langgraph, langgraph-checkpoint-postgres, LLM provider SDK (one), httpx, neo4j driver, rank-bm25 or Postgres full-text, sentence-transformers (embeddings + cross-encoder reranker), pgmpy, scipy, statsmodels, duckdb, pandas, pyarrow, fastapi, uvicorn | ragas or deepeval · langfuse · mapie (cross-check only) |
-| `mcp_server` | mcp (official Python SDK) | — |
-| `simulator` | simpy, numpy, pandas, pyarrow, pyyaml | datasets + huggingface\_hub (release, step 9) |
-| `dashboard` | streamlit, httpx, plotly, pyvis or streamlit-agraph (graph view) | — |
-| fine-tuning (runs on Colab/Kaggle, own requirements file) | — | transformers, peft, trl, bitsandbytes, datasets (step 8f) |
-| dev tooling | pytest, pytest-cov, httpx test client, testcontainers, ruff, mypy, pre-commit | hypothesis (property tests), locust (load test) |
+| `common` | pydantic, pydantic-settings, SQLAlchemy 2 + psycopg, pgvector (Python), structlog — broad version ranges, no ML libraries | — |
+| `vision` | torch + torchvision (CPU index), timm (also provides DINOv2 backbones), anomalib, scikit-learn ≥ 1.3 (includes HDBSCAN), numpy, opencv-python-headless, fastapi, uvicorn, python-multipart | `discovery`: umap-learn · `edge`: onnx, onnxruntime · `openvino`: openvino, nncf · `monitoring`: evidently · `explain`: pytorch-grad-cam · `vlm-local`: transformers, accelerate · `experiments`: mlflow |
+| `diagnosis` | langgraph, langgraph-checkpoint-postgres, httpx (also used for Ollama), neo4j driver, rank-bm25, sentence-transformers (embeddings + cross-encoder reranker; torch from CPU index), pgmpy, scipy, statsmodels, duckdb, pandas, pyarrow, mcp (client), fastapi, uvicorn | `anthropic` / `openai`: provider SDK · `eval`: ragas or deepeval · `tracing`: langfuse · `experiments`: mlflow |
+| `mcp_server` | mcp (official Python SDK), SQLAlchemy via `common` | — |
+| `simulator` | simpy, numpy, pandas, pyarrow, pyyaml | `release`: datasets, huggingface\_hub |
+| `dashboard` | streamlit, httpx, plotly, streamlit-agraph or pyvis | — |
+| `tests/e2e` | pytest, httpx | — |
+| `finetune/` (cloud notebooks, not a service) | — | transformers, peft, trl, bitsandbytes, datasets, diffusers |
+| dev group (each project) | pytest, pytest-cov, hypothesis, testcontainers, mypy | ruff runs through `uvx` with a pinned version, so it needs no project environment |
+
+MLflow moved out of the service images into the `experiments` extra: training and evaluation scripts need it, the running services do not.
 
 Streamlit is chosen as the single UI (the spec allows Gradio or Streamlit); one framework keeps the dashboard consistent, and Streamlit’s multipage apps fit the ten required views.
 
@@ -339,7 +414,7 @@ Streamlit is chosen as the single UI (the spec allows Gradio or Streamlit); one 
 | Minimum | 4 cores | 16 GB | \~120 GB SSD | Everything except GPU-heavy training; run services selectively (compose profiles) |
 | Recommended | 8+ cores | 32 GB | \~200 GB SSD | Full stack at once: Postgres, Neo4j, both services, Ollama 3B–7B, PatchCore |
 
-RAM is the tightest resource: Neo4j, Postgres, an Ollama model and a PyTorch process together can exceed 16 GB. Compose profiles (`core`, `vision`, `llm`, `observability`) let you start only what a phase needs, and Neo4j’s heap is capped in config.
+RAM is the tightest resource: Neo4j, Postgres, an Ollama model and a PyTorch process together can exceed 16 GB. Compose profiles (`core`, `llm-local`, `mlflow-ui`, `tracing`; §2.9) let you start only what a phase needs, and Neo4j’s heap is capped in config.
 
 ### 3.5 GPU requirements
 
@@ -361,7 +436,7 @@ RAM is the tightest resource: Neo4j, Postgres, an Ollama model and a PyTorch pro
 | --- | --- | --- |
 | MVTec AD 2 | About 30.4 GB whole; per-category downloads available ([MVTec](https://www.mvtec.com/company/research/datasets/mvtec-ad-2/downloads)) | Start with 2–3 categories |
 | MVTec AD | Roughly 5 GB (verify at download) | 15 categories |
-| VisA | A few GB (verify at download) | Anomalib can prepare it |
+| VisA | A few GB (verify at download) | Downloaded only via the approval script (§3.9), never by Anomalib automatically |
 | NHTSA recalls + complaints flat files | Verify at download; complaints is the larger file | Load a filtered subset into Postgres |
 | AI4I 2020 | Small (10,000 rows) | — |
 | Model weights (WideResNet / DINOv2-S / embeddings / reranker) | A few GB in total | Hugging Face cache |
@@ -391,203 +466,246 @@ Sizes marked “verify” are estimates, not measured; the real numbers go into 
 
 **On Langfuse:** self-hosting v3 means running its own Postgres, ClickHouse, Redis and S3-compatible storage, and a single-VM guide quotes at least 4 cores, 16 GiB RAM and 100 GiB disk for it ([Railway guide](https://railway.com/deploy/langfuse-v3-1.md)). That would double our local footprint, so we use the free cloud tier (if you accept sending traces there) or leave tracing to our own Postgres cost/latency log, with Langfuse added later.
 
+### 3.8 Windows + WSL2 + cloud-GPU workflow (Revision 2)
+
+**Hybrid development loop.** Databases (Postgres, Neo4j) run in Docker. The Python services run natively inside WSL through `uv run` with auto-reload, which gives faster iteration and a working debugger. The full `docker compose --profile core` stack is used for integration tests, e2e tests and demos. One `make dev` target starts the databases and both APIs.
+
+**Resource limits.** WSL2 runs as a single VM, and by default it can use 50% of Windows memory ([NVIDIA WSL2 notes](https://docs.nvidia.com/nim/wsl2/latest/troubleshooting.html)). Docker Desktop’s WSL2 backend lives inside that same VM, so its containers share the same memory limit ([Docker forum](https://forums.docker.com/t/memory-limit-problem/150107)). We set the limits explicitly in `%UserProfile%\.wslconfig`. Changes take effect after `wsl --shutdown` ([guide](https://zahidhasan.github.io/2025/02/04/how-to-configure-ram-in-wsl-linux.html)).
+
+```ini
+# %UserProfile%\.wslconfig — starting values, tuned once your hardware is known
+[wsl2]
+memory=10GB      # 16 GB machine: leave ~6 GB for Windows; 32 GB machine: ~20GB
+processors=6     # leave at least 2 logical cores for Windows
+swap=8GB
+```
+
+**Memory budget on a 16 GB machine (estimates, to be measured in step 0):** Postgres \~0.5–1 GB · Neo4j heap capped at 1 GB + 0.5 GB page cache · diagnosis service \~1–2 GB (embedding + reranker models) · vision service 2–4 GB while fitting PatchCore · Ollama 3B quantised \~2–3 GB. **Rule:** never fit PatchCore and run Ollama at the same time on a 16 GB machine. Compose profiles and Make targets enforce this.
+
+**Filesystem.** Keep the repository, datasets (`~/iqs-data`) and model caches (`~/iqs-models`) on the WSL ext4 filesystem, not under `/mnt/c`. If the system drive is small, move the WSL distribution to a larger drive (`wsl --export` / `wsl --import`) before downloading datasets.
+
+**Ollama.** Installed inside WSL (Linux build), reachable at `localhost:11434` from WSL and at `host.docker.internal:11434` from containers. Models are pulled only through an approved Make target (§3.9).
+
+**Local NVIDIA GPU (if present).** Install only the Windows NVIDIA driver, not a Linux driver inside WSL; CUDA is then available inside WSL. GPU use stays optional: every service has a CPU code path.
+
+**Cloud GPU workflow (Colab / Kaggle).** The cloud runs the *same code and config* as local, not notebook-only code.
+
+1. The notebook clones the repo at a tagged commit and installs the relevant project without torch (the runtime’s CUDA torch is used).
+2. Data comes from your private Drive / private Kaggle dataset. MVTec data stays private because of its licence.
+3. It runs the same `scripts/train_*.py --config ...` command as locally.
+4. It writes a **run bundle**: checkpoint / ONNX file, metrics JSON, the resolved config, git SHA, package versions and hardware info.
+5. You download the bundle; `scripts/import_run_bundle.py` validates it and registers it in local MLflow.
+
+A cloud result counts in EXPERIMENTS.md only if its bundle carries the commit SHA and config.
+
+### 3.9 Approval gates (Revision 2)
+
+**Policy:** nothing large, paid or quota-consuming happens implicitly. I ask you in chat first, and the code enforces the gate so it cannot be bypassed by accident.
+
+| Category | Needs your approval when | Enforcement in code |
+| --- | --- | --- |
+| Datasets | Always (any dataset) | `scripts/download_dataset.py <name>` prints source, licence, size from `configs/assets.yaml` and target path, then requires `--approve`. Services never download data. Our dataset adapters raise `DatasetNotFound` (with the command to run) instead of calling Anomalib’s `prepare_data()`, which downloads the dataset if it is not available ([Anomalib docs](https://anomalib.readthedocs.io/en/stable/markdown/guides/reference/data/datamodules/image/mvtecad2.html)). |
+| Model weights | Not yet in the approved list, or larger than 200 MB | `configs/assets.yaml` allowlist (model ID, revision, expected size, licence). `scripts/fetch_models.py --approve` fills `~/iqs-models`. At runtime `HF_HUB_OFFLINE=1`, `TRANSFORMERS_OFFLINE=1`, and `HF_HOME`/`TORCH_HOME` point at the local cache, so missing weights raise an error instead of downloading. |
+| Ollama models | Always | `make pull-llm MODEL=... APPROVE=1`; compose never pulls models automatically. |
+| Paid LLM / VLM APIs | Always; batch jobs need a cost approval each time | Defaults: `LLM_BACKEND=ollama`, `PAID_API_ENABLED=false`. The gateway refuses paid calls unless enabled **and** budget remains (`LLM_BUDGET_EUR`, spend ledger in Postgres). Batch jobs (8D generation, full evaluation, LLM-as-judge) print estimated tokens and cost and need `--approve-cost <amount>`. CI never has API keys. |
+| Cloud GPU runs | Always (free, but uses your quota) | I propose the notebook, the expected runtime and the outputs; you start it. |
+| New third-party services / accounts | Always | Listed in TECHNICAL\_DECISIONS.md before use. |
+| Docker base images | First `compose up` only | I list image names and approximate sizes before the first pull. |
+
+Every approval is logged in `docs/APPROVALS.md` (date, item, size or cost, purpose).
+
 ## 4. Repository structure (Task 4)
 
-A `uv` workspace monorepo: one lockfile, one CI, but each package declares its own dependencies so the vision and agent stacks stay isolated in their Docker images. Working name: `industrial-quality-ai` (Python import prefix `iqs_`).
+A monorepo of **independent uv projects** (Revision 2, §2.10): one repository, one CI, but each deployable component has its own `pyproject.toml`, `uv.lock` and virtual environment, so vision and diagnosis can be installed, tested and built without each other. Working name: `industrial-quality-ai` (Python import prefix `iqs_`).
 
 ```text
 industrial-quality-ai/
 ├── README.md                  # demo video, architecture, results table, “what failed”
 ├── CHANGELOG.md
-├── pyproject.toml             # uv workspace root, ruff/mypy/pytest config
-├── uv.lock
+├── Makefile                   # setup/test/lint per project; dev, up, down, smoke
+├── ruff.toml                  # shared lint config (ruff via uvx, pinned)
 ├── .python-version            # 3.11
-├── .env.example               # every setting, no secrets
-├── Makefile                   # make setup / test / eval / up / down
-├── .pre-commit-config.yaml    # ruff, mypy, secret scan, large-file guard
+├── .env.example               # every setting, no secrets; paid APIs off by default
+├── .pre-commit-config.yaml    # ruff, secret scan, large-file guard, uv lock --check
 ├── .github/workflows/
-│   ├── ci.yml                 # lint, types, unit + API tests on every push
+│   ├── ci.yml                 # matrix per project: lock check, lint, types, tests; core-only + full extras
 │   ├── eval.yml               # deterministic evaluation subset on every push
-│   └── docker.yml             # build images, compose smoke test
+│   └── docker.yml             # build images (core), compose smoke + e2e
 ├── docs/
-│   ├── ARCHITECTURE.md
-│   ├── IMPLEMENTATION_PLAN.md # persistent checklist + session hand-off notes
-│   ├── TECHNICAL_DECISIONS.md # ADR-style records
-│   ├── EXPERIMENTS.md         # results, each with an MLflow run ID
-│   ├── TESTING.md
-│   ├── KNOWN_ISSUES.md        # limitations, unfinished features
+│   ├── ARCHITECTURE.md  IMPLEMENTATION_PLAN.md  TECHNICAL_DECISIONS.md
+│   ├── EXPERIMENTS.md   TESTING.md  KNOWN_ISSUES.md  APPROVALS.md
 │   └── diagrams/
 ├── packages/
-│   ├── common/src/iqs_common/        # schemas, settings, logging, events, db clients
-│   ├── vision/src/iqs_vision/
-│   │   ├── data/ detectors/ supervised/ calibration/ decision/
-│   │   ├── explain/ embeddings/ discovery/ fewshot/ edge/ monitoring/
-│   │   ├── api/  worker/
-│   │   └── tests/
-│   ├── diagnosis/src/iqs_diagnosis/
-│   │   ├── ingestion/ taxonomy/ retrieval/ graph/ novelty/ scoring/
-│   │   ├── conformal/ bayes/ scientist/ reporting/ fmea/ feedback/
-│   │   ├── llm/ agent/ evaluation/ api/ worker/
-│   │   └── tests/
-│   ├── mcp_server/src/iqs_mcp/       # mock QMS/MES as MCP tools
-│   ├── simulator/src/iqs_sim/        # line, faults, sensors, scenarios, export, linker
-│   └── dashboard/src/iqs_dashboard/  # Streamlit multipage app
+│   ├── common/      pyproject.toml  uv.lock  src/iqs_common/  tests/
+│   ├── vision/      pyproject.toml  uv.lock  src/iqs_vision/  tests/
+│   │   # src: data/ detectors/ supervised/ calibration/ decision/ explain/ embeddings/
+│   │   #      discovery/ fewshot/ edge/ monitoring/ capabilities.py api/ worker/
+│   ├── diagnosis/   pyproject.toml  uv.lock  src/iqs_diagnosis/  tests/
+│   │   # src: ingestion/ taxonomy/ retrieval/ graph/ novelty/ scoring/ conformal/ bayes/
+│   │   #      scientist/ reporting/ fmea/ feedback/ llm/ agent/ evaluation/ capabilities.py api/ worker/
+│   ├── mcp_server/  pyproject.toml  uv.lock  src/iqs_mcp/  tests/
+│   ├── simulator/   pyproject.toml  uv.lock  src/iqs_sim/  tests/
+│   └── dashboard/   pyproject.toml  uv.lock  src/iqs_dashboard/  tests/
 ├── configs/
-│   ├── vision/                # per-model, per-dataset YAML
-│   ├── diagnosis/             # retrieval, BN, conformal, LLM settings
-│   ├── simulator/scenarios/   # fault-injection scenarios
-│   ├── taxonomy/causes.yaml   # the shared cause taxonomy
-│   └── costs/example_costs.yaml  # stated euro assumptions
-├── scripts/                   # CLI entry points: download_*, train_*, evaluate_*, benchmark_*
-├── eval_sets/
-│   ├── diagnosis/             # labelled cases (JSONL), labelling guide, splits
-│   └── vision/                # split manifests incl. held-out defect types
-├── data/                      # git-ignored: raw/ interim/ processed/ + README with sizes and licences
-├── models/                    # git-ignored: exported ONNX/OpenVINO, checkpoints
-├── notebooks/                 # exploration only; never the source of truth
+│   ├── assets.yaml            # approved datasets + models: source, revision, size, licence
+│   ├── vision/  diagnosis/  simulator/scenarios/
+│   ├── taxonomy/causes.yaml
+│   └── costs/example_costs.yaml
+├── scripts/                   # download_dataset, fetch_models, train_*, evaluate_*, benchmark_*,
+│                              # import_run_bundle, smoke.sh
+├── eval_sets/  diagnosis/  vision/   # small, versioned labels and split manifests
 ├── tests/
-│   ├── integration/           # cross-package, real Postgres/Neo4j via testcontainers
-│   ├── e2e/                   # full loop through docker compose
-│   └── fixtures/              # tiny synthetic images, recorded LLM responses
+│   ├── e2e/        pyproject.toml  uv.lock   # talks to the running stack over HTTP only
+│   └── fixtures/   # tiny synthetic images, recorded LLM responses
 ├── deploy/
-│   ├── docker/                # vision, diagnosis, mcp, dashboard Dockerfiles
-│   └── compose/               # docker-compose.yml with profiles, init SQL, Neo4j config
-├── finetune/                  # Colab/Kaggle notebooks + own requirements for LoRA and inpainting
-├── reports/                   # generated figures/tables, technical report source
-└── release/                   # Hugging Face dataset cards, benchmark packaging
+│   ├── docker/                # one multi-stage Dockerfile per service, EXTRAS build arg
+│   └── compose/               # profiles: core, llm-local, mlflow-ui, tracing
+├── finetune/                  # Colab/Kaggle notebooks, own requirements, run-bundle export
+├── notebooks/                 # exploration only
+├── reports/  release/
+└── (outside the repo, in WSL home)  ~/iqs-data  ~/iqs-models  ~/iqs-mlruns
 ```
 
 | Directory | Purpose and rule |
 | --- | --- |
-| `packages/common` | Contracts shared by every service (event schemas, settings, DB sessions). Changing it is a cross-project change and needs integration tests. |
-| `packages/vision` | All of Project 2. Domain logic (conformal, decisions, prototypes) has no I/O and is unit-tested; models sit behind interfaces. |
-| `packages/diagnosis` | All of Project 1, including the LangGraph agent and the LLM gateway. Unit tests for the domain; recorded-response tests for the agent. |
-| `packages/mcp_server` | Separate process exposing the mock QMS/MES as MCP tools — the agent can only change “factory systems” through it, like in a real plant. |
-| `packages/simulator` | Standalone library + CLI so it can be released on its own (step 9). Deterministic per seed. |
-| `packages/dashboard` | UI only. Talks to the APIs, never to databases, so every button is an API that is tested. |
-| `configs/` | Every tunable value lives here, not in code. A run’s config is logged to MLflow, which makes it reproducible. |
-| `scripts/` | Thin CLIs that call package code; the commands quoted in EXPERIMENTS.md. |
-| `eval_sets/` | Small, version-controlled evaluation data (your labels and split manifests with checksums). Large data never goes into git. |
-| `data/`, `models/` | Git-ignored working storage. `data/README.md` records sources, licences, sizes and download dates. |
-| `tests/` | Cross-package tests; package-level unit tests live beside each package. |
-| `deploy/` | Everything needed for `docker compose up`, with profiles to save RAM. |
-| `finetune/` | GPU-only work that runs in notebooks; kept out of the service dependencies. |
-| `docs/` | The seven required documents plus known issues. |
-| `reports/`, `release/` | Outputs for the technical report and the public benchmark release. |
+| `packages/common` | Contracts shared by every service (event and API schemas, settings, DB sessions). No ML dependencies, broad version ranges. Changes need contract tests in both services. |
+| `packages/vision` | All of Project 2. Domain logic (conformal, decisions, prototypes) has no I/O and is unit-tested. Advanced features live behind the capability registry and optional extras. |
+| `packages/diagnosis` | All of Project 1, including the LangGraph agent and the LLM gateway with budget enforcement. |
+| `packages/mcp_server` | Separate process exposing the mock QMS/MES as MCP tools; the agent changes “factory systems” only through it. |
+| `packages/simulator` | Standalone library + CLI, releasable on its own, deterministic per seed. Imported by no service. |
+| `packages/dashboard` | UI only. Talks to the APIs and reads `/v1/capabilities` to show unavailable features honestly. |
+| `tests/e2e` | Own small project; tests the integrated system across real HTTP boundaries, so it never imports service code. |
+| `configs/` | Every tunable value, plus `assets.yaml`, the single source for what may be downloaded. |
+| `scripts/` | Thin CLIs over package code; download and paid scripts enforce approval flags. |
+| `eval_sets/` | Your labels and split manifests with checksums. Large data never goes into git. |
+| `deploy/` | Multi-stage images built from one service’s lockfile; compose profiles to save RAM. |
+| `finetune/` | GPU-only notebooks that produce run bundles; not part of any service environment. |
+| `docs/` | The seven required documents plus KNOWN\_ISSUES and APPROVALS. |
+| `~/iqs-*` | Datasets, model caches and MLflow runs live outside the repo on the WSL filesystem. |
 
 ## 5. Implementation roadmap (Task 5)
 
-The nine steps follow page 7 of the spec. I added a **Step 0 (foundation)** because none of the steps can be tested or reproduced without the repo, CI and Docker skeleton. Every step ends with a demonstrable result and an updated IMPLEMENTATION\_PLAN.md.
+The nine steps follow page 7 of the spec. A **Step 0 (foundation)** comes first, because no later step can be tested or reproduced without the repo, CI and Docker skeleton. Every step ends with a demonstrable result, a git tag and an updated IMPLEMENTATION\_PLAN.md.
 
 **Two sequencing issues in the spec, and how they are resolved:**
 
-- Step 7 (connect the projects) needs “camera finds a new defect cluster”, but full discovery is in step 8. Resolution: step 7 builds a minimal discovery trigger (unknown-anomaly buffer + HDBSCAN on DINOv2 embeddings, no UMAP/labelling UI, no evaluation claims). Step 8c turns it into the evaluated discovery layer.
+- Step 7 (connect the projects) needs “camera finds a new defect cluster”, but full discovery is in step 8. Resolution: step 7 builds a minimal discovery trigger: an unknown-anomaly buffer plus scikit-learn’s HDBSCAN on DINOv2 (timm) embeddings. It is core-only, with no UMAP, no labelling UI and no evaluation claims. Step 8c turns it into the evaluated discovery layer.
 - Step 7’s loop also mentions smart questions and FMEA updates (step 8). Resolution: step 7 runs the loop with the base agent (ranked causes, conformal set, 8D, confirmation); 8a and 8b then upgrade those stages inside the already-working loop.
+
+**How completion is judged (Revision 2).** Every step has a **gate**: binary checks that pass or fail. It also has **recorded metrics**: numbers that must be measured, logged with a run ID and reported. Metrics are *not* performance targets, because results cannot be promised before they are measured. The exceptions are reproduction sanity checks and statistical validity checks, which have explicit tolerances. Every gate also includes the **universal gate**: CI green on `main` for all affected projects in both core-only and full-extras jobs, docs updated (ARCHITECTURE, TESTING, EXPERIMENTS, CHANGELOG, KNOWN\_ISSUES), checklist updated, git tag created.
 
 ### Step 0 — Foundation
 
-- **Objectives:** a repo where `make setup && make test && docker compose up` works on a clean machine.
-- **Features:** uv workspace with all six packages (empty but importable), settings via `.env`, structured logging, Postgres + pgvector and Neo4j in compose, health endpoints for both services, CI (lint, types, tests), pre-commit, the seven docs + KNOWN\_ISSUES.md, initial cause taxonomy draft.
-- **Files:** `pyproject.toml`, `uv.lock`, `Makefile`, `.env.example`, `deploy/compose/docker-compose.yml`, `deploy/docker/*.Dockerfile`, `.github/workflows/ci.yml`, `packages/common/src/iqs_common/{settings,logging,db}.py`, `packages/*/api/main.py`, `docs/*.md`, `configs/taxonomy/causes.yaml`.
-- **Dependencies:** WSL2, Docker, uv, GitHub repo.
-- **Testing:** unit test for settings loading; API tests for `/health`; compose smoke test in CI.
-- **Done when:** green CI on main; both services answer `/health` in Docker; docs exist with real content.
-- **Deliverable:** public (or private) GitHub repo with working skeleton.
+- **Objectives:** a repo where setup, tests and the core stack work on your Windows + WSL2 machine and in CI.
+- **Features:** six independent uv projects + `tests/e2e` (importable skeletons), settings via `.env` (paid APIs off), structured logging, Postgres + pgvector and Neo4j in compose, `/health`, `/ready` and `/v1/capabilities` on both services, `assets.yaml` + approval-enforcing download and model-fetch scripts (no downloads performed yet), CI matrix, pre-commit, the docs set, cause taxonomy v0 for review, `.wslconfig` recommendation tuned to your hardware.
+- **Files:** `packages/*/pyproject.toml`, `packages/*/uv.lock`, `Makefile`, `.env.example`, `deploy/compose/docker-compose.yml`, `deploy/docker/*.Dockerfile`, `.github/workflows/{ci,docker}.yml`, `packages/common/src/iqs_common/{settings,logging,db,events}.py`, `packages/*/src/*/capabilities.py`, `scripts/{download_dataset,fetch_models,smoke.sh}`, `configs/{assets,taxonomy/causes}.yaml`, `docs/*.md`.
+- **Dependencies:** WSL2, Docker Desktop, uv, Git, GitHub repository.
+- **Testing:** settings and capability-registry unit tests; API tests for health/capabilities; tests that the download/fetch scripts refuse to run without `--approve`; `uv lock --check` per project.
+- **Gate:** (1) `make setup && make test` succeeds on a clean WSL checkout. (2) Each service project installs and passes its tests **alone** (`uv sync --frozen` in that project only). (3) `docker compose --profile core up` brings all core services to healthy, and `scripts/smoke.sh` exits 0 within 180 s. (4) Each service image builds from its own lockfile. (5) CI green.
+- **Recorded:** image sizes; idle RAM of the core stack measured with `docker stats` on your machine (feeds the memory budget in §3.8).
+- **Deliverable:** working skeleton repository.
 
 ### Step 1 — Project 2 · Layer 1: working defect detector + demo
 
 - **Objectives:** detect and localise defects on MVTec AD with a real model; serve it.
-- **Features:** dataset adapter + split manifests; PatchCore (CPU) as the primary model, EfficientAD trained on a free GPU; supervised baseline (ResNet-18) on a leakage-free split; anomaly heatmaps; VLM text description behind an interface (stub-free: if no VLM is configured the field is absent, never faked); `POST /v1/inspections`; inspection page in the dashboard; MLflow logging.
-- **Files:** `vision/data/{mvtec.py,splits.py}`, `vision/detectors/{base.py,patchcore.py,efficientad.py}`, `vision/supervised/classifier.py`, `vision/explain/{anomaly_map.py,vlm.py}`, `vision/api/routes/inspections.py`, `scripts/train_detector.py`, `scripts/evaluate_detector.py`, `dashboard/pages/2_Defect_Inspection.py`.
-- **Dependencies:** step 0; MVTec AD downloaded.
-- **Testing:** unit tests for preprocessing and split integrity (no image in two splits); detector interface tests on tiny synthetic images; API tests (upload, invalid file, auth); evaluation script reproduces the same AUROC from the same seed.
-- **Done when:** image and pixel AUROC on MVTec AD logged in MLflow and compared with published numbers; inspection works through the API and dashboard in Docker.
-- **Deliverable:** working detector demo; first EXPERIMENTS.md entry.
+- **Features:** dataset adapter + split manifests; PatchCore (CPU) as the primary model; EfficientAD trained on a free cloud GPU (run bundle); supervised baseline (ResNet-18) on a leakage-free split; anomaly heatmaps; VLM description behind the capability registry (disabled until a VLM is approved, never faked); `POST /v1/inspections`; inspection page; MLflow logging in scripts.
+- **Files:** `vision/data/{mvtec.py,splits.py}`, `vision/detectors/{base.py,patchcore.py,efficientad.py}`, `vision/supervised/classifier.py`, `vision/explain/{anomaly_map.py,vlm.py}`, `vision/api/routes/inspections.py`, `scripts/{train_detector,evaluate_detector}.py`, `finetune/efficientad.ipynb`, `dashboard/pages/2_Defect_Inspection.py`.
+- **Dependencies:** step 0; approved download of MVTec AD and backbone weights.
+- **Testing:** split-integrity tests (no image in two splits, calibration ∩ fit = ∅); detector-interface tests on tiny synthetic images; API tests (valid image, unsupported type, missing API key); reproducibility test.
+- **Gate:** (1) PatchCore image and pixel AUROC logged per category for all 15 MVTec AD categories (or a declared subset with the reason in KNOWN\_ISSUES). (2) Re-running one category with the same seed reproduces image AUROC within ±0.005. (3) Per-category deviation from Anomalib’s published benchmark for the same model and config is computed; any deviation above 2 AUROC points has a written investigation in KNOWN\_ISSUES before step 2 starts. (4) API returns 200 with score + heatmap + decision for a valid image, 415 for an invalid file type, 401 without a key. (5) Inspection works in the dashboard against the dockerised service. (6) EfficientAD run bundle imported, or explicitly deferred in KNOWN\_ISSUES if no GPU quota.
+- **Recorded:** AUROC tables (PatchCore, EfficientAD if available, supervised baseline); inspection latency p50/p95 on your CPU over ≥ 100 requests after warm-up.
+- **Deliverable:** working detector demo; first EXPERIMENTS.md entries.
 
 ### Step 2 — Project 2 · Layers 2–3: hard benchmark + guarantee
 
 - **Objectives:** generalisation evidence and a verified false-alarm guarantee.
-- **Features:** MVTec AD 2 (test\_public locally) and VisA through the same pipeline; split-conformal threshold per category; target vs realised false-alarm rate and miss rate; repeated-split analysis; lighting-shift stress test on AD 2.
-- **Files:** `vision/data/{mvtec_ad2.py,visa.py}`, `vision/calibration/conformal.py`, `scripts/calibrate.py`, `scripts/evaluate_conformal.py`, `vision/api/routes/calibrations.py`, dashboard model-evaluation page.
-- **Dependencies:** step 1; datasets downloaded.
-- **Testing:** property tests for the conformal quantile (on synthetic score distributions the realised rate stays ≤ α within sampling error across many draws); data-validation tests on manifests.
-- **Done when:** results table across three datasets; realised false-alarm rate reported with spread; failures (e.g. under lighting shift) documented honestly.
+- **Features:** MVTec AD 2 (test\_public) and VisA through the same pipeline; split-conformal and (α, δ) thresholds per category (§2.8); realised false-alarm and miss rates; repeated-split analysis; shift experiment; `POST /v1/calibrations`; model-evaluation page.
+- **Files:** `vision/data/{mvtec_ad2.py,visa.py}`, `vision/calibration/{conformal.py,beta_bound.py}`, `scripts/{calibrate,evaluate_conformal,shift_experiment}.py`, `vision/api/routes/calibrations.py`.
+- **Dependencies:** step 1; approved downloads (≥ 2 MVTec AD 2 categories, ≥ 2 VisA categories).
+- **Testing:** conformal unit and property tests from §2.8; manifest data-validation tests.
+- **Gate:** (1) AUROC results for ≥ 2 MVTec AD 2 and ≥ 2 VisA categories logged. (2) The code refuses a calibration set smaller than ⌈1/α⌉ − 1. (3) **Statistical validity check:** for α = 0.02 over R = 100 random calibration/test resplits per category, the mean realised false-alarm rate is ≤ α + 3 standard errors. If it fails, the cause is investigated (usually leakage or non-exchangeable splits) before moving on. (4) Shift experiment executed and reported, whatever the outcome.
+- **Recorded:** mean and spread of realised false-alarm rate vs the Beta prediction; miss rate at q̂; marginal vs (α, δ) thresholds; false-alarm rate under shift.
 - **Deliverable:** hard-benchmark results + guarantee plot.
 
 ### Step 3 — Project 1 · Layers 1–2: working diagnosis agent + evaluation
 
 - **Objectives:** a real agent that retrieves, reasons over the graph, drafts 8D, uses MCP tools, and admits novelty.
-- **Features:** NHTSA + AI4I ingestion; generated 8D/FMEA (DE+EN) clearly flagged; hybrid retrieval (BM25 + dense + RRF + reranker) with the embedding model chosen by measured recall@k; Neo4j graph; LLM gateway (API + Ollama) with budget guard; MCP server with ticket tools; LangGraph base graph; novelty threshold; top-3 causes; 8D report; hand-labelled set v1 (\~50–100 cases) with labelling guide; evaluation harness; investigation page in dashboard.
-- **Files:** `diagnosis/ingestion/{nhtsa.py,ai4i.py,generate_8d.py}`, `diagnosis/retrieval/{bm25.py,dense.py,fusion.py,rerank.py}`, `diagnosis/graph/{schema.cypher,repository.py}`, `diagnosis/llm/{gateway.py,providers/*.py}`, `diagnosis/agent/{state.py,graph.py,nodes/*.py}`, `diagnosis/novelty/threshold.py`, `diagnosis/reporting/eight_d.py`, `mcp_server/server.py`, `eval_sets/diagnosis/*`, `diagnosis/evaluation/run_eval.py`, `.github/workflows/eval.yml`.
-- **Dependencies:** steps 0; API key + budget (or Ollama only); NHTSA files.
-- **Testing:** retrieval unit tests with a toy corpus; graph repository integration tests (testcontainers Neo4j); MCP tool tests; agent tests with recorded LLM responses; 8D schema validation; LLM-as-judge agreement with your labels (Cohen’s kappa).
-- **Done when:** top-1/top-3 accuracy, novelty detection rate, tool-call accuracy, 8D completeness, cost and latency per case measured on the test split; eval runs in CI on a deterministic subset.
+- **Features:** NHTSA + AI4I ingestion; generated 8D/FMEA (DE+EN) flagged `generated`; hybrid retrieval (BM25 + dense + RRF + reranker); Neo4j graph; LLM gateway with budget ledger (Ollama by default); MCP server with ticket and data tools; LangGraph base graph; novelty threshold; top-3 causes; 8D report; hand-labelled set v1 with a labelling guide; evaluation harness; investigation page.
+- **Files:** `diagnosis/ingestion/{nhtsa,ai4i,generate_8d}.py`, `diagnosis/retrieval/{bm25,dense,fusion,rerank}.py`, `diagnosis/graph/{schema.cypher,repository.py}`, `diagnosis/llm/{gateway,budget,providers/*}.py`, `diagnosis/agent/{state,graph,nodes/*}.py`, `diagnosis/novelty/threshold.py`, `diagnosis/reporting/eight_d.py`, `mcp_server/server.py`, `eval_sets/diagnosis/*`, `diagnosis/evaluation/run_eval.py`, `.github/workflows/eval.yml`.
+- **Dependencies:** step 0; approved NHTSA/AI4I downloads, embedding/reranker weights and an Ollama model; paid API only if you approve it.
+- **Testing:** retrieval tests on a toy corpus; Neo4j repository integration tests (testcontainers); MCP tool contract tests; agent tests with recorded responses; 8D schema validation; gateway refuses paid calls when disabled or over budget.
+- **Gate:** (1) Labelled set has ≥ 50 cases with the guide and the dev / calibration / test / new-problem split committed. (2) Retrieval recall@5 and recall@10 compared for ≥ 2 embedding models, and the choice recorded in TECHNICAL\_DECISIONS. (3) The evaluation harness writes a metrics JSON with every field below, plus n per split. (4) The CI evaluation subset is deterministic (two consecutive runs give identical output). (5) LLM-as-judge vs your labels: Cohen’s kappa computed on ≥ 30 items, and the judge is used for reported metrics only if agreement is documented.
+- **Recorded:** top-1/top-3 accuracy (test and new-problem splits, with 95% intervals), novelty precision/recall, tool-call accuracy, 8D completeness, cost per case, latency p50/p95.
 - **Deliverable:** working diagnosis agent + evaluation report.
 
 ### Step 4 — Project 1 · Layer 3: guaranteed cause sets
 
-- **Objectives:** “the true cause is in this set 90% of the time”, verified.
-- **Features:** scoring module producing a probability vector over the taxonomy; split conformal (LAC and APS); calibration runs stored; cause-set view in the dashboard; MAPIE cross-check.
-- **Files:** `diagnosis/scoring/combine.py`, `diagnosis/conformal/{split.py,scores.py}`, `scripts/calibrate_causes.py`, API `cause-set` endpoint.
-- **Dependencies:** step 3 labelled set (calibration split).
-- **Testing:** conformal unit/property tests; coverage evaluation with exact binomial confidence intervals.
-- **Done when:** coverage and average set size reported on held-out cases (with intervals) and on held-out new problems.
+- **Objectives:** “the true cause is in this set 90% of the time”, verified within the assumptions of §2.8.
+- **Features:** scoring module (probabilities over the taxonomy); LAC and APS sets; (α, δ) option; versioned, frozen calibration runs; cause-set view; MAPIE cross-check.
+- **Files:** `diagnosis/scoring/combine.py`, `diagnosis/conformal/{split,scores,beta_bound}.py`, `scripts/calibrate_causes.py`, `cause-set` endpoint.
+- **Dependencies:** step 3 labelled set; simulator cases from step 5 for the large-sample check (run 4 and 5 in either order; the large-sample gate closes after step 5).
+- **Testing:** conformal property tests; leakage test (a calibration case never retrieves itself, and calibration IDs ∩ scorer-fit IDs = ∅); our implementation agrees with MAPIE on identical inputs.
+- **Gate:** (1) Coverage and average set size reported on the real test split for LAC and APS at α = 0.1, with Clopper–Pearson 95% intervals. (2) **Statistical validity check** on ≥ 500 simulator cases: mean coverage over R = 100 resplits ≥ 0.9 − 3 standard errors. (3) New-problem coverage reported and labelled “stress test, no guarantee”.
+- **Recorded:** coverage, set size and empty-set rate per method and per data source.
 - **Deliverable:** guaranteed cause sets.
 
 ### Step 5 — Factory simulator + scientist agent (signature moves A + B)
 
 - **Objectives:** ground-truth evaluation and evidence-based answers.
-- **Features:** SimPy line (e.g. 4 stations), batches, shifts, sensors; at least 5 injectable fault types (tool wear, coolant/temperature drift, bad material batch, fixture misalignment, sensor calibration drift); scenario YAML; ground-truth ledger kept separate; case generator; scientist node with test templates, BH correction and evidence plots; evidence view in dashboard; production-monitoring page.
-- **Files:** `simulator/{line.py,machines.py,faults.py,sensors.py,scenarios.py,export.py,cases.py}`, `configs/simulator/scenarios/*.yaml`, `diagnosis/scientist/{templates.py,tests.py,runner.py}`, `scripts/simulate.py`, `scripts/evaluate_scientist.py`.
+- **Features:** SimPy line (≈ 4 stations), batches, shifts, sensors; ≥ 5 injectable fault types (tool wear, coolant/temperature drift, bad material batch, fixture misalignment, sensor calibration drift); scenario YAML; separate ground-truth ledger; case generator; scientist node with test templates, BH correction and evidence plots; evidence view and production-monitoring page.
+- **Files:** `simulator/{line,machines,faults,sensors,scenarios,export,cases}.py`, `configs/simulator/scenarios/*.yaml`, `diagnosis/scientist/{templates,tests,runner}.py`, `scripts/{simulate,evaluate_scientist}.py`.
 - **Dependencies:** step 3 agent; taxonomy aligned with fault types.
-- **Testing:** simulator determinism per seed; injected faults visibly change the intended signals (and nothing else); statistical test templates validated on synthetic data with known effect / no effect (power and false-positive rate); scientist cannot read the ground-truth directory.
-- **Done when:** root-cause accuracy per injected fault type; share of correct causes confirmed and wrong causes rejected by the data check.
+- **Testing:** determinism (same seed ⇒ identical Parquet file hashes); each fault changes only its intended signals; null-data and effect-data tests per template; access test (the agent’s DuckDB connection cannot read `ground_truth`).
+- **Gate:** (1) Determinism and access tests pass. (2) **Statistical validity check:** on null data, each test template’s false-positive rate over 1,000 simulations is ≤ 0.05 + 3 standard errors. (3) The test scenario family (≥ 50 cases per fault type) was never used during development, which is recorded via a scenario manifest hash committed before the first evaluation run.
+- **Recorded:** root-cause accuracy per fault type; share of correct causes confirmed and wrong causes rejected; template power per effect size.
 - **Deliverable:** ground-truth evaluation + evidence-based answers.
 
 ### Step 6 — Cost-aware decisions (P2 signature move B)
 
-- **Objectives:** decisions in euros with stated assumptions.
-- **Features:** probability calibration; three-way decision rule; cost config; expected cost per 10,000 parts vs fixed threshold; review share; sensitivity analysis; decision view in the inspection page.
-- **Files:** `vision/decision/{calibrate_proba.py,policy.py,costs.py}`, `configs/costs/example_costs.yaml`, `scripts/evaluate_costs.py`.
-- **Dependencies:** steps 1–2.
-- **Testing:** policy unit tests on hand-computed cases; invariants (raising review cost never increases review share).
-- **Done when:** cost table and sensitivity plot in EXPERIMENTS.md with assumptions written next to every number.
+- **Objectives:** decisions in euros with stated assumptions, without breaking the false-alarm guarantee.
+- **Features:** probability calibration; guaranteed (constrained) and unconstrained three-way policies (§2.5 P2-C); cost config; sensitivity analysis; decision view.
+- **Files:** `vision/decision/{calibrate_proba,policy,costs}.py`, `configs/costs/example_costs.yaml`, `scripts/evaluate_costs.py`.
+- **Dependencies:** steps 1–2; your approval of the example cost values.
+- **Testing:** policy unit tests on hand-computed cases; invariants (raising the review cost never increases the review share; the constrained policy never flags a part with score ≤ q̂).
+- **Gate:** (1) Tests pass. (2) The calibration split for probabilities is disjoint from both the conformal calibration set and the test set (manifest test). (3) Every cost number in EXPERIMENTS.md is followed by the hash of the assumptions file it used.
+- **Recorded:** expected cost per 10,000 parts for the guaranteed policy, unconstrained policy and fixed threshold; review share; realised false-alarm rate of the guaranteed policy; sensitivity over ≥ 3 cost ratios.
 - **Deliverable:** results in euros.
 
 ### Step 7 — Connect the projects: end-to-end quality loop
 
-- **Objectives:** the loop from new defect cluster to confirmed cause works automatically.
-- **Features:** image linker (images ↔ simulated parts); minimal discovery trigger; outbox event + worker; automatic case creation; confirmation endpoint and feedback writes; end-to-end demo script.
+- **Objectives:** the loop from new defect cluster to confirmed cause works automatically, on a core-only install.
+- **Features:** image linker (images ↔ simulated parts, labelled as synthetic linkage); minimal discovery trigger; outbox event + worker; automatic case creation; confirmation endpoint and feedback writes; end-to-end demo script.
 - **Files:** `simulator/linker.py`, `vision/discovery/trigger.py`, `common/events.py`, `diagnosis/worker/consumer.py`, `diagnosis/feedback/update.py`, `tests/e2e/test_quality_loop.py`, `scripts/demo_loop.py`.
 - **Dependencies:** steps 1–6.
-- **Testing:** idempotent event handling (same event twice → one case); e2e test in compose.
-- **Done when:** a scripted demo shows: injected fault → defect images → cluster → case → cause set → confirmation → graph updated.
+- **Testing:** idempotency (the same event delivered twice creates one case); contract tests for the event schema in both services; e2e test.
+- **Gate:** (1) The e2e test passes against `docker compose --profile core` **with no optional extras installed**, scripted: inject fault → route images → cluster alert → exactly one case → cause set returned → confirm → Neo4j has the `CONFIRMED_CAUSE` edge and the BN count increased. (2) Dashboard pages of uninstalled features show “not installed” (UI test). (3) The demo script runs end-to-end on your machine.
+- **Recorded:** end-to-end latency from first anomalous image to case opened; number of images needed before the alert.
 - **Deliverable:** end-to-end quality loop (Tier A complete).
 
 ### Step 8 — Advanced features, one at a time (Tier B)
 
-Order chosen by value and dependency; each sub-step is finished, tested and documented before the next.
+Order is chosen by value and dependency. Each sub-step ships as an optional extra behind the capability registry. Its gate always includes: the core-only CI job and the step-7 e2e test still pass, and the capability flips to `enabled` only when installed.
 
-| Sub-step | Feature | Key files | Done when (measured) |
+| Sub-step | Feature | Key files | Gate (measured) |
 | --- | --- | --- | --- |
-| 8a | Smart questions (P1 L4): Bayesian network, EIG question selection, posterior re-ranking | `diagnosis/bayes/{network.py,eig.py,questions.yaml}` | Questions needed to reach the right cause: EIG vs random, on simulator cases |
-| 8b | Living FMEA + feedback loop (P1 L5–6) | `diagnosis/fmea/{compare.py,propose.py}`, `feedback/` | FMEA proposal precision on your review; probabilities and graph change after confirmation (tested) |
-| 8c | Discovery (P2 L4): UMAP + HDBSCAN, stability, alerts, labelling view | `vision/discovery/{buffer.py,cluster.py,alerts.py}`, dashboard labelling page | Detection delay and purity on held-out defect types |
-| 8d | Few-shot + continual (P2 L5) | `vision/fewshot/{prototypes.py,replay.py}` | 5/10-shot accuracy and forgetting, mean ± std over repeats |
-| 8e | Edge (P2 L6): ONNX Runtime INT8 (OpenVINO as Tier C add-on) | `vision/edge/{export.py,quantize.py,benchmark.py}` | FP32 vs INT8 latency (p50/p95), size, AUROC change on CPU |
-| 8f | Own small model (P1 signature C) | `finetune/lora_*.ipynb`, `diagnosis/llm/providers/ollama.py` | Quality, cost and latency vs the API model on the same test set |
-| 8g | “How it should look” (P2 signature A) | `vision/explain/counterfactual.py`, `finetune/inpaint_*.ipynb` | Repaired-image anomaly score below threshold + similarity outside mask, vs classical baseline |
-| 8h | Tier C: diffusion-generated synthetic defects | `vision/synthetic/` | Effect on few-shot / supervised baseline, if any |
+| 8a | Smart questions (P1 L4): BN, EIG question selection, posterior re-ranking | `diagnosis/bayes/{network,eig}.py`, `questions.yaml` | On ≥ 200 simulator cases: mean questions until the true cause is top-1 with posterior ≥ τ, for EIG vs random vs fixed order, with paired bootstrap 95% CI |
+| 8b | Living FMEA + feedback loop (P1 L5–6) | `diagnosis/fmea/{compare,propose}.py`, `feedback/` | ≥ 20 proposals reviewed by you, precision reported; test proves graph + BN update after confirmation and that the calibration set is untouched |
+| 8c | Discovery (P2 L4): UMAP + HDBSCAN, stability, alerts, labelling view | `vision/discovery/{buffer,cluster,alerts}.py` | Median detection delay and purity/ARI over ≥ 3 held-out defect types × ≥ 3 seeds |
+| 8d | Few-shot + continual (P2 L5) | `vision/fewshot/{prototypes,replay}.py` | 5/10-shot accuracy mean ± std over ≥ 10 episodes; forgetting = old-class accuracy before − after |
+| 8e | Edge (P2 L6): ONNX Runtime INT8 (OpenVINO = Tier C) | `vision/edge/{export,quantize,benchmark}.py` | FP32 vs INT8 p50/p95 latency over ≥ 200 runs after warm-up on recorded hardware; size; AUROC change |
+| 8f | Own small model (P1 signature C) | `finetune/lora.ipynb`, `diagnosis/llm/providers/ollama.py` | Run bundle imported; same test set: quality metrics, cost per case, latency vs the API model (or vs a larger local model if no paid API is approved) |
+| 8g | “How it should look” (P2 signature A) | `vision/explain/counterfactual.py`, `finetune/inpaint.ipynb` | On ≥ 50 defective images: share with repaired score < q̂ and SSIM outside mask, diffusion vs OpenCV baseline |
+| 8h | Tier C: diffusion-generated synthetic defects | `finetune/`, `vision/synthetic/` | Effect on few-shot / supervised baseline with vs without synthetic data, same seeds |
 
-Other Tier C items (Langfuse, Evidently drift report, OpenVINO, HF Spaces demo, MVTec leaderboard submission) are slotted in where they fit, never before Tier A is complete. Evidently is cheap to add after step 2 and supports the shift story, so it is the first Tier C candidate.
+Other Tier C items (Langfuse, Evidently drift report, OpenVINO, HF Spaces demo, MVTec leaderboard submission, weighted/adaptive conformal) are added only after Tier A is complete. Evidently is the first candidate because it supports the shift story.
 
 ### Step 9 — Public proof of work
 
 - **Objectives:** make the work visible and verifiable.
-- **Features:** simulator + 8D evaluation set on Hugging Face (dataset cards, licences, generated-data disclosure); 4–6 page technical report; README with demo video, architecture diagram, results table and “What I tried and why it failed”; CV bullets filled only with measured numbers.
-- **Files:** `release/*`, `reports/technical_report.*`, `README.md`.
-- **Testing:** release script reproduces the published dataset from a seed; every number in README traced to an MLflow run.
-- **Done when:** a stranger can clone, run `docker compose up`, and reproduce a headline result.
+- **Features:** simulator + 8D evaluation set on Hugging Face (dataset cards, licences, generated-data disclosure); 4–6 page technical report; README with demo video, architecture diagram, results table and “What I tried and why it failed”; CV bullets using measured numbers only.
+- **Files:** `release/*`, `reports/technical_report.*`, `README.md`, `scripts/check_claims.py`.
+- **Testing:** the release script regenerates the dataset bit-identically from its seed; `check_claims.py` verifies every number in README/EXPERIMENTS against MLflow run IDs.
+- **Gate:** (1) The published dataset loads with `datasets.load_dataset` in a clean environment. (2) `check_claims.py` passes. (3) A fresh clone on a second machine or clean WSL distro runs `make demo` successfully. (4) No MVTec images in the repo or release (automated check).
 - **Deliverable:** public release, report, 2-minute video.
 
 ## 6. Risk assessment (Task 6)
@@ -608,10 +726,12 @@ Impact and likelihood are judgements (H / M / L), not measurements.
 
 | Risk | Mitigation |
 | --- | --- |
-| Conflicts between the vision stack (torch, anomalib, openvino) and the agent stack (langgraph, LLM SDKs) | Separate packages and Docker images; one `uv.lock` resolved early in step 0 so conflicts surface on day one |
-| PyTorch CUDA wheels bloat images | CPU wheel index by default; GPU only in notebooks |
-| Fast-moving libraries (Anomalib, LangGraph, MCP SDK) change APIs | Pin versions in the lockfile; thin adapters around each library; upgrades as deliberate, tested changes |
-| A chosen pretrained model is removed or gated on Hugging Face | Model IDs in config; record checksums; keep a fallback model per role |
+| Conflicts between the vision stack (torch, anomalib, openvino) and the agent stack (langgraph, LLM SDKs) | Independent uv projects with separate lockfiles and environments (§2.10); `common` has no ML dependencies; CI proves each project installs alone |
+| Shared libraries drift to different versions across services | Contract tests on all shared schemas in both services + HTTP-level e2e tests |
+| PyTorch CUDA wheels bloat images | Explicit CPU wheel index in `vision` and `diagnosis`; GPU only in notebooks |
+| Fast-moving libraries (Anomalib, LangGraph, MCP SDK) change APIs | Pinned in lockfiles; thin adapters around each library; upgrades as deliberate, tested changes |
+| Optional extras break the core install | Core-only CI job; capability registry; import rule enforced by lint |
+| A chosen pretrained model is removed or gated | Model IDs, revisions and sizes in `assets.yaml`; fallback model per role |
 
 ### 6.3 Dataset risks
 
@@ -671,7 +791,7 @@ The spec asks for evaluation on every push; that is satisfied by the determinist
 
 ### 7.4 Reproducibility
 
-Lockfile + Docker images · global seed utility used by every script · config snapshot and git commit logged with each MLflow run · dataset manifests with checksums · simulator deterministic per seed · LLM calls at temperature 0 with prompt versions recorded.
+Per-project lockfiles + Docker images built from them · global seed utility used by every script · config snapshot, git SHA and package versions logged with each MLflow run · dataset manifests with checksums · `assets.yaml` pins model revisions · cloud runs only count with a complete run bundle · simulator deterministic per seed · LLM calls at temperature 0 with prompt versions recorded.
 
 ### 7.5 Git workflow
 
@@ -683,49 +803,46 @@ Lockfile + Docker images · global seed utility used by every script · config s
 
 ## 8. Checklist before implementation begins
 
-**Information I need from you**
+**A. Needed to begin Step 0 (hardware and environment)**
 
-- [ ] Hardware: CPU model/cores, RAM, NVIDIA GPU (model + VRAM) or none, free disk space
-- [ ] Windows version, and whether WSL2 and Docker Desktop are already installed
-- [ ] GitHub repository name and visibility (public recommended for the portfolio)
-- [ ] LLM API provider (Anthropic, OpenAI or Azure OpenAI) and a monthly budget cap — or “Ollama only until step 8f”
-- [ ] VLM choice for defect descriptions: API model (paid) or local (slow on CPU)
+- [ ] CPU model and number of cores/threads
+- [ ] RAM (GB)
+- [ ] GPU: NVIDIA model + VRAM, other GPU, or none
+- [ ] Free disk space, and on which drive
+- [ ] Windows edition and version (10 or 11, build if known)
+- [ ] Installed already? WSL2 + Ubuntu version, Docker Desktop, Git, VS Code
+- [ ] Repository name and visibility (default: public `industrial-quality-ai` under your GitHub account, unless you choose otherwise)
 
-**Environment setup (you, once)**
+**B. Environment setup (you, once — I will give exact commands after A)**
 
-- [ ] WSL2 with Ubuntu LTS installed
-- [ ] Docker Desktop with WSL2 backend running; `docker run hello-world` works inside WSL
+- [ ] WSL2 with Ubuntu LTS; `.wslconfig` with the limits I recommend for your RAM
+- [ ] Docker Desktop with WSL2 backend; `docker run hello-world` works inside WSL
 - [ ] Git configured inside WSL; SSH key added to GitHub
 - [ ] `uv` installed inside WSL
-- [ ] Ollama installed (needed from step 3)
-- [ ] VS Code with WSL + Python extensions (recommended)
+- [ ] Ollama installed inside WSL (needed from step 3)
 
-**Accounts and data access**
+**C. Decisions needed later (not blocking Step 0)**
 
-- [ ] MVTec registration; download MVTec AD (step 1) and 2–3 MVTec AD 2 categories (step 2)
-- [ ] VisA download (step 2)
-- [ ] NHTSA recalls + complaints flat files and AI4I 2020 (step 3)
-- [ ] Google Colab and/or Kaggle account for GPU work
-- [ ] Hugging Face account (model downloads now, release in step 9)
-- [ ] LLM API key stored only in `.env`, with spending limit set in the provider console
-- [ ] Optional: Langfuse Cloud account (only if you accept sending traces to a third party)
+- [ ] Before step 1: MVTec AD download + backbone weights (approval gate); VLM choice (API = paid, or local) — the feature stays disabled until decided
+- [ ] Before step 2: which MVTec AD 2 and VisA categories (I will propose based on per-category sizes)
+- [ ] Before step 3: LLM backend — Ollama only, or a paid API (provider + monthly budget cap); NHTSA scope (3–5 component groups)
+- [ ] Before step 6: euro cost assumptions (I will propose example values, labelled as assumptions)
+- [ ] Before any cloud GPU work: Colab and/or Kaggle account
+- [ ] Before step 9: Hugging Face account
+- [ ] Optional: Langfuse Cloud (only if you accept sending traces to a third party)
 
-**Decisions to confirm (my recommendation in brackets)**
+**D. Confirmed design defaults (change any time before the step that uses them)**
 
-- [ ] Vector store \[pgvector — one database fewer\]
-- [ ] UI framework \[Streamlit only\]
-- [ ] Experiment tracking \[MLflow local\]
-- [ ] Primary anomaly model \[PatchCore on CPU; EfficientAD on free GPU\]
-- [ ] MVTec AD 2 starting categories \[2–3, chosen after checking per-category sizes\]
-- [ ] Conformal targets \[P2: α = 2% false alarms, as in the spec; P1: 90% coverage\]
-- [ ] Euro cost assumptions for the decision layer \[I will propose example values, clearly labelled as assumptions, for your approval\]
-- [ ] NHTSA scope \[3–5 component groups\]
-- [ ] Cause taxonomy v0 \[drafted in step 0 from simulator fault types + AI4I failure types + NHTSA component groups, for your review\]
+- [ ] Independent uv projects + path dependency on `common` (§2.10)
+- [ ] pgvector · Streamlit only · MLflow local · PatchCore on CPU, EfficientAD on free GPU
+- [ ] Conformal targets: P2 α = 2% false alarms (spec); P1 90% coverage; (α, δ) variant reported alongside
+- [ ] Approval thresholds from §3.9 (all datasets, models > 200 MB or not allowlisted, all paid calls, all cloud GPU runs)
+- [ ] Cause taxonomy v0 drafted in Step 0 for your review
 
-**Acknowledgements**
+**E. Acknowledgements**
 
-- [ ] MVTec data is non-commercial and is never committed or re-hosted
+- [ ] MVTec data is non-commercial and is never committed, released or shared publicly
 - [ ] Generated and simulated data are always labelled as such
-- [ ] Results enter the README and CV only after they are measured
+- [ ] Results enter README and CV only after they are measured and traceable to a run ID
 
-**Step 0 starts when** the hardware information, the GitHub repository and the LLM/budget decision are in; everything else can be completed in parallel with steps 0–2.
+**Step 0 starts when list A is answered.** B can be done alongside the first Step 0 tasks; C and D are not blocking.

@@ -3,6 +3,10 @@
 Branch `step-5b` (from `step-4`), 2026-11-20. Blueprint Rev 2 §2.2 (`scientist` component),
 §2.5 P1-D, §5 Step 5 (gate). Step 5a (simulator) is done; this is the scientist half.
 
+> **Merged 2026-11-21.** The text meant for the shared docs is now in CHANGELOG, KNOWN_ISSUES,
+> TECHNICAL_DECISIONS (ADR-009), TESTING, EXPERIMENTS, ARCHITECTURE and IMPLEMENTATION_PLAN.
+> This file stays as the detailed record.
+
 Rules for this step (user): `nice -n 19`, changed-file tests only, no Docker, no push, no
 downloads, no paid APIs, no `uv.lock` changes; stop and ask if any of these is needed.
 
@@ -247,18 +251,6 @@ for a case replaces that case's rows. The Postgres round trip is in
 `tests/integration/test_diagnosis_persistence.py` (integration-marked, **not run yet**:
 no Docker tonight).
 
-### Proposed ADR-008 (number may need renumbering at merge)
+### ADR
 
-**ADR-008 — Scientist agent: one pre-registered template per cause, BH per case,
-evidence only (step 5b).**
-1. One template per taxonomy cause, fixed SQL on the locked DuckDB store, pre-registered
-   one-sided test; Bonferroni over targets inside a template; BH (q = 0.05) over the
-   hypotheses of one case.
-2. Verdicts supported / rejected / inconclusive; "rejected" means no evidence, not absence.
-3. The scientist does not change probabilities or conformal sets (calibration stays valid);
-   it adds evidence and a data-supported cause.
-4. Evidence figures are plotly-compatible JSON; no plotting dependency in diagnosis.
-5. Evidence is stored in `diagnosis.hypothesis_tests` (migration 0004) and summarised in
-   the 8D report content.
-6. Cases flagged novel test every cause and pick by smallest adjusted p (post-evaluation
-   change; unmeasured until a new family is evaluated).
+Moved to `docs/TECHNICAL_DECISIONS.md` as **ADR-009** at the merge into `main` (2026-11-21); it was proposed here as ADR-008.

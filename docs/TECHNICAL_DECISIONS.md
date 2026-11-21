@@ -133,3 +133,235 @@ under different module names").
 **Consequences.** `make check` runs exactly what the first CI job runs. Integration tests are
 excluded from plain `pytest` (`-m 'not integration'` in addopts) and run with
 `make test-integration`. Workflows have not run on GitHub yet (nothing pushed).
+
+---
+
+## ADR-004 — Step 1 groundwork: blueprint Rev 2, asset gate, action pins, vision profile (step 1a)
+
+**Status:** accepted · 2026-11-19
+
+**Context.** The blueprint was replaced by Revision 2. Its top note says repository ADRs win where
+they differ (one uv workspace stays; ADR-001/002). Rev 2 §3.9 adds enforced approval gates for
+downloads; GitHub warned that `actions/checkout@v4` and `astral-sh/setup-uv@v6` run on the
+deprecated Node.js 20; step 1 adds a dashboard and heavier vision inference, which makes the
+"both APIs or nothing" `apps` profile wasteful on a 10 GB WSL VM (KNOWN_ISSUES #8).
+
+**Decisions.**
+
+1. **Asset allowlist** `configs/assets.yaml` (source, licence, size, SHA-256, pinned Hugging Face
+   commit, target path, approval date) + `iqs_common.assets`. `scripts/fetch_models.py` and
+   `scripts/download_dataset.py` refuse to run without `--approve` and verify the checksum before
+   a file is used. Services and training code only resolve local paths and raise
+   `AssetMissingError` (with the fetch command) — they never download. MVTec needs a web form, so
+   its archive is downloaded by hand and imported (copy → verify → safe extract with the tar
+   `data` filter). Approvals are logged in `docs/APPROVALS.md`.
+2. **Backbone weights loaded from local safetensors** (`timm.create_model(pretrained=False)` +
+   `load_state_dict`), so neither timm nor anomalib can reach the Hugging Face hub at runtime.
+   PatchCore uses `wide_resnet50_2.tv_in1k` (torchvision V1, as in the PatchCore paper), not
+   anomalib's default `racm_in1k`.
+3. **GitHub Actions pinned by commit SHA**, on Node.js 24: `actions/checkout` v7.0.1
+   (`3d3c42e5…`), `astral-sh/setup-uv` v10.3.3 (`68559e99…`). SHAs verified with `git ls-remote`
+   against the release tags; the inputs we use (`version`, `enable-cache`,
+   `cache-dependency-glob`) exist in the pinned `action.yml`. Breaking changes between the old
+   and new majors affect only `pull_request_target` / `workflow_run` and `prune-cache`, which we
+   do not use. Workflows are checked locally with actionlint 1.7.12.
+4. **Compose profile `vision`** = Postgres + vision API + dashboard (no Neo4j, no diagnosis).
+   `core` and `apps` keep their meaning; the dashboard is also in `apps`. Supersedes the "core
+   and apps only" part of ADR-002.
+
+**Consequences.** Nothing large enters the machine without an approval record. A missing weight
+file fails fast with the exact fetch command. Updating an action means a new SHA lookup.
+
+---
+
+## ADR-005 — Step 1 detector design: splits, PatchCore on CPU, thresholds, serving (steps 1b–1g)
+
+**Status:** accepted · 2026-11-19
+
+**Context.** Step 1 needs a real detector on MVTec AD, compared with published numbers, served
+through the API and dashboard, on a 10 GB WSL VM without a GPU. Rev 2 §2.8 requires that
+calibration images are never seen by the detector; Rev 2 §3.9 forbids implicit downloads.
+
+**Decisions.**
+
+1. **Own MVTec adapter, no anomalib datamodule** for local work: anomalib's `MVTecAD.prepare_data`
+   downloads the archive when the folder is missing. The adapter raises `DatasetNotFoundError`.
+2. **One split manifest per category** (`eval_sets/vision/mvtec_ad/*.json`, SHA-256 per image,
+   seed 42): `fit` / `calib` (20 % of train/good, good only) / `test` (official), plus a
+   stratified `sup_train/sup_val/sup_test` (50/20/30) re-split of the test set for the
+   supervised baseline. Leakage is checked by path **and content hash** on load. Generated
+   manifests are excluded from detect-secrets (they hold only checksums).
+3. **Two training protocols.** `official` fits on fit + calib (= the full MVTec train set) and is
+   the one compared with published numbers. `deploy` fits on `fit` only and is the one served;
+   its provisional threshold is the largest calibration score, labelled in every response as
+   *not* a conformal guarantee (that is step 2).
+4. **PatchCore = anomalib 2.7 torch components + own fit loop**: preallocated memory bank
+   (anomalib concatenates a list, which doubles peak RAM), and greedy k-center with a
+   squared-distance update (one mat-vec per step instead of an N×d temporary): same selections
+   as anomalib's `KCenterGreedy` under the same seeds (tested), ~2.8× faster per iteration
+   (104 → 37 ms at N = 214k, d = 303 on the Ryzen 7 5700U). bf16 distances were 5× faster
+   but rejected: the expanded distance formula loses too much precision. Settings = anomalib
+   defaults (WRN-50-2 layers 2+3, 256 px, no centre crop, 10 % coreset, k = 9).
+5. **One category per process** (`scripts/run_patchcore_queue.sh`) so RAM returns to the OS
+   between categories; training runs with the compose stack stopped.
+6. **Serving**: `ModelRegistry` discovers `models/patchcore/<cat>/<protocol>/`, loads on demand
+   (LRU of 2), weights resolved through the asset allowlist; the vision container mounts
+   `./models` read-only and gets 2 GB. Heatmaps use an absolute scale (0.5 = threshold) so a
+   normal part stays cool. The VLM description is an interface with provider `none`: the field
+   is absent, never faked.
+7. **EfficientAD trains only in the cloud** (`finetune/efficientad`, same script + config) and
+   returns as a **run bundle** (zip: `bundle.json` + `model.pt`, checksums, git commit,
+   manifest fingerprint). The importer rejects tampering, extra members, a different manifest
+   or an unknown commit, re-evaluates on CPU and requires |Δ image AUROC| ≤ 0.005.
+
+**Consequences.** Published-number comparisons use `official` models; the API serves `deploy`
+models, so the two tables differ slightly (20 % fewer fit images). Training all 15 categories
+twice takes most of a day on this CPU; coreset selection dominates (quadratic in train size).
+
+---
+
+## ADR-006 — Diagnosis minimum version: simulator symptom profiles, retrieval votes, novelty threshold (step 3a–3b)
+
+**Status:** accepted · 2026-11-20 (proposed in `docs/notes/step-3.md`; numbered and adopted at the merge into `main`, 2026-11-21)
+
+**Context.** Blueprint §5 Step 3 asks for a working agent with retrieval, novelty and
+top-3 causes, measured on a test split. The real-data path (NHTSA, AI4I, LLM) needs
+downloads, hand labels and an LLM; the simulator (step 5a) already gives labelled cases
+with exact ground truth. Simulator case text is templated and does not say where
+rejects concentrate, so text alone cannot separate the 10 causes.
+
+**Decisions.**
+
+1. **Minimum version without an LLM** (approved 2026-11-20). Probabilities come only
+   from retrieval votes (§2.3 rule). The LLM arrives in 3e via Ollama only; no paid API
+   before step 8 (user rule).
+2. **Symptom extraction may compute descriptive concentration and shift statistics**
+   (approved, answers 5a open question 2): effect sizes only, no p-values or verdicts;
+   statistical tests with BH correction stay in the scientist agent (5b).
+3. **Symptom codes are observations in lower snake case**, separate from cause codes
+   (answers 5a open question 1). Rules live in `configs/diagnosis/symptoms.yaml`.
+4. **Features are machine-agnostic** (max/min over machines, batches, shifts); the
+   location is evidence (`where`). A tool-wear case on M1 and on M3 then look alike.
+5. **Leak guards.** Only `iqs_diagnosis.evaluation` may name the ground-truth directory
+   or be imported for labels (AST test); profiles and labels are separate files joined
+   by `case_id`; run directories are opaque hashes; the process store is the locked
+   DuckDB allow-list from 5a.
+6. **Splits = separate scenario families** with their own names and seeds (train =
+   case library, dev = tuning, test = reported once in 3d). Two causes
+   (`MACHINE.DRIVE_FAULT`, `PERSONNEL.PART_HANDLING_ERROR`) are left out of the
+   library to measure novelty; chosen before any results.
+7. **Generated data outside the repo** (`~/iqs-data/sim/<corpus>`, answers 5a open
+   question 3); only the manifest (family hashes, file hashes, counts, timings) and the
+   fitted ranker parameters are committed.
+8. **Dense embeddings and reranker deferred to 3f** (approved): for numeric simulator
+   profiles a standardised feature vector is the "dense" side of hybrid retrieval.
+
+**Consequences.**
+- Simulator results say nothing about real-world accuracy; they are reported separately
+  from NHTSA results (§6.3, §6.4).
+- The vocabulary thresholds were read off the same reference scenarios the signature
+  test uses; the test is a regression check, not evidence of accuracy.
+- Changing a feature or rule changes every profile; the corpus manifest records the
+  vocabulary hash, so stale profiles are detectable.
+
+---
+
+## ADR-007 — Conformal cause sets: split by case hash, frozen runs, LAC + APS (step 4)
+
+**Status:** accepted · 2026-11-20 (proposed in `docs/notes/step-4.md`; numbered and adopted at the merge into `main`, 2026-11-21)
+
+**Context.** §2.8 requires disjoint fit and calibration data, frozen calibration runs, an
+error instead of a silent threshold when n is too small, and honest reporting of
+marginal coverage and of new problems. The step-3 scorer had its smoothing on the grid
+edge and no errors on v1, so v2 (harder) was built first.
+
+**Decisions.**
+1. Own implementation (no MAPIE; user decision); cross-check against hand-computed sets.
+2. Scorer refit and calibration on two hash-defined halves of v2 dev; library = v2 train.
+3. Calibration runs are JSON artifacts with scorer parameters, case IDs and sorted scores;
+   the service loads the scorer from the run so served scores match calibration; runs are
+   mirrored into `diagnosis.calibration_runs` (one row per variant).
+4. Four variants per run (LAC, APS; marginal and (α, δ = 0.1)); the service chooses one.
+5. Non-randomised APS with a fixed tie order (cause code); LAC empty set = escalate.
+6. Calibration only on known-cause cases (closed label space); new problems are a stress test.
+7. One calibration run per data source (`source` field); real cases will get their own run.
+
+**Consequences.** Coverage claims are simulator-only until gate 1; ties make coverage
+conservative and the Beta law inapplicable; two-fault cases are under-covered by LAC.
+
+---
+
+## ADR-008 — Factory simulator: exact fault isolation, observed/ground-truth split (step 5a)
+
+**Status:** accepted · 2026-11-19 (proposed in `docs/notes/step-5a.md`; numbered and adopted at the merge into `main`, 2026-11-21)
+
+**Context.** Blueprint §2.2/§2.4/§5 Step 5: a SimPy line with injectable faults whose ground
+truth is stored where the agent cannot read it; determinism per seed (identical Parquet
+hashes); each fault must change only its intended signals. The taxonomy (v0.1.0) has 10 leaf
+causes, each with a planned `simulator_fault` name. The scientist agent (5b) needs data in
+which every cause leaves a distinguishable, *observable* trace.
+
+**Decisions.**
+
+1. **One fault type per taxonomy leaf, same names.** `FaultType` values equal the
+   `simulator_fault` names; a test enforces the equality, and ground truth stores the cause
+   code looked up from `causes.yaml` at export time (no second copy of the mapping).
+2. **Exact isolation instead of statistical checks.** Named random streams with fixed draw
+   counts, and timing/routing independent of faults. A fault run and its fault-free twin line
+   up row by row; the test asserts the changed columns equal the fault's declared signal set.
+3. **Line layout with one parallel station** (S2: M2A ‖ M2B), so machine-level causes
+   (fixture) are distinguishable from line-level ones through `station_path`.
+4. **Observable references for measurement faults**: periodic master-part gauge checks in
+   `station_events`; batch certificates show nominal hardness while the true hardness is
+   ground truth only.
+5. **Separate directories, not separate columns.** `observed/` and `ground_truth/` are
+   siblings; schemas of `observed/` are fixed; no scenario name, seed or description in
+   observed files. The agent's DuckDB connection should use
+   `allowed_directories=[<run>/observed/]`, `enable_external_access=false`,
+   `lock_configuration=true` (set in that order; verified by a test).
+6. **Case generator reads only `observed/`** and reports what monitoring would see
+   (alarm time, reject rates, reason mix), not where rejects concentrate.
+7. **Extra observable table `machines`** (master data: nominal setpoints, validated window,
+   tool life, wear limit) and an observable `run.json` (spec limits, table hashes). The
+   blueprint lists five tables; the agent needs the validated window and tolerances to judge
+   "wrong parameters" and "out of spec".
+8. **CLI logic in the package** (`iqs_sim.cli`, typed and tested); `scripts/simulate.py`
+   is a thin wrapper (scripts/ is outside the mypy file list).
+
+**Consequences.**
+- Changing a random-draw order or count changes every downstream number for that seed;
+  reference results must be regenerated (the determinism test catches accidental changes
+  only within one run, not across commits — `docs/notes/step-5a.md`, open question 4).
+- The quality model is a modelling choice; it is documented in this note and in
+  `sensors.py` and must be reported as such.
+- Evaluation families: `simulate.py family` writes a manifest with `family_sha256`, which
+  the 5b gate needs to commit before the first evaluation run.
+
+---
+
+## ADR-009 — Scientist agent: one pre-registered template per cause, BH per case, evidence only (step 5b)
+
+**Status:** accepted · 2026-11-20 (proposed as ADR-008 in `docs/notes/step-5b.md`; numbered and adopted at the merge into `main`, 2026-11-21)
+
+**Context.** Blueprint §2.2 (`scientist`), §2.5 P1-D and §5 Step 5: test the agent's candidate
+causes against the simulator's process data with valid error control, without voiding the
+step-4 calibration (ADR-007). Store: the locked DuckDB allow-list over `observed/` (ADR-008).
+
+**Decisions.**
+
+1. One template per taxonomy cause, fixed SQL on the locked DuckDB store, pre-registered
+   one-sided test; Bonferroni over targets inside a template; BH (q = 0.05) over the
+   hypotheses of one case.
+2. Verdicts supported / rejected / inconclusive; "rejected" means no evidence, not absence.
+3. The scientist does not change probabilities or conformal sets (calibration stays valid);
+   it adds evidence and a data-supported cause.
+4. Evidence figures are plotly-compatible JSON; no plotting dependency in diagnosis.
+5. Evidence is stored in `diagnosis.hypothesis_tests` (migration 0004) and summarised in
+   the 8D report content.
+6. Cases flagged novel test every cause and pick by smallest adjusted p (post-evaluation
+   change; unmeasured until a new family is evaluated).
+
+**Consequences.** "Supported" means "the data show this pattern", not "this is the cause":
+faults have physical side effects, so wrong causes are supported in 14 % of tests on
+`sci_eval_v1` (`docs/notes/step-5b.md`). The null check is vacuous for four templates
+(KNOWN_ISSUES #23). Decision 6 is unmeasured until a new family is evaluated.
