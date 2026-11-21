@@ -25,6 +25,8 @@ versions follow the roadmap tags (`v0.1-step0`, `v0.1-step1`, ...).
 
 ### Fixed
 - Smoke test no longer echoes the API key.
+- `docker` workflow: free runner disk space (unused toolchains, `docker system prune`) before
+  the build and prune the build cache after it; the PR run had failed with "no space left on device".
 
 ## [v0.1-step0] — step 0 (foundation)
 
