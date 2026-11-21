@@ -6,8 +6,12 @@ Images stay out of git; the manifest pins exactly which files every run used.
 Primary split (`split`) — every image has exactly one:
     fit    train/good images used to fit the detector (PatchCore memory bank)
     calib  held-out train/good images (good only), never seen by the detector; used for
-           the provisional threshold now and the conformal threshold in step 2
-    test   the official MVTec test set (good + defects)
+           the conformal threshold. Datasets with their own good-only validation folder
+           (MVTec AD 2) add all of it here too, marked `source = "validation"`.
+    test   the official test set (good + defects); for MVTec AD 2 the "regular" lighting
+           condition of test_public only
+    shift  test images taken under a changed condition (MVTec AD 2 lighting variants), kept
+           out of `test` and used only by the shift experiment; `condition` names it
 
 Supervised split (`sup_split`) — only for official test images; the test set is the
 only labelled defect data, so the supervised baseline re-splits it, stratified by
@@ -34,7 +38,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from iqs_common.assets import sha256_file
 from iqs_vision.data.mvtec import GOOD, Sample
 
-PrimarySplit = Literal["fit", "calib", "test"]
+PrimarySplit = Literal["fit", "calib", "test", "shift"]
 SupSplit = Literal["sup_train", "sup_val", "sup_test"]
 Protocol = Literal["official", "deploy"]
 MANIFEST_VERSION = 1
@@ -54,6 +58,10 @@ class ManifestEntry(BaseModel):
     label: int = Field(ge=0, le=1)
     defect_type: str
     mask: str | None = None
+    # Optional fields: omitted from the JSON when None, so manifests of datasets that do not
+    # use them (MVTec AD) keep their exact bytes and fingerprints.
+    source: Literal["validation"] | None = None
+    condition: str | None = None
 
 
 class SplitManifest(BaseModel):
@@ -83,15 +91,27 @@ class SplitManifest(BaseModel):
         ]
 
     def fit_entries(self, protocol: Protocol) -> list[ManifestEntry]:
-        splits = ("fit", "calib") if protocol == "official" else ("fit",)
-        return [e for e in self.entries if e.split in splits]
+        """official = the dataset's whole train set (fit + held-out calib, never a separate
+        validation folder); deploy = fit only."""
+        if protocol == "deploy":
+            return [e for e in self.entries if e.split == "fit"]
+        return [
+            e
+            for e in self.entries
+            if e.split == "fit" or (e.split == "calib" and e.source != "validation")
+        ]
 
     def fingerprint(self) -> str:
         """SHA-256 of the canonical JSON; logged with every run."""
         return hashlib.sha256(self.to_json().encode()).hexdigest()
 
     def to_json(self) -> str:
-        return json.dumps(self.model_dump(mode="json"), indent=1, sort_keys=True) + "\n"
+        data = self.model_dump(mode="json")
+        for e in data["entries"]:
+            for key in _OPTIONAL_ENTRY_KEYS:
+                if e[key] is None:
+                    del e[key]
+        return json.dumps(data, indent=1, sort_keys=True) + "\n"
 
     def save(self, path: Path) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -100,6 +120,9 @@ class SplitManifest(BaseModel):
     @classmethod
     def load(cls, path: Path) -> SplitManifest:
         return cls.model_validate_json(path.read_text(encoding="utf-8"))
+
+
+_OPTIONAL_ENTRY_KEYS = ("source", "condition")
 
 
 def validate_entries(entries: Iterable[ManifestEntry]) -> None:
@@ -120,6 +143,12 @@ def validate_entries(entries: Iterable[ManifestEntry]) -> None:
             raise ValueError(f"{e.path}: defect image without mask")
         if e.split in ("fit", "calib") and e.label != 0:
             raise ValueError(f"{e.path}: {e.split} must contain good images only")
+        if e.source == "validation" and e.split != "calib":
+            raise ValueError(f"{e.path}: validation-folder images belong to calib only")
+        if e.split == "shift" and e.condition in (None, "regular"):
+            raise ValueError(f"{e.path}: shift images need a non-regular condition")
+        if e.split == "test" and e.condition not in (None, "regular"):
+            raise ValueError(f"{e.path}: condition {e.condition!r} belongs to the shift split")
         if (e.sup_split is not None) != (e.split == "test"):
             raise ValueError(f"{e.path}: sup_split is only (and always) set for test images")
     for digest, splits in split_by_hash.items():
@@ -168,10 +197,17 @@ def build_manifest(
     for i, s in enumerate(train):
         split: PrimarySplit = "calib" if i in calib_idx else "fit"
         entries.append(_entry(s, root, split, None))
+    for s in ordered:
+        if s.source_split == "validation":
+            if s.label != 0:
+                raise ValueError(f"{s.path}: validation images must be good")
+            entries.append(_entry(s, root, "calib", None, source="validation"))
+        elif s.source_split == "test" and s.condition not in (None, "regular"):
+            entries.append(_entry(s, root, "shift", None))
 
     by_type: dict[str, list[Sample]] = defaultdict(list)
     for s in ordered:
-        if s.source_split == "test":
+        if s.source_split == "test" and s.condition in (None, "regular"):
             by_type[s.defect_type].append(s)
     names: tuple[SupSplit, SupSplit, SupSplit] = ("sup_train", "sup_val", "sup_test")
     for defect_type in sorted(by_type):
@@ -195,7 +231,14 @@ def build_manifest(
     )
 
 
-def _entry(s: Sample, root: Path, split: PrimarySplit, sup: SupSplit | None) -> ManifestEntry:
+def _entry(
+    s: Sample,
+    root: Path,
+    split: PrimarySplit,
+    sup: SupSplit | None,
+    *,
+    source: Literal["validation"] | None = None,
+) -> ManifestEntry:
     return ManifestEntry(
         path=s.path,
         sha256=sha256_file(root / s.path),
@@ -204,6 +247,8 @@ def _entry(s: Sample, root: Path, split: PrimarySplit, sup: SupSplit | None) -> 
         label=s.label,
         defect_type=s.defect_type,
         mask=s.mask_path,
+        source=source,
+        condition=s.condition,
     )
 
 

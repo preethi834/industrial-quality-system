@@ -16,6 +16,39 @@ datasets:
     licence: CC BY-NC-SA 4.0 (non-commercial; never commit or re-host)
     target: data/raw/mvtec_ad
     approved: "2026-11-19"
+  visa:
+    title: VisA (Visual Anomaly), 12 categories; only cashew + pipe_fryum are extracted (--only)
+    source: https://amazon-visual-anomaly.s3.us-west-2.amazonaws.com/VisA_20220922.tar
+    # Downloaded with curl into data/raw/archives/, then imported with:
+    # scripts/download_dataset.py visa --archive data/raw/archives/VisA_20220922.tar \
+    #   --only cashew pipe_fryum split_csv --approve
+    filename: VisA_20220922.tar
+    size_bytes: 1929840640 # Content-Length of the S3 object (HEAD, 2026-11-20)
+    sha256: 2eb8690c803ab37de0324772964100169ec8ba1fa3f7e94291c9ca673f40f362 # pragma: allowlist secret (checksum from anomalib 2.7.0)
+    licence: CC BY 4.0
+    target: data/raw/visa
+    approved: "2026-11-21"
+  mvtec_ad2_vial:
+    title: MVTec AD 2, category vial (per-category archive)
+    source: https://www.mvtec.com/company/research/datasets/mvtec-ad-2/downloads
+    # Form-gated: downloaded by hand to Windows Downloads. MVTec publishes no per-category
+    # checksum; this SHA-256 was measured by us on the downloaded file (2026-11-21).
+    filename: vial.tar.gz
+    size_bytes: 812067164
+    sha256: 002d8671479ee935657cc72207f7be98bdf13e7051b2485588d7afe80e59d9ec # pragma: allowlist secret (measured checksum)
+    licence: CC BY-NC-SA 4.0 (non-commercial; never commit or re-host)
+    target: data/raw/mvtec_ad2
+    approved: "2026-11-21"
+  mvtec_ad2_fruit_jelly:
+    title: MVTec AD 2, category fruit_jelly (per-category archive)
+    source: https://www.mvtec.com/company/research/datasets/mvtec-ad-2/downloads
+    # Form-gated, downloaded by hand; SHA-256 measured by us (no published checksum).
+    filename: fruit_jelly.tar.gz
+    size_bytes: 1287968687
+    sha256: 6ae4f37969e3bae328a013366b223f52c8c5a16d5b6407de6a1d977a98488a2c # pragma: allowlist secret (measured checksum)
+    licence: CC BY-NC-SA 4.0 (non-commercial; never commit or re-host)
+    target: data/raw/mvtec_ad2
+    approved: "2026-11-21"
 
 models:
   wide_resnet50_2.tv_in1k:
