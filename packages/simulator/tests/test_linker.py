@@ -12,6 +12,7 @@ from pydantic import ValidationError
 
 from iqs_common.taxonomy import Taxonomy
 from iqs_sim.export import sha256_file
+from iqs_sim.faults import FaultType
 from iqs_sim.linker import (
     LINKAGE_DIR,
     MANIFEST_FILE,
@@ -29,7 +30,7 @@ CONFIG = REPO / "configs" / "simulator" / "image_linkage.yaml"
 
 def _pool(root: Path) -> Path:
     """Tiny pool in MVTec layout: 3 good, 2 per defect type (contents irrelevant)."""
-    for sub, n in [("test/good", 3), ("test/scratch", 2), ("test/spot", 2)]:
+    for sub, n in [("train/good", 3), ("test/scratch", 2), ("test/spot", 2)]:
         d = root / "toy" / sub
         d.mkdir(parents=True)
         for i in range(n):
@@ -51,6 +52,7 @@ def tool_wear_run(
 def test_repo_config_loads() -> None:
     cfg = LinkageConfig.load(CONFIG)
     assert set(cfg.categories) >= {"toy", "metal_nut"}
+    assert cfg.categories["toy"].good_dir == "train/good"  # see the config comment
 
 
 def test_dimension_only_fault_rejected() -> None:
@@ -58,8 +60,19 @@ def test_dimension_only_fault_rejected() -> None:
         CategoryLinkage(fault_to_defect={"fixture_offset": "scratch"})
 
 
+WITH_BACKGROUND = LinkageConfig(
+    categories={
+        "toy": CategoryLinkage(
+            good_dir="train/good",
+            fault_to_defect={FaultType.ACCELERATED_TOOL_WEAR: "scratch"},
+            background_defect="spot",
+        )
+    }
+)
+
+
 def test_manifest_follows_truth_and_is_deterministic(tool_wear_run: Path, tmp_path: Path) -> None:
-    cfg = LinkageConfig.load(CONFIG)
+    cfg = WITH_BACKGROUND
     pool = _pool(tmp_path / "pool")
     info = write_linkage(tool_wear_run, pool, "toy", cfg)
     m = read_manifest(tool_wear_run)
@@ -81,8 +94,8 @@ def test_manifest_follows_truth_and_is_deterministic(tool_wear_run: Path, tmp_pa
     assert merged.loc[merged["shown_as"] == "background", "defect_type"].eq("spot").all()
     # Images come from the matching folder.
     for row in m.itertuples():
-        folder = row.defect_type if isinstance(row.defect_type, str) else "good"
-        assert row.image.startswith(f"toy/test/{folder}/")
+        folder = f"test/{row.defect_type}" if isinstance(row.defect_type, str) else "train/good"
+        assert row.image.startswith(f"toy/{folder}/")
 
     # Same inputs -> byte-identical manifest; second write refused.
     first = sha256_file(tool_wear_run / LINKAGE_DIR / MANIFEST_FILE)
@@ -94,7 +107,7 @@ def test_manifest_follows_truth_and_is_deterministic(tool_wear_run: Path, tmp_pa
 
 
 def test_no_background_type_shows_good(tool_wear_run: Path, tmp_path: Path) -> None:
-    cfg = LinkageConfig(categories={"toy": CategoryLinkage(good_dir="test/good")})
+    cfg = LinkageConfig(categories={"toy": CategoryLinkage(good_dir="train/good")})
     run = tmp_path / "copy"
     for sub in ("observed", "ground_truth"):
         (run / sub).mkdir(parents=True)

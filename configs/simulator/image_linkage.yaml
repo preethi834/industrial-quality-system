@@ -11,13 +11,17 @@ version: 1
 seed: 0
 categories:
   # iqs_vision.testing.make_mvtec_like (stripe texture; "spot" and "scratch" defects).
-  # Used by the unit and e2e tests.
+  # Used by the unit and e2e tests. Two deliberate simplifications, so the plumbing test
+  # is not confounded by the detector (KNOWN_ISSUES #46):
+  # - good parts show the detector's own TRAINING goods (scores below the threshold by
+  #   construction), so false alarms on good parts cannot form a cluster;
+  # - background surface defects (no fault) are shown as good images.
   toy:
-    good_dir: test/good
+    good_dir: train/good
     defect_dir: test/{defect_type}
     fault_to_defect:
       accelerated_tool_wear: scratch
-    background_defect: spot
+    background_defect: null
   # MVTec AD metal_nut (defects: bent, color, flip, scratch). Used by scripts/demo_loop.py
   # with real images (read-only data/ symlink, owner approval).
   metal_nut:
