@@ -311,14 +311,19 @@
     }
   },
   "labelling": {
-    "status": "complete (50/50 rows), checker: 0 errors (2026-11-21)",
+    "status": "complete (50/50 rows), reviewed; checker: 0 errors (2026-11-21)",
     "labeller": "AI assistant (LLM), following eval_sets/diagnosis/LABELLING_GUIDE.md (NHTSA section); every labelled/outside_taxonomy row has a verbatim evidence quote",
-    "review": "reviewed by the project author (human); not independent expert labels",
-    "row_notes": "every row's notes column starts with 'AI label (LLM)'",
+    "review": "reviewed by the project author (human) on 2026-11-21, 3 corrections; not independent expert labels",
+    "row_notes": "every row's notes column starts with 'AI label (LLM), reviewed by author 2026-11-21'",
     "interpretation_decisions": [
       "assembly errors (missing, wrong, unseated or mis-routed parts) -> outside_taxonomy",
       "improper heat treatment -> METHOD.WRONG_PROCESS_PARAMETERS (medium)"
     ],
-    "caveat": "AI-assisted labels: report them as such with every result; do not evaluate a component based on the same LLM against them without stating the shared-model bias risk"
+    "caveat": "AI-assisted labels: report them as such with every result; do not evaluate a component based on the same LLM against them without stating the shared-model bias risk",
+    "review_corrections": [
+      "r0008: not_determinable -> labelled METHOD.WRONG_PROCESS_PARAMETERS (medium), 'improperly welded' rule",
+      "r0028: labelled METHOD.WRONG_PROCESS_PARAMETERS -> outside_taxonomy, assembly-error rule",
+      "r0033: outside_taxonomy -> not_determinable, no cause stated"
+    ]
   }
 }

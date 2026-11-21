@@ -1,6 +1,6 @@
 # Step 3f — real data (NHTSA recalls, AI4I 2020): preparation
 
-Status (2026-11-21, evening): **data downloaded, pilot labelled.** Recalls and AI4I are
+Status (2026-11-21, evening): **data downloaded, pilot labelled and reviewed.** Recalls and AI4I are
 downloaded and pinned by SHA-256 (`configs/assets.yaml`, `docs/APPROVALS.md`). The
 50-row pilot `eval_sets/diagnosis/nhtsa/recalls_pilot_v1.csv` is fully labelled and
 passes the checker. The sections below "Pilot result" are the preparation notes from the
@@ -89,8 +89,18 @@ entry and the UCI page. The nhtsa.gov datasets page refused automated access (HT
 
 **Provenance.** The pilot was labelled by an AI assistant (LLM) following
 `LABELLING_GUIDE.md`, with verbatim evidence quotes, and then reviewed by the project
-author. Every row's `notes` says "AI label (LLM)"; the manifest's `labelling` block
-records the same. The labels are AI-assisted with human review, not independent
+author on 2026-11-21. Every row's `notes` says "AI label (LLM), reviewed by author
+2026-11-21"; the manifest's `labelling` block records the same.
+
+**Review corrections (3 of 50 rows):**
+- r0008: `not_determinable` → `labelled` `METHOD.WRONG_PROCESS_PARAMETERS` (medium),
+  under the "improperly welded" rule (the weld seam "may not have been manufactured
+  properly").
+- r0028: `labelled` → `outside_taxonomy` under the assembly-error rule ("may have been
+  improperly assembled during manufacturing").
+- r0033: `outside_taxonomy` → `not_determinable` (no cause stated).
+
+The counts below are after review. The labels are AI-assisted with human review, not independent
 expert labels, and every result based on them must say so.
 
 **Interpretation decisions** (approved, now in the guide's mapping table):
@@ -110,17 +120,15 @@ are byte-for-byte equal to the committed sheet (checked separately).
 
 Intervals are Clopper–Pearson.
 - **Causes:** `METHOD.WRONG_PROCESS_PARAMETERS` 7 (4 under-torque, 2 heat treatment,
-  1 tightening implied by the remedy), `MATERIAL.BAD_BATCH` 1 (casting lot). No other
+  1 weld), `MATERIAL.BAD_BATCH` 1 (casting lot). No other
   cause appears.
-- **Most `outside_taxonomy` rows** are assembly omissions or errors (12), then design (6),
+- **Most `outside_taxonomy` rows** are assembly omissions or errors (13), then design (5),
   vehicle software (3), vehicle sensor calibration (1) and dealer repair (1).
 - **The term filter barely helps on this evidence.** The yields of 17.5 % and 10 % have
   overlapping intervals. The single control hit ("insufficiently tightened") is a word
   the filter lacks.
-- **Rows to look at again:**
-  - r0028 is labelled from the remedy ("inspect and tighten") while the defect text
-    says "improperly assembled". Under the new assembly-error rule it could be
-    `outside_taxonomy`.
+- r0028, flagged before review because its label came from the remedy, is now
+  `outside_taxonomy` (see the corrections above).
 
 ### What this means for the full sheet
 
@@ -141,11 +149,9 @@ Intervals are Clopper–Pearson.
 
   With 190 rows, a one-third test split holds about 10 labelled cases. With 375 rows it
   holds about 20, still for essentially one cause.
-- **Before building the full sheet** (needs a decision):
-  1. Exclude the pilot campaigns when sampling, so the pilot's labels are reused and no
-     campaign is labelled twice. This is a small code change.
-  2. Optionally add `tighten\w*` to the term list (`heat[- ]treat\w*` is already
-     there). This changes the sampling protocol, so it would be recorded in the new
-     manifest.
-  3. Label time per row is not measured: the pilot was AI-labelled. Your review time
-     is the relevant figure.
+- **Decided, planned later:** the full sheet will have about 190 rows including the
+  pilot. Pilot campaigns are excluded from the new sample, so no campaign is labelled
+  twice; this needs a small code change. `tighten\w*` is added to the term list. That
+  changes the sampling protocol and is recorded in the new manifest.
+- Label time per row is not measured, because the pilot was AI-labelled. The author's
+  review time is the relevant figure.
