@@ -20,6 +20,8 @@ from typing import Any
 
 from iqs_common.assets import load_assets, resolve_model_file
 from iqs_vision.calibration.calibrate import CALIBRATION_FILE, SCORES_FILE
+from iqs_vision.decision.calibrate_proba import PlattCalibrator
+from iqs_vision.decision.serving import DECISION_FILE, load_decision
 from iqs_vision.detectors.patchcore import PatchCoreDetector
 
 
@@ -37,6 +39,8 @@ class ModelInfo:
     threshold_alpha: float | None = None  # conformal level; None for the provisional threshold
     calibration: dict[str, Any] | None = field(default=None, compare=False, repr=False)
     calibration_source: str | None = None  # "file" | "api"
+    # step 6: score -> P(defect) for this model run (decision.json), None if absent
+    decision: PlattCalibrator | None = field(default=None, compare=False, repr=False)
 
 
 def _with_calibration(info: ModelInfo, cal: dict[str, Any], source: str) -> ModelInfo:
@@ -97,6 +101,7 @@ class ModelRegistry:
                 mlflow_run_id=run,
                 metrics={k: float(v) for k, v in m.items()},
                 path=model_file,
+                decision=load_decision(metrics_file.with_name(DECISION_FILE), run),
             )
             cal_file = metrics_file.with_name(CALIBRATION_FILE)
             if cal_file.is_file():

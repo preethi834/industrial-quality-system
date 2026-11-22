@@ -105,3 +105,24 @@ def test_model_evaluation_page_handles_unreachable_api(monkeypatch: pytest.Monke
     monkeypatch.setattr(dash_client, "get_client", boom)
     at = AppTest.from_file(str(PAGES / "pages/3_Model_Evaluation.py")).run(timeout=60)
     assert any("Cannot load models" in e.value for e in at.error)
+
+
+def test_cost_decision_view() -> None:
+    from iqs_dashboard.costs import cost_decision_view
+
+    cd = {
+        "policy": "guaranteed",
+        "action": "review",
+        "p_defect": 0.1,
+        "expected_cost": {"accept": 20.0, "reject": 4.5, "review": 1.59},
+        "currency": "EUR",
+        "cost_config_id": "example_v1",
+        "cost_config_sha256": "ab" * 32,
+        "defect_rate_assumed": 0.01,
+        "note": "costs are assumptions",
+    }
+    headline, rows, caption = cost_decision_view(cd)
+    assert "SEND TO HUMAN REVIEW" in headline and "1.00%" in headline
+    assert [r["chosen"] for r in rows] == ["", "", "✓"]
+    assert rows[2]["expected cost (EUR)"] == 1.59
+    assert "sha256:abababababab" in caption and "assumptions" in caption

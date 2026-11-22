@@ -7,13 +7,16 @@ import base64
 import streamlit as st
 
 from iqs_dashboard import client as api
+from iqs_dashboard.costs import cost_decision_view
 
 st.set_page_config(page_title="Defect inspection", layout="wide")
 st.title("Defect inspection")
 st.caption(
     "PatchCore anomaly detection. With a conformal calibration the threshold bounds the "
     "false-alarm rate on good parts (α per category); without one it is provisional — the "
-    "largest score among held-out good images. The note under each result says which."
+    "largest score among held-out good images. The note under each result says which. "
+    "When cost assumptions are configured, the part is also accepted, rejected or sent to "
+    "review by expected cost (assumed euros), never flagged at or below the threshold."
 )
 
 try:
@@ -60,6 +63,11 @@ if upload is not None:
     )
     if "description" in result:
         st.info(result["description"])
+    if "cost_decision" in result:
+        headline, rows, caption = cost_decision_view(result["cost_decision"])
+        st.subheader(headline)
+        st.dataframe(rows, hide_index=True)
+        st.caption(caption)
     st.caption(
         f"Inspection {result['inspection_id']} · {result['latency_ms']:.0f} ms · "
         f"{result['threshold_note']}"

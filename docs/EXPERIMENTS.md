@@ -250,6 +250,30 @@ full train set). MVTec AD 2 regular-condition AUROC rests on 5 good + 15 defecti
 | Result | Null FP rate ≤ 0.0707 for all 10 templates (max 0.053; vacuous for 4, KNOWN_ISSUES #23). All-causes mode: correct cause supported **0.957** [0.937, 0.970], wrong causes rejected 0.459, wrong supported 0.137. Agent top-1 0.787 overall (new problems 0); scientist pick correct 0.922 of 474 picks; templates alone 0.672. Reports `reports/diagnosis/scientist_null_power.json`, `scientist_sci_eval_v1.json` |
 | Notes | Simulator results, not real-plant results. Novel-case all-causes mode was added after this run and is unmeasured (#24). Full tables: `docs/notes/step-5b.md` |
 
+### EXP-6-01 — Cost-aware accept / reject / review vs fixed threshold (done, assumed costs)
+
+All euro figures are computed from **assumed** costs and an **assumed** 1 % defect rate, on public
+benchmark images — not plant savings. Each one is followed by the sha256 prefix of the cost file
+`configs/costs/example_costs.yaml` (full hash
+`e860bf58b48c1350492238bee5d4d25424500ffa7c6da6b8bf46dbe366b8114d`).
+
+| Field | Content |
+| --- | --- |
+| Date | 2026-11-22 |
+| Question | What does each decision policy cost per 10,000 parts, and does the cost-aware rule keep the step-2 false-alarm guarantee? |
+| Command | `nice -n 19 uv run python scripts/evaluate_costs.py --write-decision` (≈ 10 s, no inference) |
+| Data | saved scores of the 19 deploy models (`scores.json`) + committed manifests. Platt fit on sup_train ∪ sup_val, evaluated on sup_test, q̂ from step 2. 17 categories evaluated; MVTec AD 2 vial / fruit_jelly excluded (sup_test has 1 good image, KNOWN_ISSUES #35) |
+| Assumptions | false reject €5, escape €200, review €0.50, reviewer miss 5 %, reviewer false reject 2 %, defect rate π = 1 % (approved 2026-11-22) `e860bf58b48c` |
+| Seed(s) | bootstrap seed 0, B = 2,000 stratified resamples of sup_test (calibrator and q̂ fixed) |
+| Pooled, 17 categories | € per 10,000 parts [95 % CI]: guaranteed 3,405 [2,889, 3,957] `e860bf58b48c`; unconstrained 1,903 [1,528, 2,313] `e860bf58b48c`; fixed q̂ 7,547 [5,536, 9,752] `e860bf58b48c`; step-1 threshold 7,619 [5,609, 9,840] `e860bf58b48c`. Saving guaranteed vs fixed q̂ €4,143 [2,361, 6,057] `e860bf58b48c`. Review share 10.8 % |
+| Pooled, 14 categories with the guarantee claimed | guaranteed 3,395 [2,846, 4,021] `e860bf58b48c`; unconstrained 1,988 [1,585, 2,425] `e860bf58b48c`; fixed q̂ 4,338 [2,973, 6,124] `e860bf58b48c`; step-1 4,425 [3,048, 6,182] `e860bf58b48c`. Saving guaranteed vs fixed q̂ €943 [−139, 2,362] `e860bf58b48c` — **the interval includes 0**. Review share 3.5 % |
+| False alarms | guaranteed policy, all official good test images of the 14 categories: 14/495 = 0.028 [0.016, 0.047], mean α 0.035 (flagged set identical to fixed q̂ by construction). Unconstrained policy on sup_test goods: 23/171 = 0.135 (screw 0.58, pill 0.38) — **no guarantee** |
+| Where the saving comes from | the guaranteed policy beats fixed q̂ where many good parts score above q̂ and review is cheaper than scrapping them: leather, carpet, toothbrush (#17), grid, zipper, cashew. In the other 10 categories it costs €175–668 more `e860bf58b48c`: it sends defects with p < 0.295 to review (€10.50 expected with a 5 % reviewer miss `e860bf58b48c`) instead of rejecting them (€0 `e860bf58b48c`) (#33) |
+| Sensitivity | 9 × 5 grid of C_esc / C_fr ∈ [0.4, 4000] and C_rev / C_fr ∈ [0.001, 10] (`reports/figures/costs_sensitivity.svg`): pooled saving 0 % whenever C_rev ≥ C_fr (review never wins), up to 97 % at low escape cost; at C_esc / C_fr = 4,000 only 1 % because misses below q̂ dominate (#29) `e860bf58b48c`. Defect rate 0.1–5 %: guaranteed 937–13,379, fixed q̂ 5,475–16,756 `e860bf58b48c` (`costs_defect_rate.svg`). α 0.02 / 0.05 / 0.10 on the 9 categories with n ≥ 49: guaranteed 5,068 / 3,659 / 3,365, fixed q̂ 11,148 / 15,317 / 19,049 `e860bf58b48c` |
+| Probability calibration | sup_test Brier (fit prior) Platt 0.002–0.101, isotonic 0.000–0.106, mean 0.047 vs 0.045; isotonic lower in 8 of 17, intervals overlap. Platt kept (decision 5) |
+| Report | `reports/costs_vision.md`, figures `reports/figures/costs_{sensitivity,defect_rate}.svg` |
+| Notes | The served policy is the guaranteed one. Intervals cover test-sample noise only (#34). The cost-aware rule adds value mainly by replacing scrapping of good parts with cheaper review; it cannot recover defects scored below q̂ |
+
 ## Planned
 
 | ID | Step | Question | Status |
@@ -264,4 +288,4 @@ full train set). MVTec AD 2 regular-condition AUROC rests on 5 good + 15 defecti
 | EXP-3-02 | 3 | Diagnosis top-3 accuracy and LLM-as-judge agreement (Cohen's κ) with hand labels | simulator part done (above); NHTSA and LLM-as-judge planned |
 | EXP-4-01 | 4 | Empirical coverage and average size of conformal cause sets (LAC vs APS) | simulator done (above); real test split open |
 | EXP-5-01 | 5 | Root-cause accuracy on simulator scenarios with known injected faults | done (above) |
-| EXP-6-01 | 6 | Expected cost per 10,000 parts: cost-aware decisions vs fixed threshold, with sensitivity analysis | planned |
+| EXP-6-01 | 6 | Expected cost per 10,000 parts: cost-aware decisions vs fixed threshold, with sensitivity analysis | done (17 categories, assumed costs) |

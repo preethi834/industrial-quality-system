@@ -1,6 +1,11 @@
 # Step 6 — cost-aware decisions (P2 signature move B): plan
 
-Status: **plan only** (2026-11-20). No code yet. Blueprint §5 Step 6, §2.5 P2-C.
+Status: **done locally** (2026-11-22, branch `step-6`). Blueprint §5 Step 6, §2.5 P2-C.
+This plan was written on 2026-11-20, before step 2. What was built follows ADR-011, which
+supersedes this note where they differ: no score export (step 2's `scores.json` is used); the
+guaranteed (constrained) policy is the served one; the Platt fit uses sup_train ∪ sup_val only
+(not the calib images); figures are hand-written SVG (matplotlib is not a direct dependency).
+Results: EXPERIMENTS EXP-6-01.
 
 Goal: for every inspected part choose **accept / reject / human review** by minimising
 expected cost in euros, and report the expected cost per 10,000 parts against a fixed

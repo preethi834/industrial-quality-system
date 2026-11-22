@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="836" height="356" font-family="sans-serif" font-size="12">
+<rect width="100%" height="100%" fill="white"/>
+<text x="12" y="20" font-size="14">Guaranteed policy: saving vs fixed conformal threshold (review share below)</text>
+<rect x="150" y="240" width="72" height="44" fill="rgb(75,135,255)"/>
+<text x="186.0" y="258" text-anchor="middle">97%</text>
+<text x="186.0" y="274" text-anchor="middle" font-size="10" fill="#444">rev 11.2%</text>
+<rect x="150" y="194" width="72" height="44" fill="rgb(76,136,255)"/>
+<text x="186.0" y="212" text-anchor="middle">96%</text>
+<text x="186.0" y="228" text-anchor="middle" font-size="10" fill="#444">rev 11.2%</text>
+<rect x="150" y="148" width="72" height="44" fill="rgb(94,147,255)"/>
+<text x="186.0" y="166" text-anchor="middle">87%</text>
+<text x="186.0" y="182" text-anchor="middle" font-size="10" fill="#444">rev 11.1%</text>
+<rect x="150" y="102" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="186.0" y="120" text-anchor="middle">0%</text>
+<text x="186.0" y="136" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="150" y="56" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="186.0" y="74" text-anchor="middle">0%</text>
+<text x="186.0" y="90" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="224" y="240" width="72" height="44" fill="rgb(76,136,255)"/>
+<text x="260.0" y="258" text-anchor="middle">96%</text>
+<text x="260.0" y="274" text-anchor="middle" font-size="10" fill="#444">rev 11.2%</text>
+<rect x="224" y="194" width="72" height="44" fill="rgb(78,137,255)"/>
+<text x="260.0" y="212" text-anchor="middle">95%</text>
+<text x="260.0" y="228" text-anchor="middle" font-size="10" fill="#444">rev 11.1%</text>
+<rect x="224" y="148" width="72" height="44" fill="rgb(95,148,255)"/>
+<text x="260.0" y="166" text-anchor="middle">86%</text>
+<text x="260.0" y="182" text-anchor="middle" font-size="10" fill="#444">rev 11.1%</text>
+<rect x="224" y="102" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="260.0" y="120" text-anchor="middle">0%</text>
+<text x="260.0" y="136" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="224" y="56" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="260.0" y="74" text-anchor="middle">0%</text>
+<text x="260.0" y="90" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="298" y="240" width="72" height="44" fill="rgb(84,141,255)"/>
+<text x="334.0" y="258" text-anchor="middle">92%</text>
+<text x="334.0" y="274" text-anchor="middle" font-size="10" fill="#444">rev 11.1%</text>
+<rect x="298" y="194" width="72" height="44" fill="rgb(85,142,255)"/>
+<text x="334.0" y="212" text-anchor="middle">91%</text>
+<text x="334.0" y="228" text-anchor="middle" font-size="10" fill="#444">rev 11.1%</text>
+<rect x="298" y="148" width="72" height="44" fill="rgb(102,153,255)"/>
+<text x="334.0" y="166" text-anchor="middle">82%</text>
+<text x="334.0" y="182" text-anchor="middle" font-size="10" fill="#444">rev 11.0%</text>
+<rect x="298" y="102" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="334.0" y="120" text-anchor="middle">0%</text>
+<text x="334.0" y="136" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="298" y="56" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="334.0" y="74" text-anchor="middle">0%</text>
+<text x="334.0" y="90" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="372" y="240" width="72" height="44" fill="rgb(97,149,255)"/>
+<text x="408.0" y="258" text-anchor="middle">85%</text>
+<text x="408.0" y="274" text-anchor="middle" font-size="10" fill="#444">rev 11.0%</text>
+<rect x="372" y="194" width="72" height="44" fill="rgb(98,150,255)"/>
+<text x="408.0" y="212" text-anchor="middle">84%</text>
+<text x="408.0" y="228" text-anchor="middle" font-size="10" fill="#444">rev 11.0%</text>
+<rect x="372" y="148" width="72" height="44" fill="rgb(114,161,255)"/>
+<text x="408.0" y="166" text-anchor="middle">76%</text>
+<text x="408.0" y="182" text-anchor="middle" font-size="10" fill="#444">rev 11.0%</text>
+<rect x="372" y="102" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="408.0" y="120" text-anchor="middle">0%</text>
+<text x="408.0" y="136" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="372" y="56" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="408.0" y="74" text-anchor="middle">0%</text>
+<text x="408.0" y="90" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="446" y="240" width="72" height="44" fill="rgb(140,178,255)"/>
+<text x="482.0" y="258" text-anchor="middle">62%</text>
+<text x="482.0" y="274" text-anchor="middle" font-size="10" fill="#444">rev 10.8%</text>
+<rect x="446" y="194" width="72" height="44" fill="rgb(141,179,255)"/>
+<text x="482.0" y="212" text-anchor="middle">61%</text>
+<text x="482.0" y="228" text-anchor="middle" font-size="10" fill="#444">rev 10.8%</text>
+<rect x="446" y="148" width="72" height="44" fill="rgb(153,187,255)"/>
+<text x="482.0" y="166" text-anchor="middle">55%</text>
+<text x="482.0" y="182" text-anchor="middle" font-size="10" fill="#444">rev 10.8%</text>
+<rect x="446" y="102" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="482.0" y="120" text-anchor="middle">0%</text>
+<text x="482.0" y="136" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="446" y="56" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="482.0" y="74" text-anchor="middle">0%</text>
+<text x="482.0" y="90" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="520" y="240" width="72" height="44" fill="rgb(182,206,255)"/>
+<text x="556.0" y="258" text-anchor="middle">39%</text>
+<text x="556.0" y="274" text-anchor="middle" font-size="10" fill="#444">rev 10.7%</text>
+<rect x="520" y="194" width="72" height="44" fill="rgb(183,207,255)"/>
+<text x="556.0" y="212" text-anchor="middle">39%</text>
+<text x="556.0" y="228" text-anchor="middle" font-size="10" fill="#444">rev 10.7%</text>
+<rect x="520" y="148" width="72" height="44" fill="rgb(190,212,255)"/>
+<text x="556.0" y="166" text-anchor="middle">35%</text>
+<text x="556.0" y="182" text-anchor="middle" font-size="10" fill="#444">rev 10.7%</text>
+<rect x="520" y="102" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="556.0" y="120" text-anchor="middle">0%</text>
+<text x="556.0" y="136" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="520" y="56" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="556.0" y="74" text-anchor="middle">0%</text>
+<text x="556.0" y="90" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="594" y="240" width="72" height="44" fill="rgb(233,240,255)"/>
+<text x="630.0" y="258" text-anchor="middle">12%</text>
+<text x="630.0" y="274" text-anchor="middle" font-size="10" fill="#444">rev 10.0%</text>
+<rect x="594" y="194" width="72" height="44" fill="rgb(236,242,255)"/>
+<text x="630.0" y="212" text-anchor="middle">10%</text>
+<text x="630.0" y="228" text-anchor="middle" font-size="10" fill="#444">rev 9.0%</text>
+<rect x="594" y="148" width="72" height="44" fill="rgb(238,244,255)"/>
+<text x="630.0" y="166" text-anchor="middle">9%</text>
+<text x="630.0" y="182" text-anchor="middle" font-size="10" fill="#444">rev 9.0%</text>
+<rect x="594" y="102" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="630.0" y="120" text-anchor="middle">0%</text>
+<text x="630.0" y="136" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="594" y="56" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="630.0" y="74" text-anchor="middle">0%</text>
+<text x="630.0" y="90" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="668" y="240" width="72" height="44" fill="rgb(249,251,255)"/>
+<text x="704.0" y="258" text-anchor="middle">3%</text>
+<text x="704.0" y="274" text-anchor="middle" font-size="10" fill="#444">rev 8.5%</text>
+<rect x="668" y="194" width="72" height="44" fill="rgb(249,251,255)"/>
+<text x="704.0" y="212" text-anchor="middle">3%</text>
+<text x="704.0" y="228" text-anchor="middle" font-size="10" fill="#444">rev 8.5%</text>
+<rect x="668" y="148" width="72" height="44" fill="rgb(249,251,255)"/>
+<text x="704.0" y="166" text-anchor="middle">3%</text>
+<text x="704.0" y="182" text-anchor="middle" font-size="10" fill="#444">rev 8.5%</text>
+<rect x="668" y="102" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="704.0" y="120" text-anchor="middle">0%</text>
+<text x="704.0" y="136" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="668" y="56" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="704.0" y="74" text-anchor="middle">0%</text>
+<text x="704.0" y="90" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="742" y="240" width="72" height="44" fill="rgb(253,253,255)"/>
+<text x="778.0" y="258" text-anchor="middle">1%</text>
+<text x="778.0" y="274" text-anchor="middle" font-size="10" fill="#444">rev 7.0%</text>
+<rect x="742" y="194" width="72" height="44" fill="rgb(253,253,255)"/>
+<text x="778.0" y="212" text-anchor="middle">1%</text>
+<text x="778.0" y="228" text-anchor="middle" font-size="10" fill="#444">rev 7.0%</text>
+<rect x="742" y="148" width="72" height="44" fill="rgb(253,254,255)"/>
+<text x="778.0" y="166" text-anchor="middle">1%</text>
+<text x="778.0" y="182" text-anchor="middle" font-size="10" fill="#444">rev 7.0%</text>
+<rect x="742" y="102" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="778.0" y="120" text-anchor="middle">0%</text>
+<text x="778.0" y="136" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<rect x="742" y="56" width="72" height="44" fill="rgb(255,255,255)"/>
+<text x="778.0" y="74" text-anchor="middle">0%</text>
+<text x="778.0" y="90" text-anchor="middle" font-size="10" fill="#444">rev 0.0%</text>
+<text x="187.0" y="302" text-anchor="middle">0.4</text>
+<text x="261.0" y="302" text-anchor="middle">1</text>
+<text x="335.0" y="302" text-anchor="middle">4</text>
+<text x="409.0" y="302" text-anchor="middle">10</text>
+<text x="483.0" y="302" text-anchor="middle">40</text>
+<text x="557.0" y="302" text-anchor="middle">100</text>
+<text x="631.0" y="302" text-anchor="middle">400</text>
+<text x="705.0" y="302" text-anchor="middle">1000</text>
+<text x="779.0" y="302" text-anchor="middle">4000</text>
+<text x="142" y="267.0" text-anchor="end">0.001</text>
+<text x="142" y="221.0" text-anchor="end">0.01</text>
+<text x="142" y="175.0" text-anchor="end">0.1</text>
+<text x="142" y="129.0" text-anchor="end">1</text>
+<text x="142" y="83.0" text-anchor="end">10</text>
+<text x="483.0" y="326" text-anchor="middle">C_escape / C_false_reject</text>
+<text x="12" y="148" >C_review /</text>
+<text x="12" y="162">C_false_reject</text>
+<text x="12" y="346" font-size="10" fill="#444">Assumed costs, not measured. Costs file sha256:e860bf58b48c. Pooled over 17 categories.</text>
+</svg>
