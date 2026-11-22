@@ -10,7 +10,8 @@ In a factory this targets three costs: good parts scrapped because of false alar
 shipped to customers, and engineer hours spent on root-cause analysis. Every number below comes
 from a script and is logged in MLflow, and the limits of each result are written down next to it.
 
-> **Status:** steps 0–6 done and merged (tags `v0.1-step0` … `v0.1-step6`). Step 7, the
+> **Status:** steps 0–6 done and merged (tags `v0.1-step0`, `v0.1-step1`, `v0.1-step2`,
+> `v0.2-steps3-5`, `v0.1-step6`). Step 7, the
 > integrated quality loop, is in progress. All diagnosis results come from simulator data.
 
 ## Architecture
@@ -42,8 +43,8 @@ ADRs in [docs/TECHNICAL_DECISIONS.md](docs/TECHNICAL_DECISIONS.md).
 ## Key results
 
 Only measured numbers. Each row links to its entry in [EXPERIMENTS.md](docs/EXPERIMENTS.md),
-which lists the command, data manifest, seed and MLflow run IDs. The **Data** column says what a
-number rests on.
+which lists the command, data manifest, seed and MLflow run IDs; the `dx_corpus_v2` comparison is
+recorded in the step-3 notes. The **Data** column says what a number rests on.
 
 | Result | Number | Data | Source |
 | --- | --- | --- | --- |
@@ -54,7 +55,7 @@ number rests on.
 | Conformal false-alarm bound | validity check passes in **19/19** categories (100 resplits, mean FA ≤ α + 3 SE) | Benchmark images | [EXP-2-02](docs/EXPERIMENTS.md#exp-2-02--realised-false-alarm-rate-of-the-conformal-threshold-done) |
 | Lighting shift stress test | synthetic shifts push FA from ≤ 5 % to as high as 88 % (screw, cool tint) → recalibrate after camera or lighting changes | Benchmark images, synthetic shifts | [EXP-2-03](docs/EXPERIMENTS.md#exp-2-03--in-distribution-threshold-under-lighting-shift-done) |
 | Cost-aware accept / reject / review | €3,405 vs €7,547 per 10,000 parts against a fixed threshold (17 categories); realised FA 0.028 | Benchmark images + **assumed** costs and 1 % defect rate | [EXP-6-01](docs/EXPERIMENTS.md#exp-6-01--cost-aware-accept--reject--review-vs-fixed-threshold-done-assumed-costs) |
-| Root-cause top-1 accuracy | known causes **1.000**; novel causes detected 1.000; false novelty 0.061 | Simulator data | [EXP-3-02](docs/EXPERIMENTS.md#exp-3-02--diagnosis-agent-on-simulator-cases-dx_corpus_v1-test-split-done-simulator-only) |
+| Root-cause top-1 accuracy, known causes | harder corpus (`dx_corpus_v2`, dev split, 449 cases): hybrid retrieval **0.927** vs BM25 alone 0.898 vs feature vector alone 0.911. The easy corpus (`dx_corpus_v1`, test split) is solved by the feature vector alone (1.000) | Simulator data | [step-3 notes](docs/notes/step-3.md#dx_corpus_v2--harder-corpus-for-step-4), [EXP-3-02](docs/EXPERIMENTS.md#exp-3-02--diagnosis-agent-on-simulator-cases-dx_corpus_v1-test-split-done-simulator-only) |
 | Conformal cause sets, α = 0.1 | coverage APS **0.989** (avg. size 1.56), LAC 0.894 (size 0.96) | Simulator data | [EXP-4-01](docs/EXPERIMENTS.md#exp-4-01--conformal-cause-sets-on-dx_corpus_v2-done-simulator-only) |
 | Scientist hypothesis tests | null false-positive rate ≤ 0.053 over 1,000 fault-free runs; correct cause supported 0.957 | Simulator data | [EXP-5-01](docs/EXPERIMENTS.md#exp-5-01--scientist-agent-null-check-power-and-sci_eval_v1-done-simulator-only) |
 
