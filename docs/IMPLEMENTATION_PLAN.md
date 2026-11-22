@@ -116,12 +116,12 @@ Decisions 1–14 approved by the owner on 2026-11-22 (ADR-011). Euro values are 
 
 Step 6 gates (blueprint Rev 2 §5):
 
-- [x] (1) tests pass — 58 new tests + the touched API / dashboard tests (changed files only; full `make check` before the PR)
+- [x] (1) tests pass — 58 new tests + the touched API / dashboard tests ; full `make check` 2026-11-22: pre-commit clean, 574 passed, 20 deselected
 - [x] (2) probability-fit split disjoint from calib and sup_test — manifest test on all 19 committed manifests
 - [x] (3) every cost number in EXPERIMENTS.md followed by the cost-file hash (`e860bf58b48c`)
 - [x] recorded: cost per 10,000 for guaranteed / unconstrained / fixed threshold, review share, realised FA of the guaranteed policy (14/495 = 0.028), sensitivity over 45 cost ratios + defect rate + α
 - [ ] universal gate: CI green on `main`, tag `v0.1-step6` (needs push + PR, owner)
-- [ ] owner: `reports/costs_vision.json` and the secret-scan exclude (KNOWN_ISSUES #36)
+- [x] owner: `reports/costs_vision.json` committed, secret-scan exclude added (KNOWN_ISSUES #36); #33 kept as is (no per-category choice on the test set)
 
 ## Hand-off notes
 
@@ -133,8 +133,9 @@ Step 6 gates (blueprint Rev 2 §5):
 - **Results (assumed costs):** pooled guaranteed €3,405 vs fixed q̂ €7,547 per 10,000 parts over
   17 categories; €3,395 vs €4,338 over the 14 with the guarantee claimed (saving CI includes 0,
   #33). Realised FA of the guaranteed policy 0.028 (mean α 0.035).
-- **Open:** full `make check`; Docker check of the inspection route with `cost_decision`;
-  #36 (JSON report vs secret scan); push + PR + tag (owner).
+- **Owner decisions:** #36 JSON committed with a secret-scan exclude; #33 guaranteed policy kept
+  in every category. Full `make check` run before the push; branch pushed for the PR.
+- **Open:** Docker check of the inspection route with `cost_decision`; PR merge + tag (owner).
 - **Next:** step 7.
 
 

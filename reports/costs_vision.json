@@ -1,0 +1,4802 @@
+{
+ "categories": [
+  {
+   "alpha": 0.05,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.002938781790522475,
+     "brier_ci95": [
+      0.0,
+      0.008816345371567424
+     ],
+     "ece": 0.010842106419921315,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0,
+       "n": 6,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.7,
+       "mean_p": 0.7289473395019671,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 1.0,
+       "n": 18,
+       "observed": 1.0
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.012468874590180397,
+     "brier_ci95": [
+      0.0019532838147861362,
+      0.029686380913087562
+     ],
+     "ece": 0.05753729055387648,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.07537546351357279,
+       "n": 3,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.15123060722256318,
+       "n": 3,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.5,
+       "mean_p": 0.5448499370766351,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.8,
+       "mean_p": 0.8953251329905936,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.988306522252604,
+       "n": 17,
+       "observed": 1.0
+      }
+     ]
+    }
+   },
+   "category": "bottle",
+   "dataset": "mvtec_ad",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.0,
+      0.1684334709830853
+     ],
+     "flagged": 0,
+     "n_good": 20,
+     "rate": 0.0
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.0,
+      0.45925812643990044
+     ],
+     "flagged": 0,
+     "n_good": 6,
+     "rate": 0.0
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.0,
+      0.45925812643990044
+     ],
+     "flagged": 0,
+     "n_good": 6,
+     "rate": 0.0
+    }
+   },
+   "guarantee_claimed": true,
+   "n": {
+    "calib": 42,
+    "fit_defect": 44,
+    "fit_good": 14,
+    "test_defect": 19,
+    "test_good": 6
+   },
+   "platt": {
+    "a": 3.1882300980664824,
+    "b": 2.9250472488978008,
+    "mean": 2.529520610283161,
+    "method": "platt",
+    "n_defect": 44,
+    "n_good": 14,
+    "pi_fit": 0.7586206896551724,
+    "std": 0.8075382410159707
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 0.0,
+     "cost_per_10k_ci95": [
+      0.0,
+      0.0
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 1.0,
+      "review": 0.0
+     },
+     "flag_share": 0.01,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.01,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 0.0,
+     "cost_per_10k_ci95": [
+      0.0,
+      0.0
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 1.0,
+      "review": 0.0
+     },
+     "flag_share": 0.01,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.01,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 552.6315789473684,
+     "cost_per_10k_ci95": [
+      331.5789473684211,
+      773.6842105263157
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 0.47368421052631576,
+      "review": 0.5263157894736842
+     },
+     "flag_share": 0.009999999999999998,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.004736842105263157,
+     "review_share": 0.005263157894736842
+    },
+    "unconstrained": {
+     "cost_per_10k": 552.6315789473684,
+     "cost_per_10k_ci95": [
+      331.5789473684211,
+      773.6842105263157
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 0.47368421052631576,
+      "review": 0.5263157894736842
+     },
+     "flag_share": 0.009999999999999998,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.004736842105263157,
+     "review_share": 0.005263157894736842
+    }
+   },
+   "provisional_threshold": 1.4713547229766846,
+   "q_hat": 1.467175006866455,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      -773.6842105263157,
+      -331.5789473684211
+     ],
+     "vs_fixed_conformal": -552.6315789473684
+    },
+    "unconstrained": {
+     "ci95": [
+      -773.6842105263157,
+      -331.5789473684211
+     ],
+     "vs_fixed_conformal": -552.6315789473684
+    }
+   }
+  },
+  {
+   "alpha": 0.05,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.04247428715371285,
+     "brier_ci95": [
+      0.002462637931748172,
+      0.09277532748678359
+     ],
+     "ece": 0.0417506281280752,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0,
+       "n": 14,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.125,
+       "n": 2,
+       "observed": 0.5
+      },
+      {
+       "bin_lo": 0.6,
+       "mean_p": 0.6893891328816921,
+       "n": 2,
+       "observed": 0.5
+      },
+      {
+       "bin_lo": 0.7,
+       "mean_p": 0.75,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 1.0,
+       "n": 26,
+       "observed": 1.0
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.034562608487219315,
+     "brier_ci95": [
+      0.011403962918410612,
+      0.06469138920434417
+     ],
+     "ece": 0.0622986746731012,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.04810134602401105,
+       "n": 11,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.11942643417463665,
+       "n": 3,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.3,
+       "mean_p": 0.3247272528608982,
+       "n": 2,
+       "observed": 0.5
+      },
+      {
+       "bin_lo": 0.4,
+       "mean_p": 0.4474240123582931,
+       "n": 2,
+       "observed": 0.5
+      },
+      {
+       "bin_lo": 0.5,
+       "mean_p": 0.5704315781440928,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.8,
+       "mean_p": 0.8693060990650837,
+       "n": 6,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9947123100906843,
+       "n": 20,
+       "observed": 1.0
+      }
+     ]
+    }
+   },
+   "category": "cable",
+   "dataset": "mvtec_ad",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.0,
+      0.06162100890391983
+     ],
+     "flagged": 0,
+     "n_good": 58,
+     "rate": 0.0
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.0,
+      0.19506432296909318
+     ],
+     "flagged": 0,
+     "n_good": 17,
+     "rate": 0.0
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.014579316840302498,
+      0.36440916210125024
+     ],
+     "flagged": 2,
+     "n_good": 17,
+     "rate": 0.11764705882352941
+    }
+   },
+   "guarantee_claimed": true,
+   "n": {
+    "calib": 45,
+    "fit_defect": 64,
+    "fit_good": 41,
+    "test_defect": 28,
+    "test_good": 17
+   },
+   "platt": {
+    "a": 5.849750180596727,
+    "b": 3.324869781046798,
+    "mean": 2.524409518923078,
+    "method": "platt",
+    "n_defect": 64,
+    "n_good": 41,
+    "pi_fit": 0.6095238095238096,
+    "std": 0.5212691514506312
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 1428.5714285714287,
+     "cost_per_10k_ci95": [
+      0.0,
+      3571.4285714285716
+     ],
+     "defect": {
+      "accept": 0.07142857142857142,
+      "reject": 0.9285714285714286,
+      "review": 0.0
+     },
+     "flag_share": 0.009285714285714286,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.009285714285714286,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 1428.5714285714287,
+     "cost_per_10k_ci95": [
+      0.0,
+      3571.4285714285716
+     ],
+     "defect": {
+      "accept": 0.07142857142857142,
+      "reject": 0.9285714285714286,
+      "review": 0.0
+     },
+     "flag_share": 0.009285714285714286,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.009285714285714286,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 1766.0714285714284,
+     "cost_per_10k_ci95": [
+      300.0,
+      3909.8660714285666
+     ],
+     "defect": {
+      "accept": 0.07142857142857142,
+      "reject": 0.6071428571428571,
+      "review": 0.32142857142857145
+     },
+     "flag_share": 0.009285714285714286,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.006071428571428571,
+     "review_share": 0.0032142857142857147
+    },
+    "unconstrained": {
+     "cost_per_10k": 1111.3235294117646,
+     "cost_per_10k_ci95": [
+      337.5,
+      2197.058823529412
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 0.6071428571428571,
+      "review": 0.39285714285714285
+     },
+     "flag_share": 0.1264705882352941,
+     "good": {
+      "accept": 0.8823529411764706,
+      "reject": 0.0,
+      "review": 0.11764705882352941
+     },
+     "reject_share": 0.006071428571428571,
+     "review_share": 0.12039915966386555
+    }
+   },
+   "provisional_threshold": 2.3451061248779297,
+   "q_hat": 2.276531934738159,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      -524.9999999999999,
+      -150.0
+     ],
+     "vs_fixed_conformal": -337.4999999999998
+    },
+    "unconstrained": {
+     "ci95": [
+      -1445.6596638655462,
+      2697.016806722689
+     ],
+     "vs_fixed_conformal": 317.24789915966403
+    }
+   }
+  },
+  {
+   "alpha": 0.05,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.051934440742040455,
+     "brier_ci95": [
+      0.0031374670015576174,
+      0.12102932488965625
+     ],
+     "ece": 0.05819973622277999,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0,
+       "n": 7,
+       "observed": 0.14285714285714285
+      },
+      {
+       "bin_lo": 0.5,
+       "mean_p": 0.5247374564163514,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.8,
+       "mean_p": 0.8571428571428571,
+       "n": 5,
+       "observed": 0.8
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9789995326069161,
+       "n": 27,
+       "observed": 1.0
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.04012011134603387,
+     "brier_ci95": [
+      0.015051039556778082,
+      0.07150708229684309
+     ],
+     "ece": 0.10545140846198425,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0751067300435281,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.14668602477622825,
+       "n": 3,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.2,
+       "mean_p": 0.267265578507362,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.3,
+       "mean_p": 0.3342109619971447,
+       "n": 2,
+       "observed": 0.5
+      },
+      {
+       "bin_lo": 0.4,
+       "mean_p": 0.48126523862314635,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.5,
+       "mean_p": 0.5718124168120785,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.7,
+       "mean_p": 0.7553699815028722,
+       "n": 3,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.8,
+       "mean_p": 0.8633984104780904,
+       "n": 5,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9740607522476425,
+       "n": 23,
+       "observed": 1.0
+      }
+     ]
+    }
+   },
+   "category": "capsule",
+   "dataset": "mvtec_ad",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.027751507422793205,
+      0.3358891375371209
+     ],
+     "flagged": 3,
+     "n_good": 23,
+     "rate": 0.13043478260869565
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.0,
+      0.40961639722500337
+     ],
+     "flagged": 0,
+     "n_good": 7,
+     "rate": 0.0
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.0,
+      0.40961639722500337
+     ],
+     "flagged": 0,
+     "n_good": 7,
+     "rate": 0.0
+    }
+   },
+   "guarantee_claimed": true,
+   "n": {
+    "calib": 44,
+    "fit_defect": 76,
+    "fit_good": 16,
+    "test_defect": 33,
+    "test_good": 7
+   },
+   "platt": {
+    "a": 3.939950963521226,
+    "b": 3.9993727082325923,
+    "mean": 1.6745853657307832,
+    "method": "platt",
+    "n_defect": 76,
+    "n_good": 16,
+    "pi_fit": 0.8260869565217391,
+    "std": 0.5091826315998919
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 1212.1212121212122,
+     "cost_per_10k_ci95": [
+      0.0,
+      3030.3030303030305
+     ],
+     "defect": {
+      "accept": 0.06060606060606061,
+      "reject": 0.9393939393939394,
+      "review": 0.0
+     },
+     "flag_share": 0.009393939393939395,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.009393939393939395,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 2424.2424242424245,
+     "cost_per_10k_ci95": [
+      606.0606060606061,
+      4848.484848484849
+     ],
+     "defect": {
+      "accept": 0.12121212121212122,
+      "reject": 0.8787878787878788,
+      "review": 0.0
+     },
+     "flag_share": 0.008787878787878787,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.008787878787878787,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 1880.3030303030305,
+     "cost_per_10k_ci95": [
+      636.3636363636363,
+      3666.6666666666665
+     ],
+     "defect": {
+      "accept": 0.06060606060606061,
+      "reject": 0.30303030303030304,
+      "review": 0.6363636363636364
+     },
+     "flag_share": 0.009393939393939394,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.0030303030303030303,
+     "review_share": 0.006363636363636364
+    },
+    "unconstrained": {
+     "cost_per_10k": 1880.3030303030305,
+     "cost_per_10k_ci95": [
+      636.3636363636363,
+      3666.6666666666665
+     ],
+     "defect": {
+      "accept": 0.06060606060606061,
+      "reject": 0.30303030303030304,
+      "review": 0.6363636363636364
+     },
+     "flag_share": 0.009393939393939394,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.0030303030303030303,
+     "review_share": 0.006363636363636364
+    }
+   },
+   "provisional_threshold": 1.3320419788360596,
+   "q_hat": 1.2725815773010254,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      -827.2727272727274,
+      -477.27272727272725
+     ],
+     "vs_fixed_conformal": -668.1818181818182
+    },
+    "unconstrained": {
+     "ci95": [
+      -827.2727272727274,
+      -477.27272727272725
+     ],
+     "vs_fixed_conformal": -668.1818181818182
+    }
+   }
+  },
+  {
+   "alpha": 0.02,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.06031746031746032,
+     "brier_ci95": [
+      0.0,
+      0.146031746031746
+     ],
+     "ece": 0.06666666666666667,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0,
+       "n": 10,
+       "observed": 0.2
+      },
+      {
+       "bin_lo": 0.6,
+       "mean_p": 0.6666666666666666,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 1.0,
+       "n": 24,
+       "observed": 1.0
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.058187698017275115,
+     "brier_ci95": [
+      0.015523546077771238,
+      0.11544176151266597
+     ],
+     "ece": 0.0666732067485283,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.07126366840338938,
+       "n": 2,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.14293458429159842,
+       "n": 3,
+       "observed": 0.3333333333333333
+      },
+      {
+       "bin_lo": 0.2,
+       "mean_p": 0.2789862451881613,
+       "n": 4,
+       "observed": 0.25
+      },
+      {
+       "bin_lo": 0.3,
+       "mean_p": 0.31829174622440587,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.5,
+       "mean_p": 0.5640273665459655,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.7,
+       "mean_p": 0.7445730895040177,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.8,
+       "mean_p": 0.8542445018178334,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9841615053110331,
+       "n": 22,
+       "observed": 1.0
+      }
+     ]
+    }
+   },
+   "category": "carpet",
+   "dataset": "mvtec_ad",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.15877603788615388,
+      0.5235164067096185
+     ],
+     "flagged": 9,
+     "n_good": 28,
+     "rate": 0.32142857142857145
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.15701277048705797,
+      0.842987229512942
+     ],
+     "flagged": 4,
+     "n_good": 8,
+     "rate": 0.5
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.0,
+      0.3694166475528192
+     ],
+     "flagged": 0,
+     "n_good": 8,
+     "rate": 0.0
+    }
+   },
+   "guarantee_claimed": false,
+   "n": {
+    "calib": 56,
+    "fit_defect": 62,
+    "fit_good": 20,
+    "test_defect": 27,
+    "test_good": 8
+   },
+   "platt": {
+    "a": 3.6593987448029224,
+    "b": 3.2445467251826714,
+    "mean": 2.172976576700443,
+    "method": "platt",
+    "n_defect": 62,
+    "n_good": 20,
+    "pi_fit": 0.7560975609756098,
+    "std": 0.5452621507179037
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 25490.74074074074,
+     "cost_per_10k_ci95": [
+      6928.240740740741,
+      43331.01851851842
+     ],
+     "defect": {
+      "accept": 0.037037037037037035,
+      "reject": 0.9629629629629629,
+      "review": 0.0
+     },
+     "flag_share": 0.5046296296296297,
+     "good": {
+      "accept": 0.5,
+      "reject": 0.5,
+      "review": 0.0
+     },
+     "reject_share": 0.5046296296296297,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 25490.74074074074,
+     "cost_per_10k_ci95": [
+      6928.240740740741,
+      43331.01851851842
+     ],
+     "defect": {
+      "accept": 0.037037037037037035,
+      "reject": 0.9629629629629629,
+      "review": 0.0
+     },
+     "flag_share": 0.5046296296296297,
+     "good": {
+      "accept": 0.5,
+      "reject": 0.5,
+      "review": 0.0
+     },
+     "reject_share": 0.5046296296296297,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 4177.407407407408,
+     "cost_per_10k_ci95": [
+      1910.974537037037,
+      6519.814814814815
+     ],
+     "defect": {
+      "accept": 0.037037037037037035,
+      "reject": 0.5185185185185185,
+      "review": 0.4444444444444444
+     },
+     "flag_share": 0.5046296296296297,
+     "good": {
+      "accept": 0.5,
+      "reject": 0.0,
+      "review": 0.5
+     },
+     "reject_share": 0.005185185185185185,
+     "review_share": 0.4994444444444444
+    },
+    "unconstrained": {
+     "cost_per_10k": 1909.2592592592591,
+     "cost_per_10k_ci95": [
+      388.8888888888889,
+      4053.703703703704
+     ],
+     "defect": {
+      "accept": 0.07407407407407407,
+      "reject": 0.5185185185185185,
+      "review": 0.4074074074074074
+     },
+     "flag_share": 0.009259259259259259,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.005185185185185185,
+     "review_share": 0.004074074074074074
+    }
+   },
+   "provisional_threshold": 1.5300196409225464,
+   "q_hat": 1.5300196409225464,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      5095.0,
+      37609.44444444444
+     ],
+     "vs_fixed_conformal": 21313.333333333332
+    },
+    "unconstrained": {
+     "ci95": [
+      5798.611111111111,
+      42066.2037037037
+     ],
+     "vs_fixed_conformal": 23581.48148148148
+    }
+   }
+  },
+  {
+   "alpha": 0.02,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.04702750665483585,
+     "brier_ci95": [
+      0.0017746228926353148,
+      0.13575865128660158
+     ],
+     "ece": 0.06832298136645965,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.14285714285714285,
+       "n": 4,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 1.0,
+       "n": 18,
+       "observed": 0.9444444444444444
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.06875992534976202,
+     "brier_ci95": [
+      0.015798211957659094,
+      0.15337550453201831
+     ],
+     "ece": 0.1233618411011159,
+     "reliability": [
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.13351182123230107,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.2,
+       "mean_p": 0.21912591146666188,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.3,
+       "mean_p": 0.35093612783025346,
+       "n": 2,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.4,
+       "mean_p": 0.457771715944294,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.6,
+       "mean_p": 0.6679539881780163,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.7,
+       "mean_p": 0.7130475807073648,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9816276381192052,
+       "n": 16,
+       "observed": 0.9375
+      }
+     ]
+    }
+   },
+   "category": "grid",
+   "dataset": "mvtec_ad",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.0012048834483635138,
+      0.23815990993682112
+     ],
+     "flagged": 1,
+     "n_good": 21,
+     "rate": 0.047619047619047616
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.004210744514489473,
+      0.6412345789976748
+     ],
+     "flagged": 1,
+     "n_good": 6,
+     "rate": 0.16666666666666666
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.04327186829274169,
+      0.7772219044964879
+     ],
+     "flagged": 2,
+     "n_good": 6,
+     "rate": 0.3333333333333333
+    }
+   },
+   "guarantee_claimed": true,
+   "n": {
+    "calib": 53,
+    "fit_defect": 40,
+    "fit_good": 15,
+    "test_defect": 17,
+    "test_good": 6
+   },
+   "platt": {
+    "a": 3.5518633415257357,
+    "b": 2.7916957341217277,
+    "mean": 1.8933804425326262,
+    "method": "platt",
+    "n_defect": 40,
+    "n_good": 15,
+    "pi_fit": 0.7272727272727273,
+    "std": 0.453539102091695
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 9426.470588235296,
+     "cost_per_10k_ci95": [
+      0.0,
+      25926.470588235294
+     ],
+     "defect": {
+      "accept": 0.058823529411764705,
+      "reject": 0.9411764705882353,
+      "review": 0.0
+     },
+     "flag_share": 0.17441176470588232,
+     "good": {
+      "accept": 0.8333333333333334,
+      "reject": 0.16666666666666666,
+      "review": 0.0
+     },
+     "reject_share": 0.17441176470588232,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 9426.470588235296,
+     "cost_per_10k_ci95": [
+      0.0,
+      25926.470588235294
+     ],
+     "defect": {
+      "accept": 0.058823529411764705,
+      "reject": 0.9411764705882353,
+      "review": 0.0
+     },
+     "flag_share": 0.17441176470588232,
+     "good": {
+      "accept": 0.8333333333333334,
+      "reject": 0.16666666666666666,
+      "review": 0.0
+     },
+     "reject_share": 0.17441176470588232,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 2784.1176470588234,
+     "cost_per_10k_ci95": [
+      555.8823529411765,
+      6003.529411764705
+     ],
+     "defect": {
+      "accept": 0.058823529411764705,
+      "reject": 0.35294117647058826,
+      "review": 0.5882352941176471
+     },
+     "flag_share": 0.17441176470588235,
+     "good": {
+      "accept": 0.8333333333333334,
+      "reject": 0.0,
+      "review": 0.16666666666666666
+     },
+     "reject_share": 0.0035294117647058825,
+     "review_share": 0.17088235294117646
+    },
+    "unconstrained": {
+     "cost_per_10k": 2659.4117647058824,
+     "cost_per_10k_ci95": [
+      617.6470588235294,
+      4824.7058823529405
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 0.35294117647058826,
+      "review": 0.6470588235294118
+     },
+     "flag_share": 0.33999999999999997,
+     "good": {
+      "accept": 0.6666666666666666,
+      "reject": 0.0,
+      "review": 0.3333333333333333
+     },
+     "reject_share": 0.0035294117647058825,
+     "review_share": 0.3364705882352941
+    }
+   },
+   "provisional_threshold": 1.6466957330703735,
+   "q_hat": 1.6466957330703735,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      -802.9411764705882,
+      21224.11764705882
+     ],
+     "vs_fixed_conformal": 6642.352941176472
+    },
+    "unconstrained": {
+     "ci95": [
+      -2721.176470588235,
+      22277.058823529413
+     ],
+     "vs_fixed_conformal": 6767.058823529413
+    }
+   }
+  },
+  {
+   "alpha": 0.02,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.0,
+     "brier_ci95": [
+      0.0,
+      0.0
+     ],
+     "ece": 0.0,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0,
+       "n": 12,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 1.0,
+       "n": 20,
+       "observed": 1.0
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.0024876115355063665,
+     "brier_ci95": [
+      0.0008803164393801705,
+      0.005039583700392463
+     ],
+     "ece": 0.032873058631835816,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.035219978541984116,
+       "n": 11,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.18922814566865706,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9762355016705868,
+       "n": 20,
+       "observed": 1.0
+      }
+     ]
+    }
+   },
+   "category": "hazelnut",
+   "dataset": "mvtec_ad",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.0,
+      0.08809730287880237
+     ],
+     "flagged": 0,
+     "n_good": 40,
+     "rate": 0.0
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.0,
+      0.2646484693970512
+     ],
+     "flagged": 0,
+     "n_good": 12,
+     "rate": 0.0
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.0,
+      0.2646484693970512
+     ],
+     "flagged": 0,
+     "n_good": 12,
+     "rate": 0.0
+    }
+   },
+   "guarantee_claimed": true,
+   "n": {
+    "calib": 78,
+    "fit_defect": 50,
+    "fit_good": 28,
+    "test_defect": 20,
+    "test_good": 12
+   },
+   "platt": {
+    "a": 4.567486769054883,
+    "b": 2.3817581961542813,
+    "mean": 2.6158339854998465,
+    "method": "platt",
+    "n_defect": 50,
+    "n_good": 28,
+    "pi_fit": 0.6410256410256411,
+    "std": 0.5701653240558114
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 0.0,
+     "cost_per_10k_ci95": [
+      0.0,
+      0.0
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 1.0,
+      "review": 0.0
+     },
+     "flag_share": 0.01,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.01,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 0.0,
+     "cost_per_10k_ci95": [
+      0.0,
+      0.0
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 1.0,
+      "review": 0.0
+     },
+     "flag_share": 0.01,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.01,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 577.5,
+     "cost_per_10k_ci95": [
+      367.5,
+      787.5
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 0.45,
+      "review": 0.55
+     },
+     "flag_share": 0.010000000000000002,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.0045000000000000005,
+     "review_share": 0.0055000000000000005
+    },
+    "unconstrained": {
+     "cost_per_10k": 577.5,
+     "cost_per_10k_ci95": [
+      367.5,
+      787.5
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 0.45,
+      "review": 0.55
+     },
+     "flag_share": 0.010000000000000002,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.0045000000000000005,
+     "review_share": 0.0055000000000000005
+    }
+   },
+   "provisional_threshold": 2.4622433185577393,
+   "q_hat": 2.4622433185577393,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      -787.5,
+      -367.5
+     ],
+     "vs_fixed_conformal": -577.5
+    },
+    "unconstrained": {
+     "ci95": [
+      -787.5,
+      -367.5
+     ],
+     "vs_fixed_conformal": -577.5
+    }
+   }
+  },
+  {
+   "alpha": 0.02,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.0,
+     "brier_ci95": [
+      0.0,
+      0.0
+     ],
+     "ece": 0.0,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0,
+       "n": 10,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 1.0,
+       "n": 28,
+       "observed": 1.0
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.0022978572437274886,
+     "brier_ci95": [
+      0.0009990755564178565,
+      0.0039283474806932886
+     ],
+     "ece": 0.028839275697035954,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0644348253466231,
+       "n": 8,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.1395500527854504,
+       "n": 2,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9892387939948757,
+       "n": 28,
+       "observed": 1.0
+      }
+     ]
+    }
+   },
+   "category": "leather",
+   "dataset": "mvtec_ad",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.43692245509692657,
+      0.7889996835760071
+     ],
+     "flagged": 20,
+     "n_good": 32,
+     "rate": 0.625
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.2623780766069451,
+      0.8784477418801728
+     ],
+     "flagged": 6,
+     "n_good": 10,
+     "rate": 0.6
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.0,
+      0.3084971078187607
+     ],
+     "flagged": 0,
+     "n_good": 10,
+     "rate": 0.0
+    }
+   },
+   "guarantee_claimed": false,
+   "n": {
+    "calib": 49,
+    "fit_defect": 64,
+    "fit_good": 22,
+    "test_defect": 28,
+    "test_good": 10
+   },
+   "platt": {
+    "a": 4.275319835658348,
+    "b": 3.716791218134363,
+    "mean": 2.307664742303449,
+    "method": "platt",
+    "n_defect": 64,
+    "n_good": 22,
+    "pi_fit": 0.7441860465116279,
+    "std": 0.6976205783971445
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 29699.999999999996,
+     "cost_per_10k_ci95": [
+      14849.999999999998,
+      44550.0
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 1.0,
+      "review": 0.0
+     },
+     "flag_share": 0.604,
+     "good": {
+      "accept": 0.4,
+      "reject": 0.6,
+      "review": 0.0
+     },
+     "reject_share": 0.604,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 29699.999999999996,
+     "cost_per_10k_ci95": [
+      14849.999999999998,
+      44550.0
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 1.0,
+      "review": 0.0
+     },
+     "flag_share": 0.604,
+     "good": {
+      "accept": 0.4,
+      "reject": 0.6,
+      "review": 0.0
+     },
+     "reject_share": 0.604,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 3863.9999999999995,
+     "cost_per_10k_ci95": [
+      2044.5,
+      5645.999999999999
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 0.7142857142857143,
+      "review": 0.2857142857142857
+     },
+     "flag_share": 0.604,
+     "good": {
+      "accept": 0.4,
+      "reject": 0.0,
+      "review": 0.6
+     },
+     "reject_share": 0.0071428571428571435,
+     "review_share": 0.5968571428571429
+    },
+    "unconstrained": {
+     "cost_per_10k": 300.0,
+     "cost_per_10k_ci95": [
+      150.0,
+      487.5
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 0.7142857142857143,
+      "review": 0.2857142857142857
+     },
+     "flag_share": 0.01,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.0071428571428571435,
+     "review_share": 0.002857142857142857
+    }
+   },
+   "provisional_threshold": 1.259458303451538,
+   "q_hat": 1.259458303451538,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      12767.999999999998,
+      38866.5
+     ],
+     "vs_fixed_conformal": 25835.999999999996
+    },
+    "unconstrained": {
+     "ci95": [
+      14549.999999999998,
+      44212.5
+     ],
+     "vs_fixed_conformal": 29399.999999999996
+    }
+   }
+  },
+  {
+   "alpha": 0.05,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.022381974507190927,
+     "brier_ci95": [
+      0.0,
+      0.06714592352157278
+     ],
+     "ece": 0.025288040373262235,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0,
+       "n": 7,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.11491858693582176,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 1.0,
+       "n": 27,
+       "observed": 1.0
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.01797404849231477,
+     "brier_ci95": [
+      0.003173568594546866,
+      0.043655430265712857
+     ],
+     "ece": 0.0612559380075624,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.05746023801299876,
+       "n": 3,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.13386035149024333,
+       "n": 4,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.4,
+       "mean_p": 0.40651210066230786,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.6,
+       "mean_p": 0.6490676138055994,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.7,
+       "mean_p": 0.757612557010284,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9900268807302838,
+       "n": 25,
+       "observed": 1.0
+      }
+     ]
+    }
+   },
+   "category": "metal_nut",
+   "dataset": "mvtec_ad",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.029055851128746688,
+      0.34912209725740806
+     ],
+     "flagged": 3,
+     "n_good": 22,
+     "rate": 0.13636363636363635
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.0,
+      0.40961639722500337
+     ],
+     "flagged": 0,
+     "n_good": 7,
+     "rate": 0.0
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.0,
+      0.40961639722500337
+     ],
+     "flagged": 0,
+     "n_good": 7,
+     "rate": 0.0
+    }
+   },
+   "guarantee_claimed": true,
+   "n": {
+    "calib": 44,
+    "fit_defect": 65,
+    "fit_good": 15,
+    "test_defect": 28,
+    "test_good": 7
+   },
+   "platt": {
+    "a": 3.17563452955102,
+    "b": 3.6297087498935876,
+    "mean": 2.457044331729412,
+    "method": "platt",
+    "n_defect": 65,
+    "n_good": 15,
+    "pi_fit": 0.8125,
+    "std": 0.3950879719222736
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 0.0,
+     "cost_per_10k_ci95": [
+      0.0,
+      0.0
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 1.0,
+      "review": 0.0
+     },
+     "flag_share": 0.01,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.01,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 0.0,
+     "cost_per_10k_ci95": [
+      0.0,
+      0.0
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 1.0,
+      "review": 0.0
+     },
+     "flag_share": 0.01,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.01,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 412.5,
+     "cost_per_10k_ci95": [
+      225.0,
+      600.0
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 0.6071428571428571,
+      "review": 0.39285714285714285
+     },
+     "flag_share": 0.01,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.006071428571428571,
+     "review_share": 0.003928571428571429
+    },
+    "unconstrained": {
+     "cost_per_10k": 1089.2857142857142,
+     "cost_per_10k_ci95": [
+      262.5,
+      2630.3571428571427
+     ],
+     "defect": {
+      "accept": 0.03571428571428571,
+      "reject": 0.6071428571428571,
+      "review": 0.35714285714285715
+     },
+     "flag_share": 0.009642857142857144,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.006071428571428571,
+     "review_share": 0.0035714285714285718
+    }
+   },
+   "provisional_threshold": 1.9248260259628296,
+   "q_hat": 1.910914659500122,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      -600.0,
+      -225.0
+     ],
+     "vs_fixed_conformal": -412.5
+    },
+    "unconstrained": {
+     "ci95": [
+      -2630.3571428571427,
+      -262.5
+     ],
+     "vs_fixed_conformal": -1089.2857142857142
+    }
+   }
+  },
+  {
+   "alpha": 0.02,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.0870025765187199,
+     "brier_ci95": [
+      0.0354336402589193,
+      0.1500448144817328
+     ],
+     "ece": 0.06988821755825245,
+     "reliability": [
+      {
+       "bin_lo": 0.2,
+       "mean_p": 0.26666666666666666,
+       "n": 5,
+       "observed": 0.4
+      },
+      {
+       "bin_lo": 0.3,
+       "mean_p": 0.32699783103211133,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.5,
+       "mean_p": 0.5202640271082083,
+       "n": 3,
+       "observed": 0.6666666666666666
+      },
+      {
+       "bin_lo": 0.6,
+       "mean_p": 0.6,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9865384615384617,
+       "n": 40,
+       "observed": 0.95
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.08572135020566785,
+     "brier_ci95": [
+      0.038431729668219665,
+      0.1415336993895395
+     ],
+     "ece": 0.04510533985197468,
+     "reliability": [
+      {
+       "bin_lo": 0.3,
+       "mean_p": 0.36259394653569094,
+       "n": 4,
+       "observed": 0.25
+      },
+      {
+       "bin_lo": 0.4,
+       "mean_p": 0.46526134332604274,
+       "n": 4,
+       "observed": 0.5
+      },
+      {
+       "bin_lo": 0.5,
+       "mean_p": 0.5589399116415372,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.7,
+       "mean_p": 0.7134044161492027,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.8,
+       "mean_p": 0.8598482739750473,
+       "n": 7,
+       "observed": 0.8571428571428571
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.984622247194762,
+       "n": 33,
+       "observed": 0.9696969696969697
+      }
+     ]
+    }
+   },
+   "category": "pill",
+   "dataset": "mvtec_ad",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.0,
+      0.1322746044977541
+     ],
+     "flagged": 0,
+     "n_good": 26,
+     "rate": 0.0
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.0,
+      0.3694166475528192
+     ],
+     "flagged": 0,
+     "n_good": 8,
+     "rate": 0.0
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.08523341413725355,
+      0.7551367836334484
+     ],
+     "flagged": 3,
+     "n_good": 8,
+     "rate": 0.375
+    }
+   },
+   "guarantee_claimed": true,
+   "n": {
+    "calib": 53,
+    "fit_defect": 99,
+    "fit_good": 18,
+    "test_defect": 42,
+    "test_good": 8
+   },
+   "platt": {
+    "a": 3.6123072428581757,
+    "b": 4.151617092396226,
+    "mean": 1.9800396872381878,
+    "method": "platt",
+    "n_defect": 99,
+    "n_good": 18,
+    "pi_fit": 0.8461538461538461,
+    "std": 0.30306738946551337
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 8571.42857142857,
+     "cost_per_10k_ci95": [
+      5714.285714285715,
+      11428.57142857143
+     ],
+     "defect": {
+      "accept": 0.42857142857142855,
+      "reject": 0.5714285714285714,
+      "review": 0.0
+     },
+     "flag_share": 0.005714285714285714,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.005714285714285714,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 8571.42857142857,
+     "cost_per_10k_ci95": [
+      5714.285714285715,
+      11428.57142857143
+     ],
+     "defect": {
+      "accept": 0.42857142857142855,
+      "reject": 0.5714285714285714,
+      "review": 0.0
+     },
+     "flag_share": 0.005714285714285714,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.005714285714285714,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 8771.42857142857,
+     "cost_per_10k_ci95": [
+      5963.660714285714,
+      11653.57142857143
+     ],
+     "defect": {
+      "accept": 0.42857142857142855,
+      "reject": 0.38095238095238093,
+      "review": 0.19047619047619047
+     },
+     "flag_share": 0.005714285714285714,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.0038095238095238095,
+     "review_share": 0.0019047619047619048
+    },
+    "unconstrained": {
+     "cost_per_10k": 4682.261904761905,
+     "cost_per_10k_ci95": [
+      2244.8809523809527,
+      7496.458333333329
+     ],
+     "defect": {
+      "accept": 0.09523809523809523,
+      "reject": 0.38095238095238093,
+      "review": 0.5238095238095238
+     },
+     "flag_share": 0.38029761904761905,
+     "good": {
+      "accept": 0.625,
+      "reject": 0.0,
+      "review": 0.375
+     },
+     "reject_share": 0.0038095238095238095,
+     "review_share": 0.37648809523809523
+    }
+   },
+   "provisional_threshold": 1.9629268646240234,
+   "q_hat": 1.9629268646240234,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      -325.0,
+      -75.00000000000182
+     ],
+     "vs_fixed_conformal": -200.0
+    },
+    "unconstrained": {
+     "ci95": [
+      574.4047619047624,
+      7420.70238095238
+     ],
+     "vs_fixed_conformal": 3889.166666666666
+    }
+   }
+  },
+  {
+   "alpha": 0.02,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.10569795123055434,
+     "brier_ci95": [
+      0.05073312164566434,
+      0.1704966204671419
+     ],
+     "ece": 0.0878261272488697,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0,
+       "n": 5,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.3,
+       "mean_p": 0.3333333333333333,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.7,
+       "mean_p": 0.731611927684336,
+       "n": 12,
+       "observed": 0.5
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9890282131661441,
+       "n": 29,
+       "observed": 0.9655172413793104
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.0986830806416834,
+     "brier_ci95": [
+      0.04880111530751019,
+      0.158051068704316
+     ],
+     "ece": 0.1486758954696395,
+     "reliability": [
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.16912457160854397,
+       "n": 5,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.3,
+       "mean_p": 0.3480151593174255,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.5,
+       "mean_p": 0.5954771443639045,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.6,
+       "mean_p": 0.644391918875762,
+       "n": 7,
+       "observed": 0.2857142857142857
+      },
+      {
+       "bin_lo": 0.7,
+       "mean_p": 0.7338309050298232,
+       "n": 2,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.8,
+       "mean_p": 0.8630175104048357,
+       "n": 4,
+       "observed": 0.5
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9781301900362357,
+       "n": 27,
+       "observed": 1.0
+      }
+     ]
+    }
+   },
+   "category": "screw",
+   "dataset": "mvtec_ad",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.0006173168932865193,
+      0.12855402038414626
+     ],
+     "flagged": 1,
+     "n_good": 41,
+     "rate": 0.024390243902439025
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.0,
+      0.2646484693970512
+     ],
+     "flagged": 0,
+     "n_good": 12,
+     "rate": 0.0
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.27666968568210587,
+      0.8483477701915698
+     ],
+     "flagged": 7,
+     "n_good": 12,
+     "rate": 0.5833333333333334
+    }
+   },
+   "guarantee_claimed": true,
+   "n": {
+    "calib": 64,
+    "fit_defect": 84,
+    "fit_good": 29,
+    "test_defect": 35,
+    "test_good": 12
+   },
+   "platt": {
+    "a": 3.7686977196967963,
+    "b": 2.8722959335389056,
+    "mean": 1.6061310472741592,
+    "method": "platt",
+    "n_defect": 84,
+    "n_good": 29,
+    "pi_fit": 0.7433628318584071,
+    "std": 0.26918757114093705
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 4000.0,
+     "cost_per_10k_ci95": [
+      1714.2857142857142,
+      6857.142857142857
+     ],
+     "defect": {
+      "accept": 0.2,
+      "reject": 0.8,
+      "review": 0.0
+     },
+     "flag_share": 0.008,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.008,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 4000.0,
+     "cost_per_10k_ci95": [
+      1714.2857142857142,
+      6857.142857142857
+     ],
+     "defect": {
+      "accept": 0.2,
+      "reject": 0.8,
+      "review": 0.0
+     },
+     "flag_share": 0.008,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.008,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 4390.0,
+     "cost_per_10k_ci95": [
+      2044.2857142857142,
+      7157.142857142858
+     ],
+     "defect": {
+      "accept": 0.2,
+      "reject": 0.42857142857142855,
+      "review": 0.37142857142857144
+     },
+     "flag_share": 0.008,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.004285714285714286,
+     "review_share": 0.0037142857142857147
+    },
+    "unconstrained": {
+     "cost_per_10k": 4606.428571428571,
+     "cost_per_10k_ci95": [
+      2640.0,
+      6662.92857142857
+     ],
+     "defect": {
+      "accept": 0.02857142857142857,
+      "reject": 0.42857142857142855,
+      "review": 0.5428571428571428
+     },
+     "flag_share": 0.5872142857142858,
+     "good": {
+      "accept": 0.4166666666666667,
+      "reject": 0.0,
+      "review": 0.5833333333333334
+     },
+     "reject_share": 0.004285714285714286,
+     "review_share": 0.5829285714285715
+    }
+   },
+   "provisional_threshold": 1.5424820184707642,
+   "q_hat": 1.5424820184707642,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      -570.0,
+      -210.0000000000018
+     ],
+     "vs_fixed_conformal": -390.0
+    },
+    "unconstrained": {
+     "ci95": [
+      -3340.714285714284,
+      2324.357142857142
+     ],
+     "vs_fixed_conformal": -606.4285714285706
+    }
+   }
+  },
+  {
+   "alpha": 0.05,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.012094359818335565,
+     "brier_ci95": [
+      0.0,
+      0.030048393619951066
+     ],
+     "ece": 0.02915127605057135,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0,
+       "n": 9,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.3,
+       "mean_p": 0.39042202881515603,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.5,
+       "mean_p": 0.5017178738485151,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.8,
+       "mean_p": 0.8975607692472151,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 1.0,
+       "n": 22,
+       "observed": 1.0
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.019797669752802085,
+     "brier_ci95": [
+      0.003843544534602827,
+      0.04132453619554288
+     ],
+     "ece": 0.07160873088263132,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.05890665892367041,
+       "n": 8,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.1015190909289628,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.3,
+       "mean_p": 0.3857791665060039,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.4,
+       "mean_p": 0.44839550346427187,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.6,
+       "mean_p": 0.6704520798305089,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.8,
+       "mean_p": 0.8410566193550721,
+       "n": 2,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.986144692840497,
+       "n": 20,
+       "observed": 1.0
+      }
+     ]
+    }
+   },
+   "category": "tile",
+   "dataset": "mvtec_ad",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.0,
+      0.10576281007457927
+     ],
+     "flagged": 0,
+     "n_good": 33,
+     "rate": 0.0
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.0,
+      0.3084971078187607
+     ],
+     "flagged": 0,
+     "n_good": 10,
+     "rate": 0.0
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.0,
+      0.3084971078187607
+     ],
+     "flagged": 0,
+     "n_good": 10,
+     "rate": 0.0
+    }
+   },
+   "guarantee_claimed": true,
+   "n": {
+    "calib": 46,
+    "fit_defect": 60,
+    "fit_good": 23,
+    "test_defect": 24,
+    "test_good": 10
+   },
+   "platt": {
+    "a": 4.718823563545177,
+    "b": 3.7125362025803117,
+    "mean": 2.3126895600054636,
+    "method": "platt",
+    "n_defect": 60,
+    "n_good": 23,
+    "pi_fit": 0.7228915662650602,
+    "std": 0.5335962441932887
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 833.3333333333334,
+     "cost_per_10k_ci95": [
+      0.0,
+      2500.0
+     ],
+     "defect": {
+      "accept": 0.041666666666666664,
+      "reject": 0.9583333333333334,
+      "review": 0.0
+     },
+     "flag_share": 0.009583333333333334,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.009583333333333334,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 833.3333333333334,
+     "cost_per_10k_ci95": [
+      0.0,
+      2500.0
+     ],
+     "defect": {
+      "accept": 0.041666666666666664,
+      "reject": 0.9583333333333334,
+      "review": 0.0
+     },
+     "flag_share": 0.009583333333333334,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.009583333333333334,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 1183.3333333333335,
+     "cost_per_10k_ci95": [
+      218.75000000000003,
+      2937.5
+     ],
+     "defect": {
+      "accept": 0.041666666666666664,
+      "reject": 0.625,
+      "review": 0.3333333333333333
+     },
+     "flag_share": 0.009583333333333333,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.00625,
+     "review_share": 0.003333333333333333
+    },
+    "unconstrained": {
+     "cost_per_10k": 1183.3333333333335,
+     "cost_per_10k_ci95": [
+      218.75000000000003,
+      2937.5
+     ],
+     "defect": {
+      "accept": 0.041666666666666664,
+      "reject": 0.625,
+      "review": 0.3333333333333333
+     },
+     "flag_share": 0.009583333333333333,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.00625,
+     "review_share": 0.003333333333333333
+    }
+   },
+   "provisional_threshold": 1.901375412940979,
+   "q_hat": 1.894997477531433,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      -568.75,
+      -175.0
+     ],
+     "vs_fixed_conformal": -350.0000000000001
+    },
+    "unconstrained": {
+     "ci95": [
+      -568.75,
+      -175.0
+     ],
+     "vs_fixed_conformal": -350.0000000000001
+    }
+   }
+  },
+  {
+   "alpha": 0.1,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.06393300659980558,
+     "brier_ci95": [
+      0.004278375516603073,
+      0.1775206550759713
+     ],
+     "ece": 0.03319833146687232,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0,
+       "n": 2,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.11856313335213509,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.8,
+       "mean_p": 0.8571428571428571,
+       "n": 5,
+       "observed": 0.8
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.994539821999416,
+       "n": 5,
+       "observed": 1.0
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.10087647108311833,
+     "brier_ci95": [
+      0.040470342618092424,
+      0.18700038569998356
+     ],
+     "ece": 0.16125404183003347,
+     "reliability": [
+      {
+       "bin_lo": 0.2,
+       "mean_p": 0.29979523038621486,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.3,
+       "mean_p": 0.3414053174865872,
+       "n": 2,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.5,
+       "mean_p": 0.5992407953883875,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.6,
+       "mean_p": 0.6877504081653311,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.7,
+       "mean_p": 0.7267968868082741,
+       "n": 3,
+       "observed": 0.6666666666666666
+      },
+      {
+       "bin_lo": 0.8,
+       "mean_p": 0.8285132054499813,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9877973932475191,
+       "n": 4,
+       "observed": 1.0
+      }
+     ]
+    }
+   },
+   "category": "toothbrush",
+   "dataset": "mvtec_ad",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.09924609114958331,
+      0.6511244935811844
+     ],
+     "flagged": 4,
+     "n_good": 12,
+     "rate": 0.3333333333333333
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.006309463209709871,
+      0.8058795503167565
+     ],
+     "flagged": 1,
+     "n_good": 4,
+     "rate": 0.25
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.006309463209709871,
+      0.8058795503167565
+     ],
+     "flagged": 1,
+     "n_good": 4,
+     "rate": 0.25
+    }
+   },
+   "guarantee_claimed": false,
+   "n": {
+    "calib": 12,
+    "fit_defect": 21,
+    "fit_good": 8,
+    "test_defect": 9,
+    "test_good": 4
+   },
+   "platt": {
+    "a": 2.0616200033975653,
+    "b": 1.7893658968121215,
+    "mean": 2.2421296382772513,
+    "method": "platt",
+    "n_defect": 21,
+    "n_good": 8,
+    "pi_fit": 0.7241379310344828,
+    "std": 0.6801492775348187
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 12375.0,
+     "cost_per_10k_ci95": [
+      0.0,
+      37125.0
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 1.0,
+      "review": 0.0
+     },
+     "flag_share": 0.2575,
+     "good": {
+      "accept": 0.75,
+      "reject": 0.25,
+      "review": 0.0
+     },
+     "reject_share": 0.2575,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 12375.0,
+     "cost_per_10k_ci95": [
+      0.0,
+      37125.0
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 1.0,
+      "review": 0.0
+     },
+     "flag_share": 0.2575,
+     "good": {
+      "accept": 0.75,
+      "reject": 0.25,
+      "review": 0.0
+     },
+     "reject_share": 0.2575,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 2301.6666666666665,
+     "cost_per_10k_ci95": [
+      583.3333333333334,
+      5271.666666666666
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 0.2222222222222222,
+      "review": 0.7777777777777778
+     },
+     "flag_share": 0.2575,
+     "good": {
+      "accept": 0.75,
+      "reject": 0.0,
+      "review": 0.25
+     },
+     "reject_share": 0.0022222222222222222,
+     "review_share": 0.25527777777777777
+    },
+    "unconstrained": {
+     "cost_per_10k": 2301.6666666666665,
+     "cost_per_10k_ci95": [
+      583.3333333333334,
+      5271.666666666666
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 0.2222222222222222,
+      "review": 0.7777777777777778
+     },
+     "flag_share": 0.2575,
+     "good": {
+      "accept": 0.75,
+      "reject": 0.0,
+      "review": 0.25
+     },
+     "reject_share": 0.0022222222222222222,
+     "review_share": 0.25527777777777777
+    }
+   },
+   "provisional_threshold": 1.6160134077072144,
+   "q_hat": 1.6160134077072144,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      -1050.0,
+      31853.333333333336
+     ],
+     "vs_fixed_conformal": 10073.333333333334
+    },
+    "unconstrained": {
+     "ci95": [
+      -1050.0,
+      31853.333333333336
+     ],
+     "vs_fixed_conformal": 10073.333333333334
+    }
+   }
+  },
+  {
+   "alpha": 0.05,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.0335133181703473,
+     "brier_ci95": [
+      0.0,
+      0.10053995451104189
+     ],
+     "ece": 0.03578271990289157,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0,
+       "n": 19,
+       "observed": 0.05263157894736842
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9933198548102957,
+       "n": 11,
+       "observed": 1.0
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.0270895756870318,
+     "brier_ci95": [
+      0.003341408682596319,
+      0.06948988734696931
+     ],
+     "ece": 0.08047415338564251,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.03408110359888276,
+       "n": 13,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.1399423080573196,
+       "n": 5,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.2,
+       "mean_p": 0.22442008790756768,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.7,
+       "mean_p": 0.7165080453110042,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9787613152284227,
+       "n": 10,
+       "observed": 1.0
+      }
+     ]
+    }
+   },
+   "category": "transistor",
+   "dataset": "mvtec_ad",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.00042187445234200915,
+      0.08939905005748702
+     ],
+     "flagged": 1,
+     "n_good": 60,
+     "rate": 0.016666666666666666
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.0,
+      0.1853019681378522
+     ],
+     "flagged": 0,
+     "n_good": 18,
+     "rate": 0.0
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.0,
+      0.1853019681378522
+     ],
+     "flagged": 0,
+     "n_good": 18,
+     "rate": 0.0
+    }
+   },
+   "guarantee_claimed": true,
+   "n": {
+    "calib": 43,
+    "fit_defect": 28,
+    "fit_good": 42,
+    "test_defect": 12,
+    "test_good": 18
+   },
+   "platt": {
+    "a": 4.2521272145087625,
+    "b": -0.2985810416636048,
+    "mean": 1.9585368037223816,
+    "method": "platt",
+    "n_defect": 28,
+    "n_good": 42,
+    "pi_fit": 0.4,
+    "std": 0.43932881046875394
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 1666.6666666666667,
+     "cost_per_10k_ci95": [
+      0.0,
+      5000.0
+     ],
+     "defect": {
+      "accept": 0.08333333333333333,
+      "reject": 0.9166666666666666,
+      "review": 0.0
+     },
+     "flag_share": 0.009166666666666667,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.009166666666666667,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 1666.6666666666667,
+     "cost_per_10k_ci95": [
+      0.0,
+      5000.0
+     ],
+     "defect": {
+      "accept": 0.08333333333333333,
+      "reject": 0.9166666666666666,
+      "review": 0.0
+     },
+     "flag_share": 0.009166666666666667,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.009166666666666667,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 1841.6666666666667,
+     "cost_per_10k_ci95": [
+      0.0,
+      5175.0
+     ],
+     "defect": {
+      "accept": 0.08333333333333333,
+      "reject": 0.75,
+      "review": 0.16666666666666666
+     },
+     "flag_share": 0.009166666666666667,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.0075,
+     "review_share": 0.0016666666666666666
+    },
+    "unconstrained": {
+     "cost_per_10k": 262.5,
+     "cost_per_10k_ci95": [
+      0.0,
+      525.0
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 0.75,
+      "review": 0.25
+     },
+     "flag_share": 0.01,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.0075,
+     "review_share": 0.0025
+    }
+   },
+   "provisional_threshold": 2.0188815593719482,
+   "q_hat": 1.9066658020019531,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      -437.50000000000006,
+      0.0
+     ],
+     "vs_fixed_conformal": -175.0
+    },
+    "unconstrained": {
+     "ci95": [
+      -350.00000000000006,
+      4737.5
+     ],
+     "vs_fixed_conformal": 1404.1666666666667
+    }
+   }
+  },
+  {
+   "alpha": 0.02,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.06455888330495808,
+     "brier_ci95": [
+      0.004830917874396135,
+      0.15203218915653163
+     ],
+     "ece": 0.06831321407357614,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0,
+       "n": 3,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.3,
+       "mean_p": 0.3333333333333333,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.6,
+       "mean_p": 0.6666666666666666,
+       "n": 2,
+       "observed": 0.5
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9943845445309167,
+       "n": 17,
+       "observed": 0.9411764705882353
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.04658148650080703,
+     "brier_ci95": [
+      0.008436699962778235,
+      0.09684156539050494
+     ],
+     "ece": 0.0746661670041891,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.06965105121017219,
+       "n": 3,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.2,
+       "mean_p": 0.29068093517958477,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.5,
+       "mean_p": 0.5549091829685235,
+       "n": 2,
+       "observed": 0.5
+      },
+      {
+       "bin_lo": 0.6,
+       "mean_p": 0.6421729611305124,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.7,
+       "mean_p": 0.7938046760770741,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9826999265802825,
+       "n": 15,
+       "observed": 1.0
+      }
+     ]
+    }
+   },
+   "category": "wood",
+   "dataset": "mvtec_ad",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.0,
+      0.17646691180696536
+     ],
+     "flagged": 0,
+     "n_good": 19,
+     "rate": 0.0
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.0,
+      0.45925812643990044
+     ],
+     "flagged": 0,
+     "n_good": 6,
+     "rate": 0.0
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.04327186829274169,
+      0.7772219044964879
+     ],
+     "flagged": 2,
+     "n_good": 6,
+     "rate": 0.3333333333333333
+    }
+   },
+   "guarantee_claimed": true,
+   "n": {
+    "calib": 49,
+    "fit_defect": 43,
+    "fit_good": 13,
+    "test_defect": 17,
+    "test_good": 6
+   },
+   "platt": {
+    "a": 2.7842449789735424,
+    "b": 2.6601748213316236,
+    "mean": 2.402097463607788,
+    "method": "platt",
+    "n_defect": 43,
+    "n_good": 13,
+    "pi_fit": 0.7678571428571429,
+    "std": 0.5134636168879361
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 1176.4705882352941,
+     "cost_per_10k_ci95": [
+      0.0,
+      3529.4117647058824
+     ],
+     "defect": {
+      "accept": 0.058823529411764705,
+      "reject": 0.9411764705882353,
+      "review": 0.0
+     },
+     "flag_share": 0.009411764705882354,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.009411764705882354,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 1176.4705882352941,
+     "cost_per_10k_ci95": [
+      0.0,
+      3529.4117647058824
+     ],
+     "defect": {
+      "accept": 0.058823529411764705,
+      "reject": 0.9411764705882353,
+      "review": 0.0
+     },
+     "flag_share": 0.009411764705882354,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.009411764705882354,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 1670.5882352941178,
+     "cost_per_10k_ci95": [
+      308.8235294117647,
+      4085.2941176470586
+     ],
+     "defect": {
+      "accept": 0.058823529411764705,
+      "reject": 0.47058823529411764,
+      "review": 0.47058823529411764
+     },
+     "flag_share": 0.009411764705882354,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.004705882352941177,
+     "review_share": 0.004705882352941177
+    },
+    "unconstrained": {
+     "cost_per_10k": 2535.882352941176,
+     "cost_per_10k_ci95": [
+      494.11764705882354,
+      4701.176470588235
+     ],
+     "defect": {
+      "accept": 0.0,
+      "reject": 0.47058823529411764,
+      "review": 0.5294117647058824
+     },
+     "flag_share": 0.33999999999999997,
+     "good": {
+      "accept": 0.6666666666666666,
+      "reject": 0.0,
+      "review": 0.3333333333333333
+     },
+     "reject_share": 0.004705882352941177,
+     "review_share": 0.3352941176470588
+    }
+   },
+   "provisional_threshold": 2.055211305618286,
+   "q_hat": 2.055211305618286,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      -741.1764705882354,
+      -247.0588235294117
+     ],
+     "vs_fixed_conformal": -494.11764705882365
+    },
+    "unconstrained": {
+     "ci95": [
+      -4515.882352941177,
+      1920.6176470588232
+     ],
+     "vs_fixed_conformal": -1359.411764705882
+    }
+   }
+  },
+  {
+   "alpha": 0.05,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.04854340675481297,
+     "brier_ci95": [
+      0.0033502777743890377,
+      0.11259063713967651
+     ],
+     "ece": 0.05243636619892814,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0,
+       "n": 9,
+       "observed": 0.1111111111111111
+      },
+      {
+       "bin_lo": 0.4,
+       "mean_p": 0.4025964891793045,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.6,
+       "mean_p": 0.6305236440286122,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9897142857142858,
+       "n": 35,
+       "observed": 0.9714285714285714
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.04785760105203932,
+     "brier_ci95": [
+      0.008201242543606718,
+      0.10118753101244368
+     ],
+     "ece": 0.07450633594562836,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.07302341123909202,
+       "n": 6,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.18080442009892775,
+       "n": 2,
+       "observed": 0.5
+      },
+      {
+       "bin_lo": 0.2,
+       "mean_p": 0.25184565057218594,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.4,
+       "mean_p": 0.4024335651679584,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.5,
+       "mean_p": 0.5349596342605282,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.8,
+       "mean_p": 0.8378344722353143,
+       "n": 4,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9865412301201242,
+       "n": 31,
+       "observed": 0.967741935483871
+      }
+     ]
+    }
+   },
+   "category": "zipper",
+   "dataset": "mvtec_ad",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.03513065310331142,
+      0.2899484201907557
+     ],
+     "flagged": 4,
+     "n_good": 32,
+     "rate": 0.125
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.025210726326833386,
+      0.5560954623076415
+     ],
+     "flagged": 2,
+     "n_good": 10,
+     "rate": 0.2
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.0025285785444617865,
+      0.4450161170281954
+     ],
+     "flagged": 1,
+     "n_good": 10,
+     "rate": 0.1
+    }
+   },
+   "guarantee_claimed": true,
+   "n": {
+    "calib": 48,
+    "fit_defect": 83,
+    "fit_good": 22,
+    "test_defect": 36,
+    "test_good": 10
+   },
+   "platt": {
+    "a": 3.9814247249635506,
+    "b": 3.7355228376229177,
+    "mean": 1.8708819837797255,
+    "method": "platt",
+    "n_defect": 83,
+    "n_good": 22,
+    "pi_fit": 0.7904761904761904,
+    "std": 0.5104325346418905
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 10455.555555555557,
+     "cost_per_10k_ci95": [
+      0.0,
+      24750.0
+     ],
+     "defect": {
+      "accept": 0.027777777777777776,
+      "reject": 0.9722222222222222,
+      "review": 0.0
+     },
+     "flag_share": 0.20772222222222222,
+     "good": {
+      "accept": 0.8,
+      "reject": 0.2,
+      "review": 0.0
+     },
+     "reject_share": 0.20772222222222222,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 10455.555555555557,
+     "cost_per_10k_ci95": [
+      0.0,
+      24750.0
+     ],
+     "defect": {
+      "accept": 0.027777777777777776,
+      "reject": 0.9722222222222222,
+      "review": 0.0
+     },
+     "flag_share": 0.20772222222222222,
+     "good": {
+      "accept": 0.8,
+      "reject": 0.2,
+      "review": 0.0
+     },
+     "reject_share": 0.20772222222222222,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 2326.8888888888887,
+     "cost_per_10k_ci95": [
+      670.1041666666666,
+      4187.343055555554
+     ],
+     "defect": {
+      "accept": 0.027777777777777776,
+      "reject": 0.4166666666666667,
+      "review": 0.5555555555555556
+     },
+     "flag_share": 0.20772222222222225,
+     "good": {
+      "accept": 0.8,
+      "reject": 0.0,
+      "review": 0.2
+     },
+     "reject_share": 0.004166666666666667,
+     "review_share": 0.20355555555555557
+    },
+    "unconstrained": {
+     "cost_per_10k": 2259.277777777778,
+     "cost_per_10k_ci95": [
+      612.5,
+      4169.748611111105
+     ],
+     "defect": {
+      "accept": 0.05555555555555555,
+      "reject": 0.4166666666666667,
+      "review": 0.5277777777777778
+     },
+     "flag_share": 0.10844444444444445,
+     "good": {
+      "accept": 0.9,
+      "reject": 0.0,
+      "review": 0.1
+     },
+     "reject_share": 0.004166666666666667,
+     "review_share": 0.10427777777777779
+    }
+   },
+   "provisional_threshold": 1.311551570892334,
+   "q_hat": 1.2974966764450073,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      -641.6666666666666,
+      21167.5
+     ],
+     "vs_fixed_conformal": 8128.666666666668
+    },
+    "unconstrained": {
+     "ci95": [
+      -1519.444444444445,
+      21859.006944444445
+     ],
+     "vs_fixed_conformal": 8196.27777777778
+    }
+   }
+  },
+  {
+   "alpha": 0.02,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.06881794560928854,
+     "brier_ci95": [
+      0.020409307063739387,
+      0.12902851759111741
+     ],
+     "ece": 0.05071219002828069,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.0,
+       "n": 6,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.19448967723175342,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.2,
+       "mean_p": 0.19999999999999998,
+       "n": 6,
+       "observed": 0.16666666666666666
+      },
+      {
+       "bin_lo": 0.6,
+       "mean_p": 0.6375588740408783,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.7,
+       "mean_p": 0.75,
+       "n": 5,
+       "observed": 0.8
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 1.0,
+       "n": 26,
+       "observed": 0.9615384615384616
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.07180933369198725,
+     "brier_ci95": [
+      0.032119262271965585,
+      0.11973914021257864
+     ],
+     "ece": 0.10909432046523194,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.08979893509964794,
+       "n": 4,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.14782493221698303,
+       "n": 4,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.2,
+       "mean_p": 0.2610260774337283,
+       "n": 3,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.3,
+       "mean_p": 0.32388432169056747,
+       "n": 2,
+       "observed": 0.5
+      },
+      {
+       "bin_lo": 0.4,
+       "mean_p": 0.48219837889580935,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.5,
+       "mean_p": 0.5527491925037988,
+       "n": 2,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.6,
+       "mean_p": 0.6302747465716015,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.7,
+       "mean_p": 0.7630230722743372,
+       "n": 3,
+       "observed": 0.6666666666666666
+      },
+      {
+       "bin_lo": 0.8,
+       "mean_p": 0.8540556755174075,
+       "n": 4,
+       "observed": 0.75
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9822989430219232,
+       "n": 21,
+       "observed": 1.0
+      }
+     ]
+    }
+   },
+   "category": "cashew",
+   "dataset": "visa",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.0005062279830408294,
+      0.1064695457114999
+     ],
+     "flagged": 1,
+     "n_good": 50,
+     "rate": 0.02
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.0016864302413527026,
+      0.3194845665783034
+     ],
+     "flagged": 1,
+     "n_good": 15,
+     "rate": 0.06666666666666667
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.04331200510583661,
+      0.48089113380685305
+     ],
+     "flagged": 3,
+     "n_good": 15,
+     "rate": 0.2
+    }
+   },
+   "guarantee_claimed": true,
+   "n": {
+    "calib": 90,
+    "fit_defect": 70,
+    "fit_good": 35,
+    "test_defect": 30,
+    "test_good": 15
+   },
+   "platt": {
+    "a": 5.657749145696462,
+    "b": 3.46464108667208,
+    "mean": 1.7159867638633364,
+    "method": "platt",
+    "n_defect": 70,
+    "n_good": 35,
+    "pi_fit": 0.6666666666666666,
+    "std": 0.4520991844232277
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 7300.0,
+     "cost_per_10k_ci95": [
+      2000.0,
+      15233.333333333334
+     ],
+     "defect": {
+      "accept": 0.2,
+      "reject": 0.8,
+      "review": 0.0
+     },
+     "flag_share": 0.07400000000000001,
+     "good": {
+      "accept": 0.9333333333333333,
+      "reject": 0.06666666666666667,
+      "review": 0.0
+     },
+     "reject_share": 0.07400000000000001,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 7300.0,
+     "cost_per_10k_ci95": [
+      2000.0,
+      15233.333333333334
+     ],
+     "defect": {
+      "accept": 0.2,
+      "reject": 0.8,
+      "review": 0.0
+     },
+     "flag_share": 0.07400000000000001,
+     "good": {
+      "accept": 0.9333333333333333,
+      "reject": 0.06666666666666667,
+      "review": 0.0
+     },
+     "reject_share": 0.07400000000000001,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 4711.0,
+     "cost_per_10k_ci95": [
+      2079.3333333333335,
+      7864.0
+     ],
+     "defect": {
+      "accept": 0.2,
+      "reject": 0.5,
+      "review": 0.3
+     },
+     "flag_share": 0.07400000000000001,
+     "good": {
+      "accept": 0.9333333333333333,
+      "reject": 0.0,
+      "review": 0.06666666666666667
+     },
+     "reject_share": 0.005,
+     "review_share": 0.069
+    },
+    "unconstrained": {
+     "cost_per_10k": 2344.6666666666665,
+     "cost_per_10k_ci95": [
+      816.0000000000001,
+      4240.1749999999965
+     ],
+     "defect": {
+      "accept": 0.03333333333333333,
+      "reject": 0.5,
+      "review": 0.4666666666666667
+     },
+     "flag_share": 0.2076666666666667,
+     "good": {
+      "accept": 0.8,
+      "reject": 0.0,
+      "review": 0.2
+     },
+     "reject_share": 0.005,
+     "review_share": 0.2026666666666667
+    }
+   },
+   "provisional_threshold": 1.5569835901260376,
+   "q_hat": 1.5569835901260376,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      -455.0,
+      8502.0
+     ],
+     "vs_fixed_conformal": 2589.0
+    },
+    "unconstrained": {
+     "ci95": [
+      -149.84166666666678,
+      12204.16666666666
+     ],
+     "vs_fixed_conformal": 4955.333333333334
+    }
+   }
+  },
+  {
+   "alpha": 0.02,
+   "calibration_quality": {
+    "isotonic": {
+     "brier": 0.05795321699190289,
+     "brier_ci95": [
+      0.019104858609502492,
+      0.11058978188896834
+     ],
+     "ece": 0.0796520001247836,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.004324609531338563,
+       "n": 11,
+       "observed": 0.09090909090909091
+      },
+      {
+       "bin_lo": 0.3,
+       "mean_p": 0.375,
+       "n": 4,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.4,
+       "mean_p": 0.46785465924895686,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.5,
+       "mean_p": 0.5,
+       "n": 3,
+       "observed": 0.6666666666666666
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9961628703958099,
+       "n": 26,
+       "observed": 1.0
+      }
+     ]
+    },
+    "platt": {
+     "brier": 0.0586566429690795,
+     "brier_ci95": [
+      0.028049594683938466,
+      0.10045819533424882
+     ],
+     "ece": 0.11088669913643866,
+     "reliability": [
+      {
+       "bin_lo": 0.0,
+       "mean_p": 0.053654017697825136,
+       "n": 6,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.1,
+       "mean_p": 0.12244527806274026,
+       "n": 4,
+       "observed": 0.25
+      },
+      {
+       "bin_lo": 0.2,
+       "mean_p": 0.2483921656710355,
+       "n": 3,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.3,
+       "mean_p": 0.3250488669485901,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.4,
+       "mean_p": 0.4851372888350695,
+       "n": 1,
+       "observed": 0.0
+      },
+      {
+       "bin_lo": 0.5,
+       "mean_p": 0.5761640398134167,
+       "n": 4,
+       "observed": 0.75
+      },
+      {
+       "bin_lo": 0.6,
+       "mean_p": 0.6364975267396293,
+       "n": 1,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.7,
+       "mean_p": 0.7464259999216187,
+       "n": 4,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.8,
+       "mean_p": 0.8859532287347344,
+       "n": 2,
+       "observed": 1.0
+      },
+      {
+       "bin_lo": 0.9,
+       "mean_p": 0.9841494759180935,
+       "n": 19,
+       "observed": 1.0
+      }
+     ]
+    }
+   },
+   "category": "pipe_fryum",
+   "dataset": "visa",
+   "false_alarm": {
+    "guaranteed_all_test_good": {
+     "ci95": [
+      0.0,
+      0.07112173646419764
+     ],
+     "flagged": 0,
+     "n_good": 50,
+     "rate": 0.0
+    },
+    "guaranteed_sup_test": {
+     "ci95": [
+      0.0,
+      0.218019360910534
+     ],
+     "flagged": 0,
+     "n_good": 15,
+     "rate": 0.0
+    },
+    "unconstrained_sup_test_no_guarantee": {
+     "ci95": [
+      0.016575913440083627,
+      0.40460269660337206
+     ],
+     "flagged": 2,
+     "n_good": 15,
+     "rate": 0.13333333333333333
+    }
+   },
+   "guarantee_claimed": true,
+   "n": {
+    "calib": 90,
+    "fit_defect": 70,
+    "fit_good": 35,
+    "test_defect": 30,
+    "test_good": 15
+   },
+   "platt": {
+    "a": 5.7758920019559,
+    "b": 3.679374340538754,
+    "mean": 1.8080923341569446,
+    "method": "platt",
+    "n_defect": 70,
+    "n_good": 35,
+    "pi_fit": 0.6666666666666666,
+    "std": 0.5001820499008793
+   },
+   "policies": {
+    "fixed_conformal": {
+     "cost_per_10k": 14666.666666666666,
+     "cost_per_10k_ci95": [
+      11333.333333333334,
+      18000.0
+     ],
+     "defect": {
+      "accept": 0.7333333333333333,
+      "reject": 0.26666666666666666,
+      "review": 0.0
+     },
+     "flag_share": 0.0026666666666666666,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.0026666666666666666,
+     "review_share": 0.0
+    },
+    "fixed_provisional": {
+     "cost_per_10k": 14666.666666666666,
+     "cost_per_10k_ci95": [
+      11333.333333333334,
+      18000.0
+     ],
+     "defect": {
+      "accept": 0.7333333333333333,
+      "reject": 0.26666666666666666,
+      "review": 0.0
+     },
+     "flag_share": 0.0026666666666666666,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.0026666666666666666,
+     "review_share": 0.0
+    },
+    "guaranteed": {
+     "cost_per_10k": 14666.666666666666,
+     "cost_per_10k_ci95": [
+      11333.333333333334,
+      18000.0
+     ],
+     "defect": {
+      "accept": 0.7333333333333333,
+      "reject": 0.26666666666666666,
+      "review": 0.0
+     },
+     "flag_share": 0.0026666666666666666,
+     "good": {
+      "accept": 1.0,
+      "reject": 0.0,
+      "review": 0.0
+     },
+     "reject_share": 0.0026666666666666666,
+     "review_share": 0.0
+    },
+    "unconstrained": {
+     "cost_per_10k": 2088.666666666667,
+     "cost_per_10k_ci95": [
+      699.1250000000001,
+      3923.1333333333328
+     ],
+     "defect": {
+      "accept": 0.03333333333333333,
+      "reject": 0.36666666666666664,
+      "review": 0.6
+     },
+     "flag_share": 0.1416666666666667,
+     "good": {
+      "accept": 0.8666666666666667,
+      "reject": 0.0,
+      "review": 0.13333333333333333
+     },
+     "reject_share": 0.0036666666666666666,
+     "review_share": 0.138
+    }
+   },
+   "provisional_threshold": 2.099893569946289,
+   "q_hat": 2.099893569946289,
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "vs_fixed_conformal": 0.0
+    },
+    "unconstrained": {
+     "ci95": [
+      9189.333333333334,
+      15896.666666666664
+     ],
+     "vs_fixed_conformal": 12578.0
+    }
+   }
+  }
+ ],
+ "cost_config": {
+  "currency": "EUR",
+  "id": "example_v1",
+  "note": "all values are assumptions, not measurements",
+  "path": "configs/costs/example_costs.yaml",
+  "sha256": "e860bf58b48c1350492238bee5d4d25424500ffa7c6da6b8bf46dbe366b8114d",
+  "values": {
+   "cost_escape": 200.0,
+   "cost_false_reject": 5.0,
+   "cost_review": 0.5,
+   "defect_rate": 0.01,
+   "review_false_reject_rate": 0.02,
+   "review_miss_rate": 0.05
+  }
+ },
+ "cut_offs": {
+  "hi": 0.2953020134228188,
+  "lo": 0.003156233561283535,
+  "p_reject_vs_accept": 0.024390243902439025,
+  "p_review_vs_accept": 0.003156233561283535,
+  "p_review_vs_reject": 0.2953020134228188,
+  "review_possible": true
+ },
+ "excluded": [
+  {
+   "category": "fruit_jelly",
+   "dataset": "mvtec_ad2",
+   "reason": "sup_test has 1 good / 4 defective images, need >= 4 each"
+  },
+  {
+   "category": "vial",
+   "dataset": "mvtec_ad2",
+   "reason": "sup_test has 1 good / 4 defective images, need >= 4 each"
+  }
+ ],
+ "pooled": {
+  "categories": [
+   "bottle",
+   "cable",
+   "capsule",
+   "carpet",
+   "grid",
+   "hazelnut",
+   "leather",
+   "metal_nut",
+   "pill",
+   "screw",
+   "tile",
+   "toothbrush",
+   "transistor",
+   "wood",
+   "zipper",
+   "cashew",
+   "pipe_fryum"
+  ],
+  "false_alarm_guaranteed": {
+   "categories": 14,
+   "ci95": [
+    0.015546914937083243,
+    0.04699880967411014
+   ],
+   "flagged": 14,
+   "mean_alpha": 0.035,
+   "n_good": 495,
+   "rate": 0.028282828282828285
+  },
+  "fixed_conformal": {
+   "cost_per_10k": 7547.236785385575,
+   "cost_per_10k_ci95": [
+    5535.924937191157,
+    9751.677345626304
+   ],
+   "flag_share": 0.11267564631318956,
+   "review_share": 0.0
+  },
+  "fixed_provisional": {
+   "cost_per_10k": 7618.538033157411,
+   "cost_per_10k_ci95": [
+    5608.967299560942,
+    9840.109317345472
+   ],
+   "flag_share": 0.11263999568930365,
+   "review_share": 0.0
+  },
+  "guarantee_claimed_only": {
+   "categories": [
+    "bottle",
+    "cable",
+    "capsule",
+    "grid",
+    "hazelnut",
+    "metal_nut",
+    "pill",
+    "screw",
+    "tile",
+    "transistor",
+    "wood",
+    "zipper",
+    "cashew",
+    "pipe_fryum"
+   ],
+   "fixed_conformal": {
+    "cost_per_10k": 4338.377472201001,
+    "cost_per_10k_ci95": [
+     2973.054244425043,
+     6123.69802466441
+    ],
+    "flag_share": 0.039239739835328066,
+    "review_share": 0.0
+   },
+   "fixed_provisional": {
+    "cost_per_10k": 4424.957558781088,
+    "cost_per_10k_ci95": [
+     3047.859537754496,
+     6182.490276413596
+    ],
+    "flag_share": 0.03919644979203803,
+    "review_share": 0.0
+   },
+   "guaranteed": {
+    "cost_per_10k": 3395.335431939921,
+    "cost_per_10k_ci95": [
+     2846.435227685572,
+     4020.6182092952804
+    ],
+    "flag_share": 0.03923973983532808,
+    "review_share": 0.034502320704996516
+   },
+   "saving": {
+    "guaranteed": {
+     "ci95": [
+      -138.8602162156731,
+      2362.37717874231
+     ],
+     "vs_fixed_conformal": 943.0420402610803
+    },
+    "unconstrained": {
+     "ci95": [
+      1019.3952572715692,
+      3972.965511122709
+     ],
+     "vs_fixed_conformal": 2350.2722656845826
+    }
+   },
+   "unconstrained": {
+    "cost_per_10k": 1988.1052065164183,
+    "cost_per_10k_ci95": [
+     1584.7423661151065,
+     2424.7029314756205
+    ],
+    "flag_share": 0.16359860004607904,
+    "review_share": 0.15878975234431889
+   }
+  },
+  "guaranteed": {
+   "cost_per_10k": 3404.5747130137042,
+   "cost_per_10k_ci95": [
+    2889.1152278206528,
+    3956.5392951633694
+   ],
+   "flag_share": 0.11267564631318956,
+   "review_share": 0.10791834440878333
+  },
+  "saving": {
+   "guaranteed": {
+    "ci95": [
+     2360.71575827019,
+     6056.51294417265
+    ],
+    "vs_fixed_conformal": 4142.662072371871
+   },
+   "unconstrained": {
+    "ci95": [
+     3718.317526295708,
+     7742.463103008581
+    ],
+    "vs_fixed_conformal": 5644.625090258764
+   }
+  },
+  "unconstrained": {
+   "cost_per_10k": 1902.6116951268107,
+   "cost_per_10k_ci95": [
+    1528.4138002873697,
+    2313.101880891128
+   ],
+   "flag_share": 0.15100821528849212,
+   "review_share": 0.14619208985467408
+  }
+ },
+ "sensitivity": {
+  "alpha": [
+   {
+    "alpha": 0.02,
+    "fixed_conformal_cost_per_10k": 11147.975239478508,
+    "guaranteed_cost_per_10k": 5068.078725317287,
+    "guaranteed_review_share": 0.15022320780163914,
+    "pooled_flag_rate_all_test_good": 0.10423452768729642
+   },
+   {
+    "alpha": 0.05,
+    "fixed_conformal_cost_per_10k": 15317.291299235741,
+    "guaranteed_cost_per_10k": 3659.120275270602,
+    "guaranteed_review_share": 0.28050868866064943,
+    "pooled_flag_rate_all_test_good": 0.18241042345276873
+   },
+   {
+    "alpha": 0.1,
+    "fixed_conformal_cost_per_10k": 19049.338624338623,
+    "guaranteed_cost_per_10k": 3364.5996991389147,
+    "guaranteed_review_share": 0.3735405816647646,
+    "pooled_flag_rate_all_test_good": 0.26384364820846906
+   }
+  ],
+  "alpha_categories": [
+   "mvtec_ad/carpet",
+   "mvtec_ad/grid",
+   "mvtec_ad/hazelnut",
+   "mvtec_ad/leather",
+   "mvtec_ad/pill",
+   "mvtec_ad/screw",
+   "mvtec_ad/wood",
+   "visa/cashew",
+   "visa/pipe_fryum"
+  ],
+  "cost_grid": [
+   {
+    "escape_ratio": 0.4,
+    "fixed_conformal_cost_per_10k": 5216.192956089149,
+    "fixed_provisional_cost_per_10k": 5216.905968566868,
+    "guaranteed_cost_per_10k": 140.9960790138991,
+    "guaranteed_review_share": 0.11185731595074155,
+    "guaranteed_saving_pct": 97.29695430746466,
+    "review_ratio": 0.001,
+    "unconstrained_cost_per_10k": 57.40025798370135,
+    "unconstrained_review_share": 0.00666137914339517
+   },
+   {
+    "escape_ratio": 0.4,
+    "fixed_conformal_cost_per_10k": 5216.192956089149,
+    "fixed_provisional_cost_per_10k": 5216.905968566868,
+    "guaranteed_cost_per_10k": 191.1224874382314,
+    "guaranteed_review_share": 0.11171772678174062,
+    "guaranteed_saving_pct": 96.33597742554512,
+    "review_ratio": 0.01,
+    "unconstrained_cost_per_10k": 68.17116024569131,
+    "unconstrained_review_share": 0.006090294547315127
+   },
+   {
+    "escape_ratio": 0.4,
+    "fixed_conformal_cost_per_10k": 5216.192956089149,
+    "fixed_provisional_cost_per_10k": 5216.905968566868,
+    "guaranteed_cost_per_10k": 689.8648272581072,
+    "guaranteed_review_share": 0.1110531549987478,
+    "guaranteed_saving_pct": 86.77455314507127,
+    "review_ratio": 0.1,
+    "unconstrained_cost_per_10k": 122.83929603989702,
+    "unconstrained_review_share": 0.0031936341193762427
+   },
+   {
+    "escape_ratio": 0.4,
+    "fixed_conformal_cost_per_10k": 5216.192956089149,
+    "fixed_provisional_cost_per_10k": 5216.905968566868,
+    "guaranteed_cost_per_10k": 5216.192956089149,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 1.0,
+    "unconstrained_cost_per_10k": 151.62081087868742,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 0.4,
+    "fixed_conformal_cost_per_10k": 5216.192956089149,
+    "fixed_provisional_cost_per_10k": 5216.905968566868,
+    "guaranteed_cost_per_10k": 5216.192956089149,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 10.0,
+    "unconstrained_cost_per_10k": 151.62081087868742,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 1.0,
+    "fixed_conformal_cost_per_10k": 5251.511801987581,
+    "fixed_provisional_cost_per_10k": 5253.294333181877,
+    "guaranteed_cost_per_10k": 187.53993945468864,
+    "guaranteed_review_share": 0.11155082668836994,
+    "guaranteed_saving_pct": 96.42883903671874,
+    "review_ratio": 0.001,
+    "unconstrained_cost_per_10k": 136.24971068578793,
+    "unconstrained_review_share": 0.03872284539421673
+   },
+   {
+    "escape_ratio": 1.0,
+    "fixed_conformal_cost_per_10k": 5251.511801987581,
+    "fixed_provisional_cost_per_10k": 5253.294333181877,
+    "guaranteed_cost_per_10k": 237.5739459182366,
+    "guaranteed_review_share": 0.11149620483963044,
+    "guaranteed_saving_pct": 95.47608469948939,
+    "review_ratio": 0.01,
+    "unconstrained_cost_per_10k": 159.23195090808005,
+    "unconstrained_review_share": 0.03353868157952113
+   },
+   {
+    "escape_ratio": 1.0,
+    "fixed_conformal_cost_per_10k": 5251.511801987581,
+    "fixed_provisional_cost_per_10k": 5253.294333181877,
+    "guaranteed_cost_per_10k": 734.7604260314376,
+    "guaranteed_review_share": 0.11089001261761233,
+    "guaranteed_saving_pct": 86.00859231139218,
+    "review_ratio": 0.1,
+    "unconstrained_cost_per_10k": 210.67412144048913,
+    "unconstrained_review_share": 0.004706922206603503
+   },
+   {
+    "escape_ratio": 1.0,
+    "fixed_conformal_cost_per_10k": 5251.511801987581,
+    "fixed_provisional_cost_per_10k": 5253.294333181877,
+    "guaranteed_cost_per_10k": 5251.511801987581,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 1.0,
+    "unconstrained_cost_per_10k": 333.0607744239141,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 1.0,
+    "fixed_conformal_cost_per_10k": 5251.511801987581,
+    "fixed_provisional_cost_per_10k": 5253.294333181877,
+    "guaranteed_cost_per_10k": 5251.511801987581,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 10.0,
+    "unconstrained_cost_per_10k": 333.0607744239141,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 4.0,
+    "fixed_conformal_cost_per_10k": 5428.106031479734,
+    "fixed_provisional_cost_per_10k": 5435.236156256918,
+    "guaranteed_cost_per_10k": 414.7696708917798,
+    "guaranteed_review_share": 0.11084449441032941,
+    "guaranteed_saving_pct": 92.35885097884295,
+    "review_ratio": 0.001,
+    "unconstrained_cost_per_10k": 269.6433028216447,
+    "unconstrained_review_share": 0.0916301777739585
+   },
+   {
+    "escape_ratio": 4.0,
+    "fixed_conformal_cost_per_10k": 5428.106031479734,
+    "fixed_provisional_cost_per_10k": 5435.236156256918,
+    "guaranteed_cost_per_10k": 464.42910514113396,
+    "guaranteed_review_share": 0.11082348600696806,
+    "guaranteed_saving_pct": 91.44399349519472,
+    "review_ratio": 0.01,
+    "unconstrained_cost_per_10k": 331.9884601603096,
+    "unconstrained_review_share": 0.07290944973229621
+   },
+   {
+    "escape_ratio": 4.0,
+    "fixed_conformal_cost_per_10k": 5428.106031479734,
+    "fixed_provisional_cost_per_10k": 5435.236156256918,
+    "guaranteed_cost_per_10k": 956.208435176929,
+    "guaranteed_review_share": 0.11036172887393067,
+    "guaranteed_saving_pct": 82.38412386140767,
+    "review_ratio": 0.1,
+    "unconstrained_cost_per_10k": 647.2988066133668,
+    "unconstrained_review_share": 0.032346004555620284
+   },
+   {
+    "escape_ratio": 4.0,
+    "fixed_conformal_cost_per_10k": 5428.106031479734,
+    "fixed_provisional_cost_per_10k": 5435.236156256918,
+    "guaranteed_cost_per_10k": 5428.106031479734,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 1.0,
+    "unconstrained_cost_per_10k": 866.9897367584492,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 4.0,
+    "fixed_conformal_cost_per_10k": 5428.106031479734,
+    "fixed_provisional_cost_per_10k": 5435.236156256918,
+    "guaranteed_cost_per_10k": 5428.106031479734,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 10.0,
+    "unconstrained_cost_per_10k": 866.9897367584492,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 10.0,
+    "fixed_conformal_cost_per_10k": 5781.294490464041,
+    "fixed_provisional_cost_per_10k": 5799.119802406999,
+    "guaranteed_cost_per_10k": 854.7198640880188,
+    "guaranteed_review_share": 0.11012147787156895,
+    "guaranteed_saving_pct": 85.2157701791902,
+    "review_ratio": 0.001,
+    "unconstrained_cost_per_10k": 463.77626867599776,
+    "unconstrained_review_share": 0.18354795303679844
+   },
+   {
+    "escape_ratio": 10.0,
+    "fixed_conformal_cost_per_10k": 5781.294490464041,
+    "fixed_provisional_cost_per_10k": 5799.119802406999,
+    "guaranteed_cost_per_10k": 902.8366206334929,
+    "guaranteed_review_share": 0.11006508930306964,
+    "guaranteed_saving_pct": 84.3834867412017,
+    "review_ratio": 0.01,
+    "unconstrained_cost_per_10k": 527.7091124406732,
+    "unconstrained_review_share": 0.14837805043523491
+   },
+   {
+    "escape_ratio": 10.0,
+    "fixed_conformal_cost_per_10k": 5781.294490464041,
+    "fixed_provisional_cost_per_10k": 5799.119802406999,
+    "guaranteed_cost_per_10k": 1392.3802562836438,
+    "guaranteed_review_share": 0.10987344709594757,
+    "guaranteed_saving_pct": 75.91577009992649,
+    "review_ratio": 0.1,
+    "unconstrained_cost_per_10k": 1059.7419871285288,
+    "unconstrained_review_share": 0.046154362895985554
+   },
+   {
+    "escape_ratio": 10.0,
+    "fixed_conformal_cost_per_10k": 5781.294490464041,
+    "fixed_provisional_cost_per_10k": 5799.119802406999,
+    "guaranteed_cost_per_10k": 5781.294490464041,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 1.0,
+    "unconstrained_cost_per_10k": 1562.2883030686708,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 10.0,
+    "fixed_conformal_cost_per_10k": 5781.294490464041,
+    "fixed_provisional_cost_per_10k": 5799.119802406999,
+    "guaranteed_cost_per_10k": 5781.294490464041,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 10.0,
+    "unconstrained_cost_per_10k": 1562.2883030686708,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 40.0,
+    "fixed_conformal_cost_per_10k": 7547.236785385575,
+    "fixed_provisional_cost_per_10k": 7618.538033157411,
+    "guaranteed_cost_per_10k": 2888.71195471027,
+    "guaranteed_review_share": 0.10810158325456086,
+    "guaranteed_saving_pct": 61.72490625570467,
+    "review_ratio": 0.001,
+    "unconstrained_cost_per_10k": 1140.5347942649867,
+    "unconstrained_review_share": 0.5407375661682255
+   },
+   {
+    "escape_ratio": 40.0,
+    "fixed_conformal_cost_per_10k": 7547.236785385575,
+    "fixed_provisional_cost_per_10k": 7618.538033157411,
+    "guaranteed_cost_per_10k": 2933.8771476943034,
+    "guaranteed_review_share": 0.1080669512199288,
+    "guaranteed_saving_pct": 61.12647275920314,
+    "review_ratio": 0.01,
+    "unconstrained_cost_per_10k": 1228.0356001127036,
+    "unconstrained_review_share": 0.41842782016643787
+   },
+   {
+    "escape_ratio": 40.0,
+    "fixed_conformal_cost_per_10k": 7547.236785385575,
+    "fixed_provisional_cost_per_10k": 7618.538033157411,
+    "guaranteed_cost_per_10k": 3404.5747130137042,
+    "guaranteed_review_share": 0.10791834440878333,
+    "guaranteed_saving_pct": 54.8897853634816,
+    "review_ratio": 0.1,
+    "unconstrained_cost_per_10k": 1902.6116951268107,
+    "unconstrained_review_share": 0.14619208985467408
+   },
+   {
+    "escape_ratio": 40.0,
+    "fixed_conformal_cost_per_10k": 7547.236785385575,
+    "fixed_provisional_cost_per_10k": 7618.538033157411,
+    "guaranteed_cost_per_10k": 7547.236785385575,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 1.0,
+    "unconstrained_cost_per_10k": 4766.67976584886,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 40.0,
+    "fixed_conformal_cost_per_10k": 7547.236785385575,
+    "fixed_provisional_cost_per_10k": 7618.538033157411,
+    "guaranteed_cost_per_10k": 7547.236785385575,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 10.0,
+    "unconstrained_cost_per_10k": 4766.67976584886,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 100.0,
+    "fixed_conformal_cost_per_10k": 11079.121375228642,
+    "fixed_provisional_cost_per_10k": 11257.374494658232,
+    "guaranteed_cost_per_10k": 6763.415360742915,
+    "guaranteed_review_share": 0.10692390880735445,
+    "guaranteed_saving_pct": 38.953504238477244,
+    "review_ratio": 0.001,
+    "unconstrained_cost_per_10k": 1903.0184345898035,
+    "unconstrained_review_share": 0.8328525630379118
+   },
+   {
+    "escape_ratio": 100.0,
+    "fixed_conformal_cost_per_10k": 11079.121375228642,
+    "fixed_provisional_cost_per_10k": 11257.374494658232,
+    "guaranteed_cost_per_10k": 6811.531119706225,
+    "guaranteed_review_share": 0.10692390880735445,
+    "guaranteed_saving_pct": 38.51921204748374,
+    "review_ratio": 0.01,
+    "unconstrained_cost_per_10k": 2028.1447720893407,
+    "unconstrained_review_share": 0.6664143524595628
+   },
+   {
+    "escape_ratio": 100.0,
+    "fixed_conformal_cost_per_10k": 11079.121375228642,
+    "fixed_provisional_cost_per_10k": 11257.374494658232,
+    "guaranteed_cost_per_10k": 7234.303776418783,
+    "guaranteed_review_share": 0.10669494828609744,
+    "guaranteed_saving_pct": 34.70327175407908,
+    "review_ratio": 0.1,
+    "unconstrained_cost_per_10k": 3415.7446179366134,
+    "unconstrained_review_share": 0.3200138986232139
+   },
+   {
+    "escape_ratio": 100.0,
+    "fixed_conformal_cost_per_10k": 11079.121375228642,
+    "fixed_provisional_cost_per_10k": 11257.374494658232,
+    "guaranteed_cost_per_10k": 11079.121375228642,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 1.0,
+    "unconstrained_cost_per_10k": 8632.08754997136,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 100.0,
+    "fixed_conformal_cost_per_10k": 11079.121375228642,
+    "fixed_provisional_cost_per_10k": 11257.374494658232,
+    "guaranteed_cost_per_10k": 11079.121375228642,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 10.0,
+    "unconstrained_cost_per_10k": 8632.08754997136,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 400.0,
+    "fixed_conformal_cost_per_10k": 28738.54432444398,
+    "fixed_provisional_cost_per_10k": 29451.556802162344,
+    "guaranteed_cost_per_10k": 25413.007687607053,
+    "guaranteed_review_share": 0.09950234118728019,
+    "guaranteed_saving_pct": 11.57169479182126,
+    "review_ratio": 0.001,
+    "unconstrained_cost_per_10k": 3736.5227263825127,
+    "unconstrained_review_share": 0.9783184562845371
+   },
+   {
+    "escape_ratio": 400.0,
+    "fixed_conformal_cost_per_10k": 28738.54432444398,
+    "fixed_provisional_cost_per_10k": 29451.556802162344,
+    "guaranteed_cost_per_10k": 25906.721649638057,
+    "guaranteed_review_share": 0.08977467234196428,
+    "guaranteed_saving_pct": 9.85374430533448,
+    "review_ratio": 0.01,
+    "unconstrained_cost_per_10k": 4625.703940207288,
+    "unconstrained_review_share": 0.9685907874392212
+   },
+   {
+    "escape_ratio": 400.0,
+    "fixed_conformal_cost_per_10k": 28738.54432444398,
+    "fixed_provisional_cost_per_10k": 29451.556802162344,
+    "guaranteed_cost_per_10k": 26236.263230732453,
+    "guaranteed_review_share": 0.08970059826789019,
+    "guaranteed_saving_pct": 8.707055811393959,
+    "review_ratio": 0.1,
+    "unconstrained_cost_per_10k": 7285.43459880434,
+    "unconstrained_review_share": 0.6417715741329837
+   },
+   {
+    "escape_ratio": 400.0,
+    "fixed_conformal_cost_per_10k": 28738.54432444398,
+    "fixed_provisional_cost_per_10k": 29451.556802162344,
+    "guaranteed_cost_per_10k": 28738.54432444398,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 1.0,
+    "unconstrained_cost_per_10k": 12741.111789338433,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 400.0,
+    "fixed_conformal_cost_per_10k": 28738.54432444398,
+    "fixed_provisional_cost_per_10k": 29451.556802162344,
+    "guaranteed_cost_per_10k": 28738.54432444398,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 10.0,
+    "unconstrained_cost_per_10k": 12741.111789338433,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 1000.0,
+    "fixed_conformal_cost_per_10k": 64057.39022287466,
+    "fixed_provisional_cost_per_10k": 65839.92141717055,
+    "guaranteed_cost_per_10k": 62094.73612737587,
+    "guaranteed_review_share": 0.0853094557020982,
+    "guaranteed_saving_pct": 3.063899557365873,
+    "review_ratio": 0.001,
+    "unconstrained_cost_per_10k": 6780.23678038811,
+    "unconstrained_review_share": 0.9601345096690207
+   },
+   {
+    "escape_ratio": 1000.0,
+    "fixed_conformal_cost_per_10k": 64057.39022287466,
+    "fixed_provisional_cost_per_10k": 65839.92141717055,
+    "guaranteed_cost_per_10k": 62133.12538244181,
+    "guaranteed_review_share": 0.0853094557020982,
+    "guaranteed_saving_pct": 3.0039700864143266,
+    "review_ratio": 0.01,
+    "unconstrained_cost_per_10k": 7212.29730973917,
+    "unconstrained_review_share": 0.9601345096690207
+   },
+   {
+    "escape_ratio": 1000.0,
+    "fixed_conformal_cost_per_10k": 64057.39022287466,
+    "fixed_provisional_cost_per_10k": 65839.92141717055,
+    "guaranteed_cost_per_10k": 62209.41246667225,
+    "guaranteed_review_share": 0.08518665910871338,
+    "guaranteed_saving_pct": 2.8848783095482777,
+    "review_ratio": 0.1,
+    "unconstrained_cost_per_10k": 11027.281318728823,
+    "unconstrained_review_share": 0.9017345669230573
+   },
+   {
+    "escape_ratio": 1000.0,
+    "fixed_conformal_cost_per_10k": 64057.39022287466,
+    "fixed_provisional_cost_per_10k": 65839.92141717055,
+    "guaranteed_cost_per_10k": 64057.39022287466,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 1.0,
+    "unconstrained_cost_per_10k": 21704.499414144746,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 1000.0,
+    "fixed_conformal_cost_per_10k": 64057.39022287466,
+    "fixed_provisional_cost_per_10k": 65839.92141717055,
+    "guaranteed_cost_per_10k": 64057.39022287466,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 10.0,
+    "unconstrained_cost_per_10k": 21704.499414144746,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 4000.0,
+    "fixed_conformal_cost_per_10k": 240651.61971502803,
+    "fixed_provisional_cost_per_10k": 247781.74449221164,
+    "guaranteed_cost_per_10k": 238559.77931377979,
+    "guaranteed_review_share": 0.07001524235425163,
+    "guaranteed_saving_pct": 0.869240108886589,
+    "review_ratio": 0.001,
+    "unconstrained_cost_per_10k": 10746.960546626473,
+    "unconstrained_review_share": 0.8836260517998361
+   },
+   {
+    "escape_ratio": 4000.0,
+    "fixed_conformal_cost_per_10k": 240651.61971502803,
+    "fixed_provisional_cost_per_10k": 247781.74449221164,
+    "guaranteed_cost_per_10k": 238591.28617283917,
+    "guaranteed_review_share": 0.07001524235425163,
+    "guaranteed_saving_pct": 0.856147797645677,
+    "review_ratio": 0.01,
+    "unconstrained_cost_per_10k": 11144.592269936402,
+    "unconstrained_review_share": 0.8836260517998361
+   },
+   {
+    "escape_ratio": 4000.0,
+    "fixed_conformal_cost_per_10k": 240651.61971502803,
+    "fixed_provisional_cost_per_10k": 247781.74449221164,
+    "guaranteed_cost_per_10k": 238906.35476343334,
+    "guaranteed_review_share": 0.07001524235425163,
+    "guaranteed_saving_pct": 0.7252246852364364,
+    "review_ratio": 0.1,
+    "unconstrained_cost_per_10k": 15782.850679506253,
+    "unconstrained_review_share": 0.8685819341527773
+   },
+   {
+    "escape_ratio": 4000.0,
+    "fixed_conformal_cost_per_10k": 240651.61971502803,
+    "fixed_provisional_cost_per_10k": 247781.74449221164,
+    "guaranteed_cost_per_10k": 240651.61971502803,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 1.0,
+    "unconstrained_cost_per_10k": 37848.11542263965,
+    "unconstrained_review_share": 0.0
+   },
+   {
+    "escape_ratio": 4000.0,
+    "fixed_conformal_cost_per_10k": 240651.61971502803,
+    "fixed_provisional_cost_per_10k": 247781.74449221164,
+    "guaranteed_cost_per_10k": 240651.61971502803,
+    "guaranteed_review_share": 0.0,
+    "guaranteed_saving_pct": 0.0,
+    "review_ratio": 10.0,
+    "unconstrained_cost_per_10k": 37848.11542263965,
+    "unconstrained_review_share": 0.0
+   }
+  ],
+  "defect_rate": [
+   {
+    "defect_rate": 0.001,
+    "fixed_conformal_cost_per_10k": 5475.311913832676,
+    "fixed_provisional_cost_per_10k": 5482.442038609859,
+    "guaranteed_cost_per_10k": 937.0055757293693,
+    "guaranteed_review_share": 0.1054900516819293,
+    "unconstrained_cost_per_10k": 620.6224099906717
+   },
+   {
+    "defect_rate": 0.002,
+    "fixed_conformal_cost_per_10k": 5705.525788449663,
+    "fixed_provisional_cost_per_10k": 5719.78603800403,
+    "guaranteed_cost_per_10k": 1232.8915296349642,
+    "guaranteed_review_share": 0.10596663917842208,
+    "unconstrained_cost_per_10k": 923.2300988350433
+   },
+   {
+    "defect_rate": 0.005,
+    "fixed_conformal_cost_per_10k": 6396.16741230063,
+    "fixed_provisional_cost_per_10k": 6431.818036186547,
+    "guaranteed_cost_per_10k": 2075.9980336663543,
+    "guaranteed_review_share": 0.10697210302327767,
+    "unconstrained_cost_per_10k": 1385.5176794613146
+   },
+   {
+    "defect_rate": 0.01,
+    "fixed_conformal_cost_per_10k": 7547.236785385575,
+    "fixed_provisional_cost_per_10k": 7618.538033157411,
+    "guaranteed_cost_per_10k": 3404.5747130137042,
+    "guaranteed_review_share": 0.10791834440878333,
+    "unconstrained_cost_per_10k": 1902.6116951268107
+   },
+   {
+    "defect_rate": 0.02,
+    "fixed_conformal_cost_per_10k": 9849.375531555463,
+    "fixed_provisional_cost_per_10k": 9991.978027099136,
+    "guaranteed_cost_per_10k": 5982.7377358236035,
+    "guaranteed_review_share": 0.109058538266606,
+    "unconstrained_cost_per_10k": 3011.951713631007
+   },
+   {
+    "defect_rate": 0.05,
+    "fixed_conformal_cost_per_10k": 16755.791770065123,
+    "fixed_provisional_cost_per_10k": 17112.298008924306,
+    "guaranteed_cost_per_10k": 13378.601142242554,
+    "guaranteed_review_share": 0.10925411353520988,
+    "unconstrained_cost_per_10k": 4823.3252805609845
+   }
+  ]
+ },
+ "settings": {
+  "bootstrap": 2000,
+  "min_per_class": 4,
+  "pooling": "equal weight per category",
+  "seed": 0
+ }
+}
