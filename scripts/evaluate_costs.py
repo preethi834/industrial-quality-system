@@ -38,6 +38,7 @@ from iqs_vision.decision.evaluate import (
     point_costs,
 )
 from iqs_vision.decision.policy import cut_offs
+from iqs_vision.decision.serving import DECISION_FILE, decision_artifact
 
 ROOT = Path(__file__).resolve().parents[1]
 DATASETS = {
@@ -87,7 +88,7 @@ def load_all(models: Path, manifests: Path) -> list[tuple[CategoryData, dict[str
             if meta.get("dataset") != dataset:
                 continue
             calib = json.loads((run / CALIBRATION_FILE).read_text(encoding="utf-8"))
-            out.append((category_data(manifest, meta, records), calib["active"]))
+            out.append((category_data(manifest, meta, records), calib))
     return out
 
 
@@ -420,11 +421,17 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out-dir", type=Path, default=ROOT / "reports")
     ap.add_argument("--bootstrap", type=int, default=2000)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument(
+        "--write-decision",
+        action="store_true",
+        help="also write the Platt calibrator to <models>/<category>/deploy/decision.json",
+    )
     args = ap.parse_args(argv)
 
     cfg, digest = load_cost_config(args.costs)
     rows, excluded, reps, used = [], [], [], []
-    for i, (d, active) in enumerate(load_all(args.models, args.manifests)):
+    for i, (d, calib) in enumerate(load_all(args.models, args.manifests)):
+        active = calib["active"]
         if d.n_test_good < MIN_PER_CLASS or d.n_test_defect < MIN_PER_CLASS:
             excluded.append(
                 {
@@ -443,7 +450,19 @@ def main(argv: list[str] | None = None) -> int:
         row["calibration_quality"] = calibration_quality(d, args.bootstrap, rng)
         rows.append(row)
         reps.append(rep)
-        used.append((d, fit_platt(d.fit_scores, d.fit_labels), float(active["threshold"])))
+        cal = fit_platt(d.fit_scores, d.fit_labels)
+        used.append((d, cal, float(active["threshold"])))
+        if args.write_decision:
+            art = decision_artifact(
+                cal,
+                dataset=d.dataset,
+                category=d.category,
+                model_run_id=calib["model_run_id"],
+                manifest_fingerprint=calib["manifest_fingerprint"],
+            )
+            (args.models / d.category / "deploy" / DECISION_FILE).write_text(
+                json.dumps(art, indent=1, sort_keys=True) + "\n", encoding="utf-8"
+            )
     if not rows:
         print("no categories with saved scores", file=sys.stderr)
         return 1
