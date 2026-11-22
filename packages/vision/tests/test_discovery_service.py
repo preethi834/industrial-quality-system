@@ -27,7 +27,7 @@ from iqs_vision.discovery.store import (
 )
 from iqs_vision.discovery.trigger import TriggerParams
 
-from .discovery_fakes import IMG, FakeScorer, ts, unit
+from .discovery_fakes import IMG, FakeScorer, img, ts, unit
 
 RUN = "run-0123456789ab"
 
@@ -84,7 +84,7 @@ def test_core_loop_vision_half(setup) -> None:  # type: ignore[no-untyped-def]
     # Good parts, two scattered unrelated anomalies, then the new defect type.
     scorer.queue = [(0.2, None)] * 20 + [(2.0, unit(rng)), (2.0, unit(rng))]
     scorer.queue += [(2.0 + 0.1 * k, unit(rng, scratch)) for k in range(5)]
-    results = [svc.route_observation(IMG, "toy", _ctx(i)) for i in range(27)]
+    results = [svc.route_observation(img(i), "toy", _ctx(i)) for i in range(27)]
 
     alerts = [r for r in results if r.alert_event_id is not None]
     assert len(alerts) == 1 and alerts[0] is results[-1]  # the 5th scratch triggers it
@@ -103,7 +103,7 @@ def test_core_loop_vision_half(setup) -> None:  # type: ignore[no-untyped-def]
     # More of the same before confirmation: the cluster grows, no second event.
     scorer.queue = [(2.0, unit(rng, scratch)) for _ in range(4)]
     for i in range(27, 31):
-        r = svc.route_observation(IMG, "toy", _ctx(i))
+        r = svc.route_observation(img(i), "toy", _ctx(i))
         assert r.alert_event_id is None and r.cluster_id == p.cluster_id
     assert len(_cluster_events(box)) == 1
     grown = store.get_cluster(p.cluster_id)
@@ -122,7 +122,7 @@ def test_core_loop_vision_half(setup) -> None:  # type: ignore[no-untyped-def]
     # Afterwards the same defect is a known class: no buffer, no event.
     scorer.queue = [(2.0, unit(rng, scratch)) for _ in range(6)]
     for i in range(31, 37):
-        r = svc.route_observation(IMG, "toy", _ctx(i))
+        r = svc.route_observation(img(i), "toy", _ctx(i))
         assert r.observation.routing == Routing.KNOWN and r.known_name == "scratch_new"
     assert len(_cluster_events(box)) == 1
     assert all(o.cluster_id != p.cluster_id for o in store.buffer("toy"))
@@ -134,7 +134,7 @@ def test_categories_are_clustered_separately(setup) -> None:  # type: ignore[no-
     c = unit(rng)
     scorer.queue = [(2.0, unit(rng, c)) for _ in range(8)]
     for i in range(8):
-        svc.route_observation(IMG, "a" if i % 2 else "b", _ctx(i))
+        svc.route_observation(img(i), "a" if i % 2 else "b", _ctx(i))
     assert box.rows() == []  # 4 per category < min_cluster_size
 
 
@@ -152,8 +152,35 @@ def test_default_class_name(setup) -> None:  # type: ignore[no-untyped-def]
     c = unit(rng)
     scorer.queue = [(2.0, unit(rng, c)) for _ in range(5)]
     for i in range(5):
-        svc.route_observation(IMG, "toy", _ctx(i))
+        svc.route_observation(img(i), "toy", _ctx(i))
     cid = _cluster_events(box)[0].payload.cluster_id
     make_case_confirmed_handler(store)(_confirm(cid, name=None))
     named = store.get_cluster(cid)
     assert named is not None and named.defect_class_name == "toy:tool_wear"
+
+
+def test_repeated_image_does_not_alert_but_distinct_images_do(setup) -> None:  # type: ignore[no-untyped-def]
+    """#46: the service hashes the pixels, so the same image scored again counts once."""
+    svc, scorer, box, store = setup
+    rng = np.random.default_rng(5)
+    c = unit(rng)
+    embs = [unit(rng, c) for _ in range(3)]
+    scorer.queue = [(2.0, embs[i % 3]) for i in range(12)]
+    for i in range(12):
+        svc.route_observation(img(i % 3), "toy", _ctx(i))
+    assert _cluster_events(box) == []
+    assert len({o.image_sha256 for o in store.buffer("toy")}) == 3
+    scorer.queue = [(2.0, unit(rng, c)) for _ in range(2)]
+    results = [svc.route_observation(img(100 + i), "toy", _ctx(12 + i)) for i in range(2)]
+    assert results[-1].alert_event_id is not None
+    events = _cluster_events(box)
+    assert len(events) == 1 and events[0].payload.size == 14  # every observation is a member
+
+
+def test_image_sha256_is_pixel_identity() -> None:
+    from iqs_vision.discovery.service import image_sha256
+
+    a = img(1)
+    assert image_sha256(a) == image_sha256(a.copy())
+    assert image_sha256(a) != image_sha256(img(2))
+    assert image_sha256(a) != image_sha256(a.convert("L"))

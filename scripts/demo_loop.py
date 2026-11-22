@@ -436,10 +436,17 @@ def phase_false_clusters(
     time.sleep(5)  # let the diagnosis worker pick up a last event
     cases = stack.vision_cases()
     threshold = results[0]["threshold"] if results else None
+    # Image origin in the step-2 split: calib goods set the threshold, test goods did not.
     distinct = {
-        img: {"score": round(s[0], 4), "draws": len(s), "above": s[0] > (threshold or 1e9)}
+        img: {
+            "score": round(s[0], 4),
+            "draws": len(s),
+            "above": s[0] > (threshold or 1e9),
+            "split": "calib" if "/train/good/" in img else "test",
+        }
         for img, s in sorted(per_image.items())
     }
+    above = [d for d in distinct.values() if d["above"]]
     clusters = stack.vision.get("/v1/clusters", params={"category": CATEGORY}).json()
     return {
         "parts_streamed": len(results),
@@ -450,6 +457,9 @@ def phase_false_clusters(
         "distinct_good_images_above_threshold": sorted(
             img for img, d in distinct.items() if d["above"]
         ),
+        "distinct_above_threshold_by_split": dict(Counter(d["split"] for d in above)),
+        "distinct_good_images_by_split": dict(Counter(d["split"] for d in distinct.values())),
+        "anomalous_draws_of_distinct_images": sum(d["draws"] for d in above),
         "per_image": distinct,
         "false_clusters": [
             {k: c[k] for k in ("cluster_id", "size", "status", "radius")} for c in clusters

@@ -39,3 +39,8 @@ def ts(i: int) -> datetime:
 
 
 IMG = Image.new("RGB", (8, 8))
+
+
+def img(i: int) -> Image.Image:
+    """A distinct image per index (the trigger counts distinct images, KNOWN_ISSUES #46)."""
+    return Image.new("RGB", (8, 8), (i % 256, (i // 256) % 256, 7))

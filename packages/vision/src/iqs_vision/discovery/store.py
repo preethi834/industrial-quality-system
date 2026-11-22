@@ -69,6 +69,9 @@ class Observation:
     routing: Routing
     model_version: str
     embedding: np.ndarray | None = None
+    # SHA-256 of the decoded pixels (mode, size, bytes): repeats of one image count once
+    # in the trigger (KNOWN_ISSUES #46). None for rows written before migration 0006.
+    image_sha256: str | None = None
     part_id: str | None = None
     run_id: str | None = None
     line_id: str | None = None
@@ -297,6 +300,7 @@ class ObservationRow(Base):
     routing: Mapped[str] = mapped_column(String(32))
     model_version: Mapped[str] = mapped_column(String(128))
     embedding: Mapped[list[float] | None] = mapped_column(ARRAY(REAL))
+    image_sha256: Mapped[str | None] = mapped_column(String(64))
     part_id: Mapped[str | None] = mapped_column(String(64))
     run_id: Mapped[str | None] = mapped_column(String(32))
     line_id: Mapped[str | None] = mapped_column(String(64))
@@ -334,6 +338,7 @@ def _obs_from_row(r: ObservationRow) -> Observation:
         routing=Routing(r.routing),
         model_version=r.model_version,
         embedding=_vec(r.embedding),
+        image_sha256=r.image_sha256,
         part_id=r.part_id,
         run_id=r.run_id,
         line_id=r.line_id,
@@ -380,6 +385,7 @@ class SqlDiscoveryStore:
                     routing=obs.routing.value,
                     model_version=obs.model_version,
                     embedding=None if obs.embedding is None else obs.embedding.tolist(),
+                    image_sha256=obs.image_sha256,
                     part_id=obs.part_id,
                     run_id=obs.run_id,
                     line_id=obs.line_id,

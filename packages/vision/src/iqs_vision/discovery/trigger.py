@@ -23,6 +23,10 @@ evaluated discovery layer of step 8c exists. This is the minimal version:
    the class and, once named, its own fringe falls outside the known-class reach. And a group
    close to a **named** class (same rule as 5) is that class's fringe, not a new defect type:
    it raises no alert and stays buffered (``near_named``).
+7. (KNOWN_ISSUES #46, measured in 7h) **distinct images** count, not observations: repeats of
+   one image (same pixel hash, ``image_key``) are one point for HDBSCAN, the size rule and the
+   geometry, and all their observations join the cluster together. A camera stream that shows
+   the same few false-alarm images again and again is not a population of a new defect type.
 
 The parameters are stated starting values, not tuned or evaluated (KNOWN_ISSUES #43).
 Embeddings are L2-normalised, so Euclidean distance is a monotone function of cosine.
@@ -65,6 +69,24 @@ class TriggerParams(BaseModel):
 class BufferedPoint:
     observation_id: UUID
     embedding: np.ndarray  # (D,), L2-normalised
+    # Identity of the image (SHA-256 of its pixels); None = treat as a distinct image.
+    image_key: str | None = None
+
+
+def distinct_images(
+    buffer: Sequence[BufferedPoint],
+) -> tuple[list[BufferedPoint], dict[UUID, frozenset[UUID]]]:
+    """One point per image (the first observation of it, in buffer order) and, per kept
+    point, the IDs of every observation of that image."""
+    first: dict[str, BufferedPoint] = {}
+    ids: dict[str, list[UUID]] = {}
+    for p in buffer:
+        key = p.image_key if p.image_key is not None else f"obs:{p.observation_id}"
+        first.setdefault(key, p)
+        ids.setdefault(key, []).append(p.observation_id)
+    uniq = list(first.values())
+    expand = {first[k].observation_id: frozenset(v) for k, v in ids.items()}
+    return uniq, expand
 
 
 @dataclass(frozen=True)
@@ -170,6 +192,8 @@ def find_clusters(
     does not alert twice.
     """
     result = ClusteringResult()
+    # Repeats of one image are one point (step 7 above); ``expand`` maps back to observations.
+    buffer, expand = distinct_images(buffer)
     if len(buffer) < params.min_cluster_size:
         return result
     x = np.stack([p.embedding for p in buffer])
@@ -196,9 +220,9 @@ def find_clusters(
         core_geo = geometry(core, params.radius_quantile)
         reach = params.known_radius_factor * core_geo.radius
         pts = [p for p in buffer if float(np.linalg.norm(p.embedding - core_geo.centroid)) <= reach]
-        if len(pts) < params.min_cluster_size:
+        if len(pts) < params.min_cluster_size:  # distinct images
             continue
-        members = frozenset(p.observation_id for p in pts)
+        members = frozenset().union(*(expand[p.observation_id] for p in pts))
         geo = geometry(pts, params.radius_quantile)
         if geo.radius > params.max_radius:
             continue  # not compact: stays in the buffer
@@ -216,7 +240,7 @@ def find_clusters(
         if match is not None:
             union = members | match.members
             # Geometry over every member still in the buffer, not just the core's reach.
-            all_pts = [p for p in buffer if p.observation_id in union]
+            all_pts = [p for p in buffer if expand[p.observation_id] & union]
             result.grown.append(
                 (match.cluster_id, union, geometry(all_pts, params.radius_quantile))
             )

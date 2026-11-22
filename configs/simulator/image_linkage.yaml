@@ -24,8 +24,79 @@ categories:
     background_defect: null
   # MVTec AD metal_nut (defects: bent, color, flip, scratch). Used by scripts/demo_loop.py
   # with real images (read-only data/ symlink, owner approval).
+  # Good parts show the 66 good images the deploy detector never trained on: the step-2
+  # split's calib goods (train/good, held out from fit; they set the conformal threshold)
+  # plus test/good. Checked against eval_sets/vision/mvtec_ad/metal_nut.json by
+  # tests/test_image_linkage_config.py. Dealt without replacement (KNOWN_ISSUES #46).
   metal_nut:
-    good_dir: test/good
+    sampling: without_replacement
+    good_images:
+      - test/good/000.png
+      - test/good/001.png
+      - test/good/002.png
+      - test/good/003.png
+      - test/good/004.png
+      - test/good/005.png
+      - test/good/006.png
+      - test/good/007.png
+      - test/good/008.png
+      - test/good/009.png
+      - test/good/010.png
+      - test/good/011.png
+      - test/good/012.png
+      - test/good/013.png
+      - test/good/014.png
+      - test/good/015.png
+      - test/good/016.png
+      - test/good/017.png
+      - test/good/018.png
+      - test/good/019.png
+      - test/good/020.png
+      - test/good/021.png
+      - train/good/007.png
+      - train/good/009.png
+      - train/good/020.png
+      - train/good/024.png
+      - train/good/025.png
+      - train/good/026.png
+      - train/good/037.png
+      - train/good/038.png
+      - train/good/046.png
+      - train/good/050.png
+      - train/good/054.png
+      - train/good/067.png
+      - train/good/070.png
+      - train/good/075.png
+      - train/good/079.png
+      - train/good/080.png
+      - train/good/084.png
+      - train/good/086.png
+      - train/good/091.png
+      - train/good/095.png
+      - train/good/098.png
+      - train/good/104.png
+      - train/good/115.png
+      - train/good/118.png
+      - train/good/127.png
+      - train/good/130.png
+      - train/good/131.png
+      - train/good/147.png
+      - train/good/152.png
+      - train/good/161.png
+      - train/good/162.png
+      - train/good/165.png
+      - train/good/166.png
+      - train/good/167.png
+      - train/good/170.png
+      - train/good/171.png
+      - train/good/179.png
+      - train/good/180.png
+      - train/good/197.png
+      - train/good/207.png
+      - train/good/208.png
+      - train/good/215.png
+      - train/good/216.png
+      - train/good/217.png
     defect_dir: test/{defect_type}
     fault_to_defect:
       accelerated_tool_wear: scratch

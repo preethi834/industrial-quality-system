@@ -1,6 +1,6 @@
 # Step 7 — connect the projects: the integrated quality loop (plan)
 
-Status: **7a–7h done locally, not pushed.** Gates 1, 2, 4–7 met; **gate 3 met for the plumbing only**: the real-image demo runs end to end, but its alert came from false alarms on good images (KNOWN_ISSUES #46). (7g/7h 2026-11-22; 7a–7f 2026-11-21,
+Status: **7a–7h done locally, not pushed.** Gates 1, 2, 4–7 met; **gate 3 met for the plumbing only**: the real-image demo runs end to end, but its alert came from false alarms on good images (KNOWN_ISSUES #46; after fix (a)+(c) still 5 of 6 alerting images are goods). (7g/7h 2026-11-22; 7a–7f 2026-11-21,
 branch `step-7` from `main` at `c89c9af`). Plan approved by the
 owner on 2026-11-21 with decisions D1–D8 as recommended (§10); D2 (read-only symlinks) on 2026-11-22.
 Implementation log and deviations from this plan: §12.
@@ -524,7 +524,8 @@ no testcontainers, no training, no image builds.
 | 7f | `f61aca0` | migration 0005, capability status, dashboard page 5, these notes |
 | 7g | `f941306` | compose workers (`docker-compose.loop.yml`), e2e stack (`docker-compose.e2e.yml`, project `iqs-e2e`), `tests/integration/test_quality_loop_db.py`, `tests/e2e/`, `make test-e2e` / `up-loop` / `down-e2e`, diagnosis Dockerfile fix, trigger fix found by the e2e |
 | — | `b736c97` | merge of `origin/main` (step 2, PR #4): one conflict in `iqs_vision/api/main.py`, both routers kept |
-| 7h | this commit | `scripts/demo_loop.py` (real-image demo + false-cluster measurement), KNOWN_ISSUES #40–#47, ADR-015/016 in the shared docs |
+| 7h | `331d000` | `scripts/demo_loop.py` (real-image demo + false-cluster measurement), KNOWN_ISSUES #40–#47, ADR-015/016 in the shared docs |
+| 7h-fix | this commit | #46 owner decision (a)+(c): trigger counts distinct images (pixel SHA-256, migration 0006); metal_nut linkage = 66 unseen goods (calib + test), dealt without replacement; re-measured |
 
 Deviations, each for a reason found while building:
 
@@ -585,6 +586,17 @@ Deviations, each for a reason found while building:
     scorer parameters come from the frozen calibration run `cal_dx_corpus_v2_dev_a010`,
     which was fitted on a different library (dx_corpus_v2 train), so the ranking quality in the
     e2e means nothing; the cause set is reported with `guarantee_applies: false` anyway.
+14. **(7h-fix, #46) Distinct images, not observations, count toward `min_cluster_size`.**
+    Identity = SHA-256 of the decoded pixels (mode, size, bytes), stored in the new nullable
+    column `vision.discovery_observations.image_sha256` (migration **0006**, not an edit of
+    0005, so a database already at 0005 stays valid). Repeats are one point for HDBSCAN, the
+    size rule and the geometry; all their observations still become cluster members (the
+    event `size` counts observations). The metal_nut linkage now lists its good images
+    explicitly (`good_images`, checked against the step-2 split by
+    `tests/test_image_linkage_config.py`) and deals each pool without replacement
+    (`sampling: without_replacement`, one seeded permutation per cycle; the per-part draw of
+    the main stream is kept, so the ADR-008 alignment rule holds). The toy category (unit
+    and e2e tests) keeps its settings.
 
 
 ### Measured so far (in-process unit test, not a quality result)
@@ -658,6 +670,29 @@ point to the true cause, but they would have done that for this run whatever the
 The trigger itself fired on detector false alarms that repeat because the good pool is 22
 images, and the named class is that false-alarm cluster. Gate 3 is therefore recorded as
 **met for the plumbing only**. Options to fix are listed under KNOWN_ISSUES #46 (owner decision).
+
+### Re-measured after the #46 fix (a) + (c), 2026-11-22
+
+Same machine, model, threshold and labels as above; **good parts now show the 66 metal_nut
+goods the deploy model never trained on (step-2 `calib` 44 + `test/good` 22), dealt without
+replacement; the trigger counts distinct images.**
+
+| Run | Report | Result |
+| --- | --- | --- |
+| false clusters: baseline, seed 7, all 2393 parts | `demo_false_clusters_20261122T173916Z.json` | **5/66** distinct goods above q̂ (test 007, 012, 016; calib 020 = 1.925 and 046, whose step-2 score equals q̂); 181 anomalous parts (7.6 %); first alert after 44 parts; 1 cluster of exactly those 5 images (181 members, radius 0.495 vs gate 0.5); **still 1 bogus case** |
+| demo: tool_wear_m1, seed 7 | `demo_demo_20261122T180543Z.json` | alert at part 854 (64 after onset); 6 anomalous images before it: **5 good + 1 scratch**; case → awaiting confirmation 2.35 s after the alert; same top-3 (TOOL_WEAR 0.132 / WRONG_PARAMETERS 0.129 / INSUFFICIENT_COOLING 0.127), APS set 8 of 10, `guarantee_applies: false`; oracle TOOL_WEAR → count 0 → 1, graph written, named "scratch"; afterwards 20/20 scratch and 13/190 good parts `known:scratch`, no new alert, 1 case |
+
+Reading: the fix removes the repeat effect (no cluster from fewer than 5 distinct images; the
+anomalous share fell from 14 % to 7.6 %) but not the false cluster: with 66 goods, 5 exceed
+q̂ (≈ 3.3 expected at α = 0.05), which is exactly `min_cluster_size`, and they are compact
+enough (0.495) to pass the radius gate. One of the five is the calibration image that defines
+q̂. Gate 3 stays **met for the plumbing only**; remaining options under KNOWN_ISSUES #46.
+
+e2e re-run with the distinct-image trigger (`e2e_20261122T181241Z.json`, toy pool of 6 scratch
+images per category, with replacement): **passed**, 5 repeats; median 3.41 s first anomalous →
+case opened, 4.44 s → `awaiting_confirmation`; images after onset to alert 150, 127, 159, 155,
+143; cluster size at alert (observations) 5, 7, 11, 9, 11, because repeats of the 6 images no
+longer count toward the 5.
 
 ### Proposed KNOWN_ISSUES (to copy at merge; numbers #40+)
 

@@ -131,6 +131,22 @@ def test_0005_upgrade_downgrade_upgrade(alembic_cfg: Config, pg_engine: Engine) 
     command.downgrade(alembic_cfg, "base")
 
 
+def test_0006_image_sha256_upgrade_downgrade(alembic_cfg: Config, pg_engine: Engine) -> None:
+    def cols() -> set[str]:
+        return {
+            c["name"]
+            for c in inspect(pg_engine).get_columns("discovery_observations", schema="vision")
+        }
+
+    command.upgrade(alembic_cfg, "head")
+    assert "image_sha256" in cols()
+    command.downgrade(alembic_cfg, "0005")
+    assert "image_sha256" not in cols() and "embedding" in cols()
+    command.upgrade(alembic_cfg, "head")
+    assert "image_sha256" in cols()
+    command.downgrade(alembic_cfg, "base")
+
+
 def test_0005_models_are_in_the_metadata_the_drift_check_uses(migrated: Config) -> None:
     """``test_models_and_migrations_have_no_drift`` compares Base.metadata with the
     database; it only covers 0005 if env.py registered the step-7 models."""

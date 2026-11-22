@@ -12,6 +12,7 @@ silent; the API runs one worker process (compose), which is the supported setup.
 
 from __future__ import annotations
 
+import hashlib
 import threading
 import uuid
 from collections.abc import Callable
@@ -47,6 +48,13 @@ from iqs_vision.inference.registry import ModelRegistry
 
 _log = get_logger("iqs_vision.discovery")
 MAX_EVENT_IDS = 1000  # NewDefectClusterPayload.inspection_ids limit
+
+
+def image_sha256(image: Image.Image) -> str:
+    """Pixel identity of an image (mode, size, raw bytes), independent of the file encoding."""
+    h = hashlib.sha256(f"{image.mode}:{image.width}x{image.height}:".encode())
+    h.update(image.tobytes())
+    return h.hexdigest()
 
 
 @dataclass(frozen=True)
@@ -145,6 +153,7 @@ class DiscoveryService:
             ),
             routing=Routing.NORMAL,
             model_version=s.model_version,
+            image_sha256=image_sha256(image),
             part_id=ctx.part_id,
             run_id=ctx.run_id,
             line_id=ctx.line_id,
@@ -179,7 +188,11 @@ class DiscoveryService:
         self, category: str, views: list[ClusterView]
     ) -> tuple[uuid.UUID | None, uuid.UUID | None]:
         buffer = self.store.buffer(category)
-        points = [BufferedPoint(o.id, o.embedding) for o in buffer if o.embedding is not None]
+        points = [
+            BufferedPoint(o.id, o.embedding, o.image_sha256)
+            for o in buffer
+            if o.embedding is not None
+        ]
         result = find_clusters(points, views, self.params)
         by_id = {o.id: o for o in buffer}
         for cluster_id, members, geo in result.grown:

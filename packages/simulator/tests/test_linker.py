@@ -38,6 +38,14 @@ def _pool(root: Path) -> Path:
     return root
 
 
+def _copy_run(src: Path, dst: Path) -> Path:
+    for sub in ("observed", "ground_truth"):
+        (dst / sub).mkdir(parents=True)
+        for f in (src / sub).iterdir():
+            (dst / sub / f.name).write_bytes(f.read_bytes())
+    return dst
+
+
 @pytest.fixture(scope="module")
 def tool_wear_run(
     tmp_path_factory: pytest.TempPathFactory,
@@ -123,3 +131,54 @@ def test_unknown_category_and_missing_images(tool_wear_run: Path, tmp_path: Path
         write_linkage(tool_wear_run, tmp_path, "nope", cfg)
     with pytest.raises(FileNotFoundError):
         write_linkage(tool_wear_run, tmp_path / "empty", "toy", cfg)
+
+
+def test_without_replacement_shows_every_good_image_before_repeating(
+    tool_wear_run: Path, tmp_path: Path
+) -> None:
+    """#46: with replacement, a small good pool is dominated by random repeats; dealt as a
+    deck, each image appears once per cycle (counts differ by at most one)."""
+    run = _copy_run(tool_wear_run, tmp_path / "run")
+    pool = _pool(tmp_path / "pool")
+    cfg = LinkageConfig(
+        categories={
+            "toy": CategoryLinkage(
+                fault_to_defect={FaultType.ACCELERATED_TOOL_WEAR: "scratch"},
+                sampling="without_replacement",
+            )
+        }
+    )
+    info = write_linkage(run, pool, "toy", cfg)
+    m = read_manifest(run)
+    (run / LINKAGE_DIR / MANIFEST_FILE).unlink()
+    assert info["sampling"] == "without_replacement" and info["distinct_good_images"] == 3
+    for shown_as in ("good", "defect"):
+        imgs = m.loc[m["shown_as"] == shown_as, "image"].tolist()
+        counts = pd.Series(imgs).value_counts()
+        assert counts.max() - counts.min() <= 1
+        # every window of len(pool) consecutive draws within one cycle is a permutation
+        k = counts.size
+        assert all(len(set(imgs[i : i + k])) == k for i in range(0, len(imgs) - k + 1, k))
+    # Deterministic.
+    write_linkage(run, pool, "toy", cfg)
+    assert read_manifest(run).equals(m)
+    (run / LINKAGE_DIR / MANIFEST_FILE).unlink()
+
+
+def test_explicit_good_images(tool_wear_run: Path, tmp_path: Path) -> None:
+    run = _copy_run(tool_wear_run, tmp_path / "run")
+    pool = _pool(tmp_path / "pool")
+    cfg = LinkageConfig(
+        categories={
+            "toy": CategoryLinkage(good_images=("train/good/001.png", "train/good/002.png"))
+        }
+    )
+    write_linkage(run, pool, "toy", cfg)
+    m = read_manifest(run)
+    (run / LINKAGE_DIR / MANIFEST_FILE).unlink()
+    assert set(m["image"]) == {"toy/train/good/001.png", "toy/train/good/002.png"}
+    with pytest.raises(ValidationError):
+        CategoryLinkage(good_images=("a.png", "a.png"))
+    bad = LinkageConfig(categories={"toy": CategoryLinkage(good_images=("train/good/nope.png",))})
+    with pytest.raises(FileNotFoundError):
+        write_linkage(run, pool, "toy", bad)

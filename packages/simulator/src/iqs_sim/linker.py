@@ -9,6 +9,12 @@ for each part (in inspection order) the linker picks
   line's base defect rate), or a good image when no background type is configured;
 - a good image otherwise.
 
+Good images come from ``good_dir``, or from an explicit ``good_images`` list (e.g. only the
+images a detector never saw in training). ``sampling: without_replacement`` deals each pool
+like a shuffled deck: every image is shown once before any is shown again, so a small pool is
+not dominated by a few random repeats (KNOWN_ISSUES #46). A run longer than the pool still
+repeats images; it does so evenly.
+
 The linker is part of the simulated *world*, like the fault injector, so it reads
 ``ground_truth/``. Its manifest (``<run>/linkage/``) holds the defect type per part, i.e.
 ground truth, and is never given to a service: the driver posts only the image, the category,
@@ -27,6 +33,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Final, Literal
 
+import numpy as np
 import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
@@ -70,9 +77,19 @@ class CategoryLinkage(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
     good_dir: str = "train/good"  # relative to <pool>/<category>/
+    # Explicit good images, relative to <pool>/<category>/; replaces good_dir when set.
+    good_images: tuple[str, ...] | None = None
     defect_dir: str = "test/{defect_type}"
     fault_to_defect: dict[FaultType, str] = Field(default_factory=dict)
     background_defect: str | None = None
+    sampling: Literal["with_replacement", "without_replacement"] = "with_replacement"
+
+    @field_validator("good_images")
+    @classmethod
+    def _unique_non_empty(cls, value: tuple[str, ...] | None) -> tuple[str, ...] | None:
+        if value is not None and (not value or len(set(value)) != len(value)):
+            raise ValueError("good_images must be a non-empty list without duplicates")
+        return value
 
     @field_validator("fault_to_defect")
     @classmethod
@@ -121,6 +138,15 @@ class ImagePool:
         self._cache: dict[str | None, list[str]] = {}
 
     def images(self, defect_type: str | None) -> list[str]:
+        if defect_type is None and self.cfg.good_images is not None:
+            if None not in self._cache:
+                missing = [
+                    g for g in self.cfg.good_images if not (self.root / self.category / g).is_file()
+                ]
+                if missing:
+                    raise FileNotFoundError(f"good_images not in the pool: {missing[:3]}")
+                self._cache[None] = sorted(f"{self.category}/{g}" for g in self.cfg.good_images)
+            return self._cache[None]
         if defect_type not in self._cache:
             sub = (
                 self.cfg.good_dir
@@ -137,6 +163,25 @@ class ImagePool:
                 raise FileNotFoundError(f"no images in {folder}")
             self._cache[defect_type] = files
         return self._cache[defect_type]
+
+
+class _Deck:
+    """Sampling without replacement per pool: a fresh seeded permutation per cycle."""
+
+    def __init__(self, seed: int, category: str) -> None:
+        self.seed = seed
+        self.category = category
+        self._decks: dict[str | None, list[int]] = {}
+        self._cycles: dict[str | None, int] = {}
+
+    def draw(self, defect_type: str | None, n: int) -> int:
+        deck = self._decks.setdefault(defect_type, [])
+        if not deck:
+            cycle = self._cycles.get(defect_type, 0)
+            self._cycles[defect_type] = cycle + 1
+            name = f"linker:{self.category}:deck:{defect_type or 'good'}:{cycle}"
+            deck.extend(int(i) for i in stream(self.seed, name).permutation(np.arange(n))[::-1])
+        return deck.pop()
 
 
 def _fault_types(truth_dir: Path) -> dict[str, FaultType]:
@@ -171,6 +216,7 @@ def plan_linkage(
     fault_types = _fault_types(truth_dir)
     seed = _scenario_seed(truth_dir) * 1_000_003 + config.seed
     rng = stream(seed, f"linker:{category}")
+    deck = _Deck(seed, category) if cfg.sampling == "without_replacement" else None
 
     for seq, row in enumerate(df.itertuples()):
         defect_type: str | None = None
@@ -187,6 +233,8 @@ def plan_linkage(
         images = pool.images(defect_type)
         # One draw per part whatever the outcome, so the stream stays aligned (ADR-008 rule).
         pick = int(rng.integers(0, 1 << 31)) % len(images)
+        if deck is not None:
+            pick = deck.draw(defect_type, len(images))
         yield LinkedPart(
             seq=seq,
             part_id=str(row.part_id),
@@ -238,6 +286,8 @@ def write_linkage(
         "config_sha256": config.sha256(),
         "n_parts": len(linked),
         "counts": dict(sorted(counts.items())),
+        "sampling": config.categories[category].sampling,
+        "distinct_good_images": len({p.image for p in linked if p.defect_type is None}),
     }
     (out / INFO_FILE).write_text(json.dumps(info, indent=2, sort_keys=True) + "\n")
     return info

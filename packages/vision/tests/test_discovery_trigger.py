@@ -176,3 +176,47 @@ def test_grown_cluster_geometry_covers_all_members() -> None:
     expected = geometry(core + edge, P.radius_quantile)
     assert np.isclose(geo.radius, expected.radius)
     assert geo.radius > 0.15  # the edge members count
+
+
+# ------------------------------------------------------------ distinct images (KNOWN_ISSUES #46)
+
+
+def test_repeats_of_few_images_do_not_make_a_cluster() -> None:
+    """#46 (7h): a stream that shows the same 3 false-alarm images over and over formed a
+    'cluster'. Repeats share an image_key and count once, so 3 images x 10 is not 5."""
+    rng = np.random.default_rng(11)
+    c = unit(rng)
+    images = [(f"img{k}", unit(rng, c)) for k in range(3)]
+    buf = [BufferedPoint(uuid4(), e, key) for _ in range(10) for key, e in images]
+    r = find_clusters(buf, [], P)
+    assert r.new == [] and r.grown == []
+    # Without image identity the same embeddings alert (here: one cluster per repeated image).
+    anonymous = [BufferedPoint(p.observation_id, p.embedding) for p in buf]
+    assert len(find_clusters(anonymous, [], P).new) >= 1
+
+
+def test_five_distinct_images_alert_and_every_repeat_joins() -> None:
+    rng = np.random.default_rng(12)
+    c = unit(rng)
+    images = [(f"img{k}", unit(rng, c)) for k in range(5)]
+    buf = [BufferedPoint(uuid4(), e, key) for key, e in images]
+    r4 = find_clusters(buf[:4] + [BufferedPoint(uuid4(), images[0][1], "img0")], [], P)
+    assert r4.new == []  # 4 distinct images + one repeat
+    buf += [BufferedPoint(uuid4(), images[1][1], "img1") for _ in range(3)]
+    r = find_clusters(buf, [], P)
+    assert len(r.new) == 1
+    members, _ = r.new[0]
+    assert members == frozenset(p.observation_id for p in buf)  # repeats are members too
+
+
+def test_grown_cluster_counts_repeats_as_members() -> None:
+    rng = np.random.default_rng(13)
+    c = unit(rng)
+    images = [(f"img{k}", unit(rng, c)) for k in range(6)]
+    buf = [BufferedPoint(uuid4(), e, key) for key, e in images]
+    first = find_clusters(buf, [], P).new[0]
+    view = ClusterView(uuid4(), first[0], first[1].centroid, first[1].radius, named=False)
+    repeat = BufferedPoint(uuid4(), images[2][1], "img2")
+    r = find_clusters([*buf, repeat], [view], P)
+    assert r.new == [] and len(r.grown) == 1
+    assert repeat.observation_id in r.grown[0][1]
