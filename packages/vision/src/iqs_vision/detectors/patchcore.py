@@ -77,14 +77,19 @@ class PatchCoreDetector:
         self.model = _build_model(cfg, weights_path)
 
     # -- fitting ---------------------------------------------------------------------
-    def _embed(self, images: torch.Tensor) -> torch.Tensor:
-        """(B, 3, S, S) -> (B * h * w, D) patch embeddings, as in PatchcoreModel.forward."""
+    def patch_features(self, images: torch.Tensor) -> torch.Tensor:
+        """(B, 3, S, S) -> (B, D, h, w): the patch embeddings PatchCore compares with its
+        memory bank (used by the step-7 discovery trigger)."""
         m = self.model
         with torch.no_grad():
             feats = m.feature_extractor(images)
             feats = {k: m.feature_pooler(v) for k, v in feats.items()}
-            emb = m.generate_embedding(feats)
-        return m.reshape_embedding(emb)
+            emb: torch.Tensor = m.generate_embedding(feats)
+        return emb
+
+    def _embed(self, images: torch.Tensor) -> torch.Tensor:
+        """(B, 3, S, S) -> (B * h * w, D) patch embeddings, as in PatchcoreModel.forward."""
+        return self.model.reshape_embedding(self.patch_features(images))
 
     def fit(self, batches: Iterable[torch.Tensor], n_images: int) -> FitStats:
         torch.manual_seed(self.cfg.seed)

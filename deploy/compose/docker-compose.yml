@@ -10,6 +10,7 @@
 # Profiles: core = Postgres + Neo4j. apps = core + the vision and diagnosis APIs (+ dashboard).
 # vision = Postgres + vision API (+ dashboard): the step-1 demo without Neo4j (ADR-004).
 # llm / observability are added in later steps.
+# Host ports can be moved with IQS_*_HOST_PORT (defaults below); the e2e stack uses that.
 
 name: iqs
 
@@ -48,8 +49,8 @@ services:
       NEO4J_server_memory_heap_max__size: 1G
       NEO4J_server_memory_pagecache_size: 512m
     ports:
-      - "127.0.0.1:7474:7474"  # browser / HTTP
-      - "127.0.0.1:7687:7687"  # bolt
+      - "127.0.0.1:${IQS_NEO4J_HTTP_HOST_PORT:-7474}:7474"  # browser / HTTP
+      - "127.0.0.1:${IQS_NEO4J_BOLT_HOST_PORT:-7687}:7687"  # bolt
     volumes:
       - neo4j_data:/data
       - neo4j_logs:/logs
@@ -85,7 +86,7 @@ services:
       # read-only; the image never downloads anything (blueprint Rev 2 §3.9).
       - ./models:/app/models:ro
     ports:
-      - "127.0.0.1:8001:8001"
+      - "127.0.0.1:${IQS_VISION_HOST_PORT:-8001}:8001"
     depends_on:
       postgres:
         condition: service_healthy
@@ -105,7 +106,7 @@ services:
       IQS_NEO4J__USER: ${IQS_NEO4J__USER:?set IQS_NEO4J__USER in .env}
       IQS_NEO4J__PASSWORD: ${IQS_NEO4J__PASSWORD:?set IQS_NEO4J__PASSWORD in .env}
     ports:
-      - "127.0.0.1:8002:8002"
+      - "127.0.0.1:${IQS_DIAGNOSIS_HOST_PORT:-8002}:8002"
     depends_on:
       postgres:
         condition: service_healthy

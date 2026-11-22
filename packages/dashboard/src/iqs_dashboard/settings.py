@@ -9,6 +9,7 @@ from iqs_common.settings import CommonSettings
 
 class DashboardConfig(BaseModel):
     vision_url: str = "http://localhost:8001"
+    diagnosis_url: str = "http://localhost:8002"  # step 7 quality-loop page
     timeout_s: float = Field(default=60.0, gt=0)
 
 

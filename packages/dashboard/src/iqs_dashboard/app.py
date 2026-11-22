@@ -8,6 +8,7 @@ from __future__ import annotations
 import streamlit as st
 
 from iqs_dashboard import client as api
+from iqs_dashboard.capabilities import status_table
 
 st.set_page_config(page_title="Industrial Quality AI", layout="wide")
 st.title("Industrial Quality AI")
@@ -19,7 +20,7 @@ try:
     caps = c.capabilities()
     st.success(f"Vision API {health['version']} is up")
     st.subheader("Vision capabilities")
-    st.table({"feature": list(caps["features"]), "available": list(caps["features"].values())})
+    st.table(status_table(caps))
 except api.VisionAPIError as exc:
     st.error(f"Vision API error {exc.status}: {exc.detail}")
 except Exception as exc:  # noqa: BLE001  (connection errors: show, do not crash)

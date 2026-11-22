@@ -1,0 +1,16 @@
+{
+  "event_id": "0193a1b2-0000-7000-8000-000000000002",
+  "schema_version": 1,
+  "occurred_at": "2026-01-06T09:00:00Z",
+  "type": "case_confirmed",
+  "producer": "diagnosis",
+  "payload": {
+    "case_id": "6b0c7c8e-3a59-5d43-9a1f-0c3c1b8e5f01",
+    "cause_code": "MACHINE.TOOL_WEAR",
+    "taxonomy_version": "0.1.0",
+    "confirmed_by": "engineer-1",
+    "confirmed_at": "2026-01-06T09:00:00Z",
+    "source_cluster_id": "0193a1b2-0000-7000-8000-0000000000c1",
+    "defect_class_name": "scratch_tool_wear"
+  }
+}

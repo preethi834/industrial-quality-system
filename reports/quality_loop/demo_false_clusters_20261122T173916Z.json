@@ -1,0 +1,458 @@
+{
+  "what": "step-7 quality loop, phase false-clusters",
+  "data": "REAL MVTec AD metal_nut images, step-1 deploy PatchCore with step-2 conformal threshold; SIMULATED process data; SYNTHETIC image-to-part linkage",
+  "measured_at": "2026-11-22T18:04:42+00:00",
+  "machine": "dev laptop (WSL2, 16 vCPU, ~9.7 GiB VM), CPU inference",
+  "scenario": "baseline",
+  "scenario_seed": 7,
+  "simulator_run_id": "run-0f0000000007",
+  "category": "metal_nut",
+  "model": {
+    "version": "patchcore-metal_nut-deploy-114f2c1f",
+    "threshold": 1.910914659500122,
+    "threshold_method": "split_conformal_marginal",
+    "threshold_alpha": 0.05
+  },
+  "library_cases": 8,
+  "prepare_s": 9.1,
+  "stack_up_s": 55.1,
+  "phase_s": 1471.1,
+  "outbox_events": {
+    "new_defect_cluster:processed": 1
+  },
+  "parts_streamed": 2393,
+  "shown_as": {
+    "good": 2393
+  },
+  "threshold": 1.910914659500122,
+  "anomalous_parts": 181,
+  "distinct_good_images": 66,
+  "distinct_good_images_above_threshold": [
+    "metal_nut/test/good/007.png",
+    "metal_nut/test/good/012.png",
+    "metal_nut/test/good/016.png",
+    "metal_nut/train/good/020.png",
+    "metal_nut/train/good/046.png"
+  ],
+  "distinct_above_threshold_by_split": {
+    "test": 3,
+    "calib": 2
+  },
+  "distinct_good_images_by_split": {
+    "test": 22,
+    "calib": 44
+  },
+  "anomalous_draws_of_distinct_images": 181,
+  "per_image": {
+    "metal_nut/test/good/000.png": {
+      "score": 1.7492,
+      "draws": 36,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/001.png": {
+      "score": 1.6275,
+      "draws": 36,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/002.png": {
+      "score": 1.7885,
+      "draws": 36,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/003.png": {
+      "score": 1.5933,
+      "draws": 36,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/004.png": {
+      "score": 1.7199,
+      "draws": 37,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/005.png": {
+      "score": 1.8418,
+      "draws": 37,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/006.png": {
+      "score": 1.7704,
+      "draws": 36,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/007.png": {
+      "score": 1.9515,
+      "draws": 37,
+      "above": true,
+      "split": "test"
+    },
+    "metal_nut/test/good/008.png": {
+      "score": 1.8386,
+      "draws": 36,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/009.png": {
+      "score": 1.8127,
+      "draws": 36,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/010.png": {
+      "score": 1.7517,
+      "draws": 36,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/011.png": {
+      "score": 1.8444,
+      "draws": 36,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/012.png": {
+      "score": 1.9989,
+      "draws": 36,
+      "above": true,
+      "split": "test"
+    },
+    "metal_nut/test/good/013.png": {
+      "score": 1.8099,
+      "draws": 36,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/014.png": {
+      "score": 1.7816,
+      "draws": 36,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/015.png": {
+      "score": 1.7977,
+      "draws": 36,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/016.png": {
+      "score": 2.0337,
+      "draws": 36,
+      "above": true,
+      "split": "test"
+    },
+    "metal_nut/test/good/017.png": {
+      "score": 1.6635,
+      "draws": 36,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/018.png": {
+      "score": 1.618,
+      "draws": 36,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/019.png": {
+      "score": 1.6362,
+      "draws": 37,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/020.png": {
+      "score": 1.6584,
+      "draws": 36,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/test/good/021.png": {
+      "score": 1.6995,
+      "draws": 36,
+      "above": false,
+      "split": "test"
+    },
+    "metal_nut/train/good/007.png": {
+      "score": 1.7628,
+      "draws": 37,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/009.png": {
+      "score": 1.6678,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/020.png": {
+      "score": 1.9248,
+      "draws": 36,
+      "above": true,
+      "split": "calib"
+    },
+    "metal_nut/train/good/024.png": {
+      "score": 1.7986,
+      "draws": 37,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/025.png": {
+      "score": 1.5613,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/026.png": {
+      "score": 1.6408,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/037.png": {
+      "score": 1.5889,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/038.png": {
+      "score": 1.7845,
+      "draws": 37,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/046.png": {
+      "score": 1.9109,
+      "draws": 36,
+      "above": true,
+      "split": "calib"
+    },
+    "metal_nut/train/good/050.png": {
+      "score": 1.7435,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/054.png": {
+      "score": 1.7142,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/067.png": {
+      "score": 1.8932,
+      "draws": 37,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/070.png": {
+      "score": 1.6655,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/075.png": {
+      "score": 1.8129,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/079.png": {
+      "score": 1.766,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/080.png": {
+      "score": 1.7426,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/084.png": {
+      "score": 1.712,
+      "draws": 37,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/086.png": {
+      "score": 1.6651,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/091.png": {
+      "score": 1.8631,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/095.png": {
+      "score": 1.6699,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/098.png": {
+      "score": 1.8482,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/104.png": {
+      "score": 1.6084,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/115.png": {
+      "score": 1.5495,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/118.png": {
+      "score": 1.7628,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/127.png": {
+      "score": 1.6932,
+      "draws": 37,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/130.png": {
+      "score": 1.593,
+      "draws": 37,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/131.png": {
+      "score": 1.6127,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/147.png": {
+      "score": 1.7794,
+      "draws": 37,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/152.png": {
+      "score": 1.7379,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/161.png": {
+      "score": 1.8845,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/162.png": {
+      "score": 1.7466,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/165.png": {
+      "score": 1.6533,
+      "draws": 37,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/166.png": {
+      "score": 1.5024,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/167.png": {
+      "score": 1.691,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/170.png": {
+      "score": 1.7466,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/171.png": {
+      "score": 1.778,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/179.png": {
+      "score": 1.7579,
+      "draws": 37,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/180.png": {
+      "score": 1.8518,
+      "draws": 37,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/197.png": {
+      "score": 1.8515,
+      "draws": 37,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/207.png": {
+      "score": 1.7661,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/208.png": {
+      "score": 1.6236,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/215.png": {
+      "score": 1.6986,
+      "draws": 37,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/216.png": {
+      "score": 1.753,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    },
+    "metal_nut/train/good/217.png": {
+      "score": 1.6554,
+      "draws": 36,
+      "above": false,
+      "split": "calib"
+    }
+  },
+  "false_clusters": [
+    {
+      "cluster_id": "01a20458-bdbb-7e41-ae65-f268678a8f20",
+      "size": 181,
+      "status": "alerted",
+      "radius": 0.4953781068325043
+    }
+  ],
+  "false_alert_after_parts": 44,
+  "bogus_cases_opened": 1,
+  "bogus_case_phases": [
+    "awaiting_confirmation"
+  ],
+  "inspect_latency_median_s": 0.575
+}

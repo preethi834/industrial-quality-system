@@ -1,0 +1,122 @@
+{
+  "what": "step-7 quality loop, phase demo",
+  "data": "REAL MVTec AD metal_nut images, step-1 deploy PatchCore with step-2 conformal threshold; SIMULATED process data; SYNTHETIC image-to-part linkage",
+  "measured_at": "2026-11-22T18:10:00+00:00",
+  "machine": "dev laptop (WSL2, 16 vCPU, ~9.7 GiB VM), CPU inference",
+  "scenario": "tool_wear_m1",
+  "scenario_seed": 7,
+  "simulator_run_id": "run-de0000000007",
+  "category": "metal_nut",
+  "model": {
+    "version": "patchcore-metal_nut-deploy-114f2c1f",
+    "threshold": 1.910914659500122,
+    "threshold_method": "split_conformal_marginal",
+    "threshold_alpha": 0.05
+  },
+  "library_cases": 8,
+  "prepare_s": 8.5,
+  "stack_up_s": 50.6,
+  "phase_s": 205.8,
+  "outbox_events": {
+    "case_confirmed:processed": 1,
+    "new_defect_cluster:processed": 1
+  },
+  "images_streamed_to_alert": 94,
+  "result": "loop closed",
+  "true_cause": "MACHINE.TOOL_WEAR",
+  "confirmed_cause": "MACHINE.TOOL_WEAR",
+  "confirmed_by": "oracle (ground truth)",
+  "alert_part_seq": 854,
+  "images_after_onset_to_alert": 64,
+  "anomalous_to_alert": 6,
+  "anomalous_good_images_to_alert": 5,
+  "defect_images_to_alert": 1,
+  "defect_images_missed_to_alert": 0,
+  "cluster_size_at_alert": 6,
+  "latency_first_anomalous_to_case_opened_s": 46.01,
+  "latency_first_anomalous_to_awaiting_confirmation_s": 48.01,
+  "latency_alert_to_awaiting_confirmation_s": 2.35,
+  "cause_set": {
+    "case_id": "c578d009-ac6d-5cd1-b903-f962015613ed",
+    "kind": "conformal",
+    "causes": [
+      "MACHINE.TOOL_WEAR",
+      "METHOD.WRONG_PROCESS_PARAMETERS",
+      "MACHINE.INSUFFICIENT_COOLING",
+      "MACHINE.SPINDLE_OVERLOAD",
+      "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+      "MATERIAL.BAD_BATCH",
+      "MACHINE.FIXTURE_MISALIGNMENT",
+      "MEASUREMENT.SENSOR_DRIFT"
+    ],
+    "empty": false,
+    "lac_empty": true,
+    "method": "aps",
+    "variant": "aps",
+    "alpha": 0.1,
+    "delta": null,
+    "qhat": 0.9910891089108912,
+    "calibration_run_id": "cal_dx_corpus_v2_dev_a010:aps",
+    "source": "simulator",
+    "guarantee": "Contains the true cause with probability >= 0.90, marginally over simulator cases exchangeable with the 230 calibration cases; causes outside the taxonomy and new problems are not covered.",
+    "guarantee_applies": false,
+    "coverage_note": "This case comes from source 'vision', not from the calibration source 'simulator': the set is computed with the same threshold, but the guarantee does not apply to it.",
+    "top3": [
+      {
+        "cause_code": "MACHINE.TOOL_WEAR",
+        "probability": 0.13168829380182603
+      },
+      {
+        "cause_code": "METHOD.WRONG_PROCESS_PARAMETERS",
+        "probability": 0.1285597015813844
+      },
+      {
+        "cause_code": "MACHINE.INSUFFICIENT_COOLING",
+        "probability": 0.12661279318521657
+      }
+    ],
+    "novel": false,
+    "max_similarity": 0.934101907037213
+  },
+  "hypotheses_verdicts": [
+    [
+      "MACHINE.TOOL_WEAR",
+      "supported"
+    ],
+    [
+      "METHOD.WRONG_PROCESS_PARAMETERS",
+      "inconclusive"
+    ],
+    [
+      "MACHINE.INSUFFICIENT_COOLING",
+      "supported"
+    ]
+  ],
+  "feedback": {
+    "count_before": 0,
+    "count_after": 1,
+    "graph": {
+      "status": "written",
+      "at": "2026-11-22T18:07:49.852821+00:00"
+    }
+  },
+  "count_before_after": [
+    0,
+    1
+  ],
+  "after_naming": {
+    "parts": 210,
+    "defect_parts": 20,
+    "routing_of_defects": {
+      "known:scratch": 20
+    },
+    "routing_of_goods": {
+      "normal": 177,
+      "known:scratch": 13
+    },
+    "defect_images_also_seen_before_alert": 0,
+    "new_alerts": 0
+  },
+  "vision_cases_total": 1,
+  "inspect_latency_median_s": 0.588
+}

@@ -10,6 +10,7 @@ scientist report for a case replaces that case's rows.
 from __future__ import annotations
 
 import threading
+import uuid
 from datetime import datetime
 from enum import StrEnum
 from typing import TYPE_CHECKING, Any, Protocol
@@ -22,11 +23,12 @@ from sqlalchemy import (
     Integer,
     String,
     Text,
+    Uuid,
     delete,
     func,
     select,
 )
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import JSONB, insert
 from sqlalchemy.orm import Mapped, Session, mapped_column, sessionmaker
 
 from iqs_common.db import Base, session_scope
@@ -57,6 +59,18 @@ class CaseRepository(Protocol):
         self, case_id: str, cause_set: list[str], calibration_run_id: str
     ) -> None: ...
     def save_hypothesis_tests(self, case_id: str, report: ScientistReport) -> None: ...
+    # step 7
+    def open_vision_case(self, event_id: uuid.UUID, case: DiagnosisCase) -> bool:
+        """Record the event and register the case in one transaction; ``False`` when the
+        event was already handled or the cluster already has a case (no second case)."""
+        ...
+
+    def list_cases(
+        self,
+        source: str | None = None,
+        status: CaseStatus | None = None,
+        cluster_id: str | None = None,
+    ) -> list[tuple[DiagnosisCase, CaseStatus]]: ...
 
 
 def hypothesis_rows(report: ScientistReport) -> list[dict[str, Any]]:
@@ -105,6 +119,8 @@ class InMemoryCaseRepository:
         self.calibration_runs: dict[str, dict[str, Any]] = {}
         self.cause_sets: dict[str, tuple[list[str], str]] = {}
         self.hypothesis_tests: dict[str, list[dict[str, Any]]] = {}
+        self.processed_events: dict[uuid.UUID, str] = {}
+        self.cluster_cases: dict[str, str] = {}
 
     def add(self, case: DiagnosisCase) -> None:
         with self._lock:
@@ -144,6 +160,35 @@ class InMemoryCaseRepository:
         with self._lock:
             self.hypothesis_tests[case_id] = hypothesis_rows(report)
 
+    def open_vision_case(self, event_id: uuid.UUID, case: DiagnosisCase) -> bool:
+        if case.source_cluster_id is None:
+            raise ValueError("a vision case needs source_cluster_id")
+        with self._lock:
+            if event_id in self.processed_events:
+                return False
+            self.processed_events[event_id] = case.case_id
+            if case.source_cluster_id in self.cluster_cases or case.case_id in self.cases:
+                return False
+            self.cluster_cases[case.source_cluster_id] = case.case_id
+            self.cases[case.case_id] = case
+            self.statuses[case.case_id] = CaseStatus.REGISTERED
+            return True
+
+    def list_cases(
+        self,
+        source: str | None = None,
+        status: CaseStatus | None = None,
+        cluster_id: str | None = None,
+    ) -> list[tuple[DiagnosisCase, CaseStatus]]:
+        with self._lock:
+            return [
+                (c, self.statuses[c.case_id])
+                for c in self.cases.values()
+                if source in (None, c.source)
+                and status in (None, self.statuses[c.case_id])
+                and cluster_id in (None, c.source_cluster_id)
+            ]
+
 
 # ------------------------------------------------------------------ Postgres
 
@@ -169,6 +214,21 @@ class CaseRow(Base):
     confirmed_cause_code: Mapped[str | None] = mapped_column(String(64))
     case_json: Mapped[dict[str, Any]] = mapped_column(JSONB)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    # step 7 (migration 0005): one case per vision cluster at most
+    source_cluster_id: Mapped[str | None] = mapped_column(String(64), unique=True)
+
+
+class ProcessedEventRow(Base):
+    """Events this service has handled (idempotent consumer, step 7)."""
+
+    __tablename__ = "processed_events"
+    __table_args__ = ({"schema": DIAGNOSIS_SCHEMA},)
+
+    event_id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True)
+    case_id: Mapped[str | None] = mapped_column(String(64))
+    processed_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
 
 class CaseCauseRow(Base):
@@ -264,6 +324,7 @@ class SqlCaseRepository:
                         symptoms=list(case.reported_symptoms),
                         status=CaseStatus.REGISTERED.value,
                         case_json=case.model_dump(mode="json"),
+                        source_cluster_id=case.source_cluster_id,
                     )
                 )
 
@@ -352,3 +413,53 @@ class SqlCaseRepository:
             s.execute(delete(HypothesisTestRow).where(HypothesisTestRow.case_id == case_id))
             for row in hypothesis_rows(report):
                 s.add(HypothesisTestRow(case_id=case_id, **row))
+
+    def open_vision_case(self, event_id: uuid.UUID, case: DiagnosisCase) -> bool:
+        if case.source_cluster_id is None:
+            raise ValueError("a vision case needs source_cluster_id")
+        with session_scope(self._factory) as s:
+            first = s.execute(
+                insert(ProcessedEventRow)
+                .values(event_id=event_id, case_id=case.case_id)
+                .on_conflict_do_nothing(index_elements=["event_id"])
+                .returning(ProcessedEventRow.event_id)
+            ).first()
+            if first is None:
+                return False
+            # The case ID derives from the cluster ID, so the primary key and the unique
+            # source_cluster_id both stop a second case for the same cluster.
+            created = s.execute(
+                insert(CaseRow)
+                .values(
+                    id=case.case_id,
+                    source=case.source,
+                    title=case.title,
+                    description=case.description,
+                    symptoms=list(case.reported_symptoms),
+                    status=CaseStatus.REGISTERED.value,
+                    case_json=case.model_dump(mode="json"),
+                    source_cluster_id=case.source_cluster_id,
+                )
+                .on_conflict_do_nothing()
+                .returning(CaseRow.id)
+            ).first()
+            return created is not None
+
+    def list_cases(
+        self,
+        source: str | None = None,
+        status: CaseStatus | None = None,
+        cluster_id: str | None = None,
+    ) -> list[tuple[DiagnosisCase, CaseStatus]]:
+        q = select(CaseRow).order_by(CaseRow.created_at, CaseRow.id)
+        if source is not None:
+            q = q.where(CaseRow.source == source)
+        if status is not None:
+            q = q.where(CaseRow.status == status.value)
+        if cluster_id is not None:
+            q = q.where(CaseRow.source_cluster_id == cluster_id)
+        with session_scope(self._factory) as s:
+            return [
+                (DiagnosisCase.model_validate(r.case_json), CaseStatus(r.status))
+                for r in s.scalars(q).all()
+            ]

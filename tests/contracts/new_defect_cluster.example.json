@@ -1,0 +1,26 @@
+{
+  "event_id": "0193a1b2-0000-7000-8000-000000000001",
+  "schema_version": 1,
+  "occurred_at": "2026-01-05T20:00:00Z",
+  "type": "new_defect_cluster",
+  "producer": "vision",
+  "payload": {
+    "cluster_id": "0193a1b2-0000-7000-8000-0000000000c1",
+    "category": "metal_nut",
+    "size": 5,
+    "first_seen": "2026-01-05T18:00:00Z",
+    "last_seen": "2026-01-05T20:00:00Z",
+    "inspection_ids": [
+      "0193a1b2-0000-7000-8000-0000000000a1",
+      "0193a1b2-0000-7000-8000-0000000000a2"
+    ],
+    "part_ids": ["P000123", "P000140"],
+    "model_version": "patchcore:metal_nut:deploy",
+    "line_id": "L1",
+    "simulator_run_id": "run-0123456789ab",
+    "linkage": "synthetic_simulator",
+    "representative_inspection_id": "0193a1b2-0000-7000-8000-0000000000a1",
+    "score_max": 3.2,
+    "score_median": 2.1
+  }
+}

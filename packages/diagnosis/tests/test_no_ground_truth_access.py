@@ -73,3 +73,39 @@ def test_guard_sees_the_evaluation_modules() -> None:
     """The guard is not vacuous: evaluation code does name the directory."""
     rels = [rel for rel, _ in _modules()]
     assert "evaluation/labels.py" in rels
+
+
+def _string_constants(src: Path) -> list[tuple[str, int, str]]:
+    out = []
+    for p in sorted(src.rglob("*.py")):
+        tree = ast.parse(p.read_text(encoding="utf-8"))
+        docs = _docstrings(tree)
+        for node in ast.walk(tree):
+            if (
+                isinstance(node, ast.Constant)
+                and isinstance(node.value, str)
+                and id(node) not in docs
+            ):
+                out.append((str(p.relative_to(src)), node.lineno, node.value))
+    return out
+
+
+def test_services_never_name_the_linker_manifest_or_ground_truth() -> None:
+    """Step 7: the image-linker manifest (``<run>/linkage/``) holds the defect type per part,
+    i.e. ground truth. Neither service may name it. The vision discovery code may not name
+    the simulator's ground_truth either (MVTec's own ground_truth/ masks folder in
+    iqs_vision.data is a different thing and is allowed there)."""
+    import pytest
+
+    iqs_vision = pytest.importorskip("iqs_vision")  # not installed in the diagnosis image
+    vision = Path(iqs_vision.__file__).resolve().parent
+    offenders = []
+    for pkg, banned in [
+        (SRC, ("linkage/", "manifest.parquet")),
+        (vision, ("linkage/", "manifest.parquet")),
+        (vision / "discovery", ("ground_truth",)),
+    ]:
+        for rel, line, value in _string_constants(pkg):
+            if any(b in value for b in banned):
+                offenders.append(f"{pkg.name}/{rel}:{line}: {value!r}")
+    assert offenders == []

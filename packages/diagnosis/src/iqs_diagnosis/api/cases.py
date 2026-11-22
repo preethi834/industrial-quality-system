@@ -10,14 +10,15 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Annotated, Any
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Query, status
 from pydantic import BaseModel, Field
 
 from iqs_diagnosis.agent.graph import DiagnosisAgent
+from iqs_diagnosis.feedback.update import FeedbackService
 from iqs_diagnosis.ingestion.simulator import load_case
-from iqs_diagnosis.persistence.repository import CaseRepository
+from iqs_diagnosis.persistence.repository import CaseRepository, CaseStatus
 
 RUN_ID = re.compile(r"^run-[0-9a-f]{12}$")
 
@@ -28,6 +29,7 @@ class CaseService:
     repository: CaseRepository
     runs_root: Path | None
     cause_codes: frozenset[str]
+    feedback: FeedbackService | None = None  # step 7
 
 
 class RegisterCase(BaseModel):
@@ -37,6 +39,13 @@ class RegisterCase(BaseModel):
 class ConfirmCause(BaseModel):
     cause_code: str | None = Field(description="Taxonomy code, or null if no listed cause fits")
     engineer: str = Field(min_length=1, max_length=128)
+    defect_class_name: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=64,
+        pattern=r"^[A-Za-z0-9_.:/-]+$",
+        description="Vision cases only: name for the new defect class (default <category>:<cause>)",
+    )
 
 
 def _ranking(state: dict[str, Any]) -> dict[str, Any]:
@@ -72,16 +81,37 @@ def build_cases_router(service: CaseService) -> APIRouter:
         service.repository.add(case)
         return {"case_id": case.case_id, "title": case.title, "status": "registered"}
 
+    @router.get("")
+    def list_cases(
+        source: str | None = None,
+        case_status: Annotated[CaseStatus | None, Query(alias="status")] = None,
+        cluster_id: str | None = None,
+    ) -> list[dict[str, Any]]:
+        """Cases, optionally filtered (step 7: ``?source=vision`` for cluster cases)."""
+        return [
+            _summary(case, st)
+            for case, st in service.repository.list_cases(source, case_status, cluster_id)
+        ]
+
+    def _summary(case: Any, st: CaseStatus | None) -> dict[str, Any]:
+        return {
+            "case_id": case.case_id,
+            "source": case.source,
+            "status": None if st is None else st.value,
+            "title": case.title,
+            "source_cluster_id": case.source_cluster_id,
+            "linkage": case.linkage,
+            "phase": service.agent.phase(case.case_id),
+        }
+
     @router.get("/{case_id}")
     def get_case(case_id: str) -> dict[str, Any]:
         _require(case_id)
         case = service.repository.get(case_id)
         assert case is not None
         return {
-            "case_id": case_id,
-            "title": case.title,
+            **_summary(case, service.repository.status(case_id)),
             "description": case.description,
-            "phase": service.agent.phase(case_id),
         }
 
     @router.post("/{case_id}/run")
@@ -136,12 +166,52 @@ def build_cases_router(service: CaseService) -> APIRouter:
             raise HTTPException(status.HTTP_409_CONFLICT, "case is not waiting for confirmation")
         if body.cause_code is not None and body.cause_code not in service.cause_codes:
             raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, "unknown cause code")
-        state = await service.agent.confirm(case_id, body.cause_code, body.engineer)
+        case = service.repository.get(case_id)
+        assert case is not None
+        if body.defect_class_name is not None and case.source_cluster_id is None:
+            raise HTTPException(
+                status.HTTP_422_UNPROCESSABLE_CONTENT,
+                "defect_class_name is only for vision-originated cases",
+            )
+        state = await service.agent.confirm(
+            case_id, body.cause_code, body.engineer, body.defect_class_name
+        )
         return {
             "case_id": case_id,
             "phase": service.agent.phase(case_id),
             "confirmation": state["confirmation"],
             "ticket": state.get("ticket"),
+            "feedback": state.get("feedback"),
+        }
+
+    return router
+
+
+def build_feedback_router(feedback: FeedbackService) -> APIRouter:
+    """Read-only view of what confirmations have changed (step 7)."""
+    router = APIRouter(prefix="/feedback", tags=["feedback"])
+
+    @router.get("/counts")
+    def counts() -> dict[str, Any]:
+        return {
+            "note": (
+                "Dirichlet counts per (context, cause), prior alpha_0 = 1 per cell implicit. "
+                "Recorded only: the scorer does not use them before step 8a."
+            ),
+            "counts": [
+                {"context": ctx, "cause_code": cause, "count": n}
+                for ctx, cause, n in feedback.store.counts()
+            ],
+        }
+
+    @router.get("/candidates")
+    def candidates() -> dict[str, Any]:
+        return {
+            "note": (
+                "Candidate pool for the NEXT versioned calibration set; the active "
+                "calibration run is frozen and never changed by a confirmation."
+            ),
+            "candidates": feedback.store.candidates(),
         }
 
     return router

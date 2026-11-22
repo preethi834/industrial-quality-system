@@ -462,3 +462,84 @@ euros, without breaking step 2's "at most α of good parts flagged". `docs/notes
 where good parts often score above q̂ (it reviews instead of scrapping); elsewhere it can cost more
 than plain rejection, because a prior-shifted p below p_rr sends real defects to review
 (KNOWN_ISSUES #33). Euro results remain assumptions on benchmark images.
+
+## ADR-015 — Quality-loop delivery: transactional outbox, idempotent consumers (step 7)
+
+**Status:** accepted · 2026-11-22 (numbered 015 as proposed in the step-7 plan, written while
+the numbers of steps 2 and 6 were not yet known; ADR-011 is step 6, ADR-012…014 are unused)
+
+**Context.** Step 7 connects vision and diagnosis: a cluster of unknown visual defects opens
+a root-cause case; an engineer's confirmation flows back and names the defect class
+(blueprint Rev 2 §5 step 7, owner decisions D1–D8 of 2026-11-21, `docs/notes/step-7.md`).
+
+**Decisions.**
+
+1. **Transactional outbox in `platform.events`**, no broker. A producer writes its state change
+   and the event in one Postgres transaction (vision: cluster row + `new_defect_cluster`;
+   diagnosis: feedback rows + `case_confirmed`). A worker per service claims rows with
+   `FOR UPDATE SKIP LOCKED` (`iqs_common.outbox_worker`), retries with `attempts`, parks a row as
+   `failed` at the maximum. No service calls the other's HTTP API.
+2. **At-least-once delivery, idempotent handlers.** One consumer per event type, so the single
+   `status` column suffices (several consumers would need a per-consumer delivery table).
+   Keys: `diagnosis.processed_events` / `vision.processed_events` (event ID, written in the
+   handler's transaction); vision case ID = UUIDv5 of the cluster ID plus a UNIQUE
+   `cases.source_cluster_id` (a second event for the same cluster cannot open a second case);
+   the agent runs only when the case phase is `not_started`, with a start-up sweep for cases a
+   crash left `registered`; the cluster transition `alerted → named` happens once.
+3. **Event schema v1 extended with optional fields** (D5: linkage, run, representative image,
+   scores) instead of v2, since no producer or consumer had run. Both JSON schemas are pinned in
+   `tests/contracts/` and checked by the common, vision and diagnosis suites.
+4. **Embeddings from the detector's own backbone** (D1: mean PatchCore patch features over the
+   top-k anomaly-map patches, L2-normalised) instead of DINOv2: no second model, no download.
+   DINOv2 is a step-8c comparison.
+5. **Minimal trigger rules** (`iqs_vision.discovery.trigger`, untuned starting values,
+   KNOWN_ISSUES #43): HDBSCAN with `allow_single_cluster`, a compactness gate (`max_radius`),
+   merge of close parts, fringe absorption, a grown cluster's geometry over **all** members, and
+   no alert for a group close to a **named** class. The last two came from the 7g e2e test
+   (a named class's own fringe raised a second alert).
+6. **Deployment.** Workers and the loop configuration live in
+   `deploy/compose/docker-compose.loop.yml` (`make up-loop`), not in the `apps` profile:
+   without a case library the diagnosis worker cannot start. The blueprint's gate-1
+   "`--profile core`" = our `apps` profile + that file (our `core` is the databases, ADR-001).
+   The e2e test and the demo run their own compose projects (`iqs-e2e`, `iqs-demo`) with
+   throwaway credentials and host ports moved via `IQS_*_HOST_PORT`.
+7. **Synthetic linkage is labelled everywhere.** Images carry no process data; `iqs_sim.linker`
+   links them to simulated parts. Events (`linkage`), case text, 8D D2 and the dashboard say so.
+
+**Consequences.** Delivery survives a service being down; duplicates are harmless by
+construction and tested at unit, integration (Postgres + Neo4j) and e2e level. Vision-triggered
+cases get a conformal set without a guarantee (KNOWN_ISSUES #41). The trigger's false-alarm
+behaviour depends on the detector threshold (KNOWN_ISSUES #46).
+
+## ADR-016 — Feedback policy: counts, candidate pool, frozen calibration, graph subset (step 7)
+
+**Status:** accepted · 2026-11-22
+
+**Context.** A confirmation must change what the system knows without breaking the conformal
+guarantee of the active calibration run (blueprint §2.8 A1/A5) and before the Bayesian network
+(step 8a) or the full knowledge graph (step 3g) exist.
+
+**Decisions.**
+
+1. **Postgres is the source of truth**, one transaction per confirmation, once per case
+   (`diagnosis.feedback_applied`): Dirichlet count +1 per (context, cause) in
+   `diagnosis.cause_counts` (context `defect_type:<category>/<name>` for vision cases,
+   `source:<source>` otherwise; prior α₀ = 1 implicit), the case into
+   `diagnosis.calibration_candidates`, and for vision cases the `case_confirmed` outbox event.
+2. **Frozen calibration and library (D3).** A confirmation never changes the active calibration
+   run or the live case library: confirmed cases are not a random sample and are influenced by
+   the agent's own suggestion. They wait in the candidate pool for a future, versioned
+   calibration run (`used_in_calibration_run` stays null). The e2e test checks the calibration
+   file hash before and after.
+3. **Counts are recorded, not used** by the scorer until step 8a (KNOWN_ISSUES #44).
+4. **Neo4j subset of 3g (D4):** `(:Case)-[:CONFIRMED_CAUSE]->(:Cause)`,
+   `(:DefectType)-[:INDICATES {count}]->(:Cause)`, `(:Case)-[:SHOWS_DEFECT]->(:DefectType)`, all
+   `MERGE`, with `INDICATES.count` *set* from Postgres. If Neo4j is down the Postgres part still
+   commits and the graph write is retried (`graph_written_at`); the API reports `written`,
+   `pending` or `disabled` (`IQS_DIAGNOSIS__GRAPH_WRITES=none`), never a fake success.
+5. **"No listed cause fits"** (`cause_code = null`): closed as out of taxonomy; nothing counted,
+   no edge, no event, no candidate; the vision cluster stays `alerted`.
+
+**Consequences.** "The system learns" means, in step 7: a named defect class on the vision side,
+a count and a graph edge on the diagnosis side, and a growing candidate pool. Probabilities change
+only once step 8a consumes the counts and a new calibration run is built from the pool.

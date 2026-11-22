@@ -11,6 +11,16 @@ from pydantic import BaseModel, Field
 from iqs_common.settings import CommonSettings
 
 
+class DiscoveryConfig(BaseModel):
+    """Minimal discovery trigger (step 7). Off by default; the quality-loop stack turns it on."""
+
+    enabled: bool = False
+    config_path: Path = Path("configs/vision/discovery.yaml")
+    # memory: process-local (tests, demo without Postgres); postgres: migration 0005 tables.
+    store: Literal["memory", "postgres"] = "postgres"
+    poll_s: float = Field(default=1.0, gt=0)
+
+
 class VisionConfig(BaseModel):
     # Trained models: <models_dir>/<category>/<protocol>/{model.pt,metrics.json}
     models_dir: Path = Path("models/patchcore")
@@ -24,6 +34,7 @@ class VisionConfig(BaseModel):
     # Text description of a defect (blueprint P2 Layer 1). "none" = disabled: the field is
     # absent from responses, never faked. A VLM needs an approval first (Rev 2 §3.9).
     vlm_provider: Literal["none"] = "none"
+    discovery: DiscoveryConfig = DiscoveryConfig()
     # Cost assumptions for accept / reject / review (step 6). Used only if the file exists and
     # a model has a matching decision.json and a conformal threshold.
     cost_config: Path | None = Path("configs/costs/example_costs.yaml")

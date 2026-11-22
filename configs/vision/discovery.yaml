@@ -1,0 +1,11 @@
+# Minimal discovery trigger (step 7, iqs_vision.discovery.trigger).
+# Stated starting values, NOT tuned or evaluated (KNOWN_ISSUES #43); step 8c evaluates.
+trigger:
+  min_cluster_size: 5      # anomalous unknown images needed before a cluster alert
+  min_samples: 3           # HDBSCAN density parameter
+  overlap: 0.5             # share of the smaller member set that makes two groups "the same"
+  known_radius_factor: 1.5 # named-class match: distance <= radius * factor (1.0 missed
+                           # fresh members: the radius is a 95 % quantile of few points)
+  radius_quantile: 0.95    # cluster radius = this quantile of member-to-centroid distances
+  max_radius: 0.5          # compactness gate on the unit sphere (noise sits ~0.9 away)
+  top_k_patches: 10        # embedding = mean feature over the top-k anomaly-map patches

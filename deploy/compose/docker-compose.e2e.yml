@@ -1,0 +1,13 @@
+# End-to-end test stack (step 7g): override on top of docker-compose.yml + docker-compose.loop.yml.
+# Started and removed by tests/e2e/conftest.py under its own project name (iqs-e2e), with
+# throwaway credentials, so it never touches the dev stack (project iqs) or its volumes.
+# Host ports are moved by conftest through IQS_*_HOST_PORT / IQS_DATABASE__PORT (base file),
+# so both stacks could coexist (but on the 10 GB VM run one stack at a time).
+
+services:
+  neo4j:
+    environment:
+      NEO4J_server_memory_heap_initial__size: 256m
+      NEO4J_server_memory_heap_max__size: 512m
+      NEO4J_server_memory_pagecache_size: 128m
+    mem_limit: 1g

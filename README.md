@@ -12,7 +12,8 @@ from a script and is logged in MLflow, and the limits of each result are written
 
 > **Status:** steps 0–6 done and merged (tags `v0.1-step0`, `v0.1-step1`, `v0.1-step2`,
 > `v0.2-steps3-5`, `v0.1-step6`). Step 7, the
-> integrated quality loop, is in progress. All diagnosis results come from simulator data.
+> integrated quality loop, works end to end on the Docker stack; its false-cluster risk on real
+> images is open (#46). All diagnosis results come from simulator data.
 
 ## Architecture
 
@@ -29,12 +30,10 @@ flowchart LR
     vis -- SQL --> pg[("PostgreSQL 16 + pgvector<br/>vision · diagnosis · qms · platform")]
     dx -- SQL --> pg
     mcp -- SQL --> pg
-    dx -- Bolt --> neo[("Neo4j 5.26<br/>knowledge graph (schema planned)")]
+    dx -- "Bolt: confirmed<br/>case → cause → defect type" --> neo[("Neo4j 5.26<br/>knowledge graph (confirmation subset)")]
 
-    vis == "step 7 (in progress):<br/>new_defect_cluster event<br/>via transactional outbox" ==> dx
-
-    classDef planned stroke-dasharray: 5 5;
-    class neo planned;
+    vis == "step 7:<br/>new_defect_cluster event<br/>via transactional outbox" ==> dx
+    dx == "case_confirmed event<br/>(names the cluster)" ==> vis
 ```
 
 More detail: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Design decisions are recorded as
@@ -58,6 +57,7 @@ recorded in the step-3 notes. The **Data** column says what a number rests on.
 | Root-cause top-1 accuracy, known causes | harder corpus (`dx_corpus_v2`, dev split, 449 cases): hybrid retrieval **0.927** vs BM25 alone 0.898 vs feature vector alone 0.911. The easy corpus (`dx_corpus_v1`, test split) is solved by the feature vector alone (1.000) | Simulator data | [step-3 notes](docs/notes/step-3.md#dx_corpus_v2--harder-corpus-for-step-4), [EXP-3-02](docs/EXPERIMENTS.md#exp-3-02--diagnosis-agent-on-simulator-cases-dx_corpus_v1-test-split-done-simulator-only) |
 | Conformal cause sets, α = 0.1 | coverage APS **0.989** (avg. size 1.56), LAC 0.894 (size 0.96) | Simulator data | [EXP-4-01](docs/EXPERIMENTS.md#exp-4-01--conformal-cause-sets-on-dx_corpus_v2-done-simulator-only) |
 | Scientist hypothesis tests | null false-positive rate ≤ 0.053 over 1,000 fault-free runs; correct cause supported 0.957 | Simulator data | [EXP-5-01](docs/EXPERIMENTS.md#exp-5-01--scientist-agent-null-check-power-and-sci_eval_v1-done-simulator-only) |
+| Integrated quality loop, end to end on the Docker stack | median **2.7–3.4 s** from the first anomalous image to an opened diagnosis case (3 runs × 5 repeats); all events processed, one case per cluster even on redelivery, cluster named after confirmation | Simulator data + synthetic images and image-to-part linkage; plumbing only, no detection-quality claim | [step-7 notes](docs/notes/step-7.md#measured-in-7g-compose-e2e-gate-1-plumbing-not-a-quality-result) |
 
 The euro figures are not plant savings. On the 14 categories where the false-alarm guarantee is
 claimed, the saving interval includes zero (KNOWN_ISSUES #33). The simulator task was designed to
@@ -147,7 +147,7 @@ docs/           architecture, ADRs, experiments, testing, known issues, step not
 | 4 | Conformal cause sets | done on simulator cases; coverage on a real test split open (#19) |
 | 5 | Factory simulator + scientist agent | done |
 | 6 | Cost-aware accept / reject / review | done |
-| 7 | Integrated quality loop: vision event → diagnosis case | **in progress** |
+| 7 | Integrated quality loop: vision event → diagnosis case | done: loop works end to end, e2e test on Docker; false-cluster risk on real images open (#46) |
 | 8 | Advanced features | planned |
 | 9 | Public benchmark release and report | planned |
 
@@ -168,5 +168,9 @@ The main ones, all tracked in [docs/KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md):
   zero (#33, #34).
 - **LAC cause sets pass their gate by a 0.002 margin** and miss two-fault cases (#22). The novelty
   threshold does not transfer between corpora (#21).
-- **Not built yet:** the Neo4j graph schema, the outbox delivery worker (step 7) and an EfficientAD
-  run (#15).
+- **The new-defect trigger fires on false alarms with real images** (#46). On MVTec AD metal_nut,
+  5 of 66 unseen good images score above the threshold and form one compact cluster, which opens
+  a bogus case; in the tool-wear demo 5 of the 6 images behind the alert are good parts. The loop
+  itself works; choosing a review band or cluster rule without tuning on these runs is step 8c.
+- **Not built yet:** the full Neo4j graph schema (step 7 writes only confirmed cases, causes and
+  defect types) and an EfficientAD run (#15).

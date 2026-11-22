@@ -2,9 +2,11 @@
 
     intake -> extract_symptoms -> retrieve -> novelty_check -> score_causes
            -> draft_8d -> open_ticket (MCP) -> confirm (interrupt: engineer) -> close_ticket (MCP)
+           -> feedback_update (step 7: counts, candidate pool, graph, case_confirmed event)
 
 Not yet in the graph: ``kg_expand`` (Neo4j, 3f), the question loop (step 8a),
-hypothesis tests (5b), conformal sets (4), FMEA comparison (8b), feedback update (8b).
+hypothesis tests (5b), conformal sets (4), FMEA comparison (8b). The step-7 feedback
+update records the confirmation; the Bayesian network that consumes the counts is 8a.
 
 Rules:
 - State holds JSON-compatible values only, so any checkpointer (memory, Postgres) can
@@ -21,7 +23,7 @@ import operator
 import time
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
-from typing import Annotated, Any, Literal, TypedDict
+from typing import TYPE_CHECKING, Annotated, Any, Literal, TypedDict
 
 from langgraph.checkpoint.base import BaseCheckpointSaver
 from langgraph.graph import END, START, StateGraph
@@ -39,6 +41,9 @@ from iqs_diagnosis.scoring.ranker import CauseRanker
 from iqs_diagnosis.scoring.votes import top_k, vote_probabilities
 from iqs_diagnosis.symptoms import extract_profile
 from iqs_diagnosis.symptoms.vocabulary import Vocabulary
+
+if TYPE_CHECKING:
+    from iqs_diagnosis.feedback.update import FeedbackService
 
 
 def _merge(a: dict[str, float], b: dict[str, float]) -> dict[str, float]:
@@ -61,6 +66,7 @@ class AgentState(TypedDict, total=False):
     ticket: dict[str, Any]
     tool_calls: Annotated[list[dict[str, Any]], operator.add]
     confirmation: dict[str, Any]
+    feedback: dict[str, Any] | None
     timings_ms: Annotated[dict[str, float], _merge]
 
 
@@ -73,6 +79,7 @@ class AgentDeps:
     repository: CaseRepository
     conformal: ConformalPredictor | None = None  # step 4; None = top 3 only
     scientist_q: float | None = 0.05  # step 5b; None = no hypothesis tests
+    feedback: FeedbackService | None = None  # step 7; None = the node is a no-op
 
 
 def severity_for(case: DiagnosisCase) -> int:
@@ -175,6 +182,9 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
         run = pred.run
         run_key = f"{run.run_id}:{pred.variant}"
         deps.repository.save_cause_set(state["case"]["case_id"], causes_in, run_key)
+        # Step 7: the guarantee covers cases exchangeable with the calibration cases. A case
+        # from another source (e.g. a vision cluster vs simulator alarm cases) is not.
+        covered = state["case"].get("source") == run.source
         return {
             "cause_set": {
                 "causes": causes_in,
@@ -193,6 +203,19 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
                     f"marginally over {run.source} cases exchangeable with the "
                     f"{run.n_calibration} calibration cases; causes outside the taxonomy "
                     "and new problems are not covered."
+                ),
+                "guarantee_applies": covered,
+                **(
+                    {}
+                    if covered
+                    else {
+                        "coverage_note": (
+                            f"This case comes from source {state['case'].get('source')!r}, "
+                            f"not from the calibration source {run.source!r}: the set is "
+                            "computed with the same threshold, but the guarantee does not "
+                            "apply to it."
+                        )
+                    }
                 ),
             }
         }
@@ -244,8 +267,11 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
         if cause is not None and cause not in causes:
             raise ValueError(f"confirmed cause {cause!r} is not in the taxonomy")
         engineer = str(answer.get("engineer", "unknown")) if isinstance(answer, dict) else "unknown"
+        name = answer.get("defect_class_name") if isinstance(answer, dict) else None
         deps.repository.save_confirmation(state["case"]["case_id"], cause)
-        return {"confirmation": {"cause_code": cause, "engineer": engineer}}
+        return {
+            "confirmation": {"cause_code": cause, "engineer": engineer, "defect_class_name": name}
+        }
 
     async def close_ticket(state: AgentState) -> dict[str, Any]:
         ticket = state.get("ticket") or {}
@@ -261,6 +287,20 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
             args["confirmed_cause"] = conf["cause_code"]
         return await _call(deps.tickets, "update_ticket", args, result_key="ticket")
 
+    def feedback_update(state: AgentState) -> dict[str, Any]:
+        """Runs alone after the interrupt (and after the ticket update), so a resume cannot
+        apply it twice; FeedbackService is idempotent per case anyway."""
+        if deps.feedback is None:
+            return {"feedback": None}
+        conf = state["confirmation"]
+        result = deps.feedback.apply(
+            DiagnosisCase.model_validate(state["case"]),
+            conf["cause_code"],
+            conf["engineer"],
+            conf.get("defect_class_name"),
+        )
+        return {"feedback": result}
+
     # Any: LangGraph's add_node overloads do not accept our wrapped (timed) callables.
     g: Any = StateGraph(AgentState)
     g.add_node("intake", _timed("intake", intake))
@@ -274,6 +314,7 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
     g.add_node("open_ticket", _atimed("open_ticket", open_ticket))
     g.add_node("confirm", confirm)
     g.add_node("close_ticket", _atimed("close_ticket", close_ticket))
+    g.add_node("feedback_update", _timed("feedback_update", feedback_update))
     order = [
         "intake",
         "extract_symptoms",
@@ -286,6 +327,7 @@ def build_graph(deps: AgentDeps, checkpointer: BaseCheckpointSaver[Any]) -> Any:
         "open_ticket",
         "confirm",
         "close_ticket",
+        "feedback_update",
     ]
     g.add_edge(START, order[0])
     for a, b in zip(order, order[1:], strict=False):
@@ -327,11 +369,22 @@ class DiagnosisAgent:
         )
         return out
 
-    async def confirm(self, case_id: str, cause_code: str | None, engineer: str) -> dict[str, Any]:
+    async def confirm(
+        self,
+        case_id: str,
+        cause_code: str | None,
+        engineer: str,
+        defect_class_name: str | None = None,
+    ) -> dict[str, Any]:
         if self.phase(case_id) != "awaiting_confirmation":
             raise RuntimeError(f"case {case_id} is not waiting for confirmation")
+        resume = {
+            "cause_code": cause_code,
+            "engineer": engineer,
+            "defect_class_name": defect_class_name,
+        }
         out: dict[str, Any] = await self.graph.ainvoke(
-            Command(resume={"cause_code": cause_code, "engineer": engineer}),
+            Command(resume=resume),
             self._config(case_id),
         )
         return out

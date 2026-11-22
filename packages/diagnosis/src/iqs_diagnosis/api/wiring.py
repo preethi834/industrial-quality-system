@@ -6,12 +6,13 @@ from typing import Any
 
 from langgraph.checkpoint.base import BaseCheckpointSaver
 
-from iqs_common.taxonomy import load_taxonomy
+from iqs_common.taxonomy import Taxonomy, load_taxonomy
 from iqs_diagnosis.agent.checkpoint import memory_checkpointer, postgres_checkpointer
 from iqs_diagnosis.agent.graph import AgentDeps, DiagnosisAgent
 from iqs_diagnosis.agent.tickets import McpTicketGateway
 from iqs_diagnosis.api.cases import CaseService
 from iqs_diagnosis.conformal.calibration import CalibrationRun, ConformalPredictor
+from iqs_diagnosis.feedback.update import FeedbackService
 from iqs_diagnosis.persistence.repository import (
     CaseRepository,
     InMemoryCaseRepository,
@@ -52,6 +53,7 @@ def build_case_service(settings: DiagnosisSettings) -> CaseService | None:
         repository = InMemoryCaseRepository()
         checkpointer = memory_checkpointer()
         tickets = InMemoryTicketStore()
+    feedback = _build_feedback(settings, taxonomy) if d.feedback else None
     deps = AgentDeps(
         vocabulary=load_vocabulary(d.vocabulary_path),
         ranker=ranker,
@@ -59,6 +61,7 @@ def build_case_service(settings: DiagnosisSettings) -> CaseService | None:
         tickets=McpTicketGateway(build_server(tickets)),
         repository=repository,
         conformal=ConformalPredictor(calibration, d.cause_set_variant) if calibration else None,
+        feedback=feedback,
     )
     if calibration is not None:
         repository.save_calibration_run(calibration.model_dump(mode="json"))
@@ -67,4 +70,33 @@ def build_case_service(settings: DiagnosisSettings) -> CaseService | None:
         repository=repository,
         runs_root=d.runs_root,
         cause_codes=frozenset(causes),
+        feedback=feedback,
     )
+
+
+def _build_feedback(settings: DiagnosisSettings, taxonomy: Taxonomy) -> FeedbackService:
+    from iqs_diagnosis.feedback.store import (
+        FeedbackStore,
+        InMemoryFeedbackStore,
+        SqlFeedbackStore,
+    )
+    from iqs_diagnosis.graph.repository import GraphWriter, Neo4jGraphWriter
+
+    d = settings.diagnosis
+    store: FeedbackStore
+    if d.store == "postgres":
+        from iqs_common.db import create_db_engine, create_session_factory
+
+        store = SqlFeedbackStore(create_session_factory(create_db_engine(settings.database)))
+    else:
+        store = InMemoryFeedbackStore()
+    graph: GraphWriter | None = None
+    if d.graph_writes == "neo4j":
+        from neo4j import GraphDatabase
+
+        n = settings.neo4j
+        writer = Neo4jGraphWriter(
+            GraphDatabase.driver(n.uri, auth=(n.user, n.password.get_secret_value()))
+        )
+        graph = writer
+    return FeedbackService(store=store, taxonomy=taxonomy, graph=graph)
