@@ -92,7 +92,7 @@ belong to the dashboard step.
 | 1. Determinism and access tests pass | **PASSED**: `packages/simulator/tests/test_export.py` (identical file hashes per seed, DuckDB allow-list cannot read `ground_truth/`), `test_rng_and_alignment.py`, `test_simulator_profile.py::test_process_store_cannot_read_ground_truth`, AST leak guard (32 passed) |
 | 2. Null data: FP rate per template over 1,000 simulations ≤ 0.05 + 3 SE (0.0707) | **PASSED** for all 10 templates (table below) |
 | 3. Evaluation family never used in development; manifest hash committed before the first evaluation run | **PASSED**: `sci_eval_v1` manifest committed in `aa6152c`, evaluation run afterwards (the script checks the hash) |
-| Universal gate (CI on main, docs, tag) | Pending merge |
+| Universal gate (CI on main, docs, tag) | **DONE**: merged in PR #3, CI green on `main` (`c89c9af`), tag `v0.2-steps3-5` |
 
 ### Gate 2: 1,000 fault-free simulations (`reports/diagnosis/scientist_null_power.json`)
 
