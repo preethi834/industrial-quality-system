@@ -1,0 +1,22 @@
+# Example cost assumptions for step 6 (approved by the owner on 2026-11-22).
+# NONE of these values is measured. Every reported euro figure cites the sha256 of this file.
+id: example_v1
+currency: EUR
+cost_false_reject:
+  value: 5.0
+  note: "assumption: a good part is scrapped"
+cost_escape:
+  value: 200.0
+  note: "assumption: a defective part ships (complaint, sorting, freight)"
+cost_review:
+  value: 0.5
+  note: "assumption: one human look at a part"
+review_miss_rate:
+  value: 0.05
+  note: "assumption: the reviewer passes a defective part"
+review_false_reject_rate:
+  value: 0.02
+  note: "assumption: the reviewer rejects a good part"
+defect_rate:
+  value: 0.01
+  note: "assumption: share of defective parts in production (pi)"

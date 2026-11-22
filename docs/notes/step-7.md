@@ -688,6 +688,10 @@ q̂ (≈ 3.3 expected at α = 0.05), which is exactly `min_cluster_size`, and th
 enough (0.495) to pass the radius gate. One of the five is the calibration image that defines
 q̂. Gate 3 stays **met for the plumbing only**; remaining options under KNOWN_ISSUES #46.
 
+Owner decision (2026-11-22): no further trigger change in step 7. A margin, cluster size or
+radius read off these runs would be tuned on the test data; the step-6 review band, or values
+chosen on separate seeds and categories, go to step 8c. #46 stays open.
+
 e2e re-run with the distinct-image trigger (`e2e_20261122T181241Z.json`, toy pool of 6 scratch
 images per category, with replacement): **passed**, 5 repeats; median 3.41 s first anomalous →
 case opened, 4.44 s → `awaiting_confirmation`; images after onset to alert 150, 127, 159, 155,

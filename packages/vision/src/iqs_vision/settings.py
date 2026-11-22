@@ -35,6 +35,9 @@ class VisionConfig(BaseModel):
     # absent from responses, never faked. A VLM needs an approval first (Rev 2 §3.9).
     vlm_provider: Literal["none"] = "none"
     discovery: DiscoveryConfig = DiscoveryConfig()
+    # Cost assumptions for accept / reject / review (step 6). Used only if the file exists and
+    # a model has a matching decision.json and a conformal threshold.
+    cost_config: Path | None = Path("configs/costs/example_costs.yaml")
 
 
 class VisionSettings(CommonSettings):

@@ -418,10 +418,55 @@ N1 (2026-11-20/21).
 re-running the detector. At n ≈ 50–100 and α = 0.02 the threshold is the largest or second
 largest calibration score, so miss rates are high on hard categories (KNOWN_ISSUES #29).
 
+## ADR-011 — Step 6: cost-aware decisions that keep the false-alarm guarantee (steps 6a–6c)
+
+**Status:** accepted · 2026-11-22. Owner decisions 1–14 of 2026-11-22 (all defaults approved).
+
+**Context.** Blueprint Rev 2 §2.5 P2-C: choose accept / reject / review by expected cost in
+euros, without breaking step 2's "at most α of good parts flagged". `docs/notes/step-6.md`
+(2026-11-20) predates step 2 and is superseded where it differs (below).
+
+**Decisions.**
+
+1. **Served policy = guaranteed.** A part is accepted iff score ≤ q̂ (the active step-2
+   threshold); above q̂ the cost rule chooses reject (p ≥ p_rr) or review. Since flagging
+   depends only on score > q̂, P(good part flagged) ≤ α holds exactly as in step 2. The
+   unconstrained three-way rule is evaluated and reported as having **no** guarantee, never served.
+2. **Closed-form cut-offs.** All expected costs are linear in p, so accept iff p ≤ min(p_ra, p_ar),
+   reject iff p ≥ max(p_rr, p_ar); review drops out automatically when p_ra ≥ p_rr (e.g. when a
+   review costs more than a false reject). Ties go to accept at the lower cut and reject at the
+   upper one (equal expected cost).
+3. **Probabilities.** Platt scaling (soft targets, slope ≥ 0, own SciPy code) on
+   sup_train ∪ sup_val only; isotonic is a reported comparison. The calib images are **not**
+   used (the step-6 note proposed adding them; that would break gate 2). Prior shift to the
+   assumed production defect rate by odds rescaling.
+4. **Costs as a frozen YAML** (`configs/costs/example_costs.yaml`): every value carries a note
+   that must start with "assumption"; reports and API responses cite the file's sha256. The
+   `vision.cost_configs` table (blueprint §2.4) waits for step 7.
+5. **No score export.** Step 2's `scores.json` already holds every calib / test score; the
+   evaluation joins them to the manifest sub-splits by path and sha256 and refuses a manifest
+   whose fingerprint differs. No inference in step 6.
+6. **Evaluation.** Cost per 10,000 parts from class-conditional action rates on sup_test and the
+   assumed π (the test-set defect share does not enter); equal weight per category; stratified
+   bootstrap with calibrator and q̂ fixed. Categories need ≥ 4 good and ≥ 4 defective sup_test
+   images (MVTec AD 2 has 1 good). The guaranteed policy's false-alarm rate is measured on all
+   official good test images (flagging does not use p, so no leak). α stays step 2's; other α
+   are a sensitivity row only.
+7. **Serving.** `decision.json` (Platt parameters + model run id) next to each model, written by
+   `scripts/evaluate_costs.py --write-decision`; ignored if the run id differs. The inspection
+   response gains `cost_decision` only when a cost config, a matching `decision.json` and a
+   conformal threshold all exist; capability `cost_decisions` follows the same rule.
+8. **Plots as hand-written SVG**, as in ADR-010 §8 (no `uv.lock` change).
+
+**Consequences.** The guarantee is untouched by any cost setting. The cost rule saves money mainly
+where good parts often score above q̂ (it reviews instead of scrapping); elsewhere it can cost more
+than plain rejection, because a prior-shifted p below p_rr sends real defects to review
+(KNOWN_ISSUES #33). Euro results remain assumptions on benchmark images.
+
 ## ADR-015 — Quality-loop delivery: transactional outbox, idempotent consumers (step 7)
 
 **Status:** accepted · 2026-11-22 (numbered 015 as proposed in the step-7 plan, written while
-step 2's ADR number was not yet known; ADR-011…014 are unused)
+the numbers of steps 2 and 6 were not yet known; ADR-011 is step 6, ADR-012…014 are unused)
 
 **Context.** Step 7 connects vision and diagnosis: a cluster of unknown visual defects opens
 a root-cause case; an engineer's confirmation flows back and names the defect class

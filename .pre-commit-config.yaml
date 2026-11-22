@@ -56,9 +56,12 @@ repos:
         # Generated manifests hold SHA-256 hashes (no inline pragma in JSON); their schemas
         # are validated instead: vision split manifests by tests/test_data.py, diagnosis
         # corpus manifests by packages/diagnosis/tests/test_corpus_manifest.py, NHTSA sheet
-        # manifests are read and cross-checked by scripts/check_nhtsa_labels.py. Step-7 e2e /
-        # demo reports hold hashes and IDs (tests/e2e/test_quality_loop.py, scripts/demo_loop.py).
-        exclude: ^(uv\.lock|\.secrets\.baseline|eval_sets/vision/[a-z0-9_]+/[a-z0-9_]+\.json|eval_sets/diagnosis/sim/[a-z0-9_]+\.json|eval_sets/diagnosis/nhtsa/[a-z0-9_]+\.manifest\.json|reports/quality_loop/(e2e|demo_[a-z_]+)_[0-9]{8}T[0-9]{6}Z\.json)$
+        # manifests are read and cross-checked by scripts/check_nhtsa_labels.py.
+        # reports/costs_vision.json holds the cost-config SHA-256 (a file fingerprint, checked
+        # by packages/vision/tests/test_decision_evaluate.py; owner decision, KNOWN_ISSUES #36).
+        # Step-7 e2e / demo reports hold hashes and IDs (tests/e2e/test_quality_loop.py,
+        # scripts/demo_loop.py).
+        exclude: ^(uv\.lock|\.secrets\.baseline|eval_sets/vision/[a-z0-9_]+/[a-z0-9_]+\.json|eval_sets/diagnosis/sim/[a-z0-9_]+\.json|eval_sets/diagnosis/nhtsa/[a-z0-9_]+\.manifest\.json|reports/costs_vision\.json|reports/quality_loop/(e2e|demo_[a-z_]+)_[0-9]{8}T[0-9]{6}Z\.json)$
 
       # --- lockfile ---
       - id: uv-lock-check

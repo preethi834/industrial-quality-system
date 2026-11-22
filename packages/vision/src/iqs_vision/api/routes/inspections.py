@@ -13,6 +13,8 @@ from pydantic import BaseModel, Field
 from iqs_common.ids import uuid7
 from iqs_common.log import get_logger
 from iqs_vision.data.preprocess import InvalidImageError, decode_image, image_to_tensor
+from iqs_vision.decision.costs import CostConfig
+from iqs_vision.decision.serving import cost_decision
 from iqs_vision.explain.anomaly_map import normalize_map, overlay, png_base64
 from iqs_vision.explain.vlm import VLMDescriber
 from iqs_vision.inference.registry import ModelRegistry, UnknownModelError
@@ -52,6 +54,24 @@ class ModelSummary(BaseModel):
     pixel_auroc: float | None = None
 
 
+class ExpectedCost(BaseModel):
+    accept: float
+    reject: float
+    review: float
+
+
+class CostDecision(BaseModel):
+    policy: Literal["guaranteed"]
+    action: Literal["accept", "reject", "review"]
+    p_defect: float = Field(description="Calibrated P(defect) at the assumed defect rate")
+    expected_cost: ExpectedCost
+    currency: str
+    cost_config_id: str
+    cost_config_sha256: str
+    defect_rate_assumed: float
+    note: str
+
+
 class InspectionResult(BaseModel):
     inspection_id: str
     category: str
@@ -68,6 +88,11 @@ class InspectionResult(BaseModel):
     latency_ms: float
     description: str | None = Field(
         default=None, description="VLM text; absent when no VLM is configured"
+    )
+    cost_decision: CostDecision | None = Field(
+        default=None,
+        description="Accept / reject / review by expected cost (step 6); absent unless a cost "
+        "config, a decision.json for this model and a conformal threshold are all present",
     )
 
 
@@ -90,7 +115,10 @@ def _summary(info: object) -> ModelSummary:
 
 
 def build_router(
-    registry: ModelRegistry, max_upload_bytes: int, describer: VLMDescriber | None
+    registry: ModelRegistry,
+    max_upload_bytes: int,
+    describer: VLMDescriber | None,
+    costs: tuple[CostConfig, str] | None = None,
 ) -> APIRouter:
     router = APIRouter(tags=["inspections"])
 
@@ -173,17 +201,28 @@ def build_router(
             latency_ms=0.0,
             description=(describer.describe(image, amap, category) if describer else None),
         )
+        if (
+            costs is not None
+            and info.decision is not None
+            and threshold is not None
+            and info.threshold_alpha is not None
+        ):
+            result.cost_decision = CostDecision.model_validate(
+                cost_decision(score, threshold, info.threshold_alpha, info.decision, *costs)
+            )
         result.latency_ms = round((time.perf_counter() - started) * 1000, 1)
         _log.info(
             "inspection",
             category=category,
             score=round(score, 4),
             decision=decision,
+            action=result.cost_decision.action if result.cost_decision else None,
             latency_ms=result.latency_ms,
         )
         body = result.model_dump(mode="json")
-        if body["description"] is None:
-            del body["description"]  # absent, not null: nothing is faked
+        for optional in ("description", "cost_decision"):
+            if body[optional] is None:
+                del body[optional]  # absent, not null: nothing is faked
         # JSONResponse so the absent field is not re-added as null by response_model.
         return JSONResponse(body)
 

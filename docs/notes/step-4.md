@@ -20,7 +20,7 @@ Reference: blueprint Revision 2, §2.8 (conformal maths), §5 Step 4 (gate).
 | **1. Coverage and set size on the real test split (LAC, APS, α = 0.1, Clopper–Pearson 95 %)** | **OPEN.** Needs the hand-labelled NHTSA set (step 3f, labelling guide NHTSA section, about 2–3 h of user labelling). No real cases exist yet. |
 | 2. Statistical validity on ≥ 500 simulator cases: mean coverage over R = 100 resplits ≥ 0.9 − 3 SE | **PASSED** for LAC (0.8956 ≥ 0.8934; **margin only 0.002**) and APS (0.9602 ≥ 0.8985), pool 684 |
 | 3. New-problem coverage reported as "stress test, no guarantee" | **DONE** (below) |
-| Universal gate (CI green on main, docs, tag) | Pending merge; docs text below |
+| Universal gate (CI green on main, docs, tag) | **DONE**: merged in PR #3, CI green on `main` (`c89c9af`), tag `v0.2-steps3-5` |
 
 Decisions taken with the user (2026-11-20): no MAPIE (cross-check against hand-computed
 reference sets in `test_conformal.py`); migration 0003 approved; gates 2 and 3 closed now,

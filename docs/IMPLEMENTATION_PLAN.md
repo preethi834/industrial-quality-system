@@ -11,11 +11,11 @@ Status labels (blueprint §7.1): **planned** · **in progress** · **working (te
 | --- | --- | --- |
 | 0 | Foundation: repo, settings, logging, databases, service skeletons, CI, docs | **done** (`v0.1-step0`); CI green on `main` |
 | 1 | P2 L1: defect detector (PatchCore / EfficientAD + supervised baseline) + demo | **done** (`v0.1-step1`, merged in PR #2): 15/15 categories, both protocols; EfficientAD deferred (KNOWN_ISSUES #15) |
-| 2 | P2 L2–3: MVTec AD 2 / VisA + conformal threshold | **working locally** (branch `step-2`, not pushed): gates 1–4 met |
-| 3 | P1 L1–2: diagnosis agent (hybrid RAG + KG, MCP, 8D) + evaluation | **in progress**: minimum version 3a–3d working (tested) on simulator cases; 3f NHTSA pilot labelled; 3e LLM gateway, dense retrieval, Neo4j graph (3g) planned (`docs/notes/step-3.md`, `step-3f.md`) |
-| 4 | P1 L3: conformal cause sets | **working (tested) on simulator cases**; gate 1 (real test split) open, KNOWN_ISSUES #19 (`docs/notes/step-4.md`) |
-| 5 | Factory simulator + scientist agent | **working (tested)**: gates 1–3 passed; universal gate after merge (`docs/notes/step-5a.md`, `step-5b.md`) |
-| 6 | Cost-aware accept / reject / review | planned (`docs/notes/step-6.md`, decisions pending) |
+| 2 | P2 L2–3: MVTec AD 2 / VisA + conformal threshold | **done** (`v0.1-step2`, merged in PR #4): gates 1–4 met; CI green on `main` (`707b866`) |
+| 3 | P1 L1–2: diagnosis agent (hybrid RAG + KG, MCP, 8D) + evaluation | **merged** (`v0.2-steps3-5`, PR #3; CI green on `main`, `c89c9af`): minimum version 3a–3d working (tested) on simulator cases; 3f NHTSA pilot labelled; 3e LLM gateway, dense retrieval, Neo4j graph (3g) planned (`docs/notes/step-3.md`, `step-3f.md`) |
+| 4 | P1 L3: conformal cause sets | **merged** (`v0.2-steps3-5`, PR #3): working (tested) on simulator cases; gate 1 (real test split) open, KNOWN_ISSUES #19 (`docs/notes/step-4.md`) |
+| 5 | Factory simulator + scientist agent | **done** (`v0.2-steps3-5`, merged in PR #3): gates 1–3 and universal gate passed; CI green on `main` (`c89c9af`) (`docs/notes/step-5a.md`, `step-5b.md`) |
+| 6 | Cost-aware accept / reject / review | **done locally** on branch `step-6` (6a–6d, not pushed): gates 1–3 met; universal gate needs PR + CI on `main` + tag (ADR-011, EXP-6-01) |
 | 7 | Integrated quality loop (vision event → diagnosis case) | planned |
 | 8 | Advanced features (8a–8g), one at a time | planned |
 | 9 | Public proof of work (benchmark release, report, video) | planned |
@@ -80,7 +80,7 @@ Step 2 gates (blueprint Rev 2 §5):
 - [x] (2) calibration set smaller than ⌈1/α⌉ − 1 refused — unit tests + API 422
 - [x] (3) R = 100 resplits, mean FA ≤ α + 3 SE: pass for all 11 α = 0.02 categories and the 8 at α = 0.05 / 0.10 (#31); fixed split fails for leather / carpet (#17, investigated as non-exchangeability)
 - [x] (4) shift experiment executed and reported (`reports/shift_experiment.md`)
-- [ ] universal gate: CI green on `main` after merge, tag `v0.1-step2`
+- [x] universal gate: CI green on `main` (`707b866`, PR #4), tag `v0.1-step2` pushed
 
 ## Steps 3–5 — diagnosis agent, conformal cause sets, simulator + scientist
 
@@ -101,9 +101,43 @@ merged with `main` (after `v0.1-step1`) on 2026-11-21. Details, gate tables and 
 - [x] Step 5 gates 1–3 (determinism and access, 1,000-run null check, evaluation family committed first)
 - [x] Step 4 gates 2 and 3 (resplit validity, new-problem stress test)
 - [ ] Step 4 gate 1: coverage on the real (NHTSA) test split — KNOWN_ISSUES #19
-- [ ] universal gate for steps 3–5: CI green on `main`, tags — after the PR is merged
+- [x] universal gate for steps 3–5: CI green on `main` (`c89c9af`, PR #3), tag `v0.2-steps3-5` pushed
+
+## Step 6 — cost-aware decisions (P2 signature move B)
+
+Decisions 1–14 approved by the owner on 2026-11-22 (ADR-011). Euro values are assumptions.
+
+| Sub-step | Content | Commit | Status |
+| --- | --- | --- | --- |
+| 6a | Cost config, closed-form cut-offs, guaranteed + unconstrained policies, Platt / isotonic, prior shift | `7868db7` | working (tested) |
+| 6b | `scripts/evaluate_costs.py`, leak test, bootstrap, sensitivity, report + SVG | `7f526a0` | working (tested): 17 categories (EXP-6-01) |
+| 6c | `decision.json`, `cost_decision` in inspections, capability, dashboard view | `e4f14cc` | working (tested); not yet checked in Docker |
+| 6d | Docs: EXP-6-01, ADR-011, KNOWN_ISSUES #33–#36, guarantee-claimed pooled block | this commit | done |
+
+Step 6 gates (blueprint Rev 2 §5):
+
+- [x] (1) tests pass — 58 new tests + the touched API / dashboard tests ; full `make check` 2026-11-22: pre-commit clean, 574 passed, 20 deselected
+- [x] (2) probability-fit split disjoint from calib and sup_test — manifest test on all 19 committed manifests
+- [x] (3) every cost number in EXPERIMENTS.md followed by the cost-file hash (`e860bf58b48c`)
+- [x] recorded: cost per 10,000 for guaranteed / unconstrained / fixed threshold, review share, realised FA of the guaranteed policy (14/495 = 0.028), sensitivity over 45 cost ratios + defect rate + α
+- [ ] universal gate: CI green on `main`, tag `v0.1-step6` (needs push + PR, owner)
+- [x] owner: `reports/costs_vision.json` committed, secret-scan exclude added (KNOWN_ISSUES #36); #33 kept as is (no per-category choice on the test set)
 
 ## Hand-off notes
+
+### 2026-11-22 — step 6 done locally (6a–6d), branch `step-6`, not pushed
+
+- **Done:** 6a–6d committed on `step-6` (from `origin/main` `2aa025d`). No training, no Docker,
+  no new dependencies, `uv.lock` unchanged. `decision.json` written for 17 categories under the
+  git-ignored `models/patchcore/*/deploy/`.
+- **Results (assumed costs):** pooled guaranteed €3,405 vs fixed q̂ €7,547 per 10,000 parts over
+  17 categories; €3,395 vs €4,338 over the 14 with the guarantee claimed (saving CI includes 0,
+  #33). Realised FA of the guaranteed policy 0.028 (mean α 0.035).
+- **Owner decisions:** #36 JSON committed with a secret-scan exclude; #33 guaranteed policy kept
+  in every category. Full `make check` run before the push; branch pushed for the PR.
+- **Open:** Docker check of the inspection route with `cost_decision`; PR merge + tag (owner).
+- **Next:** step 7.
+
 
 ### 2026-11-21 — step 2 done locally (2a–2f), branch `step-2`, not pushed
 

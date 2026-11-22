@@ -3,6 +3,21 @@
 All notable changes to this project. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versions follow the roadmap tags (`v0.1-step0`, `v0.1-step1`, ...).
 
+## [Unreleased] — step 6 (cost-aware accept / reject / review)
+
+All euro values are **assumptions** (`configs/costs/example_costs.yaml`, sha256 `e860bf58b48c…`).
+
+### Added
+- **6a** `iqs_vision.decision`: frozen `CostConfig` (values must be labelled assumptions),
+  closed-form cut-offs, guaranteed policy (accept iff score ≤ q̂) and unconstrained policy,
+  Platt calibration with prior shift, isotonic comparison, Brier / ECE / reliability.
+- **6b** `scripts/evaluate_costs.py`: cost per 10,000 parts per category and pooled, bootstrap
+  intervals, sensitivity over cost ratios / defect rate / α, `reports/costs_vision.md` and
+  SVG figures (EXP-6-01); gate-2 leak test on all committed manifests.
+- **6c** `cost_decision` in `POST /v1/inspections` and capability `cost_decisions` (only when
+  cost config, matching `decision.json` and conformal threshold exist); setting
+  `IQS_VISION__COST_CONFIG`; dashboard inspection page shows the decision and expected costs.
+
 ## [Unreleased] — step 2 (P2 Layers 2–3: hard benchmark + guarantee)
 
 ### Added
