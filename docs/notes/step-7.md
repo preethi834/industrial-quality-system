@@ -1,9 +1,8 @@
 # Step 7 — connect the projects: the integrated quality loop (plan)
 
-Status: **7a–7g working (tested): unit, integration (testcontainers) and the compose e2e gate pass, locally, not pushed** (7g 2026-11-22; 7a–7f 2026-11-21,
+Status: **7a–7h done locally, not pushed.** Gates 1, 2, 4–7 met; **gate 3 met for the plumbing only**: the real-image demo runs end to end, but its alert came from false alarms on good images (KNOWN_ISSUES #46). (7g/7h 2026-11-22; 7a–7f 2026-11-21,
 branch `step-7` from `main` at `c89c9af`). Plan approved by the
-owner on 2026-11-21 with decisions D1–D8 as recommended (§10). 7h (real-image demo, docs)
-waits for the owner's answer on the read-only symlinks (D2).
+owner on 2026-11-21 with decisions D1–D8 as recommended (§10); D2 (read-only symlinks) on 2026-11-22.
 Implementation log and deviations from this plan: §12.
 
 Sources read: blueprint Rev 2 §1.4, §2.1–2.3, §2.6–2.9, §5 (step 7, step 8 table, sequencing
@@ -523,7 +522,9 @@ no testcontainers, no training, no image builds.
 | 7d | `552bf91` | diagnosis: vision case builder, consumer + worker, `GET /v1/cases`, guarantee flag |
 | 7e | `b87cdfc` | feedback service + store, graph writer, `feedback_update` node, in-process loop test |
 | 7f | `f61aca0` | migration 0005, capability status, dashboard page 5, these notes |
-| 7g | this commit | compose workers (`docker-compose.loop.yml`), e2e stack (`docker-compose.e2e.yml`, project `iqs-e2e`), `tests/integration/test_quality_loop_db.py`, `tests/e2e/`, `make test-e2e` / `up-loop` / `down-e2e`, diagnosis Dockerfile fix, trigger fix found by the e2e |
+| 7g | `f941306` | compose workers (`docker-compose.loop.yml`), e2e stack (`docker-compose.e2e.yml`, project `iqs-e2e`), `tests/integration/test_quality_loop_db.py`, `tests/e2e/`, `make test-e2e` / `up-loop` / `down-e2e`, diagnosis Dockerfile fix, trigger fix found by the e2e |
+| — | `b736c97` | merge of `origin/main` (step 2, PR #4): one conflict in `iqs_vision/api/main.py`, both routers kept |
+| 7h | this commit | `scripts/demo_loop.py` (real-image demo + false-cluster measurement), KNOWN_ISSUES #40–#47, ADR-015/016 in the shared docs |
 
 Deviations, each for a reason found while building:
 
@@ -636,7 +637,27 @@ median 2.66 s first anomalous → case, 3.59 s → `awaiting_confirmation`.
 
 Integration: `make test-integration` 31 passed in 85 s (11 new in `test_quality_loop_db.py`).
 
-Gate 3 numbers (real images) come from the 7h demo.
+### Measured in 7h: real-image demo (gate 3) and false-cluster risk (#46)
+
+2026-11-22, this laptop, CPU inference (median 0.58–0.64 s per inspection with the
+WideResNet-50 deploy model). **REAL MVTec AD metal_nut images (read-only symlinks, D2),
+step-1 deploy PatchCore with the step-2 conformal threshold (α = 0.05, q̂ = 1.911); SIMULATED
+process data; SYNTHETIC image-to-part linkage (good parts show `test/good`, tool-wear parts
+`test/scratch`, sampled with replacement).** Symlinks: `models/patchcore`, `models/weights`,
+`data/raw/mvtec_ad` (one level below the tracked placeholders, so nothing tracked changes;
+git-ignored, not committed). A checksum + mtime listing of the main checkout's
+`models/` and `data/raw/mvtec_ad/metal_nut` (670 entries) was identical before and after.
+
+| Run | Report | Result |
+| --- | --- | --- |
+| false clusters: baseline (no fault), seed 7, all 2393 parts | `demo_false_clusters_20261122T104212Z.json` | 3/22 distinct good images above q̂; 335 anomalous parts (14 %); first alert after 45 parts; 1 cluster (335 members, radius 0.454); **1 bogus case** |
+| demo: tool_wear_m1, seed 7, from 30 parts before onset | `demo_demo_20261122T110940Z.json` | alert at part 795 (5 after onset) from **6 anomalous good images, 0 defect images**; case → awaiting confirmation 2.2 s after the alert (24.0 s after the first anomalous image); top-3 TOOL_WEAR 0.132 / WRONG_PARAMETERS 0.129 / INSUFFICIENT_COOLING 0.127, APS set 8 of 10 causes, `guarantee_applies: false`; scientist: TOOL_WEAR supported, COOLING supported, PARAMETERS inconclusive; oracle confirmation TOOL_WEAR → count 0 → 1, graph written, cluster named "scratch"; afterwards 20/20 scratch parts and 27/244 good parts routed `known:scratch`, no new alert, 1 case in total |
+
+Reading: the plumbing works on real images end to end, and the agent's ranking and scientist
+point to the true cause, but they would have done that for this run whatever the trigger did.
+The trigger itself fired on detector false alarms that repeat because the good pool is 22
+images, and the named class is that false-alarm cluster. Gate 3 is therefore recorded as
+**met for the plumbing only**. Options to fix are listed under KNOWN_ISSUES #46 (owner decision).
 
 ### Proposed KNOWN_ISSUES (to copy at merge; numbers #40+)
 
