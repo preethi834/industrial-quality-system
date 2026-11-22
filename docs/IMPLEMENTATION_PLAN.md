@@ -11,10 +11,10 @@ Status labels (blueprint §7.1): **planned** · **in progress** · **working (te
 | --- | --- | --- |
 | 0 | Foundation: repo, settings, logging, databases, service skeletons, CI, docs | **done** (`v0.1-step0`); CI green on `main` |
 | 1 | P2 L1: defect detector (PatchCore / EfficientAD + supervised baseline) + demo | **done** (`v0.1-step1`, merged in PR #2): 15/15 categories, both protocols; EfficientAD deferred (KNOWN_ISSUES #15) |
-| 2 | P2 L2–3: MVTec AD 2 / VisA + conformal threshold | **working locally** (branch `step-2`, not pushed): gates 1–4 met |
-| 3 | P1 L1–2: diagnosis agent (hybrid RAG + KG, MCP, 8D) + evaluation | **in progress**: minimum version 3a–3d working (tested) on simulator cases; 3f NHTSA pilot labelled; 3e LLM gateway, dense retrieval, Neo4j graph (3g) planned (`docs/notes/step-3.md`, `step-3f.md`) |
-| 4 | P1 L3: conformal cause sets | **working (tested) on simulator cases**; gate 1 (real test split) open, KNOWN_ISSUES #19 (`docs/notes/step-4.md`) |
-| 5 | Factory simulator + scientist agent | **working (tested)**: gates 1–3 passed; universal gate after merge (`docs/notes/step-5a.md`, `step-5b.md`) |
+| 2 | P2 L2–3: MVTec AD 2 / VisA + conformal threshold | **done** (`v0.1-step2`, merged in PR #4): gates 1–4 met; CI green on `main` (`707b866`) |
+| 3 | P1 L1–2: diagnosis agent (hybrid RAG + KG, MCP, 8D) + evaluation | **merged** (`v0.2-steps3-5`, PR #3; CI green on `main`, `c89c9af`): minimum version 3a–3d working (tested) on simulator cases; 3f NHTSA pilot labelled; 3e LLM gateway, dense retrieval, Neo4j graph (3g) planned (`docs/notes/step-3.md`, `step-3f.md`) |
+| 4 | P1 L3: conformal cause sets | **merged** (`v0.2-steps3-5`, PR #3): working (tested) on simulator cases; gate 1 (real test split) open, KNOWN_ISSUES #19 (`docs/notes/step-4.md`) |
+| 5 | Factory simulator + scientist agent | **done** (`v0.2-steps3-5`, merged in PR #3): gates 1–3 and universal gate passed; CI green on `main` (`c89c9af`) (`docs/notes/step-5a.md`, `step-5b.md`) |
 | 6 | Cost-aware accept / reject / review | planned (`docs/notes/step-6.md`, decisions pending) |
 | 7 | Integrated quality loop (vision event → diagnosis case) | planned |
 | 8 | Advanced features (8a–8g), one at a time | planned |
@@ -80,7 +80,7 @@ Step 2 gates (blueprint Rev 2 §5):
 - [x] (2) calibration set smaller than ⌈1/α⌉ − 1 refused — unit tests + API 422
 - [x] (3) R = 100 resplits, mean FA ≤ α + 3 SE: pass for all 11 α = 0.02 categories and the 8 at α = 0.05 / 0.10 (#31); fixed split fails for leather / carpet (#17, investigated as non-exchangeability)
 - [x] (4) shift experiment executed and reported (`reports/shift_experiment.md`)
-- [ ] universal gate: CI green on `main` after merge, tag `v0.1-step2`
+- [x] universal gate: CI green on `main` (`707b866`, PR #4), tag `v0.1-step2` pushed
 
 ## Steps 3–5 — diagnosis agent, conformal cause sets, simulator + scientist
 
@@ -101,7 +101,7 @@ merged with `main` (after `v0.1-step1`) on 2026-11-21. Details, gate tables and 
 - [x] Step 5 gates 1–3 (determinism and access, 1,000-run null check, evaluation family committed first)
 - [x] Step 4 gates 2 and 3 (resplit validity, new-problem stress test)
 - [ ] Step 4 gate 1: coverage on the real (NHTSA) test split — KNOWN_ISSUES #19
-- [ ] universal gate for steps 3–5: CI green on `main`, tags — after the PR is merged
+- [x] universal gate for steps 3–5: CI green on `main` (`c89c9af`, PR #3), tag `v0.2-steps3-5` pushed
 
 ## Hand-off notes
 
