@@ -12,7 +12,7 @@ false-alarm guarantee; **fixed_conformal** = reject iff score > q̂, no review;
 Intervals: 2000 stratified bootstrap resamples of sup_test
 (calibrator and q̂ fixed: test-sample noise only).
 
-## Pooled (equal weight over 17 categories) (costs sha256:e860bf58b48c)
+## Pooled, equal weight over 17 categories (all evaluated) (costs sha256:e860bf58b48c)
 
 | policy | € per 10,000 parts [95 % CI] | review share | flag share |
 |---|---|---|---|
@@ -24,6 +24,20 @@ Intervals: 2000 stratified bootstrap resamples of sup_test
 Saving of guaranteed vs fixed_conformal: €4,143 [2,361, 6,057] per 10,000 parts (costs sha256:e860bf58b48c).
 
 Saving of unconstrained vs fixed_conformal: €5,645 [3,718, 7,742] per 10,000 parts (costs sha256:e860bf58b48c).
+
+## Pooled, equal weight over 14 categories where the guarantee is claimed (costs sha256:e860bf58b48c)
+
+| policy | € per 10,000 parts [95 % CI] | review share | flag share |
+|---|---|---|---|
+| guaranteed | 3,395 [2,846, 4,021] (costs sha256:e860bf58b48c) | 3.45% | 3.92% |
+| unconstrained | 1,988 [1,585, 2,425] (costs sha256:e860bf58b48c) | 15.88% | 16.36% |
+| fixed_conformal | 4,338 [2,973, 6,124] (costs sha256:e860bf58b48c) | 0.00% | 3.92% |
+| fixed_provisional | 4,425 [3,048, 6,182] (costs sha256:e860bf58b48c) | 0.00% | 3.92% |
+
+Saving of guaranteed vs fixed_conformal: €943 [-139, 2,362] per 10,000 parts (costs sha256:e860bf58b48c).
+
+Saving of unconstrained vs fixed_conformal: €2,350 [1,019, 3,973] per 10,000 parts (costs sha256:e860bf58b48c).
+
 
 Realised false-alarm rate of the guaranteed policy (all official good test images, categories where the guarantee is claimed): 14/495 = 0.028 [0.016, 0.047], mean α 0.035.
 

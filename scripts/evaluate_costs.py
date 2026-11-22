@@ -298,24 +298,31 @@ def markdown(rep: dict[str, Any]) -> str:
         f"Intervals: {rep['settings']['bootstrap']} stratified bootstrap resamples of sup_test",
         "(calibrator and q̂ fixed: test-sample noise only).",
         "",
-        f"## Pooled (equal weight over {len(rep['categories'])} categories) {tag}",
-        "",
-        "| policy | € per 10,000 parts [95 % CI] | review share | flag share |",
-        "|---|---|---|---|",
     ]
-    for n in POLICIES:
-        p = rep["pooled"][n]
-        lines.append(
-            f"| {n} | {_ci(p['cost_per_10k'], p['cost_per_10k_ci95'])} {tag} | "
-            f"{p['review_share']:.2%} | {p['flag_share']:.2%} |"
-        )
-    for n in ("guaranteed", "unconstrained"):
-        s = rep["pooled"]["saving"][n]
+    for title, block in (
+        ("categories (all evaluated)", rep["pooled"]),
+        ("categories where the guarantee is claimed", rep["pooled"]["guarantee_claimed_only"]),
+    ):
+        lines += [
+            f"## Pooled, equal weight over {len(block['categories'])} {title} {tag}",
+            "",
+            "| policy | € per 10,000 parts [95 % CI] | review share | flag share |",
+            "|---|---|---|---|",
+        ]
+        for n in POLICIES:
+            p = block[n]
+            lines.append(
+                f"| {n} | {_ci(p['cost_per_10k'], p['cost_per_10k_ci95'])} {tag} | "
+                f"{p['review_share']:.2%} | {p['flag_share']:.2%} |"
+            )
+        for n in ("guaranteed", "unconstrained"):
+            s = block["saving"][n]
+            lines += [
+                "",
+                f"Saving of {n} vs fixed_conformal: €{_ci(s['vs_fixed_conformal'], s['ci95'])} "
+                f"per 10,000 parts {tag}.",
+            ]
         lines.append("")
-        lines.append(
-            f"Saving of {n} vs fixed_conformal: €{_ci(s['vs_fixed_conformal'], s['ci95'])} "
-            f"per 10,000 parts {tag}."
-        )
     fa = rep["pooled"]["false_alarm_guaranteed"]
     lines += [
         "",
@@ -413,6 +420,27 @@ def markdown(rep: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def pool(rows: list[dict[str, Any]], reps: list[dict[str, np.ndarray]]) -> dict[str, Any]:
+    """Equal-weight mean over categories; bootstrap replicates averaged index by index."""
+    out: dict[str, Any] = {"categories": [r["category"] for r in rows]}
+    for n in POLICIES:
+        out[n] = {
+            "cost_per_10k": float(np.mean([r["policies"][n]["cost_per_10k"] for r in rows])),
+            "cost_per_10k_ci95": ci95(np.mean([r[n] for r in reps], axis=0)),
+            "review_share": float(np.mean([r["policies"][n]["review_share"] for r in rows])),
+            "flag_share": float(np.mean([r["policies"][n]["flag_share"] for r in rows])),
+        }
+    fixed_b = np.mean([r["fixed_conformal"] for r in reps], axis=0)
+    out["saving"] = {
+        n: {
+            "vs_fixed_conformal": out["fixed_conformal"]["cost_per_10k"] - out[n]["cost_per_10k"],
+            "ci95": ci95(fixed_b - np.mean([r[n] for r in reps], axis=0)),
+        }
+        for n in ("guaranteed", "unconstrained")
+    }
+    return out
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--costs", type=Path, default=ROOT / "configs/costs/example_costs.yaml")
@@ -467,24 +495,9 @@ def main(argv: list[str] | None = None) -> int:
         print("no categories with saved scores", file=sys.stderr)
         return 1
 
-    pooled: dict[str, Any] = {}
-    for n in POLICIES:
-        b = np.mean([r[n] for r in reps], axis=0)
-        pooled[n] = {
-            "cost_per_10k": float(np.mean([r["policies"][n]["cost_per_10k"] for r in rows])),
-            "cost_per_10k_ci95": ci95(b),
-            "review_share": float(np.mean([r["policies"][n]["review_share"] for r in rows])),
-            "flag_share": float(np.mean([r["policies"][n]["flag_share"] for r in rows])),
-        }
-    fixed_b = np.mean([r["fixed_conformal"] for r in reps], axis=0)
-    pooled["saving"] = {
-        n: {
-            "vs_fixed_conformal": pooled["fixed_conformal"]["cost_per_10k"]
-            - pooled[n]["cost_per_10k"],
-            "ci95": ci95(fixed_b - np.mean([r[n] for r in reps], axis=0)),
-        }
-        for n in ("guaranteed", "unconstrained")
-    }
+    pooled = pool(rows, reps)
+    keep = [i for i, r in enumerate(rows) if r["guarantee_claimed"]]
+    pooled["guarantee_claimed_only"] = pool([rows[i] for i in keep], [reps[i] for i in keep])
     claimed = [r for r in rows if r["guarantee_claimed"]]
     x = sum(r["false_alarm"]["guaranteed_all_test_good"]["flagged"] for r in claimed)
     m = sum(r["false_alarm"]["guaranteed_all_test_good"]["n_good"] for r in claimed)

@@ -33,7 +33,13 @@ Coverage: `uv run pytest --cov` measures the `iqs_*` packages with branch covera
 
 ## What exists today
 
-Latest run (2026-11-21, merge of steps 3–5 into `main`): **421 unit/API tests pass, 2 skipped**
+Step 6 (2026-11-22, branch `step-6`): **58 new tests** pass (`test_decision.py` 26,
+`test_decision_evaluate.py` 24, `test_api_costs.py` 7, dashboard 1), plus the existing vision
+API and dashboard tests they touch (`test_api.py`, `test_api_calibrations.py`,
+`tests/test_dashboard_inspection.py`). Only changed-file tests were run (`nice -n 19`,
+another worktree was running heavy jobs); the full `make check` is still to run before the PR.
+
+Latest full run (2026-11-21, merge of steps 3–5 into `main`): **421 unit/API tests pass, 2 skipped**
 in `make check`, and **20 integration tests pass** in `make test-integration` (Docker, `nice -n 19`).
 
 End of step 1 (2026-11-21): **199 unit/API tests** pass in `make check` (ruff,
@@ -75,6 +81,17 @@ branch coverage of `iqs_*` from unit/API tests alone: **99 %** (437 statements, 
 The 1,000-run null check and the evaluations (`scripts/check_scientist_null.py`,
 `evaluate_diagnosis.py`, `evaluate_conformal.py`, `evaluate_scientist.py`) are manual runs,
 not part of `make test`; their results are in EXPERIMENTS EXP-3-02, EXP-4-01, EXP-5-01.
+
+### Cost-aware decisions (step 6)
+
+| Where | Covers |
+| --- | --- |
+| `packages/vision/tests/test_decision.py` | cost config (every value labelled an assumption, ranges, sha256), hand-computed cut-offs and expected costs, actions at each cut-off, review dropped when it never wins, guaranteed policy cases; property tests: raising C_review never raises the review share, raising C_escape never raises the accept share, raising C_false_reject never raises the reject share, free perfect review takes every 0 < p < 1, guaranteed never flags score ≤ q̂ and never accepts above it, cut-off rule = brute-force argmin; Platt / isotonic monotone in score, prior shift exact on known densities, Platt recovers a logistic model and stays finite on separated data |
+| `packages/vision/tests/test_decision_evaluate.py` | gate 2 on every committed manifest (sup_train ∪ sup_val ∩ (calib ∪ sup_test) = ∅ by path and sha256), leak by content refused, hand-computed cost per 10,000 parts, test-set defect share has no effect, guaranteed flags exactly the fixed-q̂ set, `scripts/evaluate_costs.py` on a synthetic category (hash in report, ≥ 3 cost ratios, SVG), stale manifest refused |
+| `packages/vision/tests/test_api_costs.py` | `cost_decision` present with hash when cost config + matching `decision.json` + conformal threshold exist; never `accept` above the threshold; absent (and capability off) for each missing artefact, a foreign run id or a missing cost file |
+| `tests/test_dashboard_inspection.py::test_cost_decision_view` | dashboard decision headline, cost table and hash caption |
+
+`scripts/evaluate_costs.py` itself is a manual run (EXPERIMENTS EXP-6-01).
 
 ## Rules
 

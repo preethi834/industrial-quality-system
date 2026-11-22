@@ -1,6 +1,6 @@
 # Architecture
 
-Status: **steps 1 and 3–5** (defect detector + demo; diagnosis agent minimum version, conformal cause sets, simulator + scientist). This page describes what exists in the repository today and
+Status: **steps 1–6** (defect detector + demo; conformal threshold; cost-aware decisions; diagnosis agent minimum version, conformal cause sets, simulator + scientist). This page describes what exists in the repository today and
 marks everything else as *planned*. The full design is in `TECHNICAL_BLUEPRINT.md` §2; this
 document is updated by each step as parts become real.
 
@@ -11,7 +11,9 @@ One monorepo, two connected systems, one shared data layer:
 - **Vision service** (Project 2, open-world defect discovery): detects defects, guarantees a
   maximum false-alarm rate, makes cost-aware accept / reject / review decisions, discovers new
   defect types. *Today: PatchCore inspection API (`POST /v1/inspections`, `GET /v1/models`) with
-  heatmaps and a provisional threshold; conformal guarantee and cost decisions planned (step 2).*
+  heatmaps, a split-conformal threshold with a false-alarm bound per category (step 2) and
+  accept / reject / review by expected cost in assumed euros that never flags a part at or below
+  that threshold (step 6, `iqs_vision.decision`).*
 - **Diagnosis service** (Project 1, active root-cause diagnosis agent): retrieves similar past
   cases, returns a conformal set of causes, asks the most informative question, tests hypotheses
   against process data, drafts the 8D report. *Today (simulator cases only, no LLM): symptom
