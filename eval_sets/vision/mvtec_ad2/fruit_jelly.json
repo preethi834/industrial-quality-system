@@ -1,0 +1,3551 @@
+{
+ "calib_fraction": 0.2,
+ "category": "fruit_jelly",
+ "dataset": "mvtec_ad2",
+ "entries": [
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/000_overexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/000_overexposed.png",
+   "sha256": "623a21b533f2f6d20b9d18095d63957372aa0352571f3344c9ea8ba87dd03ab0",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/000_regular_mask.png",
+   "path": "fruit_jelly/test_public/bad/000_regular.png",
+   "sha256": "fc2e98f9108068867a55652f0f6a4ac44a9edd6403192c264dc25946ef94e324",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/000_shift_1_mask.png",
+   "path": "fruit_jelly/test_public/bad/000_shift_1.png",
+   "sha256": "3ef15f1d9a89be71013b9c050c2266e4c0cf91c51cd154962f2440a99093c630",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/000_underexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/000_underexposed.png",
+   "sha256": "99e50585a54cde5ee600bc7d9048489207f0a91fc80cafe846fc646706b06b4a",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/001_overexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/001_overexposed.png",
+   "sha256": "38e25ab64d9c09284d0256c99d332a285c04604df7a9b29369136585b2891698",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/001_regular_mask.png",
+   "path": "fruit_jelly/test_public/bad/001_regular.png",
+   "sha256": "4e5072bd10acd62c6f56a228e27b4f8b04ebdfb4fca0937295bb8323f642ecd8",
+   "split": "test",
+   "sup_split": "sup_test"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/001_shift_1_mask.png",
+   "path": "fruit_jelly/test_public/bad/001_shift_1.png",
+   "sha256": "2cc4ae23cd1fc7bd50915146ca5aeaf7450ea6ac1941f00d50179775947c075c",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/001_underexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/001_underexposed.png",
+   "sha256": "c533796055181a958001cd634a708608b00d187ebe82dacfbe8beb2bc957bd4d",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/002_overexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/002_overexposed.png",
+   "sha256": "a7af34e4dbc2e0e7bb4913dc51ef149e5da07d08311c192550d89bb689dbb276",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/002_regular_mask.png",
+   "path": "fruit_jelly/test_public/bad/002_regular.png",
+   "sha256": "d071d6994143d29c90c9d3683fbe6a8093e223e93cc05e85562cff9316c35945",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/002_shift_1_mask.png",
+   "path": "fruit_jelly/test_public/bad/002_shift_1.png",
+   "sha256": "b9f5a0255c30641245e2bd6578893324702bcba565f628ffe51526bbcfc192e3",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/002_underexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/002_underexposed.png",
+   "sha256": "f93e38063541b8790e6e3d9f914ddeefa321de3c6e8497516e933a92f678b5a7",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/003_overexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/003_overexposed.png",
+   "sha256": "9853e74da04c5452541c0cc590f8802251a1f69c0607a82dfb60cdc9fc35383c",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/003_regular_mask.png",
+   "path": "fruit_jelly/test_public/bad/003_regular.png",
+   "sha256": "cb83f1a32e02848c9651600bd141f3d964f04f77910f8e2d7a4695a3b7b66834",
+   "split": "test",
+   "sup_split": "sup_val"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/003_shift_1_mask.png",
+   "path": "fruit_jelly/test_public/bad/003_shift_1.png",
+   "sha256": "899dbe8ebb273a30f8149e658409a718d0e253b10bebecae0652677231e6bc38",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/003_underexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/003_underexposed.png",
+   "sha256": "49d83214fcd81bcf1b9ff8796668b295897ff7b534ddb55dc7b9cca4df5128b0",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/004_overexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/004_overexposed.png",
+   "sha256": "095d23435a63d3bd75b094bf82f70fe46213efdbafc1d436c44715099dcc1935",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/004_regular_mask.png",
+   "path": "fruit_jelly/test_public/bad/004_regular.png",
+   "sha256": "a5b37c80b4297609a0a7c5f63dc6faeabcd41cc7f015b07cfbbf7dc6a0371766",
+   "split": "test",
+   "sup_split": "sup_val"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/004_shift_1_mask.png",
+   "path": "fruit_jelly/test_public/bad/004_shift_1.png",
+   "sha256": "6d35cc02246a5b21c147092c42372ddc34950a280cd19594c2b6e3d52152e306",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/004_underexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/004_underexposed.png",
+   "sha256": "2077820b0f358a603cc0581e6f6ae12ab7e02d40e2f5cd5345045d270af9578a",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/005_overexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/005_overexposed.png",
+   "sha256": "887bee12677285f0331be9223d74e4cf46a0dc2d491ac928717b7ebbb543d663",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/005_regular_mask.png",
+   "path": "fruit_jelly/test_public/bad/005_regular.png",
+   "sha256": "e875eb765b78a30cfcc40afb7c088e55b66058e143e47cfaf5f04b86a0a6e290",
+   "split": "test",
+   "sup_split": "sup_test"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/005_shift_1_mask.png",
+   "path": "fruit_jelly/test_public/bad/005_shift_1.png",
+   "sha256": "8569e70383fb1eb4ca465aab07ce435ba51fbdecc9ba831e17286e662cb86b80",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/005_underexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/005_underexposed.png",
+   "sha256": "ae7e1a2e246dd36c98e9a15ffa415de7da53e0779a4d4899b529242b139bce65",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/006_overexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/006_overexposed.png",
+   "sha256": "514c764532fc0abccf8b1b1493592d310b35d9d49c52d317b3a69cdecedec123",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/006_regular_mask.png",
+   "path": "fruit_jelly/test_public/bad/006_regular.png",
+   "sha256": "3342bd258b015756f3c05e3b8627b03aa1cc1d03f0606b22d2998f7a8d963ede",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/006_shift_1_mask.png",
+   "path": "fruit_jelly/test_public/bad/006_shift_1.png",
+   "sha256": "24d9055edfe8e5f190d15507605a8ea6f6d00b712309f05a45242c423bb39359",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/006_underexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/006_underexposed.png",
+   "sha256": "28ca7b6ca7fcad6c73a22596ff6ad70daa43fc687e83c5baaf99a39cb2a8bff4",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/007_overexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/007_overexposed.png",
+   "sha256": "3dafc62eef7293125372719511489d98c8e648029f1930a07c323c44daadfbcb",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/007_regular_mask.png",
+   "path": "fruit_jelly/test_public/bad/007_regular.png",
+   "sha256": "b073f6634113c26d1b1195b2ba60f3af8423efb207926b704fc354d103368527",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/007_shift_1_mask.png",
+   "path": "fruit_jelly/test_public/bad/007_shift_1.png",
+   "sha256": "3ff1c02ce63f5af0ebe972e9143930465b4844b39b8bb87d4dda812486a14d6d",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/007_underexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/007_underexposed.png",
+   "sha256": "88aca22eb5175f22bcee8cacf43e5072a600825c1b758606e5f333b8a4f7bb6f",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/008_overexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/008_overexposed.png",
+   "sha256": "34c96ee7af5b6e39f94c653af414999e797cffaf418a1611668490db87d7de78",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/008_regular_mask.png",
+   "path": "fruit_jelly/test_public/bad/008_regular.png",
+   "sha256": "db11969a5d5ba56b05472229ac420b6bcb0636dc7f114dfd39465044048a9268",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/008_shift_1_mask.png",
+   "path": "fruit_jelly/test_public/bad/008_shift_1.png",
+   "sha256": "a3ab06907ac34da7e7327b11420545ffa480b1e0bc1dfb7c87f368fa1835969e",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/008_underexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/008_underexposed.png",
+   "sha256": "4cce879035833b8af8733b9b8dc47b5e180629b60d266c4da8c88646144fbb0b",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/009_overexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/009_overexposed.png",
+   "sha256": "dc5622ae2ecbc0be242d4bad461605ca213a457be66a9a31b52626f541e43ec7",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/009_regular_mask.png",
+   "path": "fruit_jelly/test_public/bad/009_regular.png",
+   "sha256": "4334f27a667e431e5c5a8a850e05ea4fe1b703e392377896f8886faab3a7758e",
+   "split": "test",
+   "sup_split": "sup_test"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/009_shift_1_mask.png",
+   "path": "fruit_jelly/test_public/bad/009_shift_1.png",
+   "sha256": "ce40e497c7d08fbbf5e64224307133fa682a59efdebcee5bbcfda2622ab9a396",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/009_underexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/009_underexposed.png",
+   "sha256": "84f35b224571ecd1fbb68133c81a2f17672a3decd2d6a2ff8c322692f4c763e8",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/010_overexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/010_overexposed.png",
+   "sha256": "0ce83439c8e7c7d48b73d6437ae1a44d3acfe9974ec2bca342e32d2eb2640769",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/010_regular_mask.png",
+   "path": "fruit_jelly/test_public/bad/010_regular.png",
+   "sha256": "7d7e67884614fa140375273a2a9ac98540b3b83e2e864ef53d5002c5de2bba43",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/010_shift_1_mask.png",
+   "path": "fruit_jelly/test_public/bad/010_shift_1.png",
+   "sha256": "c1bcbadbf73f3db58f021825dff92e1cf53ddfdcc04a6cca33b13b7ecfc158f4",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/010_underexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/010_underexposed.png",
+   "sha256": "6127b417fd6aa9dea4821554e2545709f89fe2b061b300cca5b01a4bb3d6e85c",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/011_overexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/011_overexposed.png",
+   "sha256": "1505aa402d366893f109256e16b2bbfd65130112c320a47faf1827036c6bc5c3",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/011_regular_mask.png",
+   "path": "fruit_jelly/test_public/bad/011_regular.png",
+   "sha256": "e2793513a09393239bf8c01a43779386718ecc7477e9cc6fb8dec63dd5c9eb9f",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/011_shift_1_mask.png",
+   "path": "fruit_jelly/test_public/bad/011_shift_1.png",
+   "sha256": "e3a6728d0a40de13312993f5d52f871c59b6bf9802b18f1ab96a970d83920d73",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/011_underexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/011_underexposed.png",
+   "sha256": "cacb39dc7b2a6b5c38d008763542ecfa4385716c9ef02e4070860d42cd0e6865",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/012_overexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/012_overexposed.png",
+   "sha256": "02fd6042d5a7a73048d3c644d1a867bf0629cedeaa6e5f50b75cbf7df000d08d",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/012_regular_mask.png",
+   "path": "fruit_jelly/test_public/bad/012_regular.png",
+   "sha256": "f0ef1a521a66248db7f90c26ac1b9e2c1201ed515faada266b19bd05e72dc8ee",
+   "split": "test",
+   "sup_split": "sup_val"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/012_shift_1_mask.png",
+   "path": "fruit_jelly/test_public/bad/012_shift_1.png",
+   "sha256": "d4ac9ae01bda12604cd7283f0fa5fa16deac642917c85da0d775f03361413b06",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/012_underexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/012_underexposed.png",
+   "sha256": "f0697aefe8cc9700690e2da92bedca9524d99166677e536722b196a802002014",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/013_overexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/013_overexposed.png",
+   "sha256": "21455a001e862b74417f03af0f075519e2f39346b5c22fb1ccedd63d5c3db063",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/013_regular_mask.png",
+   "path": "fruit_jelly/test_public/bad/013_regular.png",
+   "sha256": "e65ed21a39de7c29c80ae6c7dcae70e3aa435e7efb2f27923052932fb3900274",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/013_shift_1_mask.png",
+   "path": "fruit_jelly/test_public/bad/013_shift_1.png",
+   "sha256": "14eb0bd6b3fef28a502cb0f82d4baa2c25de73b5bb4060047238ea0e3f2d16c6",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/013_underexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/013_underexposed.png",
+   "sha256": "401e7a812c689c7292a6552d07b5e5847725d481c8a4d3fc2f1f76501cb561c2",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/014_overexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/014_overexposed.png",
+   "sha256": "3885e78971fe8a47b39a8f98e1eefc04c5c89dcb8934c23dd00f3c430394ed15",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/014_regular_mask.png",
+   "path": "fruit_jelly/test_public/bad/014_regular.png",
+   "sha256": "a6047d42fcf8123e1fbf457bb107bfc90522a69ead8ff0475b184dde1f52dac2",
+   "split": "test",
+   "sup_split": "sup_test"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/014_shift_1_mask.png",
+   "path": "fruit_jelly/test_public/bad/014_shift_1.png",
+   "sha256": "181c0d348693d609f1e034527a2dfd0246fe493bcf7b6cc8b89df5d5044d6d5b",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "fruit_jelly/test_public/ground_truth/bad/014_underexposed_mask.png",
+   "path": "fruit_jelly/test_public/bad/014_underexposed.png",
+   "sha256": "7c4fcd9f4f980c3036b635e79fd33e222254af17cfaa590657f07a3bad251112",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/000_overexposed.png",
+   "sha256": "11d5fc9f7e67c764a2d8ad049116d68ca30a36e0f9f3288b38dfab0d682641dd",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/000_regular.png",
+   "sha256": "7f269fd945ae69fa77075952d9847411a83a1a192788fc993a8f330d165459f5",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/000_shift_1.png",
+   "sha256": "9fe1e7b23553170c667e382261703923d7e93a6dd7674a5ea1b7e64102119715",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/000_underexposed.png",
+   "sha256": "5a5685cbf560da1a2bb82d0f92059a120df16d9284c1228e0597b16a5fc69d92",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/001_overexposed.png",
+   "sha256": "075ee2e3f136f59ff57864cb1e1169471c453d90451a8e9ae997e163cf8d7dce",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/001_regular.png",
+   "sha256": "16713eba8d484267bd482af0dece4cc2d14b657e6ab4a89818a45c1a7dfcf312",
+   "split": "test",
+   "sup_split": "sup_val"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/001_shift_1.png",
+   "sha256": "b4a87a3b03011216118bb351bcd1cf61496be3f1a5ee3841ddac81b41a2849f3",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/001_underexposed.png",
+   "sha256": "4f0d0538366c1502a7ca310074c24068b478b396a0b0a9f5ba814442a227a2a3",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/002_overexposed.png",
+   "sha256": "28416d60009631f9825f57d3844ba4f065b77c854bd31e28bc7e952980f40f1d",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/002_regular.png",
+   "sha256": "a575ca6fa6af76eda480a2c29f601c16516fa0b3564b3c1034515ccc1f38d6c3",
+   "split": "test",
+   "sup_split": "sup_test"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/002_shift_1.png",
+   "sha256": "078e02c3f3017b52a6cb394aaaed4028c5b702af4d9863720f4a39c808f0cc55",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/002_underexposed.png",
+   "sha256": "f51447ec1642aabf325a342123492fca1327e7ba5001cacbbb0f671c169d2d58",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/003_overexposed.png",
+   "sha256": "46a1ece947e55ee3e91408c0c670db6f4f48148c50d4fdb85ac823c1461a94d8",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/003_regular.png",
+   "sha256": "4020e10ffa4d142f5566019b5ddc7c638e30591d7623450ddc6d57ed4b4e79fc",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/003_shift_1.png",
+   "sha256": "04743267c8f376adbb0feb62ca66f9883cdc3b64db2b109d5ab5dfb84312897c",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/003_underexposed.png",
+   "sha256": "c8129415dcbab7fc701fe90cdb8c7a8c44f243cfeeef588090e5dd3173c7054b",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/004_overexposed.png",
+   "sha256": "7c7685ef7e9305c7fa8929026babce91f84a807ccb9d9a46d9c62ae4f3427e97",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/004_regular.png",
+   "sha256": "b71543a1432435d13c499a5e524a177b3b0d5f769fc69432486180f5c9bcdc1d",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/004_shift_1.png",
+   "sha256": "4ed9930fac6497bb2677a083652fc22df1a1adf5ea59363db5ee84a5d490b19d",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/test_public/good/004_underexposed.png",
+   "sha256": "6331b6e52cffb51c4f76c3808b8d6e4d3a3c65710711a3f0e16e3403d1859a68",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/000_regular.png",
+   "sha256": "88441563bb229182fecc8cbb713e3888f9a7da832177d2cd90a6053c47f6bd5c",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/001_regular.png",
+   "sha256": "03b3f1ba6568280f46314f883dab62d9a210ec6395ede961d0618512c537d633",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/002_regular.png",
+   "sha256": "ae469a6b577547a55ee61f001f7685b9f5b06b3b964c054acd173e42199a80df",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/003_regular.png",
+   "sha256": "4b3fb7888b070b8be428d4a50629acfb53276d2627478ff1f559f4f2692b34ba",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/004_regular.png",
+   "sha256": "bff2c37b29af88e78524141515c1ec3a7496da84f350a8ae14e09f13dfb4608f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/005_regular.png",
+   "sha256": "78a3affeb066939aabb49092404b23957bab7eb91ca94cca4e2e20eb68a93cbf",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/006_regular.png",
+   "sha256": "89ce6c75903a56c5d10c19c01326bad1266e7596f2ac1d49894fdefcd1ea3ced",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/007_regular.png",
+   "sha256": "72b70b876f3abcaae9662c4f4322fcac8be55832ca8363eda765d8e3790229c0",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/008_regular.png",
+   "sha256": "f7c40e08f7b2cb540c8ad6139060f31a6ceec3589b0653619d7e847ba3c026a2",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/009_regular.png",
+   "sha256": "673d0486cd2103172824f5fce36b29084d8764e1899b438ba550f95c1df1f7a7",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/010_regular.png",
+   "sha256": "3910ce533d5194b041a5f1bc5d2d850e81e97edb987d5f1cbc69c0cccd4ba001",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/011_regular.png",
+   "sha256": "3f32b876b1c7e0b7dd00ceb2a38494f482a0583b427d3ba7ece73d0ddc44c428",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/012_regular.png",
+   "sha256": "13064a1d1db4df1a3530e51c07f2b98757349f345b335a1aed5bfd9e1530f33e",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/013_regular.png",
+   "sha256": "651fae0b903a6d616fb8ecda7c9239ac852d09f408709aabad965994e9fb6f06",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/014_regular.png",
+   "sha256": "c0271151a02bc1a37080c64554b43e2c66c9c0ed48bb91da88a6a2d752a07172",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/015_regular.png",
+   "sha256": "58281ce2c251c38ccae53128371d092a5762e52eb31a7a99e6006f6e60eadb1b",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/016_regular.png",
+   "sha256": "ae077f407117d896e6e9dcd1a5c1a83c6f8703f2e9e574e8be78a0c57e4d1cc8",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/017_regular.png",
+   "sha256": "c38172a078dae326270b50f279bcfc2179a999594a7676c363ad2fde7060460e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/018_regular.png",
+   "sha256": "8f3b7444bf2b9b2f748aaeb2eb3187becf46b61fba40b7bb7cf1ad3575b4a807",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/019_regular.png",
+   "sha256": "8026cc6a7ee12083e50bc013ce848f36f0b51242f3a25e74c956e807b1bdbfe5",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/020_regular.png",
+   "sha256": "09e4c87341c4b3719730a9e41622841096f28db3a4833273873c58520a16d11f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/021_regular.png",
+   "sha256": "1676a4896d70221d255d1c314fc71ff55514ff471424f69f2742933d876ebce0",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/022_regular.png",
+   "sha256": "9985c2510207ee85237e64d83aa0ac9b13782557bb78b896baa555b923bc5d44",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/023_regular.png",
+   "sha256": "8587f60cee4dcefa36d306c0e56283b8576791163f5a1cd0445c5ebd077c234d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/024_regular.png",
+   "sha256": "569e6a79a373a48ce8772bbfd1821dd73e37be450ab80a159b0d89cd7eec1266",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/025_regular.png",
+   "sha256": "0508e7d5582f43b0fe40e8d1fda7f5c7f6d470102e54e530a6d215cc9ad4573e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/026_regular.png",
+   "sha256": "74bbe1e0c8e56c4b65d62ba81a579419865f456661b1581c7935d2df822d4168",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/027_regular.png",
+   "sha256": "e3e0b27e2ca222aee854b9b83cdb90e3b407d6972be35f585bb8d3c12f125adf",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/028_regular.png",
+   "sha256": "0cd4f84a8f69a89ee8cf52dd50fd739d9dd200d6991574c7bcdcaa9c6a1ad6b5",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/029_regular.png",
+   "sha256": "f3bc90b1aa6d2e879012465ca00da8b4ce91a303cb51ea0277b768c9562e6f03",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/030_regular.png",
+   "sha256": "0e63377efe923b4d44df50f678fe0323475854d0c5d65f55db55d738011f5c47",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/031_regular.png",
+   "sha256": "873b44cfc053c15a5ec3e365d21a5d8d6a6945748187ceac94119ee493eefe62",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/032_regular.png",
+   "sha256": "497302b511d1b30a872db42e2a2a6053fe87951cbb6548bd8ca93fc5ebcefbc2",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/033_regular.png",
+   "sha256": "9eaa0e690d2a2c5648d2373ff2a97b3caa7b4815e3457cbf31883ca5765dc8e9",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/034_regular.png",
+   "sha256": "074106c8bf39887799a5b7d6beb8d6a02b9f7c407d01954e83eaa23cb3b9ac69",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/035_regular.png",
+   "sha256": "acb31f3dc6b069d501e2227421f050feaa69fa7747bbc46c33a59179041c9226",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/036_regular.png",
+   "sha256": "91c1f87dd88fb6b471584254becb7675cf7a4dcbefabf5852eb22a61812c8f26",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/037_regular.png",
+   "sha256": "0c8f5b71ee73a77ae1e5bcfb11eea9cb07d5dbbbe82ba3a1056bb4fb6b9d11bc",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/038_regular.png",
+   "sha256": "8a6651650b83cb87d24240379929ad625e40fbfe17ef992ce7d42825d7006967",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/039_regular.png",
+   "sha256": "5e42307d277b3a098f2349c06cdc16d6bd979437f0c37fd48fdef60ead0c8e2a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/040_regular.png",
+   "sha256": "6a33e58f25f0e7dbaf6dada58529942813664581079078dacec7b7bbc138f8d1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/041_regular.png",
+   "sha256": "e1fca2541e16425b968d5cf17249e93bc62555d828eca49fa06b4e0c062ce02a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/042_regular.png",
+   "sha256": "8e5df39130a06e369459a57c029d1b77cabbb18c60c8e775164ef9a03268932c",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/043_regular.png",
+   "sha256": "d1030d13f7edc6e404c9a785588dc09c39829fd08cba018a7b262831c9eb237b",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/044_regular.png",
+   "sha256": "4f937508b4e0732b6d86978767c654465c8e8791394760158e519cae7c5ceb23",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/045_regular.png",
+   "sha256": "c70624dd9db3c3216fd539722cba30bba3706a14d3615e1f4ff314192c269a5f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/046_regular.png",
+   "sha256": "1ed9f6b25ce9f6812990ab77c97d976e0f3b10d89b0006557c38faf7738e6579",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/047_regular.png",
+   "sha256": "9b8233bf63c59b20a5d3f4661ca700899652a2995161eca26c4d1c9ab3b21e45",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/048_regular.png",
+   "sha256": "6dcdd94ebd9f1eeb2739f86582c11e9fe5deddaa595fb6bf9868b2f1df31f41d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/049_regular.png",
+   "sha256": "a03efd2b1cb64a82b36dcd3e5c205db000ef685ee0060318adfc151b4cebdcb8",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/050_regular.png",
+   "sha256": "0a35b98ac7316e74b28be1d6871505e2386cfdf09b29955501deb2684feda5e0",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/051_regular.png",
+   "sha256": "f3ae1aa95209f7f9e7e2e67d138512382a91e302d7ae96a92709dae596a1c01e",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/052_regular.png",
+   "sha256": "3489c1dff350031dcd36d909ac3accb2233ce76440b2b13543db50bdbc81dc3a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/053_regular.png",
+   "sha256": "2a9da4d0eb9c513809e571c566cc1a57263a750f4c3c95130760df52b399c986",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/054_regular.png",
+   "sha256": "a316ee6f11ee0421e0088ac43f442fa1c93d391599ea02eea2825292888fbd4b",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/055_regular.png",
+   "sha256": "22c046bef94da20ea082f4067549fb369ba54aa49cbae1384a994c519b684c6f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/056_regular.png",
+   "sha256": "caf194e54ebf95b90379ae498c685ca315f3317d0fd5c05ab20ac79478fde14f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/057_regular.png",
+   "sha256": "558052d9736be029f556f763e46b5d147df15149ad97e889325b6fca7fbb07b1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/058_regular.png",
+   "sha256": "56d4ff101f8b3024bf8691caa2848794684ef2d88189767f504abaf2a81ec24c",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/059_regular.png",
+   "sha256": "690af869904c3017ef1c0f51342c3fd6f945101d96ac88ab8a64a190cfcf8654",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/060_regular.png",
+   "sha256": "4247e432290eeb716030b9332b98b3d782da01b397273d71c375bbcec86be110",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/061_regular.png",
+   "sha256": "8078d43f8dd236e39c2bb701be412254b2291eb5da8c89e233be4c7c7ece4468",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/062_regular.png",
+   "sha256": "8e5410a9fab3ce4436e2b521a9fd64b56ea5c11e022eb9e7103cfa083087d13f",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/063_regular.png",
+   "sha256": "ba194ddf77f5155e80f993bed73dc812451c0f093de540b921571045b6b00ff8",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/064_regular.png",
+   "sha256": "3344258927d0dc9f6c0891c4047a681437d3187f352d550c0db63a27f1ff088d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/065_regular.png",
+   "sha256": "57eb3538f173bffb84beee9151d9eaaf55daccff74172f08f464f01cea62e01d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/066_regular.png",
+   "sha256": "3a923d99ffae7effd14d42154105440ad4f5912bfd4eb263b4d03599ebbbc767",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/067_regular.png",
+   "sha256": "4d1d2dc142012f445f23ce1f77bda6d522086e149e81bda1f5506aaa90cc926c",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/068_regular.png",
+   "sha256": "7df9640cf4422aafee45c49c7815eb2e7a7112be9f2697cf447e93ab448f6000",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/069_regular.png",
+   "sha256": "50971a7df28ef2c2fb4ff72f40c55c5c800635dc4f343119d46c7de6e3d9cbb3",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/070_regular.png",
+   "sha256": "418df15bc12d4d746725c8ae8425b745c0c4a933d53d0ed14e1205ead34309e2",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/071_regular.png",
+   "sha256": "5f9adbbf6747371ceee45db13e6e73c573eb5234b5dfc06f28afdad83a4416b2",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/072_regular.png",
+   "sha256": "38c3b204bd7241146b87a5de0e79572a804133b6ed7ae17cfe68ac7858c0646e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/073_regular.png",
+   "sha256": "4b37ebc51922b4f863ab7ded37cd95e6b4aa586496a093d625a786e26052316d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/074_regular.png",
+   "sha256": "1bae95508a1119fea140ad7437f0aa07d7418d3a0790397b655c710ca9db119d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/075_regular.png",
+   "sha256": "deedaa85001f79e30d02f437be15d52cb9fece110514efa485c9510d3e33a8b3",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/076_regular.png",
+   "sha256": "64e500aedc3d507792c93e91b3a82aa4ec06c9ba19cca367c63474a3fa4feb93",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/077_regular.png",
+   "sha256": "b96ee7f5736350cc6e5bf8fa8dd410aa4e250bdb43d939010102806aea673f5a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/078_regular.png",
+   "sha256": "239ececc10680b3d05ac2d3d94171c66ef3199593b0e9c5fe5bfd4da6cd3d271",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/079_regular.png",
+   "sha256": "70bb854dd92c7e3a8dc0520b59c5fb277f62d7c44d2e0a981fec1fc77adbafad",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/080_regular.png",
+   "sha256": "ad1c19d1b51269de159004e728691805ca2c3b99f1a37ebfe3f6b90a495e3ad2",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/081_regular.png",
+   "sha256": "6c6f1e183e66eeb8d93ce05eaa39232c22902da6221340ca109be56b11f6019f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/082_regular.png",
+   "sha256": "6764bb1f2e0fbe93eee30e1c75c4be15967b6a1b94ef29a9e285f51f17cbe728",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/083_regular.png",
+   "sha256": "2e3b2193c6ac77b9379e7f68da554129d2659446b390770c567671cb4c471a48",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/084_regular.png",
+   "sha256": "c7f5c29bee67bfe8fe25632b36dced1088450514124bc7f36deda2440e8047b0",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/085_regular.png",
+   "sha256": "be3fc720ee4b7ff036a96958e448871e28e28c3d03d4a54cc6b19c926a9a0322",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/086_regular.png",
+   "sha256": "05085280716671fb3c0df5d8fa1dd08af782814af50029cdf1f29bc159f87e0d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/087_regular.png",
+   "sha256": "dda1dda40271931cea2c95411a87a9ecfc2e4e8f192c958c0fd1b26cb71c72f0",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/088_regular.png",
+   "sha256": "db894502dfc1125a33c61c6cb101b49707cf404236f33e5c43093feb5c9ee3b0",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/089_regular.png",
+   "sha256": "962a47ab5bcf6e1df1fb01d932e8e5318eca3902630a6cd21daa86e1e0f5e6ad",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/090_regular.png",
+   "sha256": "b591477e30871af94e4f6be40abba925eeb05dfebdcd7811406736202bcdc947",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/091_regular.png",
+   "sha256": "714b8a9d423ec4f1beb726482f5b35d238cca1bf0ba1a093cf138cfad454a1b5",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/092_regular.png",
+   "sha256": "099eb6e0707e89b4a408f0249326db15130cb16212c503ad6e4e7265b4d1891b",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/093_regular.png",
+   "sha256": "d8fcc11450014e24f0190c87c6bb9ff7b86c618083a79cb03987f65f0c40d6d1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/094_regular.png",
+   "sha256": "16ae5b7f4172b9c03341b7e9e35212832f3e0fdf3ca4c7a7ed67bf18d90b0f3f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/095_regular.png",
+   "sha256": "ab3ef5d87d262fd8ad38331b93d52bb9982430dd1e50948ab25e963a8a007995",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/096_regular.png",
+   "sha256": "77f8a9df2a53f8350e5f357b94106e5945d547bf7343ef35e76ef8560ba3fb60",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/097_regular.png",
+   "sha256": "d325ea4ac3f8257b6ef9fe3b8d80a5fd0806f301a1cdf51d7bf90764c6c575ff",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/098_regular.png",
+   "sha256": "6c5f26b61c3f14fb8adf0e7267905ea60e4895ee48e2dfbb8902c307fb2fd80e",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/099_regular.png",
+   "sha256": "897f194456de2ed73bf2bc69783b3556e6367ac37979c059729f7150c4e56d32",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/100_regular.png",
+   "sha256": "81a74a574fbea10b57159faeb5d8f16d23c82bf3ddc76855c8b934cb7a1aa3f5",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/101_regular.png",
+   "sha256": "82c4dae9c6c802a2af314ec967352e04f88c0fb1264d5c874d78b158522c487e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/102_regular.png",
+   "sha256": "f8c6ed4078ebc7ad153941394a19af24b46509683948673624924d07d73e327f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/103_regular.png",
+   "sha256": "4446919e7b835a9752caa42f7a97b6394b5ec5068965d3da5c6f2cbbdcb25228",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/104_regular.png",
+   "sha256": "01ae871dedef9d2d15807353f51a0a9d3824f6b93c37c59d1d13da0c79d5c8b3",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/105_regular.png",
+   "sha256": "1e33fc652e33f873159653e5b355e44bfa96c0bd3a81cd34e2c4981de0f00e42",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/106_regular.png",
+   "sha256": "a998d571199f581352f56398405398073bcb33343ec032bf3904c73e4635faa1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/107_regular.png",
+   "sha256": "82e266a53f285930cce547dd65532fa5663c11f6f95bc801fb81a98fa4c48a29",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/108_regular.png",
+   "sha256": "1476712f745c475672633f4f06815037083a18c98b419d5fcca1faff6922ddf8",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/109_regular.png",
+   "sha256": "be2725ea506dde9841ec68bae1c6e4f89ebc99d4e4f0417395ccbe23971db970",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/110_regular.png",
+   "sha256": "aded1317b4780cc0b7ee7a64a3e700e084b0e3beeb96726da2252012711656e4",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/111_regular.png",
+   "sha256": "21423b703199b48dbb24d448eacab5c5d63b703f1cc43ca613e2d72f216c0afb",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/112_regular.png",
+   "sha256": "7d1c34200fe35b3451327dbc7a93fc82999aaf5e4abf76a3b76c42072c106982",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/113_regular.png",
+   "sha256": "faa9d2f4637c6461b6fe0f229cec7649b6cee0b1d0f68dd07b5c3b6bdb415e19",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/114_regular.png",
+   "sha256": "c3775ffa9b678c80a9e9912ce54be5792b9be643a9d76ca6d7bd248edf022fac",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/115_regular.png",
+   "sha256": "9107a8e9201adef990717fa85b6ec8b28629fc7f99e990c54a9a8dec0e1e246d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/116_regular.png",
+   "sha256": "3a595bb9a4f3286a8b27cc0c620f322542801beb20c75c56a025c51641ab970c",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/117_regular.png",
+   "sha256": "0859a017e0ee87d6f1564b8e7fe974f8ff307c56b3fa80946e23e4b35891ed7a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/118_regular.png",
+   "sha256": "ac64534d8666577490285b9a423a4ab02ed3bb392917a7bb9bf03d4d7435d6e3",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/119_regular.png",
+   "sha256": "06064d53588d06e7ee6225c72cb8d8b7dcf0ad51ef83c488e43f8267c2fc5fd1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/120_regular.png",
+   "sha256": "741ac2e88e43054c95ea5557f6b951ff13e1a38cebd6d69fa5d87c9f05c16796",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/121_regular.png",
+   "sha256": "c14dbd93c5dfc3bed8a5d84b1461e402fb62a680ed1d47a7e51fdca6907a02bf",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/122_regular.png",
+   "sha256": "c8ab43e43d25d5e51726e290a51053e4012c7ce1e42bfa093b6eb709b49e969e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/123_regular.png",
+   "sha256": "e31eaff4bbd3d71e47bbba7fad8c496a84435e590c5974e38f44e7b3d6cd4483",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/124_regular.png",
+   "sha256": "67d2d483c2168a43a6b253908b860592289ec0d7409af548281c8a6a2906f028",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/125_regular.png",
+   "sha256": "6ab945d40b06a634696f03a90c861d43fae49dd0625f91347a3943de2a9c3aba",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/126_regular.png",
+   "sha256": "e263bff6f28b6f8477dc71f86dad4660eecb43dbe2d8573787c9299ee6e55461",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/127_regular.png",
+   "sha256": "c6b46f270cb211492aa7ae86b40841efea4afcd28c0131d0444c7b8bc2e2d20d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/128_regular.png",
+   "sha256": "b60af5352317449e2c1f83d74aa33928dad408a5a121a2252aec5fc6d492a0b7",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/129_regular.png",
+   "sha256": "fe2dd3aa9a8d79f35af8332153c3d376c2559920428f9f8077b385f28fed18bd",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/130_regular.png",
+   "sha256": "9d65f1267025d6685b2b04769f09800b65c06b84d291a5d5ca6f22c301122d84",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/131_regular.png",
+   "sha256": "537d72d934f80f086311e14debbc3c4cbdb43b640d8b3ebe1acd485651a1745a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/132_regular.png",
+   "sha256": "b1809d3cac3b79521423f7b0cf28d3f6fcf991f852b99f5e7c3653408987a346",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/133_regular.png",
+   "sha256": "1440ce9aa2be4c4e5d77fd68514432cdb0de05ba81711b7ea11fc12d55c799c7",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/134_regular.png",
+   "sha256": "106b584836857a3b7c9f026b4cd7286550e20e4edb60308d915d272322d28481",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/135_regular.png",
+   "sha256": "99c03a2fb54c7d5f0a5ef8480b9b407ea5abb35a1d1ba5158bfaa8ee7eef93ad",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/136_regular.png",
+   "sha256": "d662893154c86252dd8add0318ed808da8b4960f7b9c8ef43e461510edc9ad88",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/137_regular.png",
+   "sha256": "2f77cab45d1704f79f8fdac82571ec0f874585b0d3fe9695d82b4f62e5f42b56",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/138_regular.png",
+   "sha256": "7f2920c03d1147549da444583e1f656a1d55d58d7528c88522f42751af60dce2",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/139_regular.png",
+   "sha256": "338e7df6fcfa668c67d81ea4d366070f035bbcf92da507d09ac4fc43115e3e6a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/140_regular.png",
+   "sha256": "3fd69a5eaeb4013aadf63869b23fb83de74ddff05bcd683da7b2d764a5c837d1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/141_regular.png",
+   "sha256": "2a684ebbc6caecfd3a5cff4d3f23c670a403ec5663e6602a607c106a7aa327eb",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/142_regular.png",
+   "sha256": "ae7cc2cdf2951786dc821310766783d3fd25344ddca1edb06cd63fd0eb77c310",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/143_regular.png",
+   "sha256": "828d22687adc38f2beb9245a11e5941b4fcfefcf76fdfa6ee58058d7837be09a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/144_regular.png",
+   "sha256": "3ba71e043a2bf9638fe065878df7287962398fcec5a7bcb177de1ac276606103",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/145_regular.png",
+   "sha256": "d3ba477abd19857b50a071a61d1da3fd87ed37ce0947fa90d711ef2ce400fa54",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/146_regular.png",
+   "sha256": "0e67723e1266ea6858275d23c99f185f126a73c0451894ae4a72966d6e55d499",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/147_regular.png",
+   "sha256": "cfa9b1157a79596a6952cf21803a5b633a8d9ad45799779f728e8ece07bb51c3",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/148_regular.png",
+   "sha256": "25506e4fcd254a2f2b9de1c229bef83d80a557eabd6a5f9b801c47e05a0b7b49",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/149_regular.png",
+   "sha256": "bd40b7849d9a155bf40431e33c2122230aacc7c7de4dd667aac3d2fe6de42fed",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/150_regular.png",
+   "sha256": "296e07839786aa04e8c7b9113ecb4d814f936a333659d6ba5d7eb217ef9d27cf",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/151_regular.png",
+   "sha256": "4c5d1dde1ec618406c6c3fad00e349cd055d73e88087870ebf3e95d83650fb34",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/152_regular.png",
+   "sha256": "e72473552a594f79d0dffb9cf7ff9354cb350322188db08fa3bb24c9f0ae46bd",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/153_regular.png",
+   "sha256": "2b59a1e3f0f8bea408ea68b79034ebe0b0ab2b4139beca12e616026246a8e8c6",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/154_regular.png",
+   "sha256": "fae9d710d5889318acbf568dec32365d8567b610b4a3c3dac1f7fb0680844917",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/155_regular.png",
+   "sha256": "9fd6de29f10b8f9f7a807979a91ad95980dc49d32e989ae2b23062885ec9d44a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/156_regular.png",
+   "sha256": "2433fff3a74954c78a09484a70076cd06b4a3465d5ff420162bddd31a0befe92",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/157_regular.png",
+   "sha256": "dacd2e0fbc9dc59ee7e51523629c80d987317447af1f74848bd3cb228b30d1cf",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/158_regular.png",
+   "sha256": "2b951873a1edebcf295a416b3d7f5b1723659897e4abb8a7c014e7baea51a993",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/159_regular.png",
+   "sha256": "f7ab0d827e10f78ae8f912f301985a7899d87015110977b8f4af06ac1027f1aa",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/160_regular.png",
+   "sha256": "ab6fa0db40d8d00180d18ce2de7545ff2035582d723be1745783d48a90532e3f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/161_regular.png",
+   "sha256": "8ff25da6744c3cc43ce1de345cfc0fb863fb60243593c66c001340bc39485f86",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/162_regular.png",
+   "sha256": "19be03f8dc9846c90e8fc4986b148e1ad625da6e36d04eebd7155a5b43a93f38",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/163_regular.png",
+   "sha256": "d052e354719fae49ba73a099e8385ccc449c465f05d1d813efa6c63bc384f837",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/164_regular.png",
+   "sha256": "8ba08ea432e08a2edde94718c77d6056c392d997d89e07f4f6642836e5072205",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/165_regular.png",
+   "sha256": "65ae1e11ed4633bfba34afc7d86e3c26990ceab6a8a5d32821dfdb7add6190e1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/166_regular.png",
+   "sha256": "1c91eeca1142f75998521ea24671e73d85854006ddc7e67e9011caa01f8286ad",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/167_regular.png",
+   "sha256": "b9cd904096da07e0f4c35c2f5eff619d0891c9f5785901e55818a1cf838aeb19",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/168_regular.png",
+   "sha256": "71c1c653a4c997ced91980a365a9922e502faa08a6d9a03aec9ee6c6c5dd4192",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/169_regular.png",
+   "sha256": "5740542c249736de630f6aba93216110dcb894095d9fd8a45b4534a7571d1c94",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/170_regular.png",
+   "sha256": "c89a52c0f2d36d05a89070a9c542dfc3d0c62023488eeef7716f425032d6069f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/171_regular.png",
+   "sha256": "3d5d2a1cc7b376a1f6c216be423f4a30296b986c2e901b430170c945f58faf16",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/172_regular.png",
+   "sha256": "b3394ff7d0935a520599ed38dd83c4c6947cbb995034cf5112f620d82f093ce9",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/173_regular.png",
+   "sha256": "30b59f71457006fbb5b9ebc98857c5c6a5d0cf8877ef9bc831f3365a88a27fd1",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/174_regular.png",
+   "sha256": "76f242a4de40c9525c74d4a9be689bafe1f5632e8947d6cab64de2dc6d058da8",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/175_regular.png",
+   "sha256": "527edad611862ac4a9ec033c65d174409d3d4df854c286b9fbb2bdf189df627f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/176_regular.png",
+   "sha256": "f118edc221e96d8bed1d41355afa1aeb48102dee8a5d1f9e25aaa44219502d6e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/177_regular.png",
+   "sha256": "958eba6890ff8a4220eed2b8a9cb8c50fd34a45534b18bd1f6ae5f85c70387b7",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/178_regular.png",
+   "sha256": "1b54c43b68ecbea10d126d6efb9f3b0279f2030067d3965bffc9f8ca7cddf580",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/179_regular.png",
+   "sha256": "0d698b80a6ea64f6e9872be8a31d046ec0dcdffbefa1dd6ddbc2648c14fbcb91",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/180_regular.png",
+   "sha256": "225247948c8ab36a11bafb7f6bbf457e460cfc858ceba40b1c1fa34657765535",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/181_regular.png",
+   "sha256": "4ec759a088852f47cfbed3317c6afb1f0610123cf6ebdaf963c42b6eeac0ea42",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/182_regular.png",
+   "sha256": "61e3dec540a86a1d408ebe6d918a29faa52dcf12328a5de14d02c8a34679cdaf",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/183_regular.png",
+   "sha256": "bc4b932f01aae8cbcf407047c874da256c210004d2cd1e535759e3de84c361ea",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/184_regular.png",
+   "sha256": "14c3356bc885b82a249a745d51cdac7cc14d97c0b676f3d00212a09a25e55201",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/185_regular.png",
+   "sha256": "19127dd6ac35802f573173f1c2eacbcfcfc389b3fd0d845bd3df2bb446b20be0",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/186_regular.png",
+   "sha256": "af3903d7cfbd4fd26a04734da3bf91c109dff65b5c53a9bca765a4f8d28590a4",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/187_regular.png",
+   "sha256": "dd0bdd2cf59a68b45b94b4192205c4c4ac1c6aef7873de55d33a43a7570200b3",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/188_regular.png",
+   "sha256": "d5a962075f5bae4a6552372e60ba628b352e9318e35ee54a1b3a4265ffced9c7",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/189_regular.png",
+   "sha256": "15496269d2dd1b9852a93f1cff888052604d48720425fdfe5f47e50550ea4622",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/190_regular.png",
+   "sha256": "de508934efaaba0c376ce2271c75c776ad0c44e2ab573bf01054ab1c728eb7c1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/191_regular.png",
+   "sha256": "fcdf886d217272c7a37d8c85d27412723525dbda31751b3d2540f131a07b26c7",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/192_regular.png",
+   "sha256": "e4eebbcf5ef8be7f8b7677693f6da12a089ef50eb47f6f5f4dc7551edd1aebe8",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/193_regular.png",
+   "sha256": "e9a9d8300c7402c886a15f2b2d1edd0e463e1f3b4c88d15382ee4b3ad7f1c4cc",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/194_regular.png",
+   "sha256": "711c7c2bd357e638964a5a2d387f59a9086574faba5644a47fa7f6c415484c60",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/195_regular.png",
+   "sha256": "5228e07739079a59ea9dffb44eeadee2c3a36cb0c19ebb720da62c1dc28d6d7c",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/196_regular.png",
+   "sha256": "c6a1eb76ac28eafabd0e89f92b45cc4eac7b7f5956f638e0887d4335b010c79c",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/197_regular.png",
+   "sha256": "56a2d38babd6b08769b32454fa5eb0471a94a604f57be02f306157940b7e9237",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/198_regular.png",
+   "sha256": "aaec2ed628c35c55cb54dfe547472e9fab7deb8218498e24e0cea1941c82f2ce",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/199_regular.png",
+   "sha256": "49c091e3bee54628071c58fc2ae9bf01b328c4a87f31d9a2cd09c17f45694e4d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/200_regular.png",
+   "sha256": "eef0824aa1126d075a59955af23f17baccda11fab3c33c02f2a86e01867fcb4a",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/201_regular.png",
+   "sha256": "c30ee7818ab69abf5c782a7f539ae0d074408eac288ecd53b10b44cd42795025",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/202_regular.png",
+   "sha256": "621dfb32ed97c552d5a17155c2bab31108b5db4a079d8bb219d16befd14be4cc",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/203_regular.png",
+   "sha256": "47dee352d627dc0d89c2a0108f8111e5014b260961a457e702bf20633fa0c741",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/204_regular.png",
+   "sha256": "e2cb9f0b766c5a487b5cfb7f284baaf1def4bf2edee9b98af44b6cbd0c8ca225",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/205_regular.png",
+   "sha256": "02209d2e2f69dec67828559f9f3b29399892e66704e6b69d6d565b4a5b44851e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/206_regular.png",
+   "sha256": "811fb805354d094c5a05a156e3914ff9b01dad54bb45b9c424d958479d2c22db",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/207_regular.png",
+   "sha256": "7930b74460529272b067506956ccdedc06f159a9a18b4b54d8fdb8ff17e87633",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/208_regular.png",
+   "sha256": "8c7aa451d21b5c580725fb80d906d3e98114743fd26c4a6459a1a3bae2117153",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/209_regular.png",
+   "sha256": "0adcdc2202303f15dbe03c787188aff58ad26abfcf08f66af2dd046b62773c87",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/210_regular.png",
+   "sha256": "381d730bb76ba902c77fe240a181085214fe5cce61a278b8f41067b3d7138fba",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/211_regular.png",
+   "sha256": "13bb0b13393c33559178a162c9a4d9680b1c5649bcbc177256cfe2eeccaf796d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/212_regular.png",
+   "sha256": "65e345d9ba279be25909a105baf447ab5dcca048d339c6d3cdcdf35bb917a184",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/213_regular.png",
+   "sha256": "a9a1a9f94a91798eeeb94a68ece9f717d9fcf7a6fa3c9fa2e9c2379749a0ff27",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/214_regular.png",
+   "sha256": "9713cbde2e40b20d7808b876bc772a6d406e237f693281cf01b6d3801fc2c2f3",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/215_regular.png",
+   "sha256": "5c53873261bb53152f5ce89f250d796a0718d02d63a9778262d85af0e1707fb6",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/216_regular.png",
+   "sha256": "204d9a6a9d95919808516b4c9b110f87a5e662840ad46a0f17cb068608545234",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/217_regular.png",
+   "sha256": "3863a67c870457ec0228f36f3877f35638e6fd88c386c57e5d3e90520aca7ea9",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/218_regular.png",
+   "sha256": "df5d40a4333a993aac405052966130af4f31116c0aa566e656ad3a931468eb3b",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/219_regular.png",
+   "sha256": "5f11235d5c6f8d8948f58333b760063aca3c8d5889043279b55a00c09fce1344",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/220_regular.png",
+   "sha256": "07df6122164e0499ffb7e85c80d8011626900f4415c9d63134a869cb1cb605f9",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/221_regular.png",
+   "sha256": "275a1bda7f51e4e984ea6c915503ccd2cd16943b9316228fbfb23ec8da905584",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/222_regular.png",
+   "sha256": "ec1415fbbd1ceca5e8daf09a439a2ddc837318194db4710d583dffe97880a505",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/223_regular.png",
+   "sha256": "05cbac48b2719e25e30b6fd2113971f4c779606cbad41a77477ee9d5a2e2defd",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/224_regular.png",
+   "sha256": "ba325c6a7912b6d6af8330a8b14760c3a9ea39324f8f8cd331fc2b20c13f8b52",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/225_regular.png",
+   "sha256": "2adbb902da018a21c84060ced7c82ee9c03f4c242b218eaa84bf3ab07f90cee3",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/226_regular.png",
+   "sha256": "6fa91c44c222f0dfb0e682709ec25e67641f69ba4a0e88364f6a59dc1cfa8eae",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/227_regular.png",
+   "sha256": "f9a20be705fbf56904f29f6df0f51f14cbab47bba0af242526675f909d68a032",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/228_regular.png",
+   "sha256": "2e6a173d9075fd702587cd71f9ae897a979c51fad3f797935ea3cfaf65ec2515",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/229_regular.png",
+   "sha256": "d7675093ad6daa6c73151bffd060b816fbb05d08bfa9b5e24e4a3917da6d7a41",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/230_regular.png",
+   "sha256": "1afa0de08bbd98376bd5d977fc07cc0f9de4a7c0fb46088ee81d2e2120844682",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/231_regular.png",
+   "sha256": "9b7a9fb8dd48a844936a9cc8aa1996e5f6e1ea6f92a58f1934f4ce366026e2eb",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/232_regular.png",
+   "sha256": "f7189cdcf1f9b789f6ddae010a106d2ee53dccebf8e8d06289ce4755233b7cf1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/233_regular.png",
+   "sha256": "4004ad794e25a17619e4f97bf057d57450be4e8680a6de2f2c1f4609e4ca3f11",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/234_regular.png",
+   "sha256": "329016b84119ed4ae5df0b9ffad57fdf35a1a496632b5c8bd8e1dc37a71a9351",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/235_regular.png",
+   "sha256": "f1f32e02f1e9fe8c0890c5548649b156aa3d08a5954680076ca76dd9595b5a93",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/236_regular.png",
+   "sha256": "dc5324e840a0cef33fa06726c2630b52632807c9d9dcf234122f190412580500",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/237_regular.png",
+   "sha256": "1a02692b712c2d5b16435a131a998100136ea5b7280a309ddbd10da9bda8d3c8",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/238_regular.png",
+   "sha256": "b3602df9323718b75295566bb17d6faa8aee691b5d29b04b89cc3e1b0f50f9b7",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/239_regular.png",
+   "sha256": "955a7d2d27fd3a88df2f0b4e5635491def2c3fa4c674f70f2b703c221d5d87f1",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/240_regular.png",
+   "sha256": "c10c47ddce71e71e3fc4082524bf9923df126c10d5fe961b3b72c138352dbf21",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/241_regular.png",
+   "sha256": "e0277f319b1137095ed424420f56ab6be1c603e3dd6e43d5f98a42413324a813",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/242_regular.png",
+   "sha256": "a6e90498fb3f315dba58d65f9657b74627c6854cf8eb3a33a3b64802caabbd73",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/243_regular.png",
+   "sha256": "ef4fa7669bd1573abdc6879ffc6d6e7fd08d1968dff485c4dcaef177f91fbe81",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/244_regular.png",
+   "sha256": "4ac1b4e37f2ef288fbe6409f99422d60af46dd31bc421a905c487d39ad954fe8",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/245_regular.png",
+   "sha256": "a57d80cf74e9201f608a9c40af8ba778fbfaa06d5ca071bb0329f866e111949e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/246_regular.png",
+   "sha256": "29dc47eefad65c695e810a6a7267ab99720ae26698247d6a302eb8c9ef007ec0",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/247_regular.png",
+   "sha256": "24bcd6bd00a7412928a0e6f2160031124148a45bb11401b0a8407b248b8b9943",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/248_regular.png",
+   "sha256": "9d28bef75b0b9c216d1aa2ab1b63a32bea5ce6441cd94fd60b5bd33c55a6b838",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/249_regular.png",
+   "sha256": "ed4c193f5d7853b925bb5a86aa85b785b13869076e37b7a5fcad793da980dfdb",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/250_regular.png",
+   "sha256": "92bd170929a10d7165491c756c4a2c5b7dfab98d8ab63c503bfad87adf550f5c",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/251_regular.png",
+   "sha256": "53ab693af02f8f0553d98f853b0b580eafbbcaeb4c8dd7dff22b0196cfce858b",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/252_regular.png",
+   "sha256": "9a6dce8b405f5a5956b35798e634a8df17daccd2144f4d0e4624971417ac77ed",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/253_regular.png",
+   "sha256": "9bfc277253a6823553bb64d319fe38e157bd5a3a4dc506a8bff3c8f821d6a138",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/254_regular.png",
+   "sha256": "383b6069ca1e9192289ce9d79eecd328586bb1fc21fa835700f2bbc51d78b3b1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/255_regular.png",
+   "sha256": "0978d44b52ae129d9e64de56d769659f03058af38997c81e25cf3632ce0c552d",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/256_regular.png",
+   "sha256": "9d8af123fa881cec93932172f74939d75b73cd895220d5e0f55698a016f91c31",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/257_regular.png",
+   "sha256": "ff3b176dda089daf3d80d6e7315f2a6e5fe20499b071e5e21713f772848e47c5",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/258_regular.png",
+   "sha256": "3584866ac7a99d4f6df522521a2213beb3861cb5ad7b2452a9174c827f561fef",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/259_regular.png",
+   "sha256": "b121e994bc00822b47061a2dd9a78fa95e0c74597f3a2e185a8f4b4e312afbdb",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/260_regular.png",
+   "sha256": "d7249516717d1835037365742acec003d7f2f4487f07e4d2d7cebd1fdd090b44",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/261_regular.png",
+   "sha256": "9ee665743ac002616eecee1cce4196fbc21cfbf7c6af166d572245fb13ea4b7c",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/train/good/262_regular.png",
+   "sha256": "0befbebd1290f358afb0074387bcd99984391f56d397858b9decb6cc63ce031b",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/000_regular.png",
+   "sha256": "7fbd1df652ee8fbdd0015755320e14d11aa2fdc750f9c98794d9a3cea6e3b494",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/001_regular.png",
+   "sha256": "daad3a54fa2d1fc25d1dd0366bca1a5b3a27e7f6c6c9492f2d15fc10ba66cb49",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/002_regular.png",
+   "sha256": "e373dea597bb9e21b0a860f074bfe156ca9edb1402f552d1c972ff00a6e0a595",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/003_regular.png",
+   "sha256": "c5b5033b74cfea8ee75dc297614759c95623198bc56311fccc24ecef219e63d3",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/004_regular.png",
+   "sha256": "ca89ab28d4914e6baa9f9a45d47530513ec5ca01e741a2e8606d66dbc25a3fd8",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/005_regular.png",
+   "sha256": "6cbc2be799d1ac409fab07f7fdc0c038473ce23952c348cac54bda9d086bdbad",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/006_regular.png",
+   "sha256": "81d492184b353a6a3b30abc070cea8de81f9cefaa3abeca5bbca2469157f3b42",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/007_regular.png",
+   "sha256": "d928105fa9bc6dac920d650065b0fca5e2a3f275abde7fde91fb36acf4d5e4d1",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/008_regular.png",
+   "sha256": "a222ebaa8b24101dfa84f835b1d4f3308b7a023aa69a4a79bd020ddcda590e3a",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/009_regular.png",
+   "sha256": "41f580d0601e5c48b56e67539bfc43c90e365aad593dfceef44a37e1a58c6a67",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/010_regular.png",
+   "sha256": "dabbe2d2f5a7905bad5a18c6f545b55eeb4c02ced6c5932b8449bbbcacf32679",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/011_regular.png",
+   "sha256": "b3b810599831bf46264783fca0e5420021865a43d6ec6a632a9e12b20279f919",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/012_regular.png",
+   "sha256": "5728ff180fc7ae72ac93cc8aafbd02dc93f0a338f7a2a5fe64394d91707374f6",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/013_regular.png",
+   "sha256": "d4155ae59c78f16515adb7d56d4c66d2d00408616ab0282aff69ed0df169788d",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/014_regular.png",
+   "sha256": "cf64892adb27c5c407c8d3451bfb19ad4b47d18436c400c6abb04485ea05a637",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/015_regular.png",
+   "sha256": "b1fa8473824efc707369dee76d159fc0c67e90376a5368dfe30f9e9aa1977f94",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/016_regular.png",
+   "sha256": "3f1ec26260abcbe6b41e826a834ca13bc471953ff045c3410cadc243cdd014c0",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/017_regular.png",
+   "sha256": "8affb0b540ceff7229ce2fa1f865270608abe46d00597ccdbf59d0e62da8a603",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/018_regular.png",
+   "sha256": "3c095a0a1869e5ced0a55627a45c11d23f00828050fc64590209b86a2abd1db2",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/019_regular.png",
+   "sha256": "9788063528cbc9626e857420770110df589e0ab50b5b692e2817b41dc8eba09f",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/020_regular.png",
+   "sha256": "bb5b6e441457410216599667e790b77e215803137fc3b04c85d26d5cac1c86d4",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/021_regular.png",
+   "sha256": "a918d19ad557b491aed6d9400629680a333aa02b973dc9d6e207557d4fb471f0",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/022_regular.png",
+   "sha256": "c4162cc9cf045c99825b139929285be6eeaa57732a5ab595dcf74cb18d1753c9",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/023_regular.png",
+   "sha256": "13af3234dd73a32d56123275c1aa74f01dad013e0f3d57836a7a500ffe50cb65",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/024_regular.png",
+   "sha256": "5eaef9c90d0470e63c6fb1774d0494997d33202595aaf23ba3e38992bd00d415",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/025_regular.png",
+   "sha256": "abf0536d7a9db62c550e1b2d156ff284ce8f75dd331bedded5b32307160223ee",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/026_regular.png",
+   "sha256": "00ba51521f2386b7433e4141222ea29af003e8c8ea33784248997f6919e70f80",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/027_regular.png",
+   "sha256": "260ba27c52745795b01b428306d953cd75788859171bd6a99e7f75a908253645",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/028_regular.png",
+   "sha256": "3626cdd25c4caba8f2764e5487d7f90b32770c56e67f37e416658bedcb5d44ba",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/029_regular.png",
+   "sha256": "89ee5f46451f657ba00cb5c404f9238e1c79781590a0a374d0b83ab215a6150c",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/030_regular.png",
+   "sha256": "0a4a72797877e7148287f8ba89671504379b7995de46ca974f94acf64c3809f9",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/031_regular.png",
+   "sha256": "ac9864360855694a478b98c349106264d97941a93a66e79b7e21c34c7cc406ec",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/032_regular.png",
+   "sha256": "39e9ed2f698a89715ca8ab83de4691a5522481c53d5b00eafb7238622fcd4745",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/033_regular.png",
+   "sha256": "2b9699d2b093dc7396e324190078855c7b370be3c6cd15c6e1d09d3a625ec044",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/034_regular.png",
+   "sha256": "c7d9753dce94d19882674bb3ea0fa41e6917930c3c4aadd7e95b2df33ed2ef13",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/035_regular.png",
+   "sha256": "31eceab7a03dc436a8802255624893d13e012143fa188494773e0b0071b35cc6",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "fruit_jelly/validation/good/036_regular.png",
+   "sha256": "1041d0bc4a4e737659dd704071ea0ccedbb97ff9bbd9ee9ac8b67eb060d71062",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  }
+ ],
+ "seed": 42,
+ "sup_fractions": [
+  0.5,
+  0.2,
+  0.3
+ ],
+ "version": 1
+}

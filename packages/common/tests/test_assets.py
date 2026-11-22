@@ -124,6 +124,27 @@ def test_extract_tar(tmp_path: Path) -> None:
     assert (tmp_path / "out/bottle/train/good/000.png").read_bytes() == b"x"
 
 
+def test_extract_tar_only_selected_top_level_entries(tmp_path: Path) -> None:
+    archive = tmp_path / "visa.tar"
+    _tar(
+        archive,
+        {"cashew/a.JPG": b"1", "candle/b.JPG": b"2", "split_csv/1cls.csv": b"c", "LICENSE": b"l"},
+    )
+    top = extract_tar(archive, tmp_path / "out", only=["cashew", "split_csv"])
+    assert top == ["cashew", "split_csv"]
+    assert (tmp_path / "out/cashew/a.JPG").is_file()
+    assert not (tmp_path / "out/candle").exists()
+    assert not (tmp_path / "out/LICENSE").exists()
+
+
+def test_extract_tar_only_unknown_entry_is_an_error(tmp_path: Path) -> None:
+    archive = tmp_path / "visa.tar"
+    _tar(archive, {"cashew/a.JPG": b"1"})
+    with pytest.raises(AssetError, match="pipe_fryum"):
+        extract_tar(archive, tmp_path / "out", only=["cashew", "pipe_fryum"])
+    assert not (tmp_path / "out/cashew").exists()
+
+
 def test_extract_tar_blocks_path_traversal(tmp_path: Path) -> None:
     archive = tmp_path / "evil.tar.gz"
     _tar(archive, {"../escaped.txt": b"x"})

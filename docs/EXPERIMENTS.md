@@ -171,6 +171,55 @@ labelled defects, and the reason PatchCore is the primary model.
 | Result | client **p50 529 ms, p95 560 ms**, mean 531 ms; server-reported p50 522 ms, p95 550 ms; sequential requests, CPU only (`reports/inspection_latency.jsonl`) |
 | Note | The first request for a category also loads its model: 18.8 s for bottle on a cold container, 3.7 s for screw later |
 
+### EXP-2-01 — PatchCore on VisA and MVTec AD 2 (deploy protocol) (done)
+
+| Field | Content |
+| --- | --- |
+| Date | 2026-11-21 |
+| Question | Does the step-1 PatchCore pipeline carry over to harder datasets unchanged? |
+| Command | `DATASET=visa scripts/run_patchcore_queue.sh "deploy:cashew deploy:pipe_fryum"`; same with `DATASET=mvtec_ad2` for vial, fruit_jelly (`nice -n 19`) |
+| Config | `configs/vision/patchcore.yaml` (as step 1: WRN-50-2 `tv_in1k`, layers 2+3, 256 px, 10 % coreset, k = 9) |
+| Data | `eval_sets/vision/visa/{cashew,pipe_fryum}.json` (fit 360 / calib 90 / test 150); `eval_sets/vision/mvtec_ad2/{vial,fruit_jelly}.json` (fit 233 / 210, calib 99 / 90 incl. validation, test = test_public regular 20, shift 120 / 60) |
+| Seed(s) | 42 |
+| MLflow run ID | cashew `fd0328e0`, pipe_fryum `e43609c4`, vial `e96e5204`, fruit_jelly `96275194` (experiments `patchcore-visa`, `patchcore-mvtec_ad2`) |
+
+| Category | Image AUROC | Pixel AUROC | Image AUROC, all AD 2 conditions | Train time |
+| --- | --- | --- | --- | --- |
+| VisA cashew | 0.975 | 0.993 | – | 34 min |
+| VisA pipe_fryum | 0.989 | 0.994 | – | 34 min |
+| MVTec AD 2 vial (regular) | 0.960 | 0.956 | 0.889 (140 images) | 16 min |
+| MVTec AD 2 fruit_jelly (regular) | 0.920 | 0.947 | 0.892 (80 images) | 12 min |
+
+Notes: deploy protocol only (decision D3), so no comparison with published numbers (those use the
+full train set). MVTec AD 2 regular-condition AUROC rests on 5 good + 15 defective images (KNOWN_ISSUES #28).
+
+### EXP-2-02 — Realised false-alarm rate of the conformal threshold (done)
+
+| Field | Content |
+| --- | --- |
+| Date | 2026-11-21 |
+| Question | Is the realised false-alarm rate of the split-conformal threshold ≤ α, as §2.8 predicts? |
+| Command | `scripts/calibrate.py --dataset <ds> --categories all` then `scripts/evaluate_vision_conformal.py --dataset <ds>` for mvtec_ad, visa, mvtec_ad2 |
+| Data | deploy models of all 19 categories; per-image scores in `models/patchcore/<cat>/deploy/scores.json` |
+| Seed(s) | resplits seed 42, R = 100 |
+| MLflow run ID | experiments `conformal-mvtec_ad` (15 runs), `conformal-visa` (cashew `dbd38ad9`, pipe_fryum `e475d236`), `conformal-mvtec_ad2` (vial `a22cc7ca`, fruit_jelly `be176118`) |
+| Result | Gate 3 **passes in 19 / 19** categories: resplit mean FA within α + 3 SE and close to the Beta-binomial prediction (e.g. leather 0.0191 vs 0.0200, cashew 0.0088 vs 0.0110, vial 0.0160 vs 0.0200); resplit sd matches the predicted sd (0.015–0.108). Reports: `reports/conformal_{mvtec_ad,visa,mvtec_ad2}.md`, plots `reports/figures/conformal_*.svg` |
+| Fixed split | Official calib → official good test: within the CI of α except leather 20/32, carpet 9/28 (α = 0.02) and toothbrush 4/12 (α = 0.10): non-exchangeable train/test goods (KNOWN_ISSUES #17) |
+| Miss rate | At α = 0.02: 0.867 fruit_jelly, 0.670 pipe_fryum, 0.533 vial, 0.454 pill, 0.294 screw (#29) |
+| (α, δ = 0.1) | infeasible at α = 0.02 for all (n ≤ 99 < 114, #30) |
+| Validation-only (N1) | MVTec AD 2 with validation/good only (n = 41 / 37, α = 0.05): q̂ 2.293 vs 2.317 (vial), 2.700 = 2.700 (fruit_jelly); same fixed FA (0/5) and miss rates |
+
+### EXP-2-03 — In-distribution threshold under lighting shift (done)
+
+| Field | Content |
+| --- | --- |
+| Date | 2026-11-21 |
+| Question | How far does the realised false-alarm rate move from α when capture conditions change? |
+| Command | `scripts/shift_experiment.py --part all` |
+| Data | real: MVTec AD 2 test_public overexposed / underexposed / shift_1–4 (5 good + 15 defective each); synthetic: good test images of the 7 MVTec AD α = 0.02 categories under brightness ×0.7 / ×1.3, contrast ×0.7 / ×1.3, warm / cool channel gains |
+| Result | `reports/shift_experiment.md`. **Real:** 0/5 good false alarms in every condition (CI up to 52 %); the shift hurts ranking instead: vial underexposed image AUROC 0.720 vs 0.960 regular, fruit_jelly overexposed 0.827 vs 0.920. **Synthetic:** FA rises far above α = 0.02 in 6 of 7 categories: screw 2.4 % → 87.8 % (cool), 51.2 % (contrast ×1.3, warm); leather 62.5 % → 100 % (brightness ×1.3, contrast ×1.3); grid 4.8 % → 42.9 % (cool); pill 0 → 26.9 %; wood 0 → 15.8 %; hazelnut 0 % under all six |
+| Notes | A measurement, not a target. The conformal guarantee does not survive a capture change; recalibrate after any lighting or camera change. MVTec AD 2 shifts are too small-sample (5 goods) to measure FA |
+
 ### EXP-3-02 — Diagnosis agent on simulator cases, `dx_corpus_v1` test split (done, simulator only)
 
 | Field | Content |
@@ -208,8 +257,9 @@ labelled defects, and the reason PatchCore is the primary model.
 | EXP-1-01 | 1 | Image and pixel AUROC of PatchCore and EfficientAD on MVTec AD vs published numbers | PatchCore done (15 of 15, both protocols); EfficientAD deferred (KNOWN_ISSUES #15) |
 | EXP-1-02 | 1 | Supervised baseline (ResNet-18) vs PatchCore on the same sup_test images | done |
 | EXP-1-03 | 1 | Inspection latency p50 / p95 through the dockerised API | done |
-| EXP-2-01 | 2 | Detector performance on MVTec AD 2 and VisA, incl. the lighting-shift test set | planned |
-| EXP-2-02 | 2 | Realised false-alarm rate of the conformal threshold vs target α over repeated splits | planned |
+| EXP-2-01 | 2 | Detector performance on MVTec AD 2 and VisA, incl. the lighting-shift test set | done (2 + 2 categories, deploy) |
+| EXP-2-02 | 2 | Realised false-alarm rate of the conformal threshold vs target α over repeated splits | done (19 categories) |
+| EXP-2-03 | 2 | False-alarm rate of the in-distribution threshold under real and synthetic lighting shift | done |
 | EXP-3-01 | 3 | Embedding model choice by recall@k on the retrieval set | planned |
 | EXP-3-02 | 3 | Diagnosis top-3 accuracy and LLM-as-judge agreement (Cohen's κ) with hand labels | simulator part done (above); NHTSA and LLM-as-judge planned |
 | EXP-4-01 | 4 | Empirical coverage and average size of conformal cause sets (LAC vs APS) | simulator done (above); real test split open |

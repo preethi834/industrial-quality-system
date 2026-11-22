@@ -47,6 +47,24 @@ class VisionClient:
     def models(self) -> list[dict[str, Any]]:
         return list(self._check(self._http.get("/v1/models", headers=self._headers)))
 
+    def calibrations(self) -> list[dict[str, Any]]:
+        return list(self._check(self._http.get("/v1/calibrations", headers=self._headers)))
+
+    def calibration(self, category: str) -> dict[str, Any]:
+        r = self._http.get(f"/v1/calibrations/{category}", headers=self._headers)
+        return dict(self._check(r))
+
+    def calibrate(
+        self, category: str, alpha: float | None = None, delta: float | None = None
+    ) -> dict[str, Any]:
+        body: dict[str, Any] = {"category": category}
+        if alpha is not None:
+            body["alpha"] = alpha
+        if delta is not None:
+            body["delta"] = delta
+        r = self._http.post("/v1/calibrations", headers=self._headers, json=body)
+        return dict(self._check(r))
+
     def inspect(
         self,
         image: bytes,

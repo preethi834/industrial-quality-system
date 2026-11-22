@@ -27,12 +27,15 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
     p.add_argument("--categories", nargs="+", required=True)
     p.add_argument("--protocol", choices=["official", "deploy"], default="official")
-    p.add_argument("--data-root", type=Path, default=ROOT / "data/raw/mvtec_ad")
-    p.add_argument("--manifests", type=Path, default=ROOT / "eval_sets/vision/mvtec_ad")
+    p.add_argument("--dataset", choices=["mvtec_ad", "visa", "mvtec_ad2"], default="mvtec_ad")
+    p.add_argument("--data-root", type=Path, help="default: data/raw/<dataset>")
+    p.add_argument("--manifests", type=Path, help="default: eval_sets/vision/<dataset>")
     p.add_argument("--models-dir", type=Path, default=ROOT / "models/patchcore")
     p.add_argument("--mlruns", type=Path, default=ROOT / "mlruns")
     p.add_argument("--no-mlflow", action="store_true")
     args = p.parse_args(argv)
+    args.data_root = args.data_root or ROOT / "data/raw" / args.dataset
+    args.manifests = args.manifests or ROOT / "eval_sets/vision" / args.dataset
     assets = load_assets(ROOT / "configs/assets.yaml")
     status = 0
     for cat in args.categories:
@@ -46,7 +49,7 @@ def main(argv: list[str] | None = None) -> int:
             status = 2
             continue
         with mlflow_run(
-            "patchcore-mvtec_ad",
+            f"patchcore-{manifest.dataset}",
             f"{cat}-{args.protocol}-eval",
             tracking_dir=args.mlruns,
             params={

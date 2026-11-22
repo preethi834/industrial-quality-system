@@ -10,6 +10,7 @@ only resolve local paths through this module and fail with AssetMissingError.
 from __future__ import annotations
 
 import hashlib
+from collections.abc import Sequence
 from pathlib import Path
 from typing import Annotated
 
@@ -147,16 +148,25 @@ def download_verified(url: str, dest: Path, expected_sha256: str, *, timeout_s: 
     partial.replace(dest)
 
 
-def extract_tar(archive: Path, target: Path) -> list[str]:
+def extract_tar(archive: Path, target: Path, only: Sequence[str] | None = None) -> list[str]:
     """Extract a (possibly compressed) tar archive with the 'data' safety filter.
 
     The filter rejects absolute paths, '..' components, links leaving the target and
     device files, so an untrusted archive cannot write outside `target`.
+    `only`: extract just the members whose top-level name is listed (e.g. two of VisA's
+    twelve categories plus `split_csv`); every name must exist in the archive.
     Returns the top-level names extracted.
     """
     import tarfile
 
     target.mkdir(parents=True, exist_ok=True)
     with tarfile.open(archive) as tar:
-        tar.extractall(target, filter="data")
-        return sorted({m.name.split("/", 1)[0] for m in tar.getmembers()})
+        members = tar.getmembers()
+        tops = {m.name.split("/", 1)[0] for m in members}
+        if only is not None:
+            missing = sorted(set(only) - tops)
+            if missing:
+                raise AssetError(f"{archive.name}: no top-level entries {missing}")
+            members = [m for m in members if m.name.split("/", 1)[0] in set(only)]
+        tar.extractall(target, members=members, filter="data")
+        return sorted({m.name.split("/", 1)[0] for m in members})

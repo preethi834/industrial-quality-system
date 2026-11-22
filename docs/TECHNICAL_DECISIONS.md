@@ -365,3 +365,55 @@ step-4 calibration (ADR-007). Store: the locked DuckDB allow-list over `observed
 faults have physical side effects, so wrong causes are supported in 14 % of tests on
 `sci_eval_v1` (`docs/notes/step-5b.md`). The null check is vacuous for four templates
 (KNOWN_ISSUES #23). Decision 6 is unmeasured until a new family is evaluated.
+
+---
+
+## ADR-010 — Step 2: new datasets and the conformal false-alarm threshold (steps 2a–2f)
+
+**Status:** accepted · 2026-11-21 (numbered from 010: ADR-006…009 come from step-5b, PR #3)
+
+**Context.** Step 2 replaces the provisional threshold (largest calibration score) with a
+split-conformal threshold that has a stated false-alarm guarantee (blueprint Rev 2 §2.8), and
+runs the pipeline on VisA and MVTec AD 2. Owner decisions: A1/A2 categories, A3 `scipy`, D1–D4,
+N1 (2026-11-20/21).
+
+**Decisions.**
+
+1. **Adapters, not datamodules** (as ADR-005 §1): `data/visa.py` reads `split_csv/1cls.csv`
+   (rejects unsafe paths and anomalies in train); `data/mvtec_ad2.py` takes the lighting
+   condition from the file name (`regular`, `overexposed`, `underexposed`, `shift_1..4`). Masks:
+   any nonzero pixel is a defect (VisA masks hold region ids, MVTec 0/255). Archives are verified
+   against our SHA-256 in `configs/assets.yaml` (VisA also against anomalib's) and only the
+   approved categories are extracted (`--only`).
+2. **Manifests gain** split `shift` (MVTec AD 2 non-regular conditions, never used for fitting
+   or calibration) and optional `source` / `condition` fields, omitted from the JSON when unset,
+   so the 15 MVTec AD manifests stay byte-identical.
+3. **Calibration set (N1).** MVTec AD 2: `validation/good` + 20 % of `train/good` held out
+   (never fitted); the validation-only threshold is reported as a check. VisA and MVTec AD:
+   20 % of train-good. New datasets use the deploy protocol only (D3).
+4. **Threshold rule.** q̂ = k-th smallest calibration score with k = ⌈(n+1)(1−α)⌉ (float slack
+   1e-9); n < ⌈1/α⌉ − 1 is refused (`InsufficientCalibrationError`, HTTP 422). A part is flagged
+   iff score > q̂. α per category by D1 (0.02 if n ≥ 49, 0.05 if n ≥ 19, else 0.10). The (α, δ)
+   threshold uses the Beta(k, n+1−k) coverage law (δ = 0.1) and is reported, not served: it is
+   infeasible at α = 0.02 unless n ≥ 114.
+5. **Scores, not images, are the calibration artefact.** `scripts/calibrate.py` writes
+   `scores.json` (per-image scores of calib / test / shift) and `calibration.json` next to the
+   model. Validity checks, the shift experiment and `POST /v1/calibrations` all recompute from
+   `scores.json`; a calibration whose images overlap the fit set is refused by path and hash.
+6. **Validity gate** = 100 resplits of the pooled unseen good images (calib ∪ good test),
+   mean realised FA ≤ α + 3 SE, plus the fixed official split reported separately. Pooling makes
+   the data exchangeable by construction, so the resplit check tests the code, not the data;
+   the fixed split is the data check (KNOWN_ISSUES #17).
+7. **API.** `POST /v1/calibrations` activates a new threshold **in memory only** (models are
+   mounted read-only); the persistent calibration is `calibration.json`. Every inspection
+   response carries `threshold_note`, which states α, n and that the guarantee is marginal and
+   assumes exchangeability.
+8. **Guarantee plot as hand-written SVG** (`reports/figures/conformal_<dataset>.svg`): matplotlib
+   is not a direct dependency, and adding it would change `uv.lock` without approval.
+9. **Script name `scripts/evaluate_vision_conformal.py`** (blueprint §5 step 2 lists
+   `evaluate_conformal.py`): that name is taken by the step-4 diagnosis cause-set evaluation
+   (ADR-007), which reached `main` first.
+
+**Consequences.** Thresholds are reproducible from committed manifests + `scores.json` without
+re-running the detector. At n ≈ 50–100 and α = 0.02 the threshold is the largest or second
+largest calibration score, so miss rates are high on hard categories (KNOWN_ISSUES #29).

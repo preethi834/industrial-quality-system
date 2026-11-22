@@ -33,7 +33,8 @@ CATEGORIES = tuple(sorted(OBJECT_CATEGORIES + TEXTURE_CATEGORIES))
 GOOD = "good"
 IMAGE_SUFFIXES = (".png", ".jpg", ".jpeg", ".bmp")
 
-SourceSplit = Literal["train", "test"]
+# "validation" = a dataset's own good-only validation folder (MVTec AD 2); it always goes to calib.
+SourceSplit = Literal["train", "validation", "test"]
 
 
 class DatasetNotFoundError(FileNotFoundError):
@@ -48,6 +49,9 @@ class Sample:
     source_split: SourceSplit
     defect_type: str  # "good" or the MVTec defect folder name
     mask_path: str | None
+    # Acquisition condition of a test image (MVTec AD 2 lighting: "regular", "overexposed", ...).
+    # None for datasets without conditions; anything other than None / "regular" is a shift image.
+    condition: str | None = None
 
     @property
     def label(self) -> int:

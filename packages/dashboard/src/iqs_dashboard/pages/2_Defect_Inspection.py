@@ -11,8 +11,9 @@ from iqs_dashboard import client as api
 st.set_page_config(page_title="Defect inspection", layout="wide")
 st.title("Defect inspection")
 st.caption(
-    "PatchCore anomaly detection (MVTec AD). The threshold is provisional — the largest "
-    "score among held-out good images — not yet the conformal guarantee of step 2."
+    "PatchCore anomaly detection. With a conformal calibration the threshold bounds the "
+    "false-alarm rate on good parts (α per category); without one it is provisional — the "
+    "largest score among held-out good images. The note under each result says which."
 )
 
 try:

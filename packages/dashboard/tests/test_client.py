@@ -66,3 +66,26 @@ def test_from_settings_uses_first_key(monkeypatch: pytest.MonkeyPatch) -> None:
     c = VisionClient.from_settings(DashboardSettings(_env_file=None))
     assert c._headers == {"X-API-Key": "new"}
     assert str(c._http.base_url) == "http://vision:8001"
+
+
+def test_calibration_calls() -> None:
+    seen: list[tuple[str, str, object]] = []
+
+    def handler(req: httpx.Request) -> httpx.Response:
+        body = json.loads(req.content) if req.content else None
+        seen.append((req.method, req.url.path, body))
+        if req.url.path == "/v1/calibrations" and req.method == "GET":
+            return httpx.Response(200, json=[{"category": "toy"}])
+        return httpx.Response(200, json={"category": "toy", "alpha": 0.05})
+
+    c = _client(handler)
+    assert c.calibrations() == [{"category": "toy"}]
+    assert c.calibration("toy")["category"] == "toy"
+    assert c.calibrate("toy", alpha=0.05)["alpha"] == 0.05
+    c.calibrate("toy")
+    assert seen == [
+        ("GET", "/v1/calibrations", None),
+        ("GET", "/v1/calibrations/toy", None),
+        ("POST", "/v1/calibrations", {"category": "toy", "alpha": 0.05}),
+        ("POST", "/v1/calibrations", {"category": "toy"}),
+    ]
