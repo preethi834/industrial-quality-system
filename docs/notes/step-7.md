@@ -525,7 +525,9 @@ no testcontainers, no training, no image builds.
 | 7g | `f941306` | compose workers (`docker-compose.loop.yml`), e2e stack (`docker-compose.e2e.yml`, project `iqs-e2e`), `tests/integration/test_quality_loop_db.py`, `tests/e2e/`, `make test-e2e` / `up-loop` / `down-e2e`, diagnosis Dockerfile fix, trigger fix found by the e2e |
 | — | `b736c97` | merge of `origin/main` (step 2, PR #4): one conflict in `iqs_vision/api/main.py`, both routers kept |
 | 7h | `331d000` | `scripts/demo_loop.py` (real-image demo + false-cluster measurement), KNOWN_ISSUES #40–#47, ADR-015/016 in the shared docs |
-| 7h-fix | this commit | #46 owner decision (a)+(c): trigger counts distinct images (pixel SHA-256, migration 0006); metal_nut linkage = 66 unseen goods (calib + test), dealt without replacement; re-measured |
+| 7h-fix | `a4f6b27` | #46 owner decision (a)+(c): trigger counts distinct images (pixel SHA-256, migration 0006); metal_nut linkage = 66 unseen goods (calib + test), dealt without replacement; re-measured |
+| — | `1a1419b` | merge of `origin/main` (step 6, PR #6; README, PR #7): conflicts in the secret-scan exclude, vision FEATURES / settings, KNOWN_ISSUES, ADRs; both sides kept; Alembic 0001…0006, one head |
+| docs | this commit | README step-7 status, roadmap, diagram, key result, limitation #46 |
 
 Deviations, each for a reason found while building:
 
