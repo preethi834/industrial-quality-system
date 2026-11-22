@@ -9,9 +9,9 @@ Status labels (blueprint §7.1): **planned** · **in progress** · **working (te
 
 | Step | Scope (blueprint §5) | Status |
 | --- | --- | --- |
-| 0 | Foundation: repo, settings, logging, databases, service skeletons, CI, docs | **working (tested) locally**; known issue: CI not yet run on GitHub |
-| 1 | P2 L1: defect detector (PatchCore / EfficientAD + supervised baseline) + demo | **working (tested) locally**: 15/15 categories, both protocols; EfficientAD deferred (KNOWN_ISSUES #15); not pushed, no tag yet |
-| 2 | P2 L2–3: MVTec AD 2 / VisA + conformal threshold | planned |
+| 0 | Foundation: repo, settings, logging, databases, service skeletons, CI, docs | **done** (`v0.1-step0`); CI green on `main` |
+| 1 | P2 L1: defect detector (PatchCore / EfficientAD + supervised baseline) + demo | **done** (`v0.1-step1`, merged in PR #2): 15/15 categories, both protocols; EfficientAD deferred (KNOWN_ISSUES #15) |
+| 2 | P2 L2–3: MVTec AD 2 / VisA + conformal threshold | **working locally** (branch `step-2`, not pushed): gates 1–4 met |
 | 3 | P1 L1–2: diagnosis agent (hybrid RAG + KG, MCP, 8D) + evaluation | **in progress**: minimum version 3a–3d working (tested) on simulator cases; 3f NHTSA pilot labelled; 3e LLM gateway, dense retrieval, Neo4j graph (3g) planned (`docs/notes/step-3.md`, `step-3f.md`) |
 | 4 | P1 L3: conformal cause sets | **working (tested) on simulator cases**; gate 1 (real test split) open, KNOWN_ISSUES #19 (`docs/notes/step-4.md`) |
 | 5 | Factory simulator + scientist agent | **working (tested)**: gates 1–3 passed; universal gate after merge (`docs/notes/step-5a.md`, `step-5b.md`) |
@@ -37,7 +37,7 @@ Blueprint "done when" for step 0:
 - [x] `make setup && make test` works; `make up` starts the stack on a clean checkout (+ `.env`)
 - [x] both services answer `/health` (and `/ready`) in Docker — verified 2026-11-17
 - [x] docs exist with real content
-- [ ] green CI on `main` — needs a push (KNOWN_ISSUES #1, #2)
+- [x] green CI on `main` — confirmed 2026-11-21 (`ci` #9, `docker` #5 on `f459752`; KNOWN_ISSUES #1 closed)
 
 ## Step 1 — Project 2 Layer 1
 
@@ -50,7 +50,7 @@ Blueprint "done when" for step 0:
 | 1e | Supervised ResNet-18 baseline | `32452e3` | working (tested): run on all 15 (EXP-1-02) |
 | 1f | Dashboard + image + smoke test | `b5244dc`, `a5aca26` | working: Docker smoke + dashboard client with the 15 deploy models (images rebuilt 2026-11-21, smoke passed again) |
 | 1g | EfficientAD notebook, run bundles, import | `34b7d3e` | code working (tested); not run, deferred (KNOWN_ISSUES #15) |
-| 1h | Docs, results, tag `v0.1-step1` | `e2a181f`, this commit | docs done; tag waits for the owner |
+| 1h | Docs, results, tag `v0.1-step1` | `e2a181f`, `a8f743a`, `cdab144`, `5e644ad` | done; tag on `f459752` |
 
 Step 1 gates (blueprint Rev 2 §5):
 
@@ -60,7 +60,27 @@ Step 1 gates (blueprint Rev 2 §5):
 - [x] (4) API 200 / 415 / 401 — tests + Docker smoke
 - [x] (5) dashboard against Docker with the **deploy** models — smoke test + dashboard client in the container (screw defect → anomalous); images rebuilt 2026-11-21 and re-checked (#16 resolved)
 - [x] (6) EfficientAD deferred in KNOWN_ISSUES #15 (confirmed by the owner 2026-11-21)
-- [ ] universal gate: CI green on `main`, tag `v0.1-step1` — after the owner's push
+- [x] universal gate: CI green on `main` (`ci` #9, `docker` #5 on `f459752`), tag `v0.1-step1` pushed
+
+## Step 2 — Project 2 Layers 2–3
+
+| Sub-step | Content | Commit | Status |
+| --- | --- | --- | --- |
+| 2f | VisA + MVTec AD 2 adapters, manifests, verified imports; 4 deploy models | `27227f0` | working (tested); models trained 2026-11-21 (EXP-2-01) |
+| 2a | Split-conformal + (α, δ) thresholds, Clopper–Pearson, Beta-binomial prediction | `368c05c` | working (tested) |
+| 2b | `scripts/calibrate.py`, scores.json / calibration.json, D1 policy, leakage refusal | `238bc31` | working (tested): 19 categories calibrated |
+| 2c | Repeated-split validity check, conformal reports, guarantee plot | `263c248` | working (tested): gate passes 19/19 (EXP-2-02) |
+| 2d | Shift experiment (real AD 2 conditions + synthetic) | `8c5c74e` | working (tested): run 2026-11-21 (EXP-2-03) |
+| 2e | `/v1/calibrations`, conformal threshold in inspections, model-evaluation page | `a9efe42` | working (tested); not yet checked in Docker |
+| 2g | Results + docs (ADR-010, KNOWN_ISSUES #17 update, #28–#32) | this commit | done |
+
+Step 2 gates (blueprint Rev 2 §5):
+
+- [x] (1) AUROC for ≥ 2 MVTec AD 2 (vial, fruit_jelly) and ≥ 2 VisA (cashew, pipe_fryum) categories logged (EXP-2-01)
+- [x] (2) calibration set smaller than ⌈1/α⌉ − 1 refused — unit tests + API 422
+- [x] (3) R = 100 resplits, mean FA ≤ α + 3 SE: pass for all 11 α = 0.02 categories and the 8 at α = 0.05 / 0.10 (#31); fixed split fails for leather / carpet (#17, investigated as non-exchangeability)
+- [x] (4) shift experiment executed and reported (`reports/shift_experiment.md`)
+- [ ] universal gate: CI green on `main` after merge, tag `v0.1-step2`
 
 ## Steps 3–5 — diagnosis agent, conformal cause sets, simulator + scientist
 
@@ -84,6 +104,18 @@ merged with `main` (after `v0.1-step1`) on 2026-11-21. Details, gate tables and 
 - [ ] universal gate for steps 3–5: CI green on `main`, tags — after the PR is merged
 
 ## Hand-off notes
+
+### 2026-11-21 — step 2 done locally (2a–2f), branch `step-2`, not pushed
+
+- **Done:** VisA cashew / pipe_fryum and MVTec AD 2 vial / fruit_jelly imported (SHA-256 verified)
+  and trained (deploy); 19 categories calibrated; gate 3 passes 19/19; shift experiment run.
+  Results: EXPERIMENTS EXP-2-01…03; reports `reports/conformal_*.md`, `reports/shift_experiment.md`.
+- **Read first:** KNOWN_ISSUES #17 (leather / carpet fixed split fails: non-exchangeable), #28–#32.
+- **Merged `origin/main` (`c89c9af`, steps 3–5) into `step-2`** on 2026-11-21; the vision
+  validity script is now `scripts/evaluate_vision_conformal.py` (name clash with step 4).
+- **Numbering:** new known issues from #28, ADRs from ADR-010 (step-5b, PR #3, adds #18–#27 and
+  ADR-006…009). **Next:** Docker
+  check of `/v1/calibrations` and the model-evaluation page; push / PR only with permission.
 
 ### 2026-11-21 — steps 3–5 merged with main (branch `step-5b`)
 

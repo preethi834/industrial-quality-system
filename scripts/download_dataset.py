@@ -35,6 +35,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--approve", action="store_true", help="confirm the dataset is approved")
     p.add_argument("--assets", type=Path, default=ROOT / "configs" / "assets.yaml")
     p.add_argument("--root", type=Path, default=ROOT)
+    p.add_argument(
+        "--only", nargs="+", help="extract only these top-level entries (e.g. approved categories)"
+    )
     args = p.parse_args(argv)
     try:
         a = load_assets(args.assets).dataset(args.name)
@@ -52,7 +55,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  sha256 ok ({sha256_file(local)[:16]}...)")
         target = args.root / a.target
         print(f"  extracting -> {target}")
-        top = extract_tar(local, target)
+        top = extract_tar(local, target, only=args.only)
         print(f"  extracted {len(top)} top-level entries: {', '.join(top)}")
     except AssetError as exc:
         print(f"error: {exc}", file=sys.stderr)

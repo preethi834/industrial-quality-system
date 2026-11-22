@@ -50,7 +50,7 @@ def train_one(args: argparse.Namespace, category: str, cfg: PatchCoreConfig) -> 
         "dataset": manifest.dataset,
     }
     with mlflow_run(
-        "patchcore-mvtec_ad",
+        f"patchcore-{manifest.dataset}",
         f"{category}-{args.protocol}",
         tracking_dir=args.mlruns,
         params=params,
@@ -107,8 +107,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--categories", nargs="+", required=True)
     p.add_argument("--protocol", choices=["official", "deploy"], default="official")
     p.add_argument("--config", type=Path, default=ROOT / "configs/vision/patchcore.yaml")
-    p.add_argument("--data-root", type=Path, default=ROOT / "data/raw/mvtec_ad")
-    p.add_argument("--manifests", type=Path, default=ROOT / "eval_sets/vision/mvtec_ad")
+    p.add_argument("--dataset", choices=["mvtec_ad", "visa", "mvtec_ad2"], default="mvtec_ad")
+    p.add_argument("--data-root", type=Path, help="default: data/raw/<dataset>")
+    p.add_argument("--manifests", type=Path, help="default: eval_sets/vision/<dataset>")
     p.add_argument("--models-dir", type=Path, default=ROOT / "models/patchcore")
     p.add_argument("--mlruns", type=Path, default=ROOT / "mlruns")
     p.add_argument("--no-mlflow", action="store_true")
@@ -126,6 +127,8 @@ def main(argv: list[str] | None = None) -> int:
         help="override config values, e.g. --set coreset_sampling_ratio=0.01",
     )
     args = p.parse_args(argv)
+    args.data_root = args.data_root or ROOT / "data/raw" / args.dataset
+    args.manifests = args.manifests or ROOT / "eval_sets/vision" / args.dataset
     raw = yaml.safe_load(args.config.read_text())
     for kv in args.set:
         k, v = kv.split("=", 1)

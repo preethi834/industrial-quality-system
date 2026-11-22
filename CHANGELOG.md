@@ -3,6 +3,28 @@
 All notable changes to this project. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versions follow the roadmap tags (`v0.1-step0`, `v0.1-step1`, ...).
 
+## [Unreleased] — step 2 (P2 Layers 2–3: hard benchmark + guarantee)
+
+### Added
+- **2f** VisA (cashew, pipe_fryum) and MVTec AD 2 (vial, fruit_jelly) adapters and manifests;
+  split `shift` for MVTec AD 2 lighting conditions; archive SHA-256 recorded in
+  `configs/assets.yaml` and `docs/APPROVALS.md`; `--dataset` for make_splits / train / evaluate;
+  4 deploy models trained (EXP-2-01).
+- **2a** `iqs_vision.calibration`: split-conformal threshold with the n ≥ ⌈1/α⌉ − 1 refusal,
+  (α, δ) threshold from the Beta coverage law, Clopper–Pearson intervals, Beta-binomial
+  prediction of the realised false-alarm rate; `scipy` as a direct dependency.
+- **2b** `scripts/calibrate.py`: per-image `scores.json` + `calibration.json` per model, α by
+  policy D1, leakage refusal, validation-only check for MVTec AD 2.
+- **2c** Repeated-split validity check, `scripts/evaluate_vision_conformal.py`, reports
+  `reports/conformal_<dataset>.{md,json}` and guarantee plots (EXP-2-02).
+- **2d** `scripts/shift_experiment.py`: real MVTec AD 2 lighting conditions + six synthetic
+  photometric shifts (EXP-2-03).
+- **2e** `GET/POST /v1/calibrations`, conformal threshold and `threshold_note` in inspections,
+  `conformal_threshold` capability, dashboard model-evaluation page.
+
+### Changed
+- Masks: any nonzero pixel is a defect (VisA region-id masks); MVTec AD results unchanged.
+
 ## [Unreleased] — steps 3–5 (diagnosis agent, conformal cause sets, simulator + scientist)
 
 All diagnosis numbers are **simulator results, not real-world results** (KNOWN_ISSUES #18).

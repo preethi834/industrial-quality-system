@@ -1,0 +1,4443 @@
+{
+ "calib_fraction": 0.2,
+ "category": "vial",
+ "dataset": "mvtec_ad2",
+ "entries": [
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/000_overexposed_mask.png",
+   "path": "vial/test_public/bad/000_overexposed.png",
+   "sha256": "7b05977271238b08bcd3bb7d360dc04e26ed8809150eccb984fc0fcbe74bb3b0",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/000_regular_mask.png",
+   "path": "vial/test_public/bad/000_regular.png",
+   "sha256": "97065b13761d98ddc0ce6fb12a191c79fcaa162d64fb931809d932189f2ed7a4",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/000_shift_1_mask.png",
+   "path": "vial/test_public/bad/000_shift_1.png",
+   "sha256": "fd507c54b8fa8ca8a128bf59c3b091709f479daa3cfc8a2526e0578ce7a43a08",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/000_shift_2_mask.png",
+   "path": "vial/test_public/bad/000_shift_2.png",
+   "sha256": "56054b172530d0f785efeac3f334fa29631e532ea98f935ecad45f91d6261af5",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/000_shift_3_mask.png",
+   "path": "vial/test_public/bad/000_shift_3.png",
+   "sha256": "ed9f283bcaf5e19f8ce118054f86c188e540591101969e4666d675416db3f7d2",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/000_shift_4_mask.png",
+   "path": "vial/test_public/bad/000_shift_4.png",
+   "sha256": "64b2b9cef8ac4bbaa5066b3b8e66ebd1b2f6815f8d02cfcc8465af4a37330d45",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/000_underexposed_mask.png",
+   "path": "vial/test_public/bad/000_underexposed.png",
+   "sha256": "477723121985110aa70755f605afdec66b03791ea764dbe05fb109f4b4a7f59d",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/001_overexposed_mask.png",
+   "path": "vial/test_public/bad/001_overexposed.png",
+   "sha256": "aef8bd3f67521340efdff0dc42bbd40b861e49922c0b228c596079d5140937b7",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/001_regular_mask.png",
+   "path": "vial/test_public/bad/001_regular.png",
+   "sha256": "984e727c369c1e4f6b67a21ddfb64f2f1f8d6fb822dea6d434c505c429f042c4",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/001_shift_1_mask.png",
+   "path": "vial/test_public/bad/001_shift_1.png",
+   "sha256": "20a1be598bf45e08e3cd46e114c4aa6102a40b9633080bcdc45ac38a88df769c",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/001_shift_2_mask.png",
+   "path": "vial/test_public/bad/001_shift_2.png",
+   "sha256": "7024c3573f90172f35da8cb0219e16493615e9be94556ee389028376115a4537",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/001_shift_3_mask.png",
+   "path": "vial/test_public/bad/001_shift_3.png",
+   "sha256": "83bd58419fb7115e39e7b9811a1cd62a5dacbb2f2ca486010f1d887d7d477316",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/001_shift_4_mask.png",
+   "path": "vial/test_public/bad/001_shift_4.png",
+   "sha256": "a6b871eddbab57bb5beea96b31885b4086d4d86975cf71bc813e1512c2daefdc",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/001_underexposed_mask.png",
+   "path": "vial/test_public/bad/001_underexposed.png",
+   "sha256": "cd1d34f311ea7289fb1860c34a626aa79a4dacba442e60509e82a753398d3dbb",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/002_overexposed_mask.png",
+   "path": "vial/test_public/bad/002_overexposed.png",
+   "sha256": "15c4a14d296ce7bf2161f4221f8b194a47aec636cf556b020d67d2dce6aa5565",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/002_regular_mask.png",
+   "path": "vial/test_public/bad/002_regular.png",
+   "sha256": "0d4d5ffe27ae8513f0a9fa83149932085b1cbd072481ae5d354f7077e337b368",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/002_shift_1_mask.png",
+   "path": "vial/test_public/bad/002_shift_1.png",
+   "sha256": "9caaa975141e5024f8f4a88fb6f18b06ee0adf62238a9182ca54eb55aad11a25",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/002_shift_2_mask.png",
+   "path": "vial/test_public/bad/002_shift_2.png",
+   "sha256": "58c5e36b0fa105542b8bf02509801987bb03f6cac4ccf27ab06ed241ea764543",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/002_shift_3_mask.png",
+   "path": "vial/test_public/bad/002_shift_3.png",
+   "sha256": "7b7a61fa0aeb7ee7c3c22f95de303534cfc61f2462487de69def0e631af0e544",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/002_shift_4_mask.png",
+   "path": "vial/test_public/bad/002_shift_4.png",
+   "sha256": "6bdc8cb149c9dff9e9437f3ae3b5eaea8e65f5192802db25c23786aebd4bccfc",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/002_underexposed_mask.png",
+   "path": "vial/test_public/bad/002_underexposed.png",
+   "sha256": "cfadea1493fa65e3fc6e03c6177d46edcd617414c084f2e26326bb00b430680d",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/003_overexposed_mask.png",
+   "path": "vial/test_public/bad/003_overexposed.png",
+   "sha256": "5411cbb3226bac99fd95289f3a468529b42c8f8ee6f5239dcb1974acc69f3224",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/003_regular_mask.png",
+   "path": "vial/test_public/bad/003_regular.png",
+   "sha256": "c55ff2d9301c1ea0e5a6f9a2c8c2c308918ddb76d0abe27014ecc64c9859d55a",
+   "split": "test",
+   "sup_split": "sup_test"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/003_shift_1_mask.png",
+   "path": "vial/test_public/bad/003_shift_1.png",
+   "sha256": "16eb1c8dac3b7e8811e0a92b2c568ddf327598dcf0cf3702c4f2f18e1539a965",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/003_shift_2_mask.png",
+   "path": "vial/test_public/bad/003_shift_2.png",
+   "sha256": "d3084ead17c5272414b9970cdc3052411aa794441ce3250795dcd466fccaffca",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/003_shift_3_mask.png",
+   "path": "vial/test_public/bad/003_shift_3.png",
+   "sha256": "9418a08373676c670f3b76f8bd063eb71a7f6f21f008a9b0b658422d5520bd96",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/003_shift_4_mask.png",
+   "path": "vial/test_public/bad/003_shift_4.png",
+   "sha256": "443b7e37a800e833dabb7dd50325f33c16112e30e6d1301e85931ffaa992c155",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/003_underexposed_mask.png",
+   "path": "vial/test_public/bad/003_underexposed.png",
+   "sha256": "ec76c0dfe8056e1d773bf816791ddabfb23b31e600592d60bfe12da1ef83b487",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/004_overexposed_mask.png",
+   "path": "vial/test_public/bad/004_overexposed.png",
+   "sha256": "1dc16964100dda4d742e0f36b075dd4e9da3a219338c1ea8d7d2bdd8e5bbde74",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/004_regular_mask.png",
+   "path": "vial/test_public/bad/004_regular.png",
+   "sha256": "71c82f0ef7ec88f1d25480d593078d187c7bf2fd68dffaf6e5eb871512e32867",
+   "split": "test",
+   "sup_split": "sup_val"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/004_shift_1_mask.png",
+   "path": "vial/test_public/bad/004_shift_1.png",
+   "sha256": "01a5d5b9bf5fc91b8ab25620e1f60faee42ca8f347e0b66e71cfcf592a66a578",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/004_shift_2_mask.png",
+   "path": "vial/test_public/bad/004_shift_2.png",
+   "sha256": "d7f8906679fe0175c8a3deed5c184e192527eadec9b9e37fc2c43a2c4126b11c",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/004_shift_3_mask.png",
+   "path": "vial/test_public/bad/004_shift_3.png",
+   "sha256": "0ec6e0c4451cd7cb9f78b712dde20206738e09f2d19e698aac796d7d2e9338f0",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/004_shift_4_mask.png",
+   "path": "vial/test_public/bad/004_shift_4.png",
+   "sha256": "1f15c1a717ab4ff95441620c4dcef346743c6258e0085ad931ad60d36821d3d3",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/004_underexposed_mask.png",
+   "path": "vial/test_public/bad/004_underexposed.png",
+   "sha256": "986b2bab4ad2f38fbd24ed48b8ed344ce764d460be173e841357b16536f877fe",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/005_overexposed_mask.png",
+   "path": "vial/test_public/bad/005_overexposed.png",
+   "sha256": "933b336cee2266b49a3f8d2462b3c35ca8bb3312eb6d5c9fb8e25ff5f55133ac",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/005_regular_mask.png",
+   "path": "vial/test_public/bad/005_regular.png",
+   "sha256": "e50f66cb5a9ab50f1e030841cad3e021ad4edfce50da43a9ca5e0ce31ab181f0",
+   "split": "test",
+   "sup_split": "sup_val"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/005_shift_1_mask.png",
+   "path": "vial/test_public/bad/005_shift_1.png",
+   "sha256": "ebdf8d5cb8c3b048aa476cd0169d212170135e06f9aaf5a58bdddfc926a859c7",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/005_shift_2_mask.png",
+   "path": "vial/test_public/bad/005_shift_2.png",
+   "sha256": "48bbec7db5598876b9777eb76b73d70b8210b0fec1e2e3402402e84bf9935b2a",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/005_shift_3_mask.png",
+   "path": "vial/test_public/bad/005_shift_3.png",
+   "sha256": "88a823e9c973c69f7e7bf015b9742360315faca180987c533c28c0527e1d2f65",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/005_shift_4_mask.png",
+   "path": "vial/test_public/bad/005_shift_4.png",
+   "sha256": "4c7cea5864bca32280528ccf1fec0dd6d1ba062f667b1c047d8a33d2dc0b0d84",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/005_underexposed_mask.png",
+   "path": "vial/test_public/bad/005_underexposed.png",
+   "sha256": "5ee26a4a319c357eb31aba2fe6bd7a0feb63f3250f83e3526a0d58e2fe9364d7",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/006_overexposed_mask.png",
+   "path": "vial/test_public/bad/006_overexposed.png",
+   "sha256": "d4cd0aab2b04aa7b493dd5f83ca3f6adafe6f3938014ce2b78162134392a9cc7",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/006_regular_mask.png",
+   "path": "vial/test_public/bad/006_regular.png",
+   "sha256": "a85b3d83378ce95e1182b2e80dbdefcf5284e0a83e706a59d49a050617d57e01",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/006_shift_1_mask.png",
+   "path": "vial/test_public/bad/006_shift_1.png",
+   "sha256": "e8f960bdc516d169e5b5852df592b63cf20ce48b11e48f7dac3da545aba94711",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/006_shift_2_mask.png",
+   "path": "vial/test_public/bad/006_shift_2.png",
+   "sha256": "3b66a975f20d42727f47234058f96b874b318873e8bb8ff69aa9594d44b8fb40",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/006_shift_3_mask.png",
+   "path": "vial/test_public/bad/006_shift_3.png",
+   "sha256": "e9c28405de9a6f32d1b80eaed9a0aa29e096b63588a95fef836c8dc3efe20ced",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/006_shift_4_mask.png",
+   "path": "vial/test_public/bad/006_shift_4.png",
+   "sha256": "0fdd5e52ebc4ba31d6e625741d7fccaa81c4777b7b1841719201b302002ed3bb",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/006_underexposed_mask.png",
+   "path": "vial/test_public/bad/006_underexposed.png",
+   "sha256": "225940972c73c19d0f5bad787120d9e61903ccfbeda54610ef0098d26ee267cc",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/007_overexposed_mask.png",
+   "path": "vial/test_public/bad/007_overexposed.png",
+   "sha256": "d0d6fd6a1981a196cbf16bb576a50d923074e8ee1916c62b963adf6ec012ea81",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/007_regular_mask.png",
+   "path": "vial/test_public/bad/007_regular.png",
+   "sha256": "c0faacf821223fdddf62f06dc18383648e329698de4434f76125ede4feec2568",
+   "split": "test",
+   "sup_split": "sup_test"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/007_shift_1_mask.png",
+   "path": "vial/test_public/bad/007_shift_1.png",
+   "sha256": "c0a7549d914e24fe8b88f263cdd81e2005d0b087b203b08973d08ab201bc65fd",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/007_shift_2_mask.png",
+   "path": "vial/test_public/bad/007_shift_2.png",
+   "sha256": "d593f57f44ddc7851a31bce86922eaa449fe3bfcd1b55df61ad21a3f8b08ea7c",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/007_shift_3_mask.png",
+   "path": "vial/test_public/bad/007_shift_3.png",
+   "sha256": "b619f2c94d541c842e24deb82f8a67db5e5159f454922069fec2b10e6b42676b",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/007_shift_4_mask.png",
+   "path": "vial/test_public/bad/007_shift_4.png",
+   "sha256": "0868f7316e84cdcf9784dfd08a103040794988ad0193b3d7fc12b7507e97cd6e",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/007_underexposed_mask.png",
+   "path": "vial/test_public/bad/007_underexposed.png",
+   "sha256": "9cdc9eb440ae78e5a416784faa2c2a979c1d1d94aa1f314ade4e6eb8d4384a7f",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/008_overexposed_mask.png",
+   "path": "vial/test_public/bad/008_overexposed.png",
+   "sha256": "1f8c9d8aa182535b4155987d99ceba17beeaa7049d07d31e088d46109ffa745d",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/008_regular_mask.png",
+   "path": "vial/test_public/bad/008_regular.png",
+   "sha256": "24fd47a561bcb0f940aee90c8cd7934ddf4b8104343165b3f82ecc24f17ffd7e",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/008_shift_1_mask.png",
+   "path": "vial/test_public/bad/008_shift_1.png",
+   "sha256": "87f2206b60665045affff634d0b63e49e558ed1420248f6b0a34f72670dbf3a5",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/008_shift_2_mask.png",
+   "path": "vial/test_public/bad/008_shift_2.png",
+   "sha256": "9352151e54005509aee71f8d36fc1343e8860e69f21b0e94bdbc3c0682bd7a24",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/008_shift_3_mask.png",
+   "path": "vial/test_public/bad/008_shift_3.png",
+   "sha256": "d07712829f6eff5baacb815c137199fcbd2fb670bdc4949aca6613f8c9603365",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/008_shift_4_mask.png",
+   "path": "vial/test_public/bad/008_shift_4.png",
+   "sha256": "7a2dc88d894ab5081272d16f61e6d694a2032923aaf4a753bd0e793912ad905a",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/008_underexposed_mask.png",
+   "path": "vial/test_public/bad/008_underexposed.png",
+   "sha256": "ec4bfed41d05e4bb332df49f75445ad6991ffc08ab86b1041f3fee90b471c788",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/009_overexposed_mask.png",
+   "path": "vial/test_public/bad/009_overexposed.png",
+   "sha256": "30d1e26911a19c717103801f118e1ce33364f36f125d14449b035b82889bc906",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/009_regular_mask.png",
+   "path": "vial/test_public/bad/009_regular.png",
+   "sha256": "2cf84537fd8ec65083b535cb9ef6425c5c619873fc2a48cde78d9288502c2d4b",
+   "split": "test",
+   "sup_split": "sup_test"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/009_shift_1_mask.png",
+   "path": "vial/test_public/bad/009_shift_1.png",
+   "sha256": "e78781e3f16ee6027a1d60f1a1c868d0df5b60ad624747e1de32a6898b7ae3a1",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/009_shift_2_mask.png",
+   "path": "vial/test_public/bad/009_shift_2.png",
+   "sha256": "7c4c10015e00422c21bb077e9f965100263f874765bdff990706f482944b22f0",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/009_shift_3_mask.png",
+   "path": "vial/test_public/bad/009_shift_3.png",
+   "sha256": "27b3ee341a275ef51efe166b6163f12ff4323a40c4c98563e8032703fc947146",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/009_shift_4_mask.png",
+   "path": "vial/test_public/bad/009_shift_4.png",
+   "sha256": "3fbc4d8f664ffee1bc07616a3d4e7a9815c0049c464917326abd03444af30b23",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/009_underexposed_mask.png",
+   "path": "vial/test_public/bad/009_underexposed.png",
+   "sha256": "40ae432feda5538b9398690525695c43d70167aff6bea0642b8adda778061903",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/010_overexposed_mask.png",
+   "path": "vial/test_public/bad/010_overexposed.png",
+   "sha256": "7fa8208909443a15078207a62da0f96eff586dbf9cde1518e2c28fd736419f88",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/010_regular_mask.png",
+   "path": "vial/test_public/bad/010_regular.png",
+   "sha256": "bbbc2dd4189a1da08fe428f8148b95745837dda6090a04c35355e8d07025e3e1",
+   "split": "test",
+   "sup_split": "sup_test"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/010_shift_1_mask.png",
+   "path": "vial/test_public/bad/010_shift_1.png",
+   "sha256": "2c003734ba9bbea0093a6a05712b401f1c221e88cb5f40526c0e2ef3a79d0571",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/010_shift_2_mask.png",
+   "path": "vial/test_public/bad/010_shift_2.png",
+   "sha256": "82797bf1dea9a565886ed2ead6cb968931710d5d1ca0b62393e4063b57642b99",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/010_shift_3_mask.png",
+   "path": "vial/test_public/bad/010_shift_3.png",
+   "sha256": "07414c544c7d7031d97aabdced4b2c41f1d651f464b95412c2afbb3b38278f27",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/010_shift_4_mask.png",
+   "path": "vial/test_public/bad/010_shift_4.png",
+   "sha256": "aed695019cdeb7335383fa4d598a7b0b62e7279eede8a6d14c52e448bd591c55",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/010_underexposed_mask.png",
+   "path": "vial/test_public/bad/010_underexposed.png",
+   "sha256": "d2851f73b34fa292a984be569830f8ee8f15d84a59c196edc142801888c8a99b",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/011_overexposed_mask.png",
+   "path": "vial/test_public/bad/011_overexposed.png",
+   "sha256": "49c73d9ee3f8a02a9efca0c8d6eb5c239b6671a7e90754464f7bff841f31df8f",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/011_regular_mask.png",
+   "path": "vial/test_public/bad/011_regular.png",
+   "sha256": "aefb6a938ab4cecc2f843eed37e89a4a6c4e7148377200fbd9126f3f29af1b03",
+   "split": "test",
+   "sup_split": "sup_val"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/011_shift_1_mask.png",
+   "path": "vial/test_public/bad/011_shift_1.png",
+   "sha256": "c3d2223a9602474ace2ca444544c06e94654f58e4b2f7eb0cf70e912a4d7e0c7",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/011_shift_2_mask.png",
+   "path": "vial/test_public/bad/011_shift_2.png",
+   "sha256": "b360c0d4b736dc6c3efafaa2dcc8d4fadb5cc337bb5cb7780238a9871e25e3aa",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/011_shift_3_mask.png",
+   "path": "vial/test_public/bad/011_shift_3.png",
+   "sha256": "621dd6c09df1d93ca45948aec81274a1d3fb5d23adf6688fed7f95864ed34a73",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/011_shift_4_mask.png",
+   "path": "vial/test_public/bad/011_shift_4.png",
+   "sha256": "743e23a838b717d2d16f8a97a8c6d4a59ba170c53e90176c59742e843cfebdab",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/011_underexposed_mask.png",
+   "path": "vial/test_public/bad/011_underexposed.png",
+   "sha256": "1337b6e5f804dee1180cde031adc3cb8277490b12b642960e8d2696606263a94",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/012_overexposed_mask.png",
+   "path": "vial/test_public/bad/012_overexposed.png",
+   "sha256": "c6f9e3250c0e0dad4d04d634ca8da05eb1cea32e5fa6aed4e4a41b7b2974e99b",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/012_regular_mask.png",
+   "path": "vial/test_public/bad/012_regular.png",
+   "sha256": "d7b198ac0ac3e4233acee3f18051a32011df7819bb2fa04ed2571e05dac10339",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/012_shift_1_mask.png",
+   "path": "vial/test_public/bad/012_shift_1.png",
+   "sha256": "82e4be33d452daeb44b30d364bdfead3b30011e58e01c1a817ea0baea9baf2e3",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/012_shift_2_mask.png",
+   "path": "vial/test_public/bad/012_shift_2.png",
+   "sha256": "c1904fa91b9445e7a661691be74b13e9700d345ef58d37db15d5171e62af8b22",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/012_shift_3_mask.png",
+   "path": "vial/test_public/bad/012_shift_3.png",
+   "sha256": "3ddc440332127f0e93392c859b6d3d0d265015dc8c7f27ec18803513445907b5",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/012_shift_4_mask.png",
+   "path": "vial/test_public/bad/012_shift_4.png",
+   "sha256": "c05bbc0130275cb5ebe17828dfcb01d5098c7744e43ad01caa08da120f8cf143",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/012_underexposed_mask.png",
+   "path": "vial/test_public/bad/012_underexposed.png",
+   "sha256": "3b5d5fea10e28464c5c7d0e61ad46024895429f430df8a3d08170aa737426bea",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/013_overexposed_mask.png",
+   "path": "vial/test_public/bad/013_overexposed.png",
+   "sha256": "46f635dcfc192c0c613a98ec3b3305d83005c2f76d51bb79cf1e63672c2e928b",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/013_regular_mask.png",
+   "path": "vial/test_public/bad/013_regular.png",
+   "sha256": "c8f664cfaa6c6680aa9c892cc773ff66c25456b87a925f98edc1407fbd56c9d4",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/013_shift_1_mask.png",
+   "path": "vial/test_public/bad/013_shift_1.png",
+   "sha256": "fb0f903f8ac0edc94d41673e75f32aaaeceaac38d71f41128f1d6031660d3627",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/013_shift_2_mask.png",
+   "path": "vial/test_public/bad/013_shift_2.png",
+   "sha256": "e4ea5323a2cdc29626be152d65e36aa2e029ec90e2485f375cd25faa17b42d16",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/013_shift_3_mask.png",
+   "path": "vial/test_public/bad/013_shift_3.png",
+   "sha256": "f22a791e56ba461ef2b50565c78fafee73e3166dec3bb731803b08a06a8017d0",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/013_shift_4_mask.png",
+   "path": "vial/test_public/bad/013_shift_4.png",
+   "sha256": "c897c4ddea0926385e2ebf5d03a7d8b49064ad6af3592e42dfbad5b691921e87",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/013_underexposed_mask.png",
+   "path": "vial/test_public/bad/013_underexposed.png",
+   "sha256": "42507b2980627c75b9235fbb7966e6fe852475dc344ce47e54c8979791807db1",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/014_overexposed_mask.png",
+   "path": "vial/test_public/bad/014_overexposed.png",
+   "sha256": "c1c5e424414c4233e7bad5fea1a2cf083e6531ccacd8c53016a08f89d9f7176f",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/014_regular_mask.png",
+   "path": "vial/test_public/bad/014_regular.png",
+   "sha256": "53721092ff665a71093595d20ab2cca0892b47d43f79ebc6c505e611936f604a",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/014_shift_1_mask.png",
+   "path": "vial/test_public/bad/014_shift_1.png",
+   "sha256": "cf6518ee31667589ed1c07400f74ffb99248916f873667618da079f6c26190c4",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/014_shift_2_mask.png",
+   "path": "vial/test_public/bad/014_shift_2.png",
+   "sha256": "99203b20c596a84f7beea84c38ec05a7175db40e065c639d0ae3d40c300131ac",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/014_shift_3_mask.png",
+   "path": "vial/test_public/bad/014_shift_3.png",
+   "sha256": "9ae020d819ba8e1304c2dda8a94517a36422a4564349f801528a5a8cd9b6a23c",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/014_shift_4_mask.png",
+   "path": "vial/test_public/bad/014_shift_4.png",
+   "sha256": "5d914b1c0393ddb7b7c237c307d3ffa64357bc2c03631854f1fc4166c18c1113",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "bad",
+   "label": 1,
+   "mask": "vial/test_public/ground_truth/bad/014_underexposed_mask.png",
+   "path": "vial/test_public/bad/014_underexposed.png",
+   "sha256": "8e5c0975f6b4f07486e4d881dd74069230b911e4dbc598fa5dd840b27f242a94",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/000_overexposed.png",
+   "sha256": "04a955e508f483f8bc4108a77845b153e897a8a6f0a3fb8b4fa584d22fbcf1da",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/000_regular.png",
+   "sha256": "d838b5ef4c05bc2ecf631c46fd87b885b42b8ce3aca662f51ffe358a44f77188",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/000_shift_1.png",
+   "sha256": "516165d87eec9c8a1dcf672b10749ef29918140dd9cd2c3c1c0303da17adbbbe",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/000_shift_2.png",
+   "sha256": "dfb9a26510aca300cd9d55ee57df1bcf2f37c722693cff2b743aef47dfa062dd",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/000_shift_3.png",
+   "sha256": "0cb293825764d9c043840c114f136f3ade9ddc5ac8c26c56c8563a7d02c4f7b2",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/000_shift_4.png",
+   "sha256": "13018bd37a04e3a8d001a46f3e2bc5c2709a9991e4eb6ffbe78ab2f52ed332e0",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/000_underexposed.png",
+   "sha256": "cf7e5ed1eeee14933ca3bc2ff827db9ae68804dbf11556af474d3df8ddde9d15",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/001_overexposed.png",
+   "sha256": "ec163d089e9034184d720af801bd632ca0f4be6a47442047cc450efaf827711a",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/001_regular.png",
+   "sha256": "3021d4d0fd9f6ad72e654936134ece9ae8fa828b7b567e9c77ea0ea82c108bb8",
+   "split": "test",
+   "sup_split": "sup_test"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/001_shift_1.png",
+   "sha256": "fec2d78bc0008150caf18dae6fffc77cdb2a2b54a192baf807598876e657c2de",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/001_shift_2.png",
+   "sha256": "81de9f1eb0482720fc2cbbffd7c0c4b7d80d2ebeb59dc02755ffc2255edc0be1",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/001_shift_3.png",
+   "sha256": "cf8320a5b17cc77f6c292757f67c529eaa92071a1fb1005ab2440c99836c6d8a",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/001_shift_4.png",
+   "sha256": "a5f0150e90c3b46a128799701c484600e63f918425f6904fd45091b74312ace3",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/001_underexposed.png",
+   "sha256": "8445cd78d0b77aa0913d62a2cd8c41a745dfd89f6e77283e5fdd37006e30bb0d",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/002_overexposed.png",
+   "sha256": "5cf698cc0d47260861051fda4bc023776d7663f97f47d7217264edf0292677ac",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/002_regular.png",
+   "sha256": "eea264a21d857975739e82ec857bc802fdd7e093698ebd9ffcb35fb15d116626",
+   "split": "test",
+   "sup_split": "sup_val"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/002_shift_1.png",
+   "sha256": "925199ae213b273e68144a684f24d27352bd70825b33d89f65568ff4978b6997",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/002_shift_2.png",
+   "sha256": "12bd9a8cd8ba5f851cbd326d73193ff56fd84eb703662ed47f5ad677dca828cb",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/002_shift_3.png",
+   "sha256": "73c9a3af64b3ffc76a0d9cb84b77b5b01ec54c57ac67706dd10cf5067f619a40",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/002_shift_4.png",
+   "sha256": "4e834cbf849668d3e07b8937b5ecbe3b94132f134c3e055a61707da2e7badfa9",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/002_underexposed.png",
+   "sha256": "4b9d16cdfc78717e3f855f412b28f3bb2bc4c56e1829f08f4c00e78196f1677d",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/003_overexposed.png",
+   "sha256": "c51ecfef223b1a1cb1e329fbbbc0e0b48ab1cabee773569cc7f491305ca55611",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/003_regular.png",
+   "sha256": "8a18d21762c5799b5c766d0f2e523b8dea626da1ee5330fc068c871842556035",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/003_shift_1.png",
+   "sha256": "3403945e19dc62a228b4e035df66933c375d7c119a6097f3733184927146e0b4",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/003_shift_2.png",
+   "sha256": "db36e50cdf51daaa63e3c0a825d144c7e63ce9a304abdbbf3a650cfd5749b24a",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/003_shift_3.png",
+   "sha256": "c873e67110dd75bf5681dec26c86a397e4948ed86aad5fc24b16b3d5fe6379d6",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/003_shift_4.png",
+   "sha256": "69bfb3bc037cdf0d54b6690c73fcda00b68884c2a10b0139dede21c62e8fbaf8",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/003_underexposed.png",
+   "sha256": "420ed7201b71a618f6788ffe3c1a28b3c75764f10226ab961518119176ffa090",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "overexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/004_overexposed.png",
+   "sha256": "44707fc87b18f9b96f37f27f441297caa62997b8e66d07dbb69a41bda839172d",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "regular",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/004_regular.png",
+   "sha256": "03356bbc8f86dd04dbd1a844f9f4cbf38fa60d59b2c556abb63d913c833eb7f5",
+   "split": "test",
+   "sup_split": "sup_train"
+  },
+  {
+   "condition": "shift_1",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/004_shift_1.png",
+   "sha256": "9e50459bb4a0849ac30ba6c014e5edd187db3922c5e12fb4fe168690ba0c4a7e",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_2",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/004_shift_2.png",
+   "sha256": "753e6c21e5cba01cdd907da47c8a7e276f3573362a1a594f3c7a0b987617c054",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_3",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/004_shift_3.png",
+   "sha256": "603c3cf09351435b88c20f9937e2746576f2fcef27728a61a5f883ca7fe04fa2",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "shift_4",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/004_shift_4.png",
+   "sha256": "7d77380cf26d7544db1203e82057f6af5d5fed5995089472681f3d48a8c5138f",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "condition": "underexposed",
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/test_public/good/004_underexposed.png",
+   "sha256": "59a5f3e19811cbde3c5d5da1264c33ad9c790e67c100d8ef3b43083335a8cf00",
+   "split": "shift",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/000_regular.png",
+   "sha256": "be7062c335f3e597e7f14f85081b460f7b52a2a5006793aa0b4f22f02f2a6f10",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/001_regular.png",
+   "sha256": "78b9c71a16cfbdcb2d78421d811b079dc42c4d877c37a584b4d530d94e29e06b",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/002_regular.png",
+   "sha256": "4a05fe04a60e0cba54e6a3ebcfac93078ccd0f1b95750ef727070d03e385c3f2",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/003_regular.png",
+   "sha256": "5e0b9ef5af839de78a3042e2311f09d5e2e9bac3dfd6f31ef6d0f7f425525185",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/004_regular.png",
+   "sha256": "515d40bef207a5a1218cd745f3f5f384e878daa74603cfc54f37822d56325e7c",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/005_regular.png",
+   "sha256": "dc61f1303782c3e102f290d2dfb42995791cacba85dfd89d29493bc913f20262",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/006_regular.png",
+   "sha256": "c3aecbe98f660c667b4412eb1c5d7c6c0a110aea9b0baa4a11f0476364e146b3",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/007_regular.png",
+   "sha256": "4a73e12c7937330a38c5af11b4df39eeefb353a8b9feb1afaa229517b72fe363",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/008_regular.png",
+   "sha256": "f7c240bb572279666f5f2b50bddfa1a50989b8bdf543f33a20cbdd8b82b4b0d9",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/009_regular.png",
+   "sha256": "59135ac549304ced30393d96a1cd7560cc75e3ca9dbd7ccad913470f0a591569",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/010_regular.png",
+   "sha256": "f5719fe523b96f5615b5d9a61e86c3de8078aebd5b87b13d3298ef9f17912a6e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/011_regular.png",
+   "sha256": "c4b3fe11db0f93ed8303b21e7c9e94219709018e6e0f3d2ced9e2886ceca435e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/012_regular.png",
+   "sha256": "1453edce3bada0eb5d861c6fa381b7c83057e1de03351a89fe462364ae4b8fb7",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/013_regular.png",
+   "sha256": "3b8398e75c1ef31e77f2bda32cacdd2d0eedd0e1613201254bfb02dfef70a2ce",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/014_regular.png",
+   "sha256": "fac7d96975a7d1480b8b5ca58e03fd5ec8da2e58a929323ad14e8b32720fb09f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/015_regular.png",
+   "sha256": "0b14333cdbcecbea759237bf46fe45006db4ec34a1ea3d7a105ec7e39e48094f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/016_regular.png",
+   "sha256": "de49076fb6edc5a7aa3b6244688a6e049a4706018ee5dbf6d6546a9234818897",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/017_regular.png",
+   "sha256": "38f5fb34c0647b3065b8756c771aac4020787441c42759153e0a3397be90b4da",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/018_regular.png",
+   "sha256": "f539130ef7b99daa3e762bb61121de8b95837af4c989bba3496d84600cb5b12f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/019_regular.png",
+   "sha256": "b33b3bff2ec9af1390d0bbdc1f58f03fa1737542c95d6ed599eeedc10ea96080",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/020_regular.png",
+   "sha256": "d87425c19122e3b2359222971baeafce552479f2e34bce038ded325f12b4b781",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/021_regular.png",
+   "sha256": "bf07ccbafb89075bc5d686aa75bda225a8a221fb061f21a8a665cdb974c54971",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/022_regular.png",
+   "sha256": "e263f296a83175e1946383e0f55423fce43e911a37161ec9b8c5ea1b665f69e1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/023_regular.png",
+   "sha256": "512a264c41549ffc675d5a5c33add99ea1933265d2fd4cfe5a8b97f806112f52",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/024_regular.png",
+   "sha256": "8d33fa47e7c201af3bbbb42e9295b3659f057791d17deb2fe88703f204320a6b",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/025_regular.png",
+   "sha256": "6b76971d3957f449edf136b1cc0a117df4c2697e53839a8a001d8bb0331313ad",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/026_regular.png",
+   "sha256": "601d9f7899e858d9b25fb026d926eb665f0ac1060110725ec0108282ec26e334",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/027_regular.png",
+   "sha256": "a0f9f467eeccbfdd24a252d89e2910b46e66c2a4382b6b5f72eca33dfb0b8f3b",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/028_regular.png",
+   "sha256": "10189be21cba95bfa831e8dd3c371809d9076924c1939cc99dfbad3bd2efd457",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/029_regular.png",
+   "sha256": "3f859a775335262be34ba507c52782f0a609b6ecdcc9b3ed70660b330988bf3b",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/030_regular.png",
+   "sha256": "f8461cb518af20d084b756c520555724e93d1492d6c3f558f1c978374868408f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/031_regular.png",
+   "sha256": "e9833a8a82bfd3bc84a2b3d4e12e00eca8cde7de39999c3ab60fc6ff8823ab49",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/032_regular.png",
+   "sha256": "da80b0e6c155a6b8a64e3b8708c6c88415c173cccef193e02c34106c8a84fe13",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/033_regular.png",
+   "sha256": "4995c7f47290e874b98244fa2c5306e2c8454e34bf5183f1c87f09a63e0ed3c1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/034_regular.png",
+   "sha256": "680da3aa80945b6948f70ecd66b50534716feca2b936daad8f803a4bfcf0562e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/035_regular.png",
+   "sha256": "c56ab0853e610f3763a0b6d03e16305eb559b4aa702e67bdd210800ae3134379",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/036_regular.png",
+   "sha256": "acceca0a2106cd7b38253f0443a9844a89e158f5ecf3caf7b75a6eec00f6dd3f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/037_regular.png",
+   "sha256": "b29047c7331e819b9a0424d99383f3aa143e675e887b1a78e32e25b1dda0e88e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/038_regular.png",
+   "sha256": "7767b9971044ce9a50dd76fee006f73058519693528d89221a74797cab00aa71",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/039_regular.png",
+   "sha256": "e1f843da4999876a2418c4a7e6e5462c7ea714ccbbd9a9997ca0b76351587ed9",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/040_regular.png",
+   "sha256": "8f5f717ba68eb5b5ce9199c8e8c2964bd39f2bb40693527d732557877b18009d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/041_regular.png",
+   "sha256": "4a5efc0c679b7690ff3655d7741d27b7214a3f20fab871a43f5668ed9637dc77",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/042_regular.png",
+   "sha256": "4c9856d8bc8d1233dae0837c5ea76c069b9a20c86570fb4f1d7f8c74ee87f2ee",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/043_regular.png",
+   "sha256": "80661cb9be213c300c85d65040f54e47abf75f055abd1f4e91734b46c0016570",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/044_regular.png",
+   "sha256": "fee209d954f3d82b606ac5208a2b65ceea9fe30402b070688b1df37e4dbd4468",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/045_regular.png",
+   "sha256": "bff99202b96d446670cfcadeda579b81003d0265e4f2bdcebe3473c712c90aef",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/046_regular.png",
+   "sha256": "802780803efd075101c8ca112640acb9e1c8586298a8afa2fb29cea281adbc0d",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/047_regular.png",
+   "sha256": "9db40d92fda0c9b6a6a8ab4fa8225f9e2bd2ddb0d4998a33c23557ba909cc5f8",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/048_regular.png",
+   "sha256": "ef468540664290e5da1f3c76bbf77d5dfadd9c62f6b707fdb8140205963d76fa",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/049_regular.png",
+   "sha256": "a1984f27221fe0c0719e179b9759d52a13b65d4439532b116bb5badc243ed864",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/050_regular.png",
+   "sha256": "4c0480a31b295234487c99bb830309640e5204d2b5b7f4909de6cf50419693d4",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/051_regular.png",
+   "sha256": "a53578304029bf5dd13b27d75ad77b190d882254a7065731ba8e9d02742374be",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/052_regular.png",
+   "sha256": "dd3803a7560cfe2c16ad0bcfd10cda144a454d16e7adbb2afe9ca411c67c2ece",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/053_regular.png",
+   "sha256": "e2f2305afce7cbea4779b2087ee0aee0837705676945b758c7f433f80f160b99",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/054_regular.png",
+   "sha256": "6930611e09198fddddc7934ad3173cf2605ed4dcbc25c44cce1151f619117da5",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/055_regular.png",
+   "sha256": "fbd85d080ff1a30c2ef62af95dd4827d8ab2619213f32bfa4c7283a66e23cf10",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/056_regular.png",
+   "sha256": "6539420702ecad6a0b2d98a3857e616577629998dca2da527239cf4365192c67",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/057_regular.png",
+   "sha256": "6b33ea15d5319e627b03d813d704b7e153e00c8cfcc1a208ed4f072e1dd1a04e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/058_regular.png",
+   "sha256": "4cf2a0bc4fd22c51107dbcd95675eaf128efcfad9b2c270463a1a44e04495cbf",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/059_regular.png",
+   "sha256": "836f3d66d7bcc05a5ab00aa87fbda378471738ba8de53b068b93835488fc436f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/060_regular.png",
+   "sha256": "63e2da4caeaf6388d0d1a0066626e7b722ee44e040815265072437f5f7e73fb7",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/061_regular.png",
+   "sha256": "bdcba4e81a78cf5e7b39db201597fb2830dfc8d21f6dbdba0626fa49bc136e6e",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/062_regular.png",
+   "sha256": "19f00c158c5ebc12324d9a3e1ae6346f2f7c683f3aa8fb4e5d5df531c5bbd3ba",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/063_regular.png",
+   "sha256": "73672bcecc91bb1b515dd9b2e6365602de9c07ee765edb438a4a9ef4ca48715f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/064_regular.png",
+   "sha256": "4c89fb021f8dd4832343741917ec3dca5d1f24451e62bb861075d3df3a995e82",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/065_regular.png",
+   "sha256": "bbd2899259a15d22b1272f009c1d3fa0f4271d5278b3bd388bc5f3d2a6ac354f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/066_regular.png",
+   "sha256": "a1847a5867d419168e2d81f24cd1d55618a065e98e73a89ec0269e0b173d470d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/067_regular.png",
+   "sha256": "ac2c064506f077c4e95664833210fe72074938c25605c9df3b67750cf667be30",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/068_regular.png",
+   "sha256": "aadbffb98c8e122286f2b93d4edbabcb693ad0f2b2da5fae8ec040b0441024fe",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/069_regular.png",
+   "sha256": "79226696a097aaa5b39935e2f77082f826cf01f58ac432671ba6689fa25f0302",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/070_regular.png",
+   "sha256": "4143d687f8912774ffe5eddd4bdc8535597125a1c30bc3f3f60a2e221c1347a4",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/071_regular.png",
+   "sha256": "35797a9d6f42ac858bbe80fef9767516dc861019b4c22df6d2cc0fa02a1dc388",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/072_regular.png",
+   "sha256": "467fc92a8f36a1485b2d0d6a3365eede065ebae151138b185fa683e45509132f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/073_regular.png",
+   "sha256": "934ae71d734a1d2fe560f448ec8b8f4cad9dd79f993fef074f3885b848dc0024",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/074_regular.png",
+   "sha256": "cea6ef6de2fcc437b160e3dca44a027500df6bd9a01160992b9ba9d92e58cfdd",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/075_regular.png",
+   "sha256": "e70ad94eec7092df74f7344b487af729ace6dfa85c34a950ecdabc32edf155af",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/076_regular.png",
+   "sha256": "d625648d83306d255166086e180e908cd597487f3c943a883325b7e8cc2e8429",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/077_regular.png",
+   "sha256": "97acdceb5c6e7ae7c808b5fc80dd5bb497226a5cdc592c22560ef6fd4b57e642",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/078_regular.png",
+   "sha256": "3afffe523ef664bbff0e424d53135b1ea3119833093ad1e135664fd9a056f1fe",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/079_regular.png",
+   "sha256": "9ae691bf9362f96cd154ac043be8fbb70391f2a7821efca56138f0b3f72c29c1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/080_regular.png",
+   "sha256": "0c004024b35e262d2e53cbc2ef83198e7313f5c660467772a39a1992ea29a859",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/081_regular.png",
+   "sha256": "bf818afb1cd9b6647ae01dfcfcde59f8437c340ae0342f2d89316ada673a9e9c",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/082_regular.png",
+   "sha256": "caffd28d77c83a08c40ef4654b2320c283fe47baa40aae21fe86e22771905ca6",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/083_regular.png",
+   "sha256": "ac35a6806e61491b5f910b91b8589fc370c02b09f1c541d0b0d50952eba1704b",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/084_regular.png",
+   "sha256": "f267b1abf9b382c5ae60cd3c30c9f06157bfca8e1d9d62cca3501664fa5cb398",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/085_regular.png",
+   "sha256": "61ed2d20da279ce9fbcbe71d3db6f4e08b557d73f12a6165727db8232969b5ab",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/086_regular.png",
+   "sha256": "03f194ef52fbe588a6139200f0478a3427446e1245e28b0f6cd6e0ee1579c78e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/087_regular.png",
+   "sha256": "dbdc3b0ccc9a0c50dcfd575bc49dfa10bc241534459818934f60d5864b6838be",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/088_regular.png",
+   "sha256": "b219be95738e2b4f46b4a1a9626df27b76d44a4059e19e0423c23149986de103",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/089_regular.png",
+   "sha256": "d1e8f439d24504cb68558f1bca347cab028ec8aa16bd450983aa4c1a86d19bc3",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/090_regular.png",
+   "sha256": "f60f1cba4517a66567dc75f83199e4250b0bddec36ab645328b8a5cd3cb36e63",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/091_regular.png",
+   "sha256": "beba81641f9aad79508d84d4a34803d7c522907cf69d465d223b6aea6a76418f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/092_regular.png",
+   "sha256": "b846ed07a366b2f3665c7b03031b51027ab02dc438be4c4082921bcdb944b475",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/093_regular.png",
+   "sha256": "58fc1986141441f7ae8cf23b51bc2572be73a98dea0703dbffc74c98f2c0dc20",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/094_regular.png",
+   "sha256": "2191f90f0ec01949dc08b24203458ed760400ba64a30eb41148836050030a475",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/095_regular.png",
+   "sha256": "585ec84a3423d0ae320db99df1d52e3c5ea78af361b9e2c54edae1a5c07ff5dc",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/096_regular.png",
+   "sha256": "adea90d6e4fecf434bf3acbe6272127be177909897947843ce1ab88ae871564c",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/097_regular.png",
+   "sha256": "42ddfa49188271795ea1f6c2bd7742b04730fa4ded56f87b21dbfa7056db56a5",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/098_regular.png",
+   "sha256": "5a83eab8d29fac67943de719fc7037a9d22221d0072c06745602b5e8d11621d5",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/099_regular.png",
+   "sha256": "84d4cb4a457876af2cd39ebb78e07085812541e8977749a5d24cfe22e77fc074",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/100_regular.png",
+   "sha256": "dbde02bab52df087b45dacb751c463706b3d569b5167539f6c46e107468d2b08",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/101_regular.png",
+   "sha256": "c3afe8ac246b45c9d9c2676d593c0cf037d7c654401411c203c90cd78e4e3a7c",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/102_regular.png",
+   "sha256": "9cf19440873e48ad1dd75cbcd13daa2ef2490b822b99be8d84bdfe7d2b3b8bf9",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/103_regular.png",
+   "sha256": "41a350bcadfd128f96dbc096f66589c7423a19d4cae42a8127b8ec25d20ded4a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/104_regular.png",
+   "sha256": "f28dfdb82635ba57e8cf611fb35af88f3be5fd3595a2fb8d421fb2577e9808c3",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/105_regular.png",
+   "sha256": "5df60165a29af46b024264390989ce2667d731de6c5ec157dabcde3a2f2a541f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/106_regular.png",
+   "sha256": "140d8e3422b44689ec4c83b66c987ccd90735ae1516b7c43aba50b5149bb8669",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/107_regular.png",
+   "sha256": "58681c74edc2cb3bca439431fe2d1d3b87b279d1cda4a0b81c74c032156f8ed9",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/108_regular.png",
+   "sha256": "3b341f94cd24c80bd413caf6ae1846dc399a31aa803e8e905f6468d127078de0",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/109_regular.png",
+   "sha256": "fb50d740df69f6f6d026d1734579d4952db69dc7c7de70e29e12fb0b1691596f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/110_regular.png",
+   "sha256": "03d6e42da4c2e12711f395a9c901adb01ecbe0ac870545466046686bb3ca655d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/111_regular.png",
+   "sha256": "5f4536f4c49737a174c1e43865126ccc5f8d09f4cb0e8255f919b4b609f33cbd",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/112_regular.png",
+   "sha256": "0493998f83af9ed08e9e7be79e636617a7647bef8bcdcc65e65e081859d33696",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/113_regular.png",
+   "sha256": "078a8371215e8b5e14c14fce88115e49f3a40353320e3588d66f659d63b3e62b",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/114_regular.png",
+   "sha256": "26126305d38dd56983954a45e6e9fb161835191fb93792f8a33bb89b6aa48382",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/115_regular.png",
+   "sha256": "e3eb85117d5ae8645e9c254032f075d3c3cd2a7ec127546815fa8de29a904968",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/116_regular.png",
+   "sha256": "e2061bf000da5e474e98e90932878aa8c041eb3d93d4801e0fe7abb602e0a884",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/117_regular.png",
+   "sha256": "18c39f8f0062dfca69b17b8376ec18436e77f0e16ab65af8ec30c988f5ad6325",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/118_regular.png",
+   "sha256": "d42d58502f66f412fc20aba8389fe642de41fa9af3445aa305b981193277041d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/119_regular.png",
+   "sha256": "7e556a1b1507fc2f6fb3a55170b993cdc6c88cc5e0f718434ef04a2a3606c3d2",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/120_regular.png",
+   "sha256": "c98fc52df887ac6bb95b2b10629df829079458ffded656f2182096064907a4b8",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/121_regular.png",
+   "sha256": "0992f11763362ebea9433daf1b42f7a9815aa4d95482520276e0134a37063ad5",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/122_regular.png",
+   "sha256": "f72b461e6fe1bc7d1e640645ac59ed88f0edcb31dcbc7c146dff657f8c47a91c",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/123_regular.png",
+   "sha256": "ae49d0929a40e2a30e5d8b7780a91fe16879c08f35dffc70da26e6db4ba9a242",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/124_regular.png",
+   "sha256": "168a00e29c894edb26f5e2067854b6174c51a17f333114d15571d36f11b00042",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/125_regular.png",
+   "sha256": "274295dfa1674b0b7aad0011590bd9ff0cf162e685ae7974863d66827260bc2b",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/126_regular.png",
+   "sha256": "31e129432aca274c905e891da4937f8c8ec18131bb70887f857be06e9ee3adb5",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/127_regular.png",
+   "sha256": "c8b48e0d4a37841bcfe82a9921ea17aa57e8a2afa90f72a1131801ae5773a032",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/128_regular.png",
+   "sha256": "cbcd1d536982febac2187fedba584eaf451f99c3aad79bee9e5e0fb8adad5a46",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/129_regular.png",
+   "sha256": "89e948ffb444790ef9bae906b37497786810c4cf6da6da3a64c2416c220d2b1f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/130_regular.png",
+   "sha256": "832084e6a1ba69567482e1406f76b48c9a91d37f42970a63386261d988e7daae",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/131_regular.png",
+   "sha256": "0a34502d3627de52efc929fe4a2e12127e969d9fa7d5c2731bca9c3f9b38bc17",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/132_regular.png",
+   "sha256": "c8fb397064acd57a71ac8f98948bc8d9a0abb38cbc3544148d3e0ab191e78594",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/133_regular.png",
+   "sha256": "6fb6eec2efe3b45fa80a03fdaeff6fab7e6c468ec96b5a1ef09d47c1c332b056",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/134_regular.png",
+   "sha256": "7f4b3375085d60852bad6eaf3c6cf89219c3982662a7ef68d162a526d727e3bd",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/135_regular.png",
+   "sha256": "8223f094a2ca129232ac38f6123afdf48b996da9ac06e091afd697c98b11c8ff",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/136_regular.png",
+   "sha256": "67cd27bfd3edbaed76f5b12f80da2c0cd8dfa03afdfe02fbb7bdffa1c5232340",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/137_regular.png",
+   "sha256": "e3882cb73f9e9060a0ad642076e663574b593a81b1d2ab814130ba339718945a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/138_regular.png",
+   "sha256": "1105752d61791827eaf2322606095efa9ff52c9f4cc7aec363d5a489db4fea96",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/139_regular.png",
+   "sha256": "bb3de91742508e6d70247da81eb97b90d2a9968e0209abde6617203d69fd3324",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/140_regular.png",
+   "sha256": "4a808130b74ced10b357677eed38e636a6ec452a805562e01e4eb6e5980a6239",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/141_regular.png",
+   "sha256": "238515bbc79950940ccc49f548db177b32c4e67c095439ba59e1c44460199065",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/142_regular.png",
+   "sha256": "8758542cd371c944d22a7556dfb2dd85591c8cb3c466020aab624ba78a773f1f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/143_regular.png",
+   "sha256": "f6abffdf6b403f134fdf0629baa9d6c68356e15376e1b715fb1c38e04f218765",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/144_regular.png",
+   "sha256": "bd1b24574b4b9c138a29588f25ddf666a42042f287d6bd51f7347a5186357059",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/145_regular.png",
+   "sha256": "caead5a66f3545d82e790bb3135c245827ff5d7970eeb690aca4158a87f75a2a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/146_regular.png",
+   "sha256": "1c902a2908e63c5d1357257f9afbfa7cf7ff6fd9114b23b05009ebce03dbea4f",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/147_regular.png",
+   "sha256": "a66e81037685a687bad195391c8f1ca0434012028d1754894900bef08196934b",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/148_regular.png",
+   "sha256": "39c64ab6a0fc63990258f2654d2a90650ea79227051ca0affb938cd1526936d1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/149_regular.png",
+   "sha256": "d2427b1c439fa853fc69b17231f9eba693f26627e3cc85cbe3e5f315d492e3f0",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/150_regular.png",
+   "sha256": "17146bcbdec016d9c8858ca2d7cd01f9bb627c6e3ae7dcea5e68e79e5dd6e1aa",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/151_regular.png",
+   "sha256": "f69ecdf74d6d3510ba805c8b7d902eb90da23e1805b38e4c3c33d5c949e5511b",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/152_regular.png",
+   "sha256": "b80dd12e24bd70606ede689478c1a7c72e899f63991059db04df441ab83bfffc",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/153_regular.png",
+   "sha256": "8844849bf107d2ea7b20a581ebf142c656921d4b867f0484a62ef66a457b1897",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/154_regular.png",
+   "sha256": "df24a0d08ac5d425bc1e197108e5fcb1279928d965161044f1c0a583a39f226e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/155_regular.png",
+   "sha256": "3cdd868ba9b50879f6cef241c2a93c8171ea964fd5c86c685ac75d97b8a566ec",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/156_regular.png",
+   "sha256": "11e835bbbbcf8c3b9f227a258ada36652a35d597b8a6ef3bca8421ac4c7f27d5",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/157_regular.png",
+   "sha256": "90f4774ded0c8c93f1fd4491cdc0f343bee53c0ec6423c922b4b399afc1567f1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/158_regular.png",
+   "sha256": "9a56886c4f77c0f91777e33de5596476bc797fa1ebd8a21838abf97d6b1cfe4a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/159_regular.png",
+   "sha256": "73448a43a5f5b1371221c2cfabd17d3d6885112a09e612e3cf756b8cf5b03b74",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/160_regular.png",
+   "sha256": "01d7cba00e261dd1829f8c372abb3200ca993752b1e8c5539d9704a8d4051b07",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/161_regular.png",
+   "sha256": "e91ea2a93c2f1f0468a58b048abc006e236c7e8999c6806f3192fdc91fbc6cfe",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/162_regular.png",
+   "sha256": "6269aa05ea30c94da5ccd8f2a9fc4566e73d3cc22a1247c134f3101bd2c7a54f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/163_regular.png",
+   "sha256": "31c39a3806dcb524fc33464426bf9d355f477bc2d015569c5b066355a1cba893",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/164_regular.png",
+   "sha256": "a8b3a9868cd655f600eeb811e6074f865ea3c09ba41b9ce1159c598b5864a7e4",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/165_regular.png",
+   "sha256": "137f7d635216ef860c265b82d6ee99899e384627656b5e61bf3b534a4e9ccbdb",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/166_regular.png",
+   "sha256": "7320246a7633d776b556cb7c44d3e10bd77102ac60d3800260f85efaecaf5315",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/167_regular.png",
+   "sha256": "21339c7a22cc386bb86d9e2bdbc9b3ec3f0ee3a25da02cffbc943a85029ca9ae",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/168_regular.png",
+   "sha256": "a67f025f50cdedb289c93a7659aacb98a47a29448f709fd2d8cfc9b2eb7505b7",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/169_regular.png",
+   "sha256": "285f9d5d9bb1db816e2facb04267e751d3bb1fe6466cfc4c9b28f296cea37815",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/170_regular.png",
+   "sha256": "d602adec20090a455a92b6012ce110d350a38da197441b37fe08cef1c9e94794",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/171_regular.png",
+   "sha256": "ead7d1d08c315a05c974e7e57b2b431cd26cbe314bc91d6c2dfcd564b979bff2",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/172_regular.png",
+   "sha256": "e4b5619bdc44abd7978fa89f821478b548c95e24d67f6ec0fc1eba5f769c74cd",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/173_regular.png",
+   "sha256": "0ec50583ae4e61490b0b4a3e52ea77795515d48ee4595de162d5ebfb7830aecf",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/174_regular.png",
+   "sha256": "588b9750efd2dd748d915b29d2f6c98493a8ac99e8bbfa479e45c903aa62457b",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/175_regular.png",
+   "sha256": "e57ad5245d7228f2f4f64ba0328dc071994287eb02260638f27d583ef979e6ac",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/176_regular.png",
+   "sha256": "c0c7bd93c1331e41e09b223861fbdb6a7cceda78618d7d6313bc2fbccc224710",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/177_regular.png",
+   "sha256": "9b33f778b7c0d0f41bbb86976de6e9cb81328cbad7a6941196fcc7b402992570",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/178_regular.png",
+   "sha256": "33e0e2347f3f98db7b0f05584cea835f0d08478f419616e272933a6a3c0e9d34",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/179_regular.png",
+   "sha256": "d3c10ba05c81e04c0843226c07170a75a1328380060a59f99d50f72f6fefeede",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/180_regular.png",
+   "sha256": "d7b5aaf25dd5479d52c6875ab44c5bb8b5e70c0178ccee288a69b9285e29a69a",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/181_regular.png",
+   "sha256": "1a13b5ad2de6e310234c9022be034d3ae91af9da4ea44a11bbf33f684bc425a2",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/182_regular.png",
+   "sha256": "18953e9f5775ff0994da9bb34a32a141e813b31ffa7c8d12c8055b442a86cf14",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/183_regular.png",
+   "sha256": "abb1371410ada65362aeedeea8a802071d6442dbb9e19f58cdc6cb6ae0760df9",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/184_regular.png",
+   "sha256": "d1480421707e0f0f78c5d17b5e87434b2006165dbe5e53705ca5ad4a5d21e205",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/185_regular.png",
+   "sha256": "1ae386762da2c86fde97072fc34bcaa1a7d3a1d19dfe0ffc0520f4d2f61b8d6d",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/186_regular.png",
+   "sha256": "0faa63a0792c4bb82c7148c5c93351ca1d11e86365f7b31b302ac3fd3fe4733b",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/187_regular.png",
+   "sha256": "17fe6a39b9b9d956fea2487b50743f248628333d902fa6a2b2f8e58d5f211a67",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/188_regular.png",
+   "sha256": "697570d611bfbbecdef097e02a27dc7e364636be201988785e07b95815c88a81",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/189_regular.png",
+   "sha256": "cae12c65ce89d78fd4d2e4974ef013323bc7b2895c5259414c9a1773843d4829",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/190_regular.png",
+   "sha256": "bc294d754921639a2478dcf6010556785751a6a84c92b8ec7f1484d3274e3e05",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/191_regular.png",
+   "sha256": "40278542595afe7c09db800242c2c5ec152c909cb3dd615abbc2cca5ffe1646a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/192_regular.png",
+   "sha256": "e5b004cf577414a67580ede071c9f55cf05856bdfbf4b1508197f67eda2bfd9c",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/193_regular.png",
+   "sha256": "20211a1f544fb24f9c65d2325f7e421ad8434db1be89e444986bfb2f3f15b337",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/194_regular.png",
+   "sha256": "7d6ebf1393b65319635d2d218c44caf83e0d8bfe084f3553a7f1bdabe6f2840d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/195_regular.png",
+   "sha256": "896775e10b4232fa40d8031c3c40c6faa74e951dc49ca4e969c5065ea35fdccd",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/196_regular.png",
+   "sha256": "95c4d284fa3363ffd8ec95c5d5105bd62bacf70f919de73cc08c6d038695c7cd",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/197_regular.png",
+   "sha256": "d2c656a3a14f69e4e8a93389ae2452f3b9275c1e6791438dc338ba3967855587",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/198_regular.png",
+   "sha256": "1132a3ae260a3bd9fe1d5588e2c6209bb06b1fa100e581eca82d8a65e4fedaef",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/199_regular.png",
+   "sha256": "e3963b28a4127f9f6d5313f970aa65640fb6f0549b26a69690eb213decba8486",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/200_regular.png",
+   "sha256": "2c1a90702b0c56e98e36a6cf460887e279acb2285d16e71eaff148368c75a364",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/201_regular.png",
+   "sha256": "608ec4fd20fa273a515692d3cdc20b9885f4dd124bedd112346104b763b7007c",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/202_regular.png",
+   "sha256": "9171422a9119c7de6060428df6b62900f9048a31725b1db54387071c4446c7e0",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/203_regular.png",
+   "sha256": "cb38a331850a50920c5aadb8cccdfca14acdf95f9b515a4bf0cbf32d9fc1929a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/204_regular.png",
+   "sha256": "a8ec932ac6bcc812f251d578b113d2b06ba32d6beec360e2cd4f0f84f0d04081",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/205_regular.png",
+   "sha256": "f675a5f7acdfa5edc533378667fd873d73345fef6ec2aceb795375f63e3a0d3b",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/206_regular.png",
+   "sha256": "aea5e658ec87e275b0a6634aa08ad48ac386fb1e8a6da14f9b7fe0114cbf7970",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/207_regular.png",
+   "sha256": "7a4a821b0a4de1586aa25824383c97ca643ac86d4c0f63da1ae75ff409af7499",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/208_regular.png",
+   "sha256": "116353884a3010bf37be4b2d35e1da81ceb49c2882610d5264809b6e47deccc6",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/209_regular.png",
+   "sha256": "748925e38f8ea5c2e1d98611becffd8de4b2c19dbc68e23ea2d4a0e7cd99d2df",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/210_regular.png",
+   "sha256": "1e1921a2b3b7fe9df44215d5fa4caf68513ef77138c3ac412d1ca3bc8f54294d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/211_regular.png",
+   "sha256": "a82633f4826faf6566210a9480eda815a560b055c04640bd017b75ea583e1211",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/212_regular.png",
+   "sha256": "ff6efc6a8829a5d1f0f0b0c923c769d03b5913c2b4eb062fceb6bd9c0c75d1ed",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/213_regular.png",
+   "sha256": "097e43987ba25e17a10d2114ae6f2078a4de3f731719a45be4f6318e818cf8fb",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/214_regular.png",
+   "sha256": "eb7c036562f8e3ddb17d1c9f987e205745648bd9fd9a32dcb30b6ec1a2ae6d64",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/215_regular.png",
+   "sha256": "56fb681ad62c7bd5f1588c4aa48a1bf4dc728781aa436d0155baa85eeecb0e7e",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/216_regular.png",
+   "sha256": "9e85e60d1cdbe9677988ce692d51a2d6e2f143926e079c64b3a51ca2392c3b2b",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/217_regular.png",
+   "sha256": "ad9e770fb76003c6bd8b55eb503c3acd8cd44683bfa208ba5bd121e7f88676fe",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/218_regular.png",
+   "sha256": "505a5aad4b68353d34626aa386e8815d7787767bcee89a25e11097bd6d6f7dd8",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/219_regular.png",
+   "sha256": "9e7bbe73093ad4e8b05793250652c3bf307ebd516fd42b6212287b8fd7076e8a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/220_regular.png",
+   "sha256": "49bae44641a191933c75d31405c0b68038899cc3f50eac97ee9c3fab1734528e",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/221_regular.png",
+   "sha256": "8159827e24176a21f575956afe8c44e8d0f6f7d6f6153fddf9309304e907d7dd",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/222_regular.png",
+   "sha256": "04961570dc40d4f91d68310b02709775ffc9a8b8027965970f7a4050fe070786",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/223_regular.png",
+   "sha256": "0e6c7d7ce8b027582092ff957b260fdd0d4d107f3b4dcf8346f2dc5d44869353",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/224_regular.png",
+   "sha256": "9fa2bd3ada254a8254d6f03bd9f6f5b31870f19d13e94807c9c0354116b43e3d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/225_regular.png",
+   "sha256": "d65aaa010384915419aa4c21a50ffd21f92bb2a31cec71de6f148b1de8eed037",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/226_regular.png",
+   "sha256": "7400559036ea8b07a5c4a3ed2e45c7c4e6fbbdd4f0bdab51346090f54403547f",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/227_regular.png",
+   "sha256": "d40b30a6b96fb839557e1ba94a62f38eb2990be79f1c584fcbc2eb73e521198e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/228_regular.png",
+   "sha256": "56720d216a207040cf81b55e9639db8097cef3b55ed14203cb72e4a0c956bfdc",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/229_regular.png",
+   "sha256": "9b0c185b4c8cfeaf1ea12648c99bfce175d19ef2e9db69bf29cf08808a32fc33",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/230_regular.png",
+   "sha256": "838b9242dbbec74b211c31daa94296236bc1773ee1d6e1de41da1520500917d4",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/231_regular.png",
+   "sha256": "ac07f27027f7308b66d00a33cb3d1ff7a87c488e3692aad8769c68abf1be1ca9",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/232_regular.png",
+   "sha256": "06b20de55676c886286302a3100e9551f57618f9f10114e9985834518ed19523",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/233_regular.png",
+   "sha256": "640a316b75946b30ebfdb64d08c7730a92b71f7e14b3f2a8ad31d7d9c6de682c",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/234_regular.png",
+   "sha256": "2ec1a55f887b7e093874fabc165c69e20bc74c34cb6fb29bf8abdf248e366477",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/235_regular.png",
+   "sha256": "31ebf582317a38a97d20187445ea1ebe99c1909832b79df628a4a214164e40f7",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/236_regular.png",
+   "sha256": "43a1521e88543ee5036584d887682f2fc1d35ab614f5070fe152c97beeb0c7b7",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/237_regular.png",
+   "sha256": "235f2094950cb2be431fea32a5a3b1868308515aee0ec91fdb610b4bc58c7c7e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/238_regular.png",
+   "sha256": "b36cccdc51040683497efef811efd400b5763c8a12f5cb87d2e0dc6afb39b502",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/239_regular.png",
+   "sha256": "b57b37ab70394060e968b43122aa057b62b50a45710600075574e8000a7a62c2",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/240_regular.png",
+   "sha256": "2f8295b3f080642801d05ab7da0c1973fbb4ea3549ca1eff6205847a50e7d5e6",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/241_regular.png",
+   "sha256": "c0d1e3dbb840d55b3c00d3816c3f99e7831649bf1e934b1520103bee27fb6c2e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/242_regular.png",
+   "sha256": "67f380e1b3b2e80b9a2ecdce34528e6dfa6f1a2c71c98e23c98f1009b19ab2b3",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/243_regular.png",
+   "sha256": "d70b67fb7ad562a3f829db76b4bc9231b181a999b9d99e7ddc4a8d6d32eab4e7",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/244_regular.png",
+   "sha256": "9014534616c36ad38d16303794c0bbc5b23d5609312ab15c52cfcd1fc60d3cb8",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/245_regular.png",
+   "sha256": "ccdc39b73638b467e2d78155f58a4f72be8d5ccb6cecd713ed8f8399136386e5",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/246_regular.png",
+   "sha256": "faa8e6bee97fdfa301cf1dbcd7b96452f2b0d291ae5359d582c8cfc987e38e5d",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/247_regular.png",
+   "sha256": "a75b956a2f5b1d0a2e1f80bf8911e63e6c71d8f05536cc42391a8337f579be12",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/248_regular.png",
+   "sha256": "f204b2078a3edc49f9e0d689fe6074d4672a3538f1f6d7267618e8d82aa0d272",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/249_regular.png",
+   "sha256": "cb76f21b3b9c39a6b590770419a628547dbc10397d481620220f6436ce637b92",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/250_regular.png",
+   "sha256": "a2817a256380276515c826a7f386ac7e4978c9943dd7d22f2aeae622a3550626",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/251_regular.png",
+   "sha256": "5e4a40b149c0599a2b85940a46326994b4ff6e5a57a565462044772840449fbe",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/252_regular.png",
+   "sha256": "1f59875d08e2650c0dcb3f5eeb5217070ec0f693970e43904e1b43583320cfa7",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/253_regular.png",
+   "sha256": "692239dadb5f8be97f5826507cc2deeaa3e528eb2f4fda5ed05b4c0539e9c998",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/254_regular.png",
+   "sha256": "d4e72f705092e11157d50a2f7036a2890fcafdb9bf2066d3db42ff7a2445ad18",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/255_regular.png",
+   "sha256": "65bf4ea1161cdfa7d4693f55cb6ed75a532a4dacc5ff0b62b95983085e6004cb",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/256_regular.png",
+   "sha256": "e80f0cc090a2372e14820272b1cd26c2ea1ddc00a8f50a38ded7a9673f2346e5",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/257_regular.png",
+   "sha256": "acf86136716d5da51c55059174df92af53eb6b018dfb6c789258bda1be3c00a4",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/258_regular.png",
+   "sha256": "2c4b5ca3118c5c34bd4789fd1e17c658994ccab558c94b22247ad4ea43f2c8a3",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/259_regular.png",
+   "sha256": "2929502fb313b1e38e0ffeac516e6e4ea8e06c1c6e033a1a333dc21e37accf96",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/260_regular.png",
+   "sha256": "51b771b12e516306c9a175000a884956d37ab09cd17e2c24e49b1c8d085ee886",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/261_regular.png",
+   "sha256": "c4c8e97ef5f6b9a2dd212d4a1691cbc12d44f2cd409a32d69a56451e202cb405",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/262_regular.png",
+   "sha256": "06fa178ec7d4f1fe1fb8f8ab7bf6b7463ff690113d4c7db3788976145c21a1df",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/263_regular.png",
+   "sha256": "dfa7b4c392a91ee491357d74d5a960f9fd63c0111f835199b12fa1403c9dc37b",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/264_regular.png",
+   "sha256": "a095a612c80494cc1c4dab51609405d15b66e88ee77d5dfa6e5566f5054b9a44",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/265_regular.png",
+   "sha256": "d3e0037cb7d06f972f4d801b8839dc92441d5b70ef918462e9b22040103fac06",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/266_regular.png",
+   "sha256": "977bb93b44676903049ebaed03eaefa3f69856c4cb2e939765f7cf6df49dc22f",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/267_regular.png",
+   "sha256": "6f2199257cc52402b9b62ec64c23e2ee1d99c6ee1406de63f7b317196b2ba3e7",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/268_regular.png",
+   "sha256": "72411be4d66b719dbea2ece5cf9bbc85e1b89b3a93152c7216caf5eba411def1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/269_regular.png",
+   "sha256": "32874e8cc8498a58cb5ae06c6744329dd4bb64d001c5765490e572aa7c8e8542",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/270_regular.png",
+   "sha256": "edfedc0ff8b0a721c9859cb48119fe8ba2f18079a39beeebd39b4f095457e07e",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/271_regular.png",
+   "sha256": "78663bbc71647a5deed4a0e6066ce9c26ec0773333a0651dafdd553708fbab22",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/272_regular.png",
+   "sha256": "8d80172534488f371bfbcc99009b6408aadd2f6b5949284acf52345b580510bb",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/273_regular.png",
+   "sha256": "d9df7712019be5f242accf192255d7077b4da6003094062a6c21b321e6d7b9cc",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/274_regular.png",
+   "sha256": "eb61f265ca7f37d81e1f207458c1157de4155accaded1f101aafbdfb2a9dbcd0",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/275_regular.png",
+   "sha256": "677212898aedee4bc629c040c8d0f9083c9392f48f37545b9b739026bc6bf6bd",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/276_regular.png",
+   "sha256": "eb6731f3c39f785c6cc525d16c877a7af60ff3b65ebf74c06a373a277c102706",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/277_regular.png",
+   "sha256": "b161c56777f3d485f476ce29c843b2b3eb6267e5f80fbfb37f49a9e920f2a149",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/278_regular.png",
+   "sha256": "f0dd8f50397df2976e25aa5cf6f30f41532df51bbad429276fab9c94b5d69ae5",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/279_regular.png",
+   "sha256": "78ad1fb7d984a4c6b3d25e207f981c551d238cd270264178016f0ea16f779771",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/280_regular.png",
+   "sha256": "731c61d2a2d9cedae5979d6de6c0342e81147e54b572f609afa142184d35a519",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/281_regular.png",
+   "sha256": "fe96e0e75c9e17e5336084f65f0f63fcdddd74495ff2f2930e284887ffcb17b3",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/282_regular.png",
+   "sha256": "7a7d2f41b63b4a00757e29025ca4a1c1cfe55e04fad3a5e88c9b35bb2bcf2892",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/283_regular.png",
+   "sha256": "c3e274ebddab2f2ba8e4bcc79d31c7d23d96809cb554574c32a89e3bfbab670a",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/284_regular.png",
+   "sha256": "bde273117f6361d2f84b8834bf689dd04ec5e710218e627c045d402dfbb748a1",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/285_regular.png",
+   "sha256": "b1c0093e9bf14af953e854d6eea3d4820e1a0ec3eab44f0cb6ecee122d64f2b4",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/286_regular.png",
+   "sha256": "82a0e57b307211b333ace4ca39353af0a8a3a21695b4e14fea155c0820926c25",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/287_regular.png",
+   "sha256": "52844ad5509f985b74cdb4694851c824e16f5675efdc756abaf91f4fe493f0bf",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/288_regular.png",
+   "sha256": "4148f587664d3c6563e339fef5e39650f50010b7cc53962a85009eb3a3b99220",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/289_regular.png",
+   "sha256": "38b0bc89eab9f338167d6fef48d262132a34c44c563a78ef2c811caf050c5047",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/train/good/290_regular.png",
+   "sha256": "637b7e0e4a57d93b4303b94783b9130d824678a164ea3e428356515c48a5e000",
+   "split": "fit",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/000_regular.png",
+   "sha256": "8b2b0e792bb7ec3637ab094260f195f2fdc7f23442fe587d8a7f62783a08e58f",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/001_regular.png",
+   "sha256": "fd70d9f44dca2a11eaae9b6945be41828944a12dbe1ceaea0ced9724f35cf92d",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/002_regular.png",
+   "sha256": "2aa64a1e0f8c9a6612c0b5fa3b420b5c41d5c7d0f202a16d9e7ac5f1ccee9c71",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/003_regular.png",
+   "sha256": "fb864cf4afa2081fb96bf0c46c8d1e21f4d01f7bb0f3b92eb2eb7f02ce85cb7f",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/004_regular.png",
+   "sha256": "26adaf5031ce71a8bf330b133ac7ff8c0316f3c34321f3251c979cefe86cf570",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/005_regular.png",
+   "sha256": "f3b829408dbe449abc27ce1dabcee14256f8257c37c157a3fdc76bad9614cc58",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/006_regular.png",
+   "sha256": "bc027337cc7727747626b66804d8f6ad117ac8020420c6c2cfe74182c6635852",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/007_regular.png",
+   "sha256": "5808103cc62c57f52559c408acab032e556e8cdf928d8e5ab7c4fe5e07735a07",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/008_regular.png",
+   "sha256": "fd2410c989afff483e08dbdd967273ea916d1f833c4914d3742d9e0cf86c691e",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/009_regular.png",
+   "sha256": "8d347dfc3565b52b8baca2599b736e740d2a919c95dd3129c948c143f299efbf",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/010_regular.png",
+   "sha256": "4ba5bc17549c791a46685a3cc432c071dd4b3759bb692291ddd90595c10a0290",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/011_regular.png",
+   "sha256": "5ce0d8b3a6949c7584788b0104b0dbdf2f82fb433b9d1d8ca0b89524dc085888",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/012_regular.png",
+   "sha256": "f9fd9fe219c3e2b63ee1b035c541a3619928e01c82e61990cf3c82e7e7e2a515",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/013_regular.png",
+   "sha256": "cace8afe8d0932b09eabc071d6409e6a99c9968a0c31f04ee2d3288dcc6049d2",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/014_regular.png",
+   "sha256": "e64b1b2b01240ee7e3dddb5e84f95310859ed7ef15a5b3a0388d7da4751248fc",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/015_regular.png",
+   "sha256": "e528942d49125098bfd1e153bd156f32dcc4ed345e9f5f15613752f172c686d7",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/016_regular.png",
+   "sha256": "310c62ce93a40bfd57ec43d8e1fb84f26ba30afc2860c22350c13473ea1d6bef",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/017_regular.png",
+   "sha256": "ecfbc0aef943dbc6f11e2330c98408b7930dfca6bfd861c100a933d4037aaddb",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/018_regular.png",
+   "sha256": "27dfafe3d55658900155f32e5439fab850189c955f184bf8798070c7cadface7",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/019_regular.png",
+   "sha256": "b1e06700fe4bf2a79fa5332ffac7da1faf1088eaa64e6cbaf0c376e9b5b7f0d0",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/020_regular.png",
+   "sha256": "aeeb1954ce3f662b5dd96f3cc5931a605dbe7a2e2403e5c6a080385599b8381b",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/021_regular.png",
+   "sha256": "e0b628ca2b67680bf2d9ff5610c46aa1518a5a4a2f5642dc47287b327de198f1",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/022_regular.png",
+   "sha256": "9c56063827b7618011adc752d7af882d648b9a9f079ed329cc673f0639054644",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/023_regular.png",
+   "sha256": "018d52e377e3dd55e0ce5ed87e241f1582c990817dedde25455f3f815399647a",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/024_regular.png",
+   "sha256": "c5c3ff6fb65f6c5c446fc2c63a8e2ad1cf9a47b1126f81600b2cc745448b249f",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/025_regular.png",
+   "sha256": "ed6a99699787e122f720cbd8b83d4b07e319f68c71fec096f5a35517edead530",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/026_regular.png",
+   "sha256": "14532a288f42839b5a0f4d8827c7b42cd50db88cda92466fdc0ed7c9a86bcfe6",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/027_regular.png",
+   "sha256": "4900d549abc54e4d21826b4bb7e953b29ad56a1b45f0f04b2eda2d14efab3909",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/028_regular.png",
+   "sha256": "64fb872f9258e481fd74a7274e8d81a8d43bb2c73fc7af83c33eae8d298bfd9b",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/029_regular.png",
+   "sha256": "b30e8ebe35b32db9c6b7bd758503c30a4420b29716384ceaa924de7c3824858f",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/030_regular.png",
+   "sha256": "d33a3a2923823eec5d002ffe3d7eca0968572d1158284949ea4fa329b176aad1",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/031_regular.png",
+   "sha256": "cfd43e255916abbf825a72c5363ca05b2f6d81014b86819ad65d2cd1c6815b28",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/032_regular.png",
+   "sha256": "65df82ab8298e590cbe63b303bc0b8de60cedc7080f017ece84fe06708eb4c06",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/033_regular.png",
+   "sha256": "0bcdfb234e307bc89007600b8197e395ad82121bd521bb25507627a83a44b015",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/034_regular.png",
+   "sha256": "70335f18e92a0a8edc8f83f2b354d59bb87315dada84f0b464b9414fa74cb3e0",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/035_regular.png",
+   "sha256": "ccfc8bd4f9952fcd9ae22f23c761a0cfd929a5fd98c92aa5ef62865b10877283",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/036_regular.png",
+   "sha256": "27938374f63fcfd9dd227281ef55a5fa593a06f5fb5e72e3bbc5d788164742ae",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/037_regular.png",
+   "sha256": "f588b668d4d9b93fa68dd9f65a4bd57b63a76148c29556feead53ca98c11ada5",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/038_regular.png",
+   "sha256": "5a7573050c2de3fac258e319e5e7f38b5725f73faf2fe60041984b8299b9f3be",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/039_regular.png",
+   "sha256": "c7241d7f5c9f9205a6c855aaca92b90fab4d8202e9bce094c699a62cd53bdec0",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  },
+  {
+   "defect_type": "good",
+   "label": 0,
+   "mask": null,
+   "path": "vial/validation/good/040_regular.png",
+   "sha256": "b270f6c2d8c50bd2a8280dca36be12ec1356e8c645c2dd1241f5786c9d22a1f6",
+   "source": "validation",
+   "split": "calib",
+   "sup_split": null
+  }
+ ],
+ "seed": 42,
+ "sup_fractions": [
+  0.5,
+  0.2,
+  0.3
+ ],
+ "version": 1
+}

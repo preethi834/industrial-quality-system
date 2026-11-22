@@ -25,7 +25,9 @@ def _script(name: str) -> ModuleType:
 def test_assets_config_is_valid_and_pinned() -> None:
     assets = load_assets(ASSETS)
     assert {"wide_resnet50_2.tv_in1k", "resnet18.a1_in1k"} <= set(assets.models)
-    assert "mvtec_ad" in assets.datasets
+    assert {"mvtec_ad", "visa", "mvtec_ad2_vial", "mvtec_ad2_fruit_jelly"} <= set(assets.datasets)
+    for name in ("visa", "mvtec_ad2_vial", "mvtec_ad2_fruit_jelly"):
+        assert assets.datasets[name].size_bytes is not None  # step 2 approvals record sizes
     for m in assets.models.values():
         assert m.size_bytes is not None
         assert str(m.target).startswith("models/weights/")

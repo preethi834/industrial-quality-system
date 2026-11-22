@@ -12,6 +12,7 @@ from fastapi import FastAPI
 from iqs_common.api import create_service_app
 from iqs_common.db import check_database, create_db_engine
 from iqs_common.log import configure_logging
+from iqs_vision.api.routes import calibrations
 from iqs_vision.api.routes.inspections import build_router
 from iqs_vision.explain.vlm import get_describer
 from iqs_vision.inference.registry import ModelRegistry
@@ -24,7 +25,7 @@ SERVICE = "vision"
 FEATURES: dict[str, bool] = {
     "inspections": False,  # step 1: detector + POST /v1/inspections
     "vlm_description": False,  # step 1 interface; disabled until a VLM is approved
-    "conformal_threshold": False,  # step 2
+    "conformal_threshold": False,  # step 2: true when a model has a calibration.json
     "cost_decisions": False,  # step 2
     "discovery": False,  # step 8c: unknown-defect clustering
     "fewshot": False,  # step 8d
@@ -53,6 +54,9 @@ def create_app(
         **FEATURES,
         "inspections": bool(registry.categories()),
         "vlm_description": describer is not None,
+        "conformal_threshold": any(
+            registry.info(c).threshold_alpha is not None for c in registry.categories()
+        ),
     }
     return create_service_app(
         service=SERVICE,
@@ -60,6 +64,9 @@ def create_app(
         settings=settings.api,
         readiness_checks={"postgres": lambda: check_database(engine)},
         features=features,
-        routers=[build_router(registry, v.max_upload_bytes, describer)],
+        routers=[
+            build_router(registry, v.max_upload_bytes, describer),
+            calibrations.build_router(registry),
+        ],
         on_shutdown=[engine.dispose],
     )

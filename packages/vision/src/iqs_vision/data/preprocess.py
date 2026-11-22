@@ -55,9 +55,14 @@ def image_to_tensor(img: Image.Image, size: int, *, normalize: bool = True) -> t
 
 
 def load_mask(path: Path | None, size: int) -> torch.Tensor:
-    """(size, size) uint8 tensor of {0, 1}; all zeros when there is no mask (good image)."""
+    """(size, size) uint8 tensor of {0, 1}; all zeros when there is no mask (good image).
+
+    Any nonzero pixel is a defect: MVTec AD / AD 2 masks are 0/255, VisA masks hold small
+    region ids (1, 2, ...). Nearest-neighbour resizing keeps the values, so 0/255 masks give
+    exactly the same result as the former `> 127` rule.
+    """
     if path is None:
         return torch.zeros((size, size), dtype=torch.uint8)
     with Image.open(path) as m:
         resized = m.convert("L").resize((size, size), Image.Resampling.NEAREST)
-    return torch.from_numpy((np.asarray(resized) > 127).astype(np.uint8))
+    return torch.from_numpy((np.asarray(resized) > 0).astype(np.uint8))
