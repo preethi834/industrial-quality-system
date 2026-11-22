@@ -17,6 +17,7 @@ from iqs_vision.discovery.trigger import (
     assign_known,
     find_clusters,
     geometry,
+    l2_normalise,
 )
 
 from .discovery_fakes import unit
@@ -136,3 +137,42 @@ def test_one_blob_never_alerts_twice_as_it_grows(seed: int) -> None:
                 for v in views
             ]
     assert alerts == 1
+
+
+def _at_distance(rng: np.random.Generator, c: np.ndarray, t: float) -> np.ndarray:
+    """A unit vector at angle atan(t) from ``c`` (distance ~ t for small t)."""
+    u = rng.normal(size=c.shape)
+    u -= u.dot(c) * c
+    return l2_normalise(c + t * u / np.linalg.norm(u))
+
+
+def test_group_near_a_named_class_does_not_alert() -> None:
+    """Regression (7g e2e): the fringe of a named class formed a 'new' cluster."""
+    rng = np.random.default_rng(7)
+    c = unit(rng)
+    named = ClusterView(uuid4(), frozenset(), c, 0.1, named=True, name="scratch")
+    centre = _at_distance(rng, c, 0.14)  # within 1.5 x max(radius) of the named centroid
+    fringe = _points([unit(rng, centre, spread=0.005) for _ in range(6)])
+    r = find_clusters(fringe, [named], P)
+    assert r.new == [] and r.grown == []
+    assert [cid for cid, _ in r.near_named] == [named.cluster_id]
+    # The same group with the class far away is a new defect type.
+    far = ClusterView(uuid4(), frozenset(), unit(rng), 0.1, named=True, name="other")
+    assert len(find_clusters(fringe, [far], P).new) == 1
+
+
+def test_grown_cluster_geometry_covers_all_members() -> None:
+    """Regression (7g e2e): the radius was computed over the core's reach only."""
+    rng = np.random.default_rng(8)
+    c = unit(rng)
+    core = _points([unit(rng, c, spread=0.005) for _ in range(6)])
+    edge = _points([_at_distance(rng, c, 0.2) for _ in range(2)])
+    members = frozenset(p.observation_id for p in core + edge)
+    view = ClusterView(uuid4(), members, c, 0.05, named=False)
+    r = find_clusters(core + edge, [view], P)
+    assert len(r.grown) == 1
+    _, grown_members, geo = r.grown[0]
+    assert grown_members == members
+    expected = geometry(core + edge, P.radius_quantile)
+    assert np.isclose(geo.radius, expected.radius)
+    assert geo.radius > 0.15  # the edge members count

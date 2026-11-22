@@ -8,7 +8,7 @@ PROFILES ?= core
 .DEFAULT_GOAL := help
 .PHONY: help setup build config up down ps logs logs-once psql cypher smoke \
         db-migrate db-downgrade db-current db-history db-revision \
-        lint typecheck test test-integration pre-commit check
+        lint typecheck test test-integration test-e2e up-loop down-e2e pre-commit check
 
 help: ## List targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-18s %s\n", $$1, $$2}'
@@ -22,14 +22,19 @@ build: ## Build the images (vision, diagnosis, dashboard)
 config: ## Show the resolved compose file (passwords included: do not paste it anywhere)
 	COMPOSE_PROFILES=$(PROFILES) $(COMPOSE) config
 
+LOOP_COMPOSE := $(COMPOSE) -f deploy/compose/docker-compose.loop.yml
+
 up: ## Start PROFILES (default core; PROFILES=apps adds the APIs) and wait until healthy
 	COMPOSE_PROFILES=$(PROFILES) $(COMPOSE) up -d --wait
 
+up-loop: ## Quality-loop stack: apps + vision/diagnosis workers (needs IQS_LOOP_DIR content)
+	COMPOSE_PROFILES=apps $(LOOP_COMPOSE) up -d --wait
+
 down: ## Stop and remove all containers (volumes are kept)
-	COMPOSE_PROFILES='*' $(COMPOSE) down
+	COMPOSE_PROFILES='*' $(LOOP_COMPOSE) down --remove-orphans
 
 ps: ## Container status
-	COMPOSE_PROFILES='*' $(COMPOSE) ps
+	COMPOSE_PROFILES='*' $(LOOP_COMPOSE) ps
 
 logs: ## Follow logs (make logs s=neo4j for one service)
 	COMPOSE_PROFILES='*' $(COMPOSE) logs -f $(s)
@@ -79,3 +84,9 @@ check: pre-commit test ## Everything CI's first job runs
 
 test-integration: ## Integration tests (testcontainers: needs Docker, not the compose stack)
 	uv run pytest -m integration
+
+test-e2e: ## Step-7 quality loop on its own compose project iqs-e2e (make build first; make down first on the 10 GB VM)
+	uv run --frozen pytest -m e2e tests/e2e -s
+
+down-e2e: ## Remove a kept e2e stack (IQS_E2E_KEEP=1) and its volumes
+	docker compose -p iqs-e2e down -v --remove-orphans

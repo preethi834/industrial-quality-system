@@ -1,0 +1,269 @@
+{
+  "what": "step-7 gate 1 e2e on the compose stack (iqs-e2e project)",
+  "data": "SIMULATOR process data (tool_wear_m1), SYNTHETIC image-to-part linkage, synthetic stripe images (iqs_vision.testing), random-init tiny PatchCore; plumbing only, no detection-quality claim",
+  "measured_at": "2026-11-22T10:02:45+00:00",
+  "machine": "dev laptop (WSL2, 16 vCPU, ~9.7 GiB VM)",
+  "repeats": 5,
+  "calibration_sha256": "58eb7edb27cfd61d3f18b4c75753da66bd7d84722ee232126b65d20b8fadea71",
+  "calibration_rows": 4,
+  "median_latency_first_anomalous_to_case_opened_s": 2.77,
+  "median_latency_first_anomalous_to_awaiting_confirmation_s": 3.777,
+  "loop_total_s": 85.5,
+  "stack": {
+    "library_cases": 8,
+    "prepare_s": 25.4,
+    "stack_up_s": 38.9
+  },
+  "runs": [
+    {
+      "repeat": 0,
+      "category": "toy",
+      "simulator_run_id": "run-e2e000000000",
+      "scenario_seed": 7,
+      "true_cause": "MACHINE.TOOL_WEAR",
+      "parts_streamed_from": "onset-100",
+      "images_after_onset_to_alert": 150,
+      "anomalous_images_to_alert": 5,
+      "cluster_size_at_alert": 5,
+      "alert_part_seq": 940,
+      "false_known_before_confirmation": 0,
+      "cases_opened": 1,
+      "latency_first_anomalous_to_case_opened_s": 3.786,
+      "latency_first_anomalous_to_awaiting_confirmation_s": 5.134,
+      "latency_alert_to_case_opened_s": 0.866,
+      "latency_alert_to_awaiting_confirmation_s": 2.213,
+      "conformal_set": [
+        "MACHINE.TOOL_WEAR",
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "MACHINE.SPINDLE_OVERLOAD",
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MATERIAL.BAD_BATCH",
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "MEASUREMENT.SENSOR_DRIFT"
+      ],
+      "top3": [
+        {
+          "cause_code": "MACHINE.TOOL_WEAR",
+          "probability": 0.13168829380182603
+        },
+        {
+          "cause_code": "METHOD.WRONG_PROCESS_PARAMETERS",
+          "probability": 0.12958025840195628
+        },
+        {
+          "cause_code": "MACHINE.SPINDLE_OVERLOAD",
+          "probability": 0.12655048034088354
+        }
+      ],
+      "novel": false,
+      "count_before_after": [
+        0,
+        1
+      ],
+      "awaiting_confirmation_to_cluster_named_s": 5.276,
+      "known_fraction_after_naming": 1.0,
+      "n_defects_after_naming": 20
+    },
+    {
+      "repeat": 1,
+      "category": "toy2",
+      "simulator_run_id": "run-e2e000000001",
+      "scenario_seed": 8,
+      "true_cause": "MACHINE.TOOL_WEAR",
+      "parts_streamed_from": "onset-100",
+      "images_after_onset_to_alert": 103,
+      "anomalous_images_to_alert": 5,
+      "cluster_size_at_alert": 5,
+      "alert_part_seq": 896,
+      "false_known_before_confirmation": 0,
+      "cases_opened": 1,
+      "latency_first_anomalous_to_case_opened_s": 2.592,
+      "latency_first_anomalous_to_awaiting_confirmation_s": 3.527,
+      "latency_alert_to_case_opened_s": 0.618,
+      "latency_alert_to_awaiting_confirmation_s": 1.553,
+      "conformal_set": [
+        "MACHINE.TOOL_WEAR",
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "MACHINE.INSUFFICIENT_COOLING",
+        "MACHINE.SPINDLE_OVERLOAD",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MATERIAL.BAD_BATCH",
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "MEASUREMENT.SENSOR_DRIFT"
+      ],
+      "top3": [
+        {
+          "cause_code": "MACHINE.TOOL_WEAR",
+          "probability": 0.13168829380182603
+        },
+        {
+          "cause_code": "METHOD.WRONG_PROCESS_PARAMETERS",
+          "probability": 0.12855970158138438
+        },
+        {
+          "cause_code": "MACHINE.INSUFFICIENT_COOLING",
+          "probability": 0.12661279318521654
+        }
+      ],
+      "novel": false,
+      "count_before_after": [
+        0,
+        1
+      ],
+      "awaiting_confirmation_to_cluster_named_s": 3.124,
+      "known_fraction_after_naming": 1.0,
+      "n_defects_after_naming": 20
+    },
+    {
+      "repeat": 2,
+      "category": "toy3",
+      "simulator_run_id": "run-e2e000000002",
+      "scenario_seed": 9,
+      "true_cause": "MACHINE.TOOL_WEAR",
+      "parts_streamed_from": "onset-100",
+      "images_after_onset_to_alert": 149,
+      "anomalous_images_to_alert": 5,
+      "cluster_size_at_alert": 5,
+      "alert_part_seq": 943,
+      "false_known_before_confirmation": 0,
+      "cases_opened": 1,
+      "latency_first_anomalous_to_case_opened_s": 2.741,
+      "latency_first_anomalous_to_awaiting_confirmation_s": 3.563,
+      "latency_alert_to_case_opened_s": 0.026,
+      "latency_alert_to_awaiting_confirmation_s": 0.848,
+      "conformal_set": [
+        "MACHINE.TOOL_WEAR",
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "MACHINE.SPINDLE_OVERLOAD",
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MATERIAL.BAD_BATCH",
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "MEASUREMENT.SENSOR_DRIFT"
+      ],
+      "top3": [
+        {
+          "cause_code": "MACHINE.TOOL_WEAR",
+          "probability": 0.13168829380182603
+        },
+        {
+          "cause_code": "METHOD.WRONG_PROCESS_PARAMETERS",
+          "probability": 0.12958025840195625
+        },
+        {
+          "cause_code": "MACHINE.SPINDLE_OVERLOAD",
+          "probability": 0.12655048034088354
+        }
+      ],
+      "novel": false,
+      "count_before_after": [
+        0,
+        1
+      ],
+      "awaiting_confirmation_to_cluster_named_s": 2.299,
+      "known_fraction_after_naming": 1.0,
+      "n_defects_after_naming": 20
+    },
+    {
+      "repeat": 3,
+      "category": "toy4",
+      "simulator_run_id": "run-e2e000000003",
+      "scenario_seed": 10,
+      "true_cause": "MACHINE.TOOL_WEAR",
+      "parts_streamed_from": "onset-100",
+      "images_after_onset_to_alert": 143,
+      "anomalous_images_to_alert": 5,
+      "cluster_size_at_alert": 5,
+      "alert_part_seq": 941,
+      "false_known_before_confirmation": 0,
+      "cases_opened": 1,
+      "latency_first_anomalous_to_case_opened_s": 3.746,
+      "latency_first_anomalous_to_awaiting_confirmation_s": 4.864,
+      "latency_alert_to_case_opened_s": 0.333,
+      "latency_alert_to_awaiting_confirmation_s": 1.451,
+      "conformal_set": [
+        "MACHINE.TOOL_WEAR",
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "MACHINE.SPINDLE_OVERLOAD",
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MATERIAL.BAD_BATCH",
+        "MACHINE.FIXTURE_MISALIGNMENT",
+        "MEASUREMENT.SENSOR_DRIFT"
+      ],
+      "top3": [
+        {
+          "cause_code": "MACHINE.TOOL_WEAR",
+          "probability": 0.131688293801826
+        },
+        {
+          "cause_code": "METHOD.WRONG_PROCESS_PARAMETERS",
+          "probability": 0.12958025840195625
+        },
+        {
+          "cause_code": "MACHINE.SPINDLE_OVERLOAD",
+          "probability": 0.1265504803408835
+        }
+      ],
+      "novel": true,
+      "count_before_after": [
+        0,
+        1
+      ],
+      "awaiting_confirmation_to_cluster_named_s": 3.16,
+      "known_fraction_after_naming": 1.0,
+      "n_defects_after_naming": 20
+    },
+    {
+      "repeat": 4,
+      "category": "toy5",
+      "simulator_run_id": "run-e2e000000004",
+      "scenario_seed": 11,
+      "true_cause": "MACHINE.TOOL_WEAR",
+      "parts_streamed_from": "onset-100",
+      "images_after_onset_to_alert": 117,
+      "anomalous_images_to_alert": 5,
+      "cluster_size_at_alert": 5,
+      "alert_part_seq": 917,
+      "false_known_before_confirmation": 0,
+      "cases_opened": 1,
+      "latency_first_anomalous_to_case_opened_s": 2.77,
+      "latency_first_anomalous_to_awaiting_confirmation_s": 3.777,
+      "latency_alert_to_case_opened_s": 0.955,
+      "latency_alert_to_awaiting_confirmation_s": 1.963,
+      "conformal_set": [
+        "MACHINE.TOOL_WEAR",
+        "MACHINE.SPINDLE_OVERLOAD",
+        "METHOD.WRONG_PROCESS_PARAMETERS",
+        "MACHINE.INSUFFICIENT_COOLING",
+        "ENVIRONMENT.AMBIENT_TEMPERATURE_DEVIATION",
+        "MEASUREMENT.SENSOR_DRIFT",
+        "MATERIAL.BAD_BATCH",
+        "MACHINE.FIXTURE_MISALIGNMENT"
+      ],
+      "top3": [
+        {
+          "cause_code": "MACHINE.TOOL_WEAR",
+          "probability": 0.13168829380182603
+        },
+        {
+          "cause_code": "MACHINE.SPINDLE_OVERLOAD",
+          "probability": 0.12855970158138438
+        },
+        {
+          "cause_code": "METHOD.WRONG_PROCESS_PARAMETERS",
+          "probability": 0.12661279318521654
+        }
+      ],
+      "novel": true,
+      "count_before_after": [
+        0,
+        1
+      ],
+      "awaiting_confirmation_to_cluster_named_s": 3.125,
+      "known_fraction_after_naming": 1.0,
+      "n_defects_after_naming": 20
+    }
+  ]
+}

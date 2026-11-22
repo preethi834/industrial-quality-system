@@ -29,8 +29,10 @@ COPY packages/dashboard/pyproject.toml packages/dashboard/
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev --package iqs-diagnosis --no-install-workspace
 
-# Then our own code, installed as regular (non-editable) packages.
+# Then our own code, installed as regular (non-editable) packages. iqs-mcp is a dependency
+# of iqs-diagnosis (in-process QMS MCP server); without its source the image had no iqs_mcp.
 COPY packages/common/src packages/common/src
+COPY packages/mcp_server/src packages/mcp_server/src
 COPY packages/diagnosis/src packages/diagnosis/src
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev --package iqs-diagnosis --no-editable

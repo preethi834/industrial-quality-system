@@ -187,6 +187,13 @@ class DiscoveryService:
             self.store.grow_cluster(
                 cluster_id, sorted(members), geo.centroid, geo.radius, last, geo.representative
             )
+        for named_id, members in result.near_named:
+            _log.info(
+                "group_near_named_class",
+                category=category,
+                named_cluster_id=str(named_id),
+                size=len(members),
+            )
         alert: tuple[uuid.UUID | None, uuid.UUID | None] = (None, None)
         for members, geo in result.new:
             obs = sorted((by_id[m] for m in members), key=lambda o: (o.observed_at, o.id))

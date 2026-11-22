@@ -18,6 +18,11 @@ evaluated discovery layer of step 8c exists. This is the minimal version:
 5. HDBSCAN can split one defect type into dense parts or label its fringe as noise, so
    close compact parts are merged and buffer points within ``known_radius_factor`` x the
    radius of a core join it (regression test: one growing blob alerts exactly once).
+6. (found by the 7g e2e test) a grown cluster's centroid and radius are computed over **all**
+   its members, not only the points near the current core; otherwise the radius understates
+   the class and, once named, its own fringe falls outside the known-class reach. And a group
+   close to a **named** class (same rule as 5) is that class's fringe, not a new defect type:
+   it raises no alert and stays buffered (``near_named``).
 
 The parameters are stated starting values, not tuned or evaluated (KNOWN_ISSUES #43).
 Embeddings are L2-normalised, so Euclidean distance is a monotone function of cosine.
@@ -85,6 +90,8 @@ class ClusterGeometry:
 class ClusteringResult:
     new: list[tuple[frozenset[UUID], ClusterGeometry]] = field(default_factory=list)
     grown: list[tuple[UUID, frozenset[UUID], ClusterGeometry]] = field(default_factory=list)
+    # Groups suppressed because they lie close to a named class: (named cluster id, members).
+    near_named: list[tuple[UUID, frozenset[UUID]]] = field(default_factory=list)
 
 
 def l2_normalise(v: np.ndarray) -> np.ndarray:
@@ -182,6 +189,7 @@ def find_clusters(
     # large radius would make every other group look "close".
     compact = [g for g in groups if geometry(g, params.radius_quantile).radius <= params.max_radius]
     unnamed = [c for c in existing if not c.named]
+    named = [c for c in existing if c.named]
     for core in _merge_close_groups(compact, params):
         # HDBSCAN keeps only the densest core of a homogeneous blob and calls its fringe
         # noise; points within the class-match distance of the core belong to it.
@@ -205,8 +213,26 @@ def find_clusters(
             ),
             None,
         )
-        if match is None:
-            result.new.append((members, geo))
-        else:
-            result.grown.append((match.cluster_id, members | match.members, geo))
+        if match is not None:
+            union = members | match.members
+            # Geometry over every member still in the buffer, not just the core's reach.
+            all_pts = [p for p in buffer if p.observation_id in union]
+            result.grown.append(
+                (match.cluster_id, union, geometry(all_pts, params.radius_quantile))
+            )
+            continue
+        near = next(
+            (
+                c
+                for c in named
+                if _close(
+                    geo.centroid, geo.radius, c.centroid, c.radius, params.known_radius_factor
+                )
+            ),
+            None,
+        )
+        if near is not None:
+            result.near_named.append((near.cluster_id, members))
+            continue
+        result.new.append((members, geo))
     return result

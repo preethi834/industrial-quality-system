@@ -71,11 +71,13 @@ explicit_package_bases = true
 [tool.pytest.ini_options]
 testpaths = ["tests", "packages/*/tests"]
 python_files = ["test_*.py"]
-# Integration tests need Docker; they are skipped by default. Run: make test-integration
+# Integration and e2e tests need Docker; they are skipped by default.
+# Run: make test-integration / make test-e2e
 # (a later -m on the command line overrides the one here).
-addopts = "--import-mode=importlib -m 'not integration'"
+addopts = "--import-mode=importlib -m 'not integration and not e2e'"
 markers = [
     "integration: needs Docker (testcontainers Postgres / Neo4j)",
+    "e2e: needs Docker and the built images; starts its own compose project iqs-e2e (make test-e2e)",
 ]
 
 [tool.coverage.run]

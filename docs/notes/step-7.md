@@ -1,9 +1,9 @@
 # Step 7 — connect the projects: the integrated quality loop (plan)
 
-Status: **7a–7f working (tested) with unit tests, locally, not pushed** (2026-11-21,
+Status: **7a–7g working (tested): unit, integration (testcontainers) and the compose e2e gate pass, locally, not pushed** (7g 2026-11-22; 7a–7f 2026-11-21,
 branch `step-7` from `main` at `c89c9af`). Plan approved by the
-owner on 2026-11-21 with decisions D1–D8 as recommended (§10). 7g (Docker, integration, e2e)
-and 7h (real-image demo, docs) wait until the `step-2` training chain has finished.
+owner on 2026-11-21 with decisions D1–D8 as recommended (§10). 7h (real-image demo, docs)
+waits for the owner's answer on the read-only symlinks (D2).
 Implementation log and deviations from this plan: §12.
 
 Sources read: blueprint Rev 2 §1.4, §2.1–2.3, §2.6–2.9, §5 (step 7, step 8 table, sequencing
@@ -522,7 +522,8 @@ no testcontainers, no training, no image builds.
 | 7c | `2c871ad` | vision discovery: embedding, trigger, store, service, consumer, worker, routes |
 | 7d | `552bf91` | diagnosis: vision case builder, consumer + worker, `GET /v1/cases`, guarantee flag |
 | 7e | `b87cdfc` | feedback service + store, graph writer, `feedback_update` node, in-process loop test |
-| 7f | this commit | migration 0005, capability status, dashboard page 5, these notes |
+| 7f | `f61aca0` | migration 0005, capability status, dashboard page 5, these notes |
+| 7g | this commit | compose workers (`docker-compose.loop.yml`), e2e stack (`docker-compose.e2e.yml`, project `iqs-e2e`), `tests/integration/test_quality_loop_db.py`, `tests/e2e/`, `make test-e2e` / `up-loop` / `down-e2e`, diagnosis Dockerfile fix, trigger fix found by the e2e |
 
 Deviations, each for a reason found while building:
 
@@ -553,6 +554,37 @@ Deviations, each for a reason found while building:
    `client.py`, which the `step-2` branch may extend.
 8. **Graph writes are configurable** (`IQS_DIAGNOSIS__GRAPH_WRITES=none|neo4j`, default
    none); with none the feedback reports `graph: disabled` instead of pretending.
+9. **(7g) Workers live in an override file, not in the `apps` profile.** Without a case
+   library the diagnosis worker exits and would restart forever, which would break
+   `make up PROFILES=apps`. Gate-1 stack = `apps` profile + `deploy/compose/docker-compose.loop.yml`
+   (`make up-loop`). The e2e test starts its own project `iqs-e2e` (throwaway credentials,
+   own host ports 15433/17474/17687/18001/18002 via `IQS_*_HOST_PORT` in the base file, own volumes, removed afterwards) from base + loop +
+   `docker-compose.e2e.yml`; migrations are applied from the host before the APIs start.
+10. **(7g) Diagnosis image had no `iqs_mcp`** (pre-existing bug: the Dockerfile copied the
+    common and diagnosis sources only). Invisible until now because the compose diagnosis
+    service never had a case library, so the case service (which imports `iqs_mcp`) never
+    started. Fixed by copying `packages/mcp_server/src`.
+11. **(7g) Trigger bug found by the e2e test, fixed in `trigger.py`** (+2 regression tests,
+    both fail on the old code). After naming, 2 of the 15 cluster members (distance 0.147
+    and 0.175 from the frozen centroid) lay outside the known-class reach (1.5 × 0.095 =
+    0.143). A grown cluster's radius had been computed over the core's reach only, not over all
+    members. Those fringe scratches formed a second "new" cluster (centroid 0.145 from the
+    named one, inside the same-type rule 0.229), so a second alert fired. Fixes: (a) a grown
+    cluster's geometry is computed over all its members; (b) a group close to a **named**
+    class (same rule as the merge) raises no alert and stays buffered (`near_named`, logged).
+    The in-process test missed it because it did not stream parts while the case was waiting.
+12. **(7g) e2e streaming starts 100 parts before the fault onset** (the harness reads
+    ground truth for that; services never do). Earlier parts are training goods and route
+    `normal` by construction. The stream pauses from the alert until the case awaits
+    confirmation, then 30 more parts arrive (cluster grows, no second alert) before the
+    redelivery check and the confirmation.
+13. **(7g) Case library for the e2e** = the reference scenarios minus
+    `drive_fault_m1` / `handling_error_shift_b` (as the unit agent fixtures): 8 cases with
+    simulator ground-truth causes, built by the harness (no corpus on this machine). The
+    scorer parameters come from the frozen calibration run `cal_dx_corpus_v2_dev_a010`,
+    which was fitted on a different library (dx_corpus_v2 train), so the ranking quality in the
+    e2e means nothing; the cause set is reported with `guarantee_applies: false` anyway.
+
 
 ### Measured so far (in-process unit test, not a quality result)
 
@@ -568,7 +600,43 @@ synthetic image-to-part linkage, synthetic stripe images, random-init tiny Patch
 | cases opened / alerts / confirmations | 1 / 1 / 1 |
 | later scratch images routed to the named class | ≥ 90 % of ≥ 20 (assertion) |
 
-The gate numbers for step 7 come from the compose e2e (7g) and the real-image demo (7h).
+### Measured in 7g: compose e2e gate 1 (plumbing, not a quality result)
+
+`make test-e2e`, 2026-11-22 10:02 UTC, this laptop (WSL2, 16 vCPU, ~9.7 GiB VM), no other
+stack running; report `reports/quality_loop/e2e_20261122T100245Z.json`. **Simulator data
+(tool_wear_m1, seeds 7–11), synthetic image-to-part linkage, synthetic stripe images,
+random-init tiny PatchCore, 8-case toy library.** 5 repeats, one per category `toy`…`toy5`,
+all in one stack.
+
+| Quantity | Per repeat (seed 7, 8, 9, 10, 11) | Median |
+| --- | --- | --- |
+| images inspected after fault onset until the alert | 150, 103, 149, 143, 117 | 143 |
+| anomalous images at the alert (= cluster size) | 5, 5, 5, 5, 5 | 5 |
+| wall-clock, first anomalous image → case listed by the API | 3.79, 2.59, 2.74, 3.75, 2.77 s | 2.77 s |
+| wall-clock, first anomalous image → `awaiting_confirmation` | 5.13, 3.53, 3.56, 4.86, 3.78 s | 3.78 s |
+| alert → case listed (worker poll 1 s + API poll 0.05 s) | 0.87, 0.62, 0.03, 0.33, 0.96 s | 0.62 s |
+| cases opened / alerts / `case_confirmed` events | 1 / 1 / 1 each | — |
+| false `known` routing before confirmation | 0 | — |
+| defect images routed `known:scratch` after naming | 20/20 each | — |
+
+Also asserted: redelivered event → still one case, one ticket, agent not re-run; count n → n+1
+(0 → 1); one `CONFIRMED_CAUSE` edge, `INDICATES.count` = Postgres count; candidate-pool row
+with `used_in_calibration_run = null`; calibration file sha256 `58eb7edb…` identical in the
+container before/after and equal to the repo file; all 10 outbox rows `processed`, none failed.
+Stack prepare 25 s (simulate, link, fit 5 tiny models, library), stack up 39 s, the 5
+loops 86 s, test total 161 s.
+
+Observed, not asserted: the conformal (APS) sets hold 8 of the 10 causes in every repeat
+(the true cause is ranked first each time, but with probability 0.13: a nearly flat ranking), and novelty was flagged in 2 of 5 repeats. With
+an 8-case toy library and scorer parameters from another library, this says nothing about
+diagnosis quality.
+
+Second full run after the compose port change (10:11 UTC, `e2e_20261122T101120Z.json`): passed;
+median 2.66 s first anomalous → case, 3.59 s → `awaiting_confirmation`.
+
+Integration: `make test-integration` 31 passed in 85 s (11 new in `test_quality_loop_db.py`).
+
+Gate 3 numbers (real images) come from the 7h demo.
 
 ### Proposed KNOWN_ISSUES (to copy at merge; numbers #40+)
 

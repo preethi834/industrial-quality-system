@@ -51,3 +51,6 @@ htmlcov/
 *.sqlite
 *.sqlite3
 reports/logs/
+
+# Step-7 e2e world + mounted stack files (tests/e2e/conftest.py)
+.e2e-work/

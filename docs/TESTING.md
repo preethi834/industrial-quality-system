@@ -29,7 +29,7 @@ Coverage: `uv run pytest --cov` measures the `iqs_*` packages with branch covera
 | Agent behaviour (deterministic, no LLM yet) | pytest | `packages/diagnosis/tests/test_eval_harness.py` (10 reference cases through the full agent) | every push |
 | Agent behaviour (recorded LLM responses) | — | — | planned (step 3e, `eval.yml`) |
 | ML evaluation (full) | `scripts/evaluate_*` + MLflow | — | planned (manual, before releases) |
-| End-to-end | compose + `tests/e2e/` | — | planned (step 7) |
+| End-to-end (step 7 quality loop) | `make build`, `make test-e2e` (own compose project `iqs-e2e`) | `tests/e2e/test_quality_loop.py` | manual (needs Docker; not in CI yet) |
 
 ## What exists today
 
@@ -58,6 +58,8 @@ branch coverage of `iqs_*` from unit/API tests alone: **99 %** (437 statements, 
 | `tests/test_taxonomy_config.py` | 8 | the real `configs/taxonomy/causes.yaml` (v0.1.0, 10 causes) |
 | `tests/integration/test_migrations.py` | 11 | upgrade/downgrade, `alembic check` drift (and a probe that it fails on drift), objects outside our schemas ignored, outbox defaults/constraints/duplicates, pgvector round trip |
 | `tests/integration/test_neo4j_smoke.py` | 1 | pinned Neo4j image answers Cypher |
+| `tests/integration/test_quality_loop_db.py` | 11 | step 7: migration 0005 up/down/up, 0005 models in the drift-check metadata, `source_cluster_id` UNIQUE, outbox `SKIP LOCKED` disjoint claims + attempts/failed, diagnosis consumer idempotency on Postgres, missing run parked as failed, feedback once on Postgres + Neo4j (one edge, `INDICATES.count` = Postgres count), graph retry after Neo4j outage, vision cluster + outbox row atomic, `case_confirmed` names a cluster once |
+| `tests/e2e/test_quality_loop.py` | 1 (5 repeats) | step 7 gate 1 on the compose stack: stream → one alert → one case → conformal set (`guarantee_applies: false`) → redelivered event → still one case → confirm → Neo4j edge, count +1, candidate pool, calibration file hash unchanged → cluster named → later defects `known:scratch`. Simulator data, synthetic linkage and images, random-init detector: plumbing only |
 | `tests/integration/test_service_ready.py` | 3 | both services `/ready` against real databases; wrong Neo4j password → 503 |
 
 ### Diagnosis and simulator (steps 3–5)

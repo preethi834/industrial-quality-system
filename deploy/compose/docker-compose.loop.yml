@@ -1,0 +1,95 @@
+# Quality loop (step 7): override on top of docker-compose.yml.
+#
+#   docker compose --project-directory . -f deploy/compose/docker-compose.yml \
+#       -f deploy/compose/docker-compose.loop.yml ...      (make up-loop)
+#
+# Adds the two outbox workers and switches the APIs to the loop configuration:
+#   vision:    discovery trigger on, Postgres discovery store;
+#   diagnosis: Postgres stores, case library, simulator runs, frozen calibration run,
+#              graph writes to Neo4j.
+# A separate file (not a profile in the base file) so `make up PROFILES=apps` is unchanged:
+# without a case library the diagnosis worker cannot run and would restart forever.
+# The blueprint's "--profile core" for gate 1 = this repo's `apps` profile + this file
+# (our `core` profile is the databases only, ADR-001).
+#
+# Host directories (IQS_LOOP_DIR, default ./data/quality_loop):
+#   <loop>/runs/<run-id>/observed/   simulator OBSERVED tables only (read-only into diagnosis)
+#   <loop>/library/library.jsonl     case library (read-only into diagnosis)
+#   <loop>/models/patchcore/...      detectors served by vision (IQS_LOOP_MODELS_DIR)
+# Ground truth and the linker manifest (<run>/ground_truth, <run>/linkage) are the world's
+# side and are mounted into NO service.
+
+x-db-env: &db-env
+  IQS_ENVIRONMENT: ${IQS_ENVIRONMENT:-dev}
+  IQS_LOGGING__LEVEL: ${IQS_LOGGING__LEVEL:-INFO}
+  IQS_DATABASE__HOST: postgres
+  IQS_DATABASE__PORT: "5432"
+  IQS_DATABASE__NAME: ${IQS_DATABASE__NAME:?set IQS_DATABASE__NAME in .env}
+  IQS_DATABASE__USER: ${IQS_DATABASE__USER:?set IQS_DATABASE__USER in .env}
+  IQS_DATABASE__PASSWORD: ${IQS_DATABASE__PASSWORD:?set IQS_DATABASE__PASSWORD in .env}
+  IQS_API__KEYS: ${IQS_API__KEYS:?set IQS_API__KEYS in .env}
+
+x-vision-loop-env: &vision-loop-env
+  IQS_VISION__DISCOVERY__ENABLED: "true"
+  IQS_VISION__DISCOVERY__STORE: postgres
+
+x-diagnosis-loop-env: &diagnosis-loop-env
+  IQS_DIAGNOSIS__STORE: postgres
+  IQS_DIAGNOSIS__RUNS_ROOT: /app/runs
+  IQS_DIAGNOSIS__LIBRARY_PATH: /app/library/library.jsonl
+  IQS_DIAGNOSIS__CALIBRATION_RUN_PATH: ${IQS_LOOP_CALIBRATION_RUN:-configs/diagnosis/calibration/cal_dx_corpus_v2_dev_a010.json}
+  IQS_DIAGNOSIS__FEEDBACK: "true"
+  IQS_DIAGNOSIS__GRAPH_WRITES: neo4j
+  IQS_NEO4J__URI: bolt://neo4j:7687
+  IQS_NEO4J__USER: ${IQS_NEO4J__USER:?set IQS_NEO4J__USER in .env}
+  IQS_NEO4J__PASSWORD: ${IQS_NEO4J__PASSWORD:?set IQS_NEO4J__PASSWORD in .env}
+
+x-diagnosis-loop-volumes: &diagnosis-loop-volumes
+  - ${IQS_LOOP_DIR:-./data/quality_loop}/runs:/app/runs:ro
+  - ${IQS_LOOP_DIR:-./data/quality_loop}/library:/app/library:ro
+
+services:
+  vision:
+    environment:
+      <<: *vision-loop-env
+    volumes:
+      # Same target as the base file, so this replaces ./models for the loop stack.
+      - ${IQS_LOOP_MODELS_DIR:-./models}:/app/models:ro
+
+  diagnosis:
+    environment:
+      <<: *diagnosis-loop-env
+    volumes: *diagnosis-loop-volumes
+
+  vision-worker:
+    image: iqs-vision:dev
+    profiles: [apps]
+    command: ["python", "-m", "iqs_vision.discovery.worker"]
+    environment:
+      <<: [*db-env, *vision-loop-env]
+    # No HTTP port: the image's /health check does not apply to a worker.
+    healthcheck:
+      disable: true
+    depends_on:
+      vision:
+        condition: service_healthy
+    mem_limit: 512m
+    restart: unless-stopped
+
+  diagnosis-worker:
+    image: iqs-diagnosis:dev
+    profiles: [apps]
+    command: ["python", "-m", "iqs_diagnosis.worker"]
+    environment:
+      <<: [*db-env, *diagnosis-loop-env]
+    volumes: *diagnosis-loop-volumes
+    healthcheck:
+      disable: true
+    depends_on:
+      # The API creates the checkpointer tables first; two processes racing on
+      # CREATE TABLE IF NOT EXISTS can fail.
+      diagnosis:
+        condition: service_healthy
+    # Runs the agent (scientist tests on the run's observed tables).
+    mem_limit: 1g
+    restart: unless-stopped
