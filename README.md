@@ -1,5 +1,8 @@
 # Industrial Quality AI Engineering System
 
+[![ci](https://github.com/preethi834/industrial-quality-system/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/preethi834/industrial-quality-system/actions/workflows/ci.yml)
+[![docker](https://github.com/preethi834/industrial-quality-system/actions/workflows/docker.yml/badge.svg?branch=main)](https://github.com/preethi834/industrial-quality-system/actions/workflows/docker.yml)
+
 A quality-engineering platform for a production line, built as two connected services. The **vision
 service** inspects part images with an anomaly detector that only needs images of good parts. Its
 false-alarm rate has a statistical bound, and it chooses accept, reject or send-to-review by
@@ -174,3 +177,13 @@ The main ones, all tracked in [docs/KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md):
   itself works; choosing a review band or cluster rule without tuning on these runs is step 8c.
 - **Not built yet:** the full Neo4j graph schema (step 7 writes only confirmed cases, causes and
   defect types) and an EfficientAD run (#15).
+
+## License
+
+The code is released under the [MIT License](LICENSE) (copyright 2026 Preethi Mannaru).
+
+The datasets are **not** included and keep their own licenses: MVTec AD and MVTec AD 2
+(CC BY-NC-SA 4.0, non-commercial), VisA (CC BY 4.0) and the NHTSA recalls file (U.S. government
+work, public domain). Download them yourself under those terms; `configs/assets.yaml` lists the
+sources. The repository holds only split manifests (file names and hashes, no images) and a
+50-row labelled sample of NHTSA recall text (`eval_sets/diagnosis/nhtsa/`).
