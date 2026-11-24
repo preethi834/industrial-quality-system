@@ -13,10 +13,10 @@ In a factory this targets three costs: good parts scrapped because of false alar
 shipped to customers, and engineer hours spent on root-cause analysis. Every number below comes
 from a script and is logged in MLflow, and the limits of each result are written down next to it.
 
-> **Status:** steps 0–6 done and merged (tags `v0.1-step0`, `v0.1-step1`, `v0.1-step2`,
-> `v0.2-steps3-5`, `v0.1-step6`). Step 7, the
-> integrated quality loop, works end to end on the Docker stack; its false-cluster risk on real
-> images is open (#46). All diagnosis results come from simulator data.
+> **Status:** Steps 0–7 done and merged (tags `v0.1-step0`, `v0.1-step1`, `v0.1-step2`,
+> `v0.2-steps3-5`, `v0.1-step6`, `v0.1-step7`). Step 7, the integrated quality loop, works end
+> to end on the Docker stack; its false-cluster risk on real images is open (#46). All diagnosis
+> results come from simulator data.
 
 ## Architecture
 
@@ -86,7 +86,7 @@ be solvable, so its accuracy says nothing about real plants (#18).
   detect-secrets, a uv.lock check), the unit and API tests, and integration tests. A separate
   workflow builds the images, starts the stack and smoke-tests it. Actions are pinned by SHA,
   images by digest, and tool versions come from `uv.lock`. The last full `make check` run passed
-  574 tests (2026-11-22).
+  664 tests (2026-11-22).
 - **Real databases in tests.** Integration tests use testcontainers to start the same pinned
   Postgres + pgvector and Neo4j images as the compose stack.
 - **Known issues are recorded.** [KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md) lists failed gates,
